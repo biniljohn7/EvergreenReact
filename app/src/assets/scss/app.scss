@@ -1,0 +1,476 @@
+@import './helper';
+@import './sidebar';
+@import './fonts';
+@import './form';
+@import './charts';
+@import './table';
+@import './button';
+@import './typography';
+@import './reactstrapdoc';
+@import './colors';
+@import './taskDialog';
+@import './scrollbar.scss';
+@import './editor.scss';
+@import './todoapp.scss';
+@import './chartjs.scss';
+
+html h1,
+html h2,
+html h3,
+html h4,
+html h5,
+html h6,
+html a,
+html p,
+html li,
+input,
+textarea,
+span,
+div,
+html,
+body,
+html a {
+  /*
+  margin-bottom: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+  scroll-behavior: smooth;
+  */
+}
+
+// .container {
+//   max-width: 1640px !important;
+// }
+
+@-webkit-keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.fadeInDown {
+  -webkit-animation-name: fadeInDown;
+  animation-name: fadeInDown;
+}
+
+@-webkit-keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp;
+}
+
+.mini-drawer-menu-icon-hide-topbar {
+  display: hide;
+  width: 35px;
+}
+
+.popover-vehicle {
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  color: #563c91;
+}
+
+.vehicle-icon-marker {
+  color: #563c91 !important;
+  font-size: 30px !important;
+}
+
+.roe-colors {
+  display: flex;
+  flex-direction: row;
+  .color-left-side {
+    width: 130px;
+  }
+  .color-right-side {
+    flex: 1 0 0;
+    padding-left: 10px;
+  }
+}
+
+.react-strap-doc {
+  padding: 0 15px;
+}
+
+.roy-tooltip {
+  .roy-tooltip-inner {
+    background-color: #42526e !important;
+  }
+  .roy-tooltip-arrow::before {
+    border-bottom-color: #42526e !important;
+  }
+}
+
+.media-modal {
+  .media-modal-body {
+    padding: 0;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.folder-table {
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  th {
+    @include ele-font('muli-medium');
+  }
+  .folder-row {
+    background-color: rgb(250, 250, 250);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .folder-name {
+    padding: 10px;
+    img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+  }
+}
+
+.drag-drop-area {
+  height: 300px;
+  transition: all 0.3s ease-in;
+  outline: 2px dotted #dae5f0;
+  position: relative;
+  cursor: pointer;
+  padding: 15px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+  .profile-left-shade {
+    margin-top: -200px !important;
+  }
+  .profile-right-shade {
+    top: 0 !important;
+  }
+  .sidebar-overlay {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767.98px) {
+  .sidebar-overlay {
+    display: block;
+  }
+  .profile-left-shade {
+    margin-top: -200px !important;
+  }
+  .profile-right-shade {
+    top: 0 !important;
+  }
+  .drawer-handle-arrow-hide-topbar {
+    display: none;
+  }
+  .mini-drawer-menu-icon-hide-topbar {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 575.98px) {
+  .padding-r-0 {
+    padding-right: 0 !important;
+  }
+  .padding-l-0 {
+    padding-left: 0 !important;
+  }
+  .padding-t-15 {
+    padding-top: 15px !important;
+  }
+  .padding-b-15 {
+    padding-bottom: 15px !important;
+  }
+  .sidebar-overlay {
+    display: block;
+  }
+  .profile-left-shade {
+    margin-top: -193px !important;
+  }
+  .profile-right-shade {
+    top: 0 !important;
+  }
+  .send-req-btn {
+    font-size: 12px;
+  }
+  .Profile-component {
+    margin: -50px 0 -24px 0;
+  }
+  .display-1 {
+    font-size: 3.5rem !important;
+  }
+  .display-2 {
+    font-size: 3rem !important;
+  }
+  .display-3 {
+    font-size: 2.5rem !important;
+  }
+  .display-4 {
+    font-size: 2rem !important;
+  }
+  .feed-card-media {
+    img {
+      height: 250px !important;
+    }
+  }
+  .react-strap-doc {
+    padding: 0 15px;
+  }
+  .header-popover-width {
+    min-width: 22rem;
+  }
+  .drawer-handle-arrow-hide-topbar {
+    display: none;
+  }
+  .mini-drawer-menu-icon-hide-topbar {
+    display: block;
+  }
+  .pa-0-small-screen {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+}
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  min-width: 70px;
+  min-height: 70px;
+  border-radius: 50px;
+  background: #ddd;
+}
+
+.modal-content {
+  border-radius: 5px;
+  width: auto;
+  height: auto;
+  // padding-left: 34px;
+  // padding-right: 34px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid transparent;
+  // max-height: 100vh;
+  overflow-y: auto;
+}
+
+.signin .modal-content {
+  width: 90%;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+}
+
+.signup .modal-content {
+  width: 100%;
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
+}
+
+.modal-xl {
+  @media (min-width: 1440px) {
+    max-width: 1200px;
+  }
+}
+
+.modal-backdrop {
+  opacity: 0.9 !important;
+}
+
+.fontsize1 {
+  @media (max-width: 1200px) {
+    font-size: 18px !important;
+  }
+}
+
+.fontsize2 {
+  @media (max-width: 1200px) {
+    font-size: 13px !important;
+  }
+}
+
+.fontsize3 {
+  @media (max-width: 1200px) {
+    font-size: 16px !important;
+  }
+}
+
+// Website specific css
+
+.site-spacing {
+  margin: 0 7vw;
+  position: relative;
+  @media (max-width: 768px) {
+    margin: 0 3vw;
+  }
+}
+
+.page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+.common-layout {
+  min-height: calc(100vh - 150px);
+  // margin-top: 116px;
+  // padding-top: 100px;
+
+  // background-color: #f5f6f6;
+  // @media (width: 1024px) {
+  //   min-height: calc(100vh - 650px);
+  // }
+  // @media (width: 768px) {
+  //   min-height: calc(100vh - 650px);
+  // }
+}
+
+.full-height {
+  min-height: 100vh;
+}
+
+.not-found {
+  min-height: 100vh;
+}
+
+row {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+col {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.button {
+  background-color: #e20000;
+  color: #ffffff;
+  border-radius: 41px;
+}
+
+.button:hover {
+  color: #ffffff;
+}
+
+.main_logo:hover {
+  text-decoration: none;
+}
+
+.custom-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.profile-switch {
+  position: absolute !important;
+  right: 8px !important;
+
+  .react-switch-handle {
+    height: 20px !important;
+    width: 20px !important;
+    top: -2.5px !important;
+  }
+}
+
+.breadcrumb {
+  background-color: #e10001;
+}
+
+.breadcrumb-item.active {
+  color: #fffafab3 !important;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: '>';
+  color: white;
+}
+
+.break-description {
+  white-space: pre-wrap;
+}
+
+.object-fit-contain {
+  object-fit: contain;
+}
+
+// .sticky-header {
+//   position: fixed;
+//   top: 0;
+//   width: 100%;
+//   z-index: 999;
+// margin-bottom: 100px;
+// position: sticky;
+// top: 0;
+// left: 0;
+// }
