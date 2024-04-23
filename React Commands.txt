@@ -1,0 +1,30 @@
+yarn create react-app .
+
+yarn add react-router-dom@5.2.0
+yarn add react-redux
+yarn add bootstrap
+yarn add redux-persist
+yarn add react-toasts
+yarn add react-switch
+yarn add react-js-pagination
+yarn add axios
+yarn add reactstrap
+yarn add react-clamp-lines
+yarn add javascript-time-ago@2.5.9
+yarn add react-time-ago@5.2.0
+yarn add query-string
+yarn add redux
+yarn add formik
+yarn add react-loading-overlay
+yarn add yup
+yarn add moment
+yarn add compressorjs
+yarn add react-multi-select-component@3.1.7
+yarn add react-router-redux
+yarn add html2canvas
+yarn add sass-loader
+yarn add google-maps-react
+yarn add resolve-url-loader
+
+
+yarn start
