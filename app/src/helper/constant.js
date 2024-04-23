@@ -1,5 +1,9 @@
 export const pl = process.env.REACT_APP_ENV;
-export const BASE_URL = process.env.REACT_APP_API_URL;
+// export const BASE_URL = process.env.REACT_APP_API_URL;
+export const BASE_URL = 1 ?
+  'https://memberapp-api.apps.openxcell.dev/api' :
+  'http://kkpp.com/xyz/api';
+
 
 export const SECONDARY_COLOR = "#C33FD9";
 // export const SECONDARY_COLOR = '#c33ed7'

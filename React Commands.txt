@@ -8,6 +8,7 @@ yarn add react-toasts
 yarn add react-switch
 yarn add react-js-pagination
 yarn add axios
+yarn add firebase@8.2.3
 yarn add reactstrap
 yarn add react-clamp-lines
 yarn add javascript-time-ago@2.5.9

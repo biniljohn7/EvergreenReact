@@ -48,7 +48,8 @@ const Payment = (props) => {
 
   const [processing, setProcessing] = useState(false);
   const [step2Success, setStep2Suceess] = useState(false);
-  const [step3Success, setStep3Suceess] = useState(false);
+  // const [step3Success, setStep3Suceess] = useState(false);
+  const step3Success = false;
   const [cards, setCards] = useState([]);
 
   // IFrame loading
@@ -267,8 +268,8 @@ const Payment = (props) => {
       useSavedCard: !cardToggle ? true : false,
       referralCoupon:
         props.location &&
-        props.location.state &&
-        props.location.state.referralCode
+          props.location.state &&
+          props.location.state.referralCode
           ? props.location.state.referralCode
           : "",
       paymentMethodId: !cardToggle ? parseInt(checkedCard) : null,
@@ -492,8 +493,8 @@ const Payment = (props) => {
                           type="number"
                           onKeyPress={(event) => {
                             if (
-                              (event.which != 8 &&
-                                event.which != 0 &&
+                              (event.which !== 8 &&
+                                event.which !== 0 &&
                                 event.which < 48) ||
                               event.which > 57
                             ) {
@@ -519,7 +520,7 @@ const Payment = (props) => {
                         "btn btn-rounded border-radius-41 text-bold plr-25 ptb-7 red text-white"
                       }
                       onClick={handleNext}
-                      // disabled={loading}
+                    // disabled={loading}
                     >
                       NEXT
                     </button>
