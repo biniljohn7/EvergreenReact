@@ -108,8 +108,8 @@ const PaymentSummary = (props) => {
               (window.innerWidth < 768
                 ? " plr-20 "
                 : window.innerWidth === 786
-                ? " plr-30 "
-                : " plr-40 ")
+                  ? " plr-30 "
+                  : " plr-40 ")
             }
           >
             {step === 1 && (
@@ -253,7 +253,7 @@ const PaymentSummary = (props) => {
                   />
                   <div id="apply_code" className="mt-3 red--text" />
                   <Button
-                    class="button mt-10"
+                    className="button mt-10"
                     name="APPLY"
                     disabled={loading}
                     clicked={(e) => {
@@ -347,7 +347,7 @@ const PaymentSummary = (props) => {
 
             <div className="flex-container">
               <Button
-                class="button plr-50 ptb-10 mt-30"
+                className="button plr-50 ptb-10 mt-30"
                 name={step === 1 ? "NEXT" : "MAKE PAYMENT"}
                 clicked={handleForm}
                 disabled={loading}

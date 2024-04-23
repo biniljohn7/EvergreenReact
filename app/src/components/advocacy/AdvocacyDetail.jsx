@@ -141,7 +141,7 @@ const AdvocacyDetails = (props) => {
                   >
                     <Button
                       name="TAKE ACTION"
-                      class="wp-100"
+                      className="wp-100"
                       disabled={
                         props.location.state.advocacyType === 'Submitted'
                       }

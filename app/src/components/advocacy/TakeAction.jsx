@@ -89,7 +89,7 @@ const TakeAction = (props) => {
             </div>
             <div className="text-center mt-15">
               <Button
-                class="button mt-20"
+                className="button mt-20"
                 name="SEND AN EMAIL"
                 clicked={uploadSignature}
                 disabled={isLoading || !data}

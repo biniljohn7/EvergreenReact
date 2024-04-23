@@ -134,7 +134,7 @@ const ResetPassword = (props) => {
             </div>
             <div className="flex-container">
               <Button
-                class="button mt-20"
+                className="button mt-20"
                 name="RESET"
                 clicked={handleResetPwd}
                 disabled={isLoading}

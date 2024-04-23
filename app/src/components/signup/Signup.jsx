@@ -75,7 +75,7 @@ const SignUp = (props) => {
         <h4 className="text-bold mt-20">Welcome Back!</h4>
         <p className="mt-10">Login to access your account</p>
         <Button
-          class="border-radius-41 bg-white mt-20"
+          className="border-radius-41 bg-white mt-20"
           name="LOGIN"
           clicked={() => props.history.push('/signin')}
         />
@@ -89,6 +89,7 @@ const SignUp = (props) => {
     if (isValid) {
       setLoading(true)
       const body = {
+        method: 'signup',
         firstName: values.firstName,
         lastName: values.lastName,
         memberCode: values.memberId,
@@ -333,7 +334,7 @@ const SignUp = (props) => {
                 )}
                 <div className="flex-container">
                   <Button
-                    class="button mt-20"
+                    className="button mt-20"
                     name="SIGN UP"
                     clicked={handleSignup}
                     disabled={isLoading}

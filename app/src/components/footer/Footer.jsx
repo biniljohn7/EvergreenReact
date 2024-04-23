@@ -19,10 +19,10 @@ const Footer = (props) => {
 
   return (
     <FooterWrapper>
-      <div class="footer-section">
-        <div class="container">
-            <div class="l-logo"><img src={Llogo} alt={SITE_NAME}  /></div>
-            <div class="r-logo"><img src={Rlogo} alt={SITE_NAME}  /></div>
+      <div className="footer-section">
+        <div className="container">
+          <div className="l-logo"><img src={Llogo} alt={SITE_NAME} /></div>
+          <div className="r-logo"><img src={Rlogo} alt={SITE_NAME} /></div>
         </div>
       </div>
       {/*

@@ -114,7 +114,7 @@ const OtpVerification = (props) => {
               </div>
               <div className="flex-container">
                 <Button
-                  class="button mt-20"
+                  className="button mt-20"
                   name="VERIFY"
                   clicked={otpHandler}
                   disabled={isLoading}

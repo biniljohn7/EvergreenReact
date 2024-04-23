@@ -98,7 +98,7 @@ const Career = (props) => {
                       (window.innerWidth < 768 ? ' mt-20' : '')
                     }
                   >
-                    <Button name="APPLY TO JOB" class="wp-100" /> */}
+                    <Button name="APPLY TO JOB" className="wp-100" /> */}
 
                   {/* <div className="mt-15">
                         From:{' '}

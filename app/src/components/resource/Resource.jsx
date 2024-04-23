@@ -12,41 +12,41 @@ const PADDING =
   window.innerWidth >= 2560
     ? "55px"
     : window.innerWidth >= 1440
-    ? "15px"
-    : window.innerWidth === 1024
-    ? "15px"
-    : window.innerWidth === 768
-    ? "20px"
-    : "15px";
+      ? "15px"
+      : window.innerWidth === 1024
+        ? "15px"
+        : window.innerWidth === 768
+          ? "20px"
+          : "15px";
 const TOP =
   window.innerWidth >= 2560
     ? "35%"
     : window.innerWidth >= 1440
-    ? "45%"
-    : window.innerWidth === 1024
-    ? "45%"
-    : window.innerWidth === 768
-    ? "30%"
-    : "30%";
+      ? "45%"
+      : window.innerWidth === 1024
+        ? "45%"
+        : window.innerWidth === 768
+          ? "30%"
+          : "30%";
 const MEMBER =
   window.innerWidth >= 2560
     ? "25%"
     : window.innerWidth >= 1440
-    ? "20%"
-    : window.innerWidth === 1024
-    ? "20%"
-    : window.innerWidth === 768
-    ? "20%"
-    : "25%";
+      ? "20%"
+      : window.innerWidth === 1024
+        ? "20%"
+        : window.innerWidth === 768
+          ? "20%"
+          : "25%";
 
 const COL =
   window.innerWidth === 1024
     ? "2fr 1fr 1fr"
     : window.innerWidth > 1024
-    ? "40% 20% 20%"
-    : window.innerWidth === 768
-    ? "1fr 1fr"
-    : "1fr 1fr";
+      ? "40% 20% 20%"
+      : window.innerWidth === 768
+        ? "1fr 1fr"
+        : "1fr 1fr";
 
 const Resource = (props) => {
   const [resourceInfo, setResourceInfo] = useState(null);
@@ -144,10 +144,10 @@ const Resource = (props) => {
   return (
     <Wrapper padding={PADDING} top={TOP} member={MEMBER} col={COL}>
       <div className="benefits-section inner-benefits">
-        <div class="head-box">
-            <div class="container">
-                <h2>Resource Details:</h2>
-            </div>
+        <div className="head-box">
+          <div className="container">
+            <h2>Resource Details:</h2>
+          </div>
         </div>
 
         {/* ///------------------------ */}
@@ -236,41 +236,41 @@ const Resource = (props) => {
                   className="benefit-item"
                   id="membership_card"
                 >
-                    <div className="per">
-                      Membership Number:<br/> 
-                      {resourceInfo.membershipNumber
-                        ? resourceInfo.membershipNumber
-                        : "-"}
-                    </div>
-                    <div className="title"><strong>Name: </strong>{resourceInfo.fullName ? resourceInfo.fullName : "-"}</div>
-                    <div className="title mb-12">
-                      <strong>Valid Thru: </strong>
-                      {resourceInfo.validThru
-                        ? `Dec ${moment(new Date()).year()}`
-                        : "-"}
-                    </div>
-                    <div className="button-box white">
-                        <span>{resourceInfo.status}</span>
-                    </div>
-                  
+                  <div className="per">
+                    Membership Number:<br />
+                    {resourceInfo.membershipNumber
+                      ? resourceInfo.membershipNumber
+                      : "-"}
+                  </div>
+                  <div className="title"><strong>Name: </strong>{resourceInfo.fullName ? resourceInfo.fullName : "-"}</div>
+                  <div className="title mb-12">
+                    <strong>Valid Thru: </strong>
+                    {resourceInfo.validThru
+                      ? `Dec ${moment(new Date()).year()}`
+                      : "-"}
+                  </div>
+                  <div className="button-box white">
+                    <span>{resourceInfo.status}</span>
+                  </div>
+
                 </div>
                 <div className="benefit-item">
-                    <div className="per">Membership Card <br/> &nbsp;</div>
-                    <div className="button-box white">
-                        <span onClick={() => getMembershipCard(false)}>Download</span>
-                    </div>
-                </div>
-                
-                <div className="benefit-item">
-                    <div className="per">Recommendation Letter <br/> &nbsp;</div>
-                    <div className="button-box white">
-                        <a href={RECOMMENDATION_LETTER + store.getState().auth.memberId} target="_blank" rel="noreferrer noopener" >
-                          Download
-                        </a>
-                    </div>
+                  <div className="per">Membership Card <br /> &nbsp;</div>
+                  <div className="button-box white">
+                    <span onClick={() => getMembershipCard(false)}>Download</span>
+                  </div>
                 </div>
 
-                
+                <div className="benefit-item">
+                  <div className="per">Recommendation Letter <br /> &nbsp;</div>
+                  <div className="button-box white">
+                    <a href={RECOMMENDATION_LETTER + store.getState().auth.memberId} target="_blank" rel="noreferrer noopener" >
+                      Download
+                    </a>
+                  </div>
+                </div>
+
+
               </div>
             </div>
           )

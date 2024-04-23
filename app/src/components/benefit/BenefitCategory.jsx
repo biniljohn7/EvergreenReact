@@ -69,59 +69,59 @@ const Benefit = (props) => {
         <React.Fragment>
           <Banner />
           <div className="benefits-section inner-benefits">
-              <div className="head-box">
-                  <div className="container">
-                      <h2>benefits</h2>
-                  </div>
+            <div className="head-box">
+              <div className="container">
+                <h2>benefits</h2>
               </div>
+            </div>
             <div className="container">
               <div className="ben-search-box">
-                    <Input
-                      type="text"
-                      placeholder="Search from here..."
-                      id="benefit_search"
-                      contentFontSize={'fs-14'}
-                      className="search"
-                      onEnter={searchBenefit}
-                    />
-                    <i
-                      className="fa fa-search eye pwd cursor-pointer"
-                      id="benefit_search_apply"
-                      onClick={searchBenefit}
-                    ></i>
-                </div>
+                <Input
+                  type="text"
+                  placeholder="Search from here..."
+                  id="benefit_search"
+                  contentFontSize={'fs-14'}
+                  className="search"
+                  onEnter={searchBenefit}
+                />
+                <i
+                  className="fa fa-search eye pwd cursor-pointer"
+                  id="benefit_search_apply"
+                  onClick={searchBenefit}
+                ></i>
+              </div>
             </div>
             {category && category.length > 0 ? (
               <div className="benefit-box">
                 <div className="container">
-                {category.map((cat) => {
-                  return (
-                    <div
-                      className="benefit-item cursor-pointer"
-                      key={cat.categoryId}
-                      onClick={(e) =>
-                        props.history.push(
-                          `/benefits/${cat.name.replaceAll('/', ' ')}`,
-                          {
-                            categoryId: cat.categoryId,
-                            name: cat.name,
-                          },
-                        )
-                      }
-                    >
-                      <div className="per">{cat.name}</div>
-                      <div class="button-box white">
+                  {category.map((cat) => {
+                    return (
+                      <div
+                        className="benefit-item cursor-pointer"
+                        key={cat.categoryId}
+                        onClick={(e) =>
+                          props.history.push(
+                            `/benefits/${cat.name.replaceAll('/', ' ')}`,
+                            {
+                              categoryId: cat.categoryId,
+                              name: cat.name,
+                            },
+                          )
+                        }
+                      >
+                        <div className="per">{cat.name}</div>
+                        <div className="button-box white">
                           <span>GET STARTED</span>
-                      </div>
-                      {/*
+                        </div>
+                        {/*
                       <img
                         src={cat.image}
                         alt={cat.name}
                         className="image-size mt-15"
                       /> */}
-                    </div>
-                  )
-                })}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             ) : (
@@ -131,8 +131,9 @@ const Benefit = (props) => {
             )}
           </div>
         </React.Fragment>
-      )}
-    </Wrapper>
+      )
+      }
+    </Wrapper >
   )
 }
 

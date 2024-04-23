@@ -102,7 +102,7 @@ const Event = (props) => {
                       setOpen(!isOpen);
                     }}
                   >
-                    <Button name="ADD TO CALENDAR" class="wp-100" />
+                    <Button name="ADD TO CALENDAR" className="wp-100" />
                     {/* {isOpen && (
                       <AddToCalendar
                         event={{
@@ -116,7 +116,7 @@ const Event = (props) => {
                         }}
                         buttonClassClosed="text-white"
                         buttonLabel="ADD TO CALENDAR"
-                        buttonWrapperClass="wp-100 ptb-10 green cursor-pointer border text-center border-radius-41"
+                        buttonWrapperclassName="wp-100 ptb-10 green cursor-pointer border text-center border-radius-41"
                         listItems={[
                           { outlook: 'Outlook' },
                           { outlookcom: 'Outlook.com' },
@@ -140,7 +140,7 @@ const Event = (props) => {
                         }}
                         buttonClassClosed="text-white"
                         buttonLabel="ADD TO CALENDAR"
-                        buttonWrapperClass="wp-100 ptb-10 green cursor-pointer border text-center border-radius-41"
+                        buttonWrapperclassName="wp-100 ptb-10 green cursor-pointer border text-center border-radius-41"
                         listItems={[
                           { outlook: 'Outlook' },
                           { outlookcom: 'Outlook.com' },

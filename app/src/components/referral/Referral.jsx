@@ -75,7 +75,7 @@ const Referral = (props) => {
                   }
                 >
                   <div className="s-img-box"><img src={Referral_1} alt="referral_points" className="icon" /></div>
-                  <div class="s-cnt-box">
+                  <div className="s-cnt-box">
                     <h3>Points Earned:{data.earnedPoints}</h3>
                     <p className="">
                       Take advantage of our Refer A Member Program! Simply tell them

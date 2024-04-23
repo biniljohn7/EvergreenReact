@@ -159,8 +159,8 @@ const Inbox = (props) => {
                       (window.innerWidth >= 1024
                         ? "wp-40"
                         : window.innerWidth === 768
-                        ? "wp-50"
-                        : "wp-90")
+                          ? "wp-50"
+                          : "wp-90")
                     }
                   >
                     <Input
@@ -216,10 +216,10 @@ const Inbox = (props) => {
                       (window.innerWidth > 1024
                         ? "wp-40"
                         : window.innerWidth === 1024
-                        ? "wp-60"
-                        : window.innerWidth === 768
-                        ? "wp-70"
-                        : "wp-100")
+                          ? "wp-60"
+                          : window.innerWidth === 768
+                            ? "wp-70"
+                            : "wp-100")
                     }
                   >
                     {directory.map((c, index) => {
@@ -349,7 +349,7 @@ const Inbox = (props) => {
                 })}
                 <div className="text-center">
                   <Button
-                    class="mt-20 plr-50"
+                    className="mt-20 plr-50"
                     name="SET"
                     clicked={(e) => {
                       setPage(1);

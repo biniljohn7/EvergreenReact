@@ -99,7 +99,7 @@ const SignIn = (props) => {
           Don’t have an account? Create an account for free.
         </p>
         <Button
-          class="border-radius-41 bg-white red--text mt-20"
+          className="border-radius-41 bg-white red--text mt-20"
           name="SIGN UP"
           clicked={() => props.history.push("/signup")}
         />
@@ -281,7 +281,7 @@ const SignIn = (props) => {
                 </p>
                 <div className="flex-container">
                   <Button
-                    class="button mt-20"
+                    className="button mt-20"
                     name="LOGIN"
                     clicked={handleSignIn}
                     disabled={isLoading}

@@ -61,8 +61,8 @@ const PaymentSummary = (props) => {
                 (window.innerWidth > 768
                   ? " plr-40"
                   : window.innerWidth === 768
-                  ? " plr-30"
-                  : " plr-20")
+                    ? " plr-30"
+                    : " plr-20")
               }
             >
               <div className="flex-item">
@@ -87,7 +87,7 @@ const PaymentSummary = (props) => {
                 </>
                 <div className="flex-container">
                   <Button
-                    class="button mt-20"
+                    className="button mt-20"
                     name="APPLY"
                     clicked={(e) => {
                       if (code && code.trim()) {
@@ -110,8 +110,8 @@ const PaymentSummary = (props) => {
                 (window.innerWidth < 768
                   ? " plr-20 "
                   : window.innerWidth === 786
-                  ? " plr-30 "
-                  : " plr-40 ")
+                    ? " plr-30 "
+                    : " plr-40 ")
               }
             >
               <h5 className="text-bold">Membership Fee Cart</h5>
@@ -222,7 +222,7 @@ const PaymentSummary = (props) => {
 
               <div className="flex-container">
                 <Button
-                  class="button mt-30"
+                  className="button mt-30"
                   name="MAKE PAYMENT"
                   clicked={handleForm}
                 />

@@ -103,7 +103,7 @@ const Event = (props) => {
             return (
               <>
                 <div
-                  class="event-item"
+                  className="event-item"
                   key={ev.eventId}
                 >
                   {/* <img
@@ -111,16 +111,16 @@ const Event = (props) => {
                     alt={ev.name.substr(0, 10) + "..."}
                     className="image-size"
                   /> */}
-                  <div class="e-date">
+                  <div className="e-date">
                     {ev.date ? ev.date : ""}
-                  </div>
+                  </div >
                   <h2>
                     {ev.name}
                   </h2>
                   <p>
                     {ev.address || ""}
                   </p>
-                  <div class="button-box">
+                  <div className="button-box">
                     <span onClick={(e) =>
                       props.history.push(
                         `/events/${ev.name.replaceAll("/", " ")}`,
@@ -130,10 +130,11 @@ const Event = (props) => {
                       )
                     }>READ MORE</span>
                   </div>
-                </div>
+                </div >
               </>
             );
-          })}
+          })
+          }
           {/* </div> */}
 
           <div className="pagination">
@@ -152,7 +153,7 @@ const Event = (props) => {
               }}
             />
           </div>
-        </React.Fragment>
+        </React.Fragment >
       ) : (
         <div className="border ptb-50 plr-20 text-center text-bold mt-50">
           No Record Found!
@@ -164,13 +165,13 @@ const Event = (props) => {
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
       <Banner />
 
-      <div class="event-section">
-        <div class="head-box ">
-          <div class="container">
+      <div className="event-section">
+        <div className="head-box ">
+          <div className="container">
             <h2>events</h2>
           </div>
         </div>
-        <div class="container">
+        <div className="container">
           {/*
           <div>
             <Nav tabs>
@@ -227,12 +228,12 @@ const Event = (props) => {
             </Nav>
           </div>
            */}
-          <div class="event-box">
-            <div class="container">
-              <div class="image-box">
+          <div className="event-box">
+            <div className="container">
+              <div className="image-box">
                 <img src={EventBoxImg} alt="" />
               </div>
-              <div class="content-box">
+              <div className="content-box">
                 <TabContent activeTab={activeTab}>
                   <TabPane tabId="all" className="mt-20">
                     <div className="position-relative height-40">
