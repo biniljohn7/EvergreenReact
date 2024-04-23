@@ -75,7 +75,7 @@ const SignUp = (props) => {
         <h4 className="text-bold mt-20">Welcome Back!</h4>
         <p className="mt-10">Login to access your account</p>
         <Button
-          class="border-radius-41 bg-white red--text mt-20"
+          class="border-radius-41 bg-white mt-20"
           name="LOGIN"
           clicked={() => props.history.push('/signin')}
         />

@@ -1088,15 +1088,22 @@ a:focus {
 .mb15 {
     margin-bottom: 15px;
 }
+
 .benefit-box .benefit-item .per.career-bg {
     background: #fff;
     padding: 0 15px;
 }
+
 .hMGRKG .button {
     background: #5b2166 !important;
 }
+
 .red--text {
     color: #5b2166 !important;
+}
+
+.modal.show {
+    z-index: 1100;
 }
 
 @media only screen and (min-width:1560px) and (max-width:1660px) {
