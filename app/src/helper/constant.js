@@ -1,9 +1,10 @@
 export const pl = process.env.REACT_APP_ENV;
 // export const BASE_URL = process.env.REACT_APP_API_URL;
-export const BASE_URL = 1 ?
+export const BASE_URL = window.localStorage.isLocal ?
   'https://memberapp-api.apps.openxcell.dev/api' :
-  'http://kkpp.com/xyz/api';
+  'http://localhost/evergreenadmin/api';
 
+export const ISLOCAL = !!window.localStorage.isLocal;
 
 export const SECONDARY_COLOR = "#C33FD9";
 // export const SECONDARY_COLOR = '#c33ed7'
@@ -274,3 +275,11 @@ export const COUNTRY_CODE = [
     countryCode: "CA",
   },
 ];
+
+export function getApiURL() {
+  if (window.localStorage.isLocal) {
+    return 'http://localhost/evergreenadmin/api';
+  } else {
+    return 'https://memberapp-api.apps.openxcell.dev/api';
+  }
+}

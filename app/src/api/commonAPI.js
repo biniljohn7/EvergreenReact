@@ -1,9 +1,12 @@
 import axios from 'axios'
-import { BASE_URL } from '../helper/constant'
+import { BASE_URL, ISLOCAL } from '../helper/constant'
 import { setHeaders } from './apiHelpers'
 
 export const signUp = (body) => {
-  return axios.post(`${BASE_URL}/member/signup`, body).then((response) => {
+  return axios.post(
+    `${BASE_URL}${ISLOCAL ? '/member/signup' : ''}`,
+    body
+  ).then((response) => {
     return response.data
   })
 }

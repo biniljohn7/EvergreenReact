@@ -9,7 +9,7 @@ import {
   SITE_NAME,
   SITE_SHORT_DESC,
   WEBSITE_URL,
-  REGISTER_TYPE,
+  REGISTER_TYPE
 } from '../../helper/constant'
 import Logo from '../../assets/images/logo.png'
 import { ToastsStore } from 'react-toasts'
