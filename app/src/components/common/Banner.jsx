@@ -9,10 +9,10 @@ export default function Banner() {
         <div className="banner-section">
             <div className="container">
                 <div className="image-box">
-                    <img src={BannerImg} />
+                    <img src={BannerImg} alt='' />
                 </div>
                 <div className="cnt-box">
-                    <div className="b-logo"><img src={SiteLogo} /></div>
+                    <div className="b-logo"><img src={SiteLogo} alt='logo' /></div>
                     <p>The National Council of Negro Women (NCNW) is presents of our highest award at the Biennial Uncommon Height Awards Gala, in honor of our iconic leader, Dr. Dorothy Irene Height. </p>
                     <div className="button-box">
                         <Link to="/signup">

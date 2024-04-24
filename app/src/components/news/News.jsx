@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./news.style.js";
-import { listNews, reactToNews } from "../../api/newsApi";
+//import { listNews, reactToNews } from "../../api/newsApi";
+import { listNews } from "../../api/newsApi";
 import { ToastsStore } from "react-toasts";
 import Pagination from "../../UI/pagination/pagination";
 import { Spinner } from "reactstrap";
@@ -29,7 +30,8 @@ const IMAGE_SIZE =
 const News = (props) => {
   const [news, setNews] = useState([]);
   const [isLoading, setLoading] = useState(true);
-  const [loader, setLoader] = useState(false);
+  //const [loader, setLoader] = useState(false);
+  const [loader] = useState(false);
   const [currentPage, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
   const [type, setType] = useState(NEWS_LOCATION[0]);

@@ -8,7 +8,7 @@ import {
   LOGIN_HEADER,
 } from '../../helper/constant'
 import { Link, useLocation } from 'react-router-dom'
-import MobileHeader from './MobileHeader'
+//import MobileHeader from './MobileHeader'
 // import icon from '../../assets/images/man_icon1.5x.png'
 import icon from '../../assets/images/man_icon1x.png'
 import { store } from '../../redux/store'

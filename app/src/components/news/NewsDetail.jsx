@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./news.style.js";
-import { viewNews, reactToNews } from "../../api/newsApi";
+//import { viewNews, reactToNews } from "../../api/newsApi";
+import { reactToNews } from "../../api/newsApi";
 import { ToastsStore } from "react-toasts";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
