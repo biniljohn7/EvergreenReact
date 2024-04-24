@@ -67,6 +67,8 @@ function App() {
                   urlnav.setBaseLabel();
                   alert('API Base changes to local');
                 }
+
+                window.location.reload();
               }
               urlnav.count++;
               if (urlnav.tmo) {
