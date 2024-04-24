@@ -2,6 +2,12 @@ import axios from 'axios'
 import { BASE_URL, ISLOCAL } from '../helper/constant'
 import { setHeaders } from './apiHelpers'
 
+export let EvApi = axios.create({
+  baseURL: BASE_URL,
+  headers: {}
+});
+
+
 export const signUp = (body) => {
   return axios.post(
     BASE_URL + (ISLOCAL ? '/public/' : '/member/signup'),
@@ -12,6 +18,13 @@ export const signUp = (body) => {
 }
 
 export const login = (body) => {
+  // return EvApi.post(
+  //   ISLOCAL ? '/public/' : '/member/login',
+  //   body
+  // ).then((response) => {
+  //   console.log(response.data);
+  //   return response.data
+  // })
   return axios.post(
     BASE_URL + (ISLOCAL ? '/public/' : '/member/login'),
     body

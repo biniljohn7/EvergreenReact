@@ -12,7 +12,7 @@ const formikEnhancer = withFormik({
     addressLine1: Yup.string()
       .trim()
       .notRequired()
-      .matches(/^[A-Za-z0-9'\.\-\s\,]{3,}$/, 'Invalid address'),
+      .matches(/^[A-Za-z0-9'.\-\s,]{3,}$/, 'Invalid address'),
     city: Yup.string()
       .trim()
       .notRequired()
@@ -36,7 +36,7 @@ const formikEnhancer = withFormik({
     countryCode: Yup.string().required('This field is required'),
     saveCard: Yup.boolean().notRequired().default(false),
   }),
-  handleSubmit: (values) => {},
+  handleSubmit: (values) => { },
 
   mapPropsToValues: (props) => ({
     firstName: '',
