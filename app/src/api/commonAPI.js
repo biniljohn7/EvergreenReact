@@ -3,9 +3,8 @@ import { BASE_URL, ISLOCAL } from '../helper/constant'
 import { setHeaders } from './apiHelpers'
 
 export const signUp = (body) => {
-  console.log(ISLOCAL);
   return axios.post(
-    `${BASE_URL}${ISLOCAL ? '/public/' : '/member/signup'}`,
+    BASE_URL + (ISLOCAL ? '/public/' : '/member/signup'),
     body
   ).then((response) => {
     return response.data
@@ -13,7 +12,10 @@ export const signUp = (body) => {
 }
 
 export const login = (body) => {
-  return axios.post(`${BASE_URL}/member/login`, body).then((response) => {
+  return axios.post(
+    BASE_URL + (ISLOCAL ? '/public/' : '/member/login'),
+    body
+  ).then((response) => {
     return response.data
   })
 }
