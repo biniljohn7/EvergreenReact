@@ -114,6 +114,7 @@ const SignIn = (props) => {
     if (isValid) {
       setLoading(true);
       const body = {
+        method: 'login',
         email: values.email,
         password: values.password,
         facebookId: null,

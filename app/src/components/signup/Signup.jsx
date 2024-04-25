@@ -103,11 +103,14 @@ const SignUp = (props) => {
       createAccount(body)
         .then((res) => {
           setLoading(false)
+          console.log(res.success);
+          ToastsStore.info('xxxxxxx');
           if (res.success === 1) {
             ToastsStore.info(res.message)
           } else {
             ToastsStore.error(res.message)
           }
+          alert(res.message);
           props.history.push('/signin')
         })
         .catch((err) => {

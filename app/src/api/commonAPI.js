@@ -10,7 +10,7 @@ export let EvApi = axios.create({
 
 export const signUp = (body) => {
   return axios.post(
-    BASE_URL + (ISLOCAL ? '/public/' : '/member/signup'),
+    BASE_URL + '/public/?method=signup',
     body
   ).then((response) => {
     return response.data
@@ -18,15 +18,8 @@ export const signUp = (body) => {
 }
 
 export const login = (body) => {
-  // return EvApi.post(
-  //   ISLOCAL ? '/public/' : '/member/login',
-  //   body
-  // ).then((response) => {
-  //   console.log(response.data);
-  //   return response.data
-  // })
   return axios.post(
-    BASE_URL + (ISLOCAL ? '/public/' : '/member/login'),
+    BASE_URL + '/public/?method=login',
     body
   ).then((response) => {
     return response.data
