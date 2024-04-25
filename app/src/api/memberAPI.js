@@ -5,7 +5,7 @@ import { setHeaders } from "./apiHelpers";
 export const viewProfile = () => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/member/website/profile/view`)
+    .get(`${BASE_URL}/member/?method=profile-view`)
     .then((response) => {
       return response.data;
     });
