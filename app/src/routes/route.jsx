@@ -18,6 +18,8 @@ import Setting from "../components/settingPage/Setting";
 import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
+import AccountVerification from "../components/verification/AccountVerification"; // Import the component
+
 
 function Routes() {
   return (
@@ -152,6 +154,16 @@ function Routes() {
           </PageContainer>
         )}
       />
+
+      <Route 
+        exact 
+        path="/verification/:t" 
+        render={(props) => (
+            <PageContainer>
+                <AccountVerification {...props} />
+            </PageContainer>
+        )} 
+    />
 
       <Route path="/" render={(props) => <ExtraRoutes />} />
     </Switch>
