@@ -112,7 +112,10 @@ export const getChapter = (stateId) => {
 
 export const uploadImage = (body) => {
   setHeaders();
-  return axios.post(`${BASE_URL}/member/uploadimage`, body).then((response) => {
+  return axios.post(
+    BASE_URL + '/member/?method=avatar-upload',
+    body
+  ).then((response) => {
     return response.data;
   });
 };

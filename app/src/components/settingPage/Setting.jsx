@@ -29,7 +29,7 @@ import { HEADER_COLOR } from "../../helper/constant";
 import Profile from "./Profile";
 import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
-import firebase from "../../firebaseChat";
+//import firebase from "../../firebaseChat";
 
 const { logout, login } = AuthActions;
 
@@ -166,7 +166,8 @@ const Setting = (props) => {
                         className="position-absolute camera cursor-pointer"
                       /> */}
                       <div className="bg-white rounded-circle position-absolute camera cursor-pointer pb-1 pt-3 height-25 width-25">
-                        <i className="fa fa-star fs-20" aria-hidden="true"></i>
+                        {/* <i className="fa fa-star fs-20" aria-hidden="true"></i> */}
+                        <span className="material-symbols-outlined fs-22">star</span>
                       </div>
                       <input
                         id="profileImageUpload"
@@ -186,7 +187,7 @@ const Setting = (props) => {
                                 profileImage: res.data.profileImage,
                               });
                               try {
-                                let ref = firebase
+                                /*let ref = firebase
                                   .firestore()
                                   .collection("users")
                                   .doc(
@@ -215,7 +216,7 @@ const Setting = (props) => {
                                       "Error getting document:",
                                       err
                                     );
-                                  });
+                                  });*/
                                 // .update({
                                 //   profileImage: res.data.profileImage || null,
                                 // })
@@ -534,7 +535,7 @@ const Setting = (props) => {
                                   profileImage: res.data.profileImage,
                                 });
                                 try {
-                                  firebase
+                                  /*firebase
                                     .firestore()
                                     .collection("users")
                                     .doc(
@@ -543,7 +544,7 @@ const Setting = (props) => {
                                     .update({
                                       profileImage:
                                         res.data.profileImage || null,
-                                    });
+                                    });*/
                                 } catch (error) {
                                   console.error(
                                     "Failed to update profile image in Firestore, ",
