@@ -41,7 +41,7 @@ const ContactUs = (props) => {
           setTimeout(() => props.history.push('/signin'), 800)
         } else {
           ToastsStore.error('Something Went Wrong!')
-          props.history.push('/home')
+          // props.history.push('/home')
         }
       })
   }, [])

@@ -20,7 +20,7 @@ const SearchBenefit = (props) => {
   const [totalPage, setTotalPage] = useState(0)
 
   useEffect(() => {
-    const search = queryString.parse(props.location.search).text
+    const search = '';//queryString.parse(props.location.search).text
 
     if (search && search !== '') {
       searchBenefit({
@@ -57,7 +57,7 @@ const SearchBenefit = (props) => {
           }
         })
     } else {
-      props.replace({ pathname: '/benefits' })
+      // props.replace({ pathname: '/benefits' })
     }
   }, [currentPage])
 

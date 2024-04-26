@@ -18,7 +18,7 @@ const PrivacyPolicy = (props) => {
       })
       .catch((error) => {
         setLoading(false)
-        ToastsStore.error('Something went wrong!')
+        // ToastsStore.error('Something went wrong!')
         console.log(error)
       })
   }, [])
@@ -37,7 +37,7 @@ const PrivacyPolicy = (props) => {
       {/* <h4 className="text-justify text-bold">{content.title}</h4> */}
       <div
         className="text-justify"
-        dangerouslySetInnerHTML={{ __html: content.content }}
+        dangerouslySetInnerHTML={{ __html: (content || {}).content || '' }}
       />
     </section>
   )
