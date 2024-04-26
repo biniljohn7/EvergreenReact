@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { HEADER_COLOR } from '../../helper/constant'
 
-const SigninWrapper = styled.div`
+const SigninWrapper = styled.form`
   .cancelmain {
     width: 20px;
     height: 20px;

@@ -108,8 +108,8 @@ const SignIn = (props) => {
   };
 
   const handleSignIn = (e) => {
-    e.preventDefault();
-    handleSubmit();
+    // e.preventDefault();
+    // handleSubmit();
 
     if (isValid) {
       setLoading(true);
@@ -177,7 +177,11 @@ const SignIn = (props) => {
         backdrop="static"
         keyboard={false}
       >
-        <SignInWrapper>
+        <SignInWrapper onSubmit={function (e) {
+          handleSignIn();
+          e.preventDefault();
+          return false;
+        }}>
           {signInState ? (
             <section className="row login mlr-0">
               <div
@@ -284,7 +288,8 @@ const SignIn = (props) => {
                   <Button
                     className="button mt-20"
                     name="LOGIN"
-                    clicked={handleSignIn}
+                    type="submit"
+                    // clicked={handleSignIn}
                     disabled={isLoading}
                   />
                 </div>
