@@ -17,68 +17,12 @@ import {
 
 function App() {
 
-  let urlnav = {
-    count: 0,
-    setBaseLabel: function () {
-      let ll = document.getElementById('localApiLabel');
-      if (window.localStorage.isLocal) {
-        if (!ll) {
-          let x = document.createElement('div');
-          x.id = 'localApiLabel';
-          x.innerHTML = 'Local API';
-          x.style.backgroundColor = '#ff0a';
-          x.style.position = 'fixed';
-          x.style.right = 0;
-          x.style.top = 0;
-          x.style.padding = '7px';
-          x.style.fontSize = '11px';
-          document.body.appendChild(x);
-        }
-      } else {
-        if (ll) {
-          document.body.removeChild(ll);
-        }
-      }
-    }
-  };
-
-  useEffect(function () {
-    urlnav.setBaseLabel();
-  }, []);
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <Router>
-          <div className="page-container" onMouseDown={function (e) {
-            if (e.ctrlKey) {
-              if (urlnav.count < 5) {
-                console.log(`${5 - urlnav.count} to switch URL base`);
-              }
-              if (urlnav.count >= 5) {
-                urlnav.count = 0;
-                if (window.localStorage.isLocal) {
-                  window.localStorage.removeItem('isLocal');
-                  urlnav.setBaseLabel();
-                  alert('API Base changes to remote');
-
-                } else {
-                  window.localStorage.setItem('isLocal', 'yes');
-                  urlnav.setBaseLabel();
-                  alert('API Base changes to local');
-                }
-
-                window.location.reload();
-              }
-              urlnav.count++;
-              if (urlnav.tmo) {
-                clearTimeout(urlnav.tmo);
-              }
-              urlnav.tmo = setTimeout(function () {
-                urlnav.count = 0;
-              }, 2000);
-            }
-          }}>
+          <div className="page-container">
             <Routes />
             <ToastsContainer
               store={ToastsStore}

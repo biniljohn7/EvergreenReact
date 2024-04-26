@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { BASE_URL, ISLOCAL } from '../helper/constant'
+import { BASE_URL } from '../helper/constant'
 import { setHeaders } from './apiHelpers'
 
 export let EvApi = axios.create({

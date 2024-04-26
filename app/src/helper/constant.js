@@ -277,9 +277,9 @@ export const COUNTRY_CODE = [
 ];
 
 export function getApiURL() {
-  if (window.localStorage.isLocal) {
-    return 'http://localhost/evergreenadmin/api';
-  } else {
-    return 'https://memberapp-api.apps.openxcell.dev/api';
-  }
+  // if (window.localStorage.isLocal) {
+  return 'http://localhost/evergreenadmin/api';
+  // } else {
+  //   return 'https://memberapp-api.apps.openxcell.dev/api';
+  // }
 }
