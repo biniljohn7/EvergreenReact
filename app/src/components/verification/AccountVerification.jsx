@@ -6,13 +6,12 @@ const BASE_URL = 'http://localhost/evergreenadmin/api';
 
 const AccountVerification = () => {
   const { t } = useParams();
-  const method = 'verifyAccount';
   const [verificationResult, setVerificationResult] = useState(null);
 
   useEffect(() => {
     const verifyAccount = async (token) => {
       try {
-        const response = await axios.post(`${BASE_URL}/public/`, { token, method });
+        const response = await axios.post(`${BASE_URL}/public/?method=account-verify`, { token });
         setVerificationResult(response.data.message);
       } catch (error) {
         console.error('Error verifying account:', error);
