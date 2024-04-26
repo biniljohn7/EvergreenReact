@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BASE_URL } from '../../helper/constant'
 import { useParams } from 'react-router-dom';
-
-const BASE_URL = 'http://localhost/evergreenadmin/api';
 
 const AccountVerification = () => {
   const { t } = useParams();
@@ -14,13 +13,11 @@ const AccountVerification = () => {
         const response = await axios.post(`${BASE_URL}/public/?method=account-verify`, { token });
         setVerificationResult(response.data.message);
       } catch (error) {
-        console.error('Error verifying account:', error);
         setVerificationResult('Verification failed');
       }
     };
 
     if (t) {
-      console.log('Verification token:', t);
       verifyAccount(t);
     }
   }, [t]);
