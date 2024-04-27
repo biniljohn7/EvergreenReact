@@ -42,14 +42,14 @@ export const forgotPassword = (body) => {
 }
 
 export const verifyOTP = (body) => {
-    return axios.post(`${BASE_URL}/member/verifyotp`, body).then((response) => {
+    return axios.post(`${BASE_URL}/public/?method=otp-verify`, body).then((response) => {
         return response.data
     })
 }
 
 export const resetPassword = (body) => {
     return axios
-        .post(`${BASE_URL}/member/resetpassword`, body)
+        .post(`${BASE_URL}/public/?method=password-reset`, body)
         .then((response) => {
             return response.data
         })

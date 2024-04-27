@@ -23,6 +23,7 @@ const OtpVerification = (props) => {
   } = props
   const [resetPassword, setResetPassword] = useState(false)
   const [isLoading, setLoading] = useState(false)
+  const [otp, setOtp] = useState('')
 
   const toggleResetPassword = () => {
     setResetPassword(!resetPassword)
@@ -59,6 +60,7 @@ const OtpVerification = (props) => {
             setLoading(false)
           } else {
             setLoading(false)
+            setOtp(res.otp)
             props.resetForm()
             setResetPassword(!resetPassword)
             ToastsStore.info(res.message)
@@ -129,6 +131,7 @@ const OtpVerification = (props) => {
         clicked={toggleResetPassword}
         reset={reset}
         memberEmail={props.memberEmail}
+        otp={otp}
       />
     </>
   )

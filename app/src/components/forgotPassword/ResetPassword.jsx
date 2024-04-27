@@ -41,6 +41,7 @@ const ResetPassword = (props) => {
     if (isValid) {
       resetPassword({
         email: props.memberEmail,
+        otp: props.otp,
         password: values.password,
       })
         .then((res) => {
