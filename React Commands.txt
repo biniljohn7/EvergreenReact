@@ -12,7 +12,7 @@ yarn add firebase@8.2.3
 yarn add reactstrap
 yarn add react-clamp-lines
 yarn add javascript-time-ago@2.5.9
-yarn add react-time-ago@5.2.0
+yarn add react-time-ago@5.0.2
 yarn add query-string
 yarn add redux
 yarn add formik
