@@ -4,7 +4,7 @@ import { setHeaders } from './apiHelpers'
 
 export const listAdvocacy = (body) => {
   setHeaders()
-  return axios.post(`${BASE_URL}/advocacy/list`, body).then((response) => {
+  return axios.post(`${BASE_URL}/member/?method=advocacy-list`, body).then((response) => {
     return response.data
   })
 }
@@ -12,7 +12,7 @@ export const listAdvocacy = (body) => {
 export const viewAdvocacy = (id, type) => {
   setHeaders()
   return axios
-    .get(`${BASE_URL}/advocacy?advocacyId=${id}&advocacyType=${type}`)
+    .get(`${BASE_URL}/member/?method=advocacy-details&id=${id}&type=${type}`)
     .then((response) => {
       return response.data
     })
@@ -21,7 +21,7 @@ export const viewAdvocacy = (id, type) => {
 export const takeAction = (body, id) => {
   setHeaders()
   return axios
-    .post(`${BASE_URL}/advocacy/approve?advocacyId=${id}`, body)
+    .post(`${BASE_URL}/member/?method=advocacy-approve?id=${id}`, body)
     .then((response) => {
       return response.data
     })
