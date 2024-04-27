@@ -4,7 +4,7 @@ import { setHeaders } from "./apiHelpers";
 
 export const viewMemebership = () => {
   setHeaders();
-  return axios.get(`${BASE_URL}/dues/view`).then((response) => {
+  return axios.get(`${BASE_URL}/member/?method=dues-view`).then((response) => {
     return response.data;
   });
 };
@@ -12,7 +12,7 @@ export const viewMemebership = () => {
 export const getMembershipType = () => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/dues/membership/types/dropdown`)
+    .get(`${BASE_URL}/member/?method=dues-membership-types-list`)
     .then((response) => {
       return response.data;
     });
@@ -30,7 +30,7 @@ export const isMembershipExpired = (membershipId) => {
 export const getAttachment = (id) => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/dues/attachments/dropdown?membershipTypeId=${id}`)
+    .get(`${BASE_URL}/member/?method=dues-attachments&type=${id}`)
     .then((response) => {
       return response.data;
     });
@@ -112,7 +112,7 @@ export const cancelSubscription = (id) => {
 };
 
 export const viewPaymentHistory = (id) => {
-  return axios.get(`${BASE_URL}/dues/view/history`).then((response) => {
+  return axios.get(`${BASE_URL}/member/?method=dues-history`).then((response) => {
     return response.data;
   });
 };

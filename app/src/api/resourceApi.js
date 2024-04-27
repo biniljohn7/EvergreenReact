@@ -4,7 +4,7 @@ import { setHeaders } from "./apiHelpers";
 
 const getResourceInfo = () => {
   setHeaders();
-  return axios.get(`${BASE_URL}/member/member-card-info`).then((response) => {
+  return axios.get(`${BASE_URL}/member/?method=member-card-info`).then((response) => {
     return response.data;
   });
 };

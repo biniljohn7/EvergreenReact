@@ -122,7 +122,7 @@ export const uploadImage = (body) => {
 
 export const getReferralDetails = () => {
   setHeaders();
-  return axios.post(`${BASE_URL}/member/referral/info`).then((response) => {
+  return axios.post(`${BASE_URL}/member/?method=referral-info`).then((response) => {
     return response.data;
   });
 };

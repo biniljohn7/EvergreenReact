@@ -13,8 +13,9 @@ import ReactTimeAgo from 'react-time-ago'
 import Modal from './TakeAction'
 
 const TEXT_LENGTH = window.innerWidth >= 768 ? 20 : 10
+// console.log(en);
 // TimeAgo.addDefaultLocale(en)
-TimeAgo.addLocale(en)
+// TimeAgo.addLocale(en)
 
 const AdvocacyDetails = (props) => {
   const [advocacy, setAdvocacy] = useState(null)
@@ -45,9 +46,9 @@ const AdvocacyDetails = (props) => {
           }
         })
         .catch((err) => {
-          console.error(err)
-          setLoading(false)
-          ToastsStore.error('Something went wrong!')
+          // console.error(err)
+          // setLoading(false)
+          // ToastsStore.error('Something went wrong!')
         })
     }
   }, [])
@@ -107,10 +108,10 @@ const AdvocacyDetails = (props) => {
                   </label>
                   <span className="float-right red--text">&nbsp;
                     <i className="fa fa-clock-o mr-5" aria-hidden="true"></i>
-                    <ReactTimeAgo
+                    {/* <ReactTimeAgo
                       date={new Date(advocacy.createdAt)}
                       locale="en-US"
-                    />
+                    /> */}
                   </span>
                 </section>
                 <section className="row mt-20">
