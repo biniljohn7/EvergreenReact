@@ -13,9 +13,10 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
 import { chooseMembership as enhancer } from "./enhancer";
-import { Spinner } from "reactstrap";
+// import { Spinner } from "reactstrap";
 import Modal from "./Payment";
 import Overlay from "react-loading-overlay";
+import Spinner from "../../UI/Spinner/Spinner";
 
 const { logout } = AuthActions;
 
@@ -53,6 +54,9 @@ const Membership = (props) => {
     setFieldTouched,
     isValid,
   } = props;
+
+  let Spn = Spinner();
+
 
   useEffect(() => {
     setLoading(true);
@@ -119,73 +123,97 @@ const Membership = (props) => {
     }
   };
 
+
   return loading ? (
     <div className="custom-spinner">
-      <Spinner color="danger" />
+      {/* <Spinner color="danger" /> */}
     </div>
   ) : (
     <Wrapper>
-      <Overlay active={loader} spinner={<Spinner />}>
-        <div className="red pt-20 bread-nav">
-          <div className="container">
-            <Breadcrumb>
-              <BreadcrumbItem>
-                <Link to="/dues" className="text-white">
-                  Dues
-                </Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem active className="text-white">
-                Choose Membership
-              </BreadcrumbItem>
-            </Breadcrumb>
-          </div>
-        </div>
+      {/* <Overlay active={loader} spinner={<Spinner />}> */}
+      {/* <Overlay active={loader} spinner={true}> */}
+      {Spn.Obj}
+      <div className="red pt-20 bread-nav">
         <div className="container">
-          <div className="ptb-50">
-            <h4 className="mb-15">Choose Membership</h4>
-            <form>
-              {/* <div>
-              <label className="fs-16 mb-0">Service Award:</label>
-              <div className="fs-14 mb-10">I am applying for my</div>
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/dues" className="text-white">
+                Dues
+              </Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active className="text-white">
+              Choose Membership
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+      </div>
+      <div className="container">
+        <div className="ptb-50">
+          <h4 className="mb-15">Choose Membership</h4>
+          <form>
+            <div className="mtb-20">
+              <label className="fs-16">Membership Dues/Fees:</label>
               <Select
-                id="service"
-                placeholder="Select service award"
-                options={list}
+                id="plan"
+                placeholder="Select membership type"
+                options={dropdown || []}
                 styles={{
                   control: (value) => {
                     return {
                       ...value,
-                      minHeight: '44px',
-                      width: window.innerWidth >= 768 ? '50%' : '100%',
-                    }
+                      minHeight: "44px",
+                      width: window.innerWidth >= 768 ? "50%" : "100%",
+                    };
                   },
                   placeholder: (defaultStyles) => {
                     return {
                       ...defaultStyles,
-                      paddingTop: '10px',
-                      paddingBottom: '10px',
-                      fontSize: '14px',
-                    }
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                      fontSize: "14px",
+                    };
                   },
                   menu: (provided, state) => ({
                     ...provided,
-                    width: window.innerWidth >= 768 ? '50%' : '100%',
+                    width: window.innerWidth >= 768 ? "50%" : "100%",
                   }),
                 }}
                 onChange={(selectedOp) => {
-                  setFieldTouched('service', true, true)
-                  setFieldValue('service', selectedOp)
+                  // setLoader(true);
+                  // setFieldTouched("plan", true, true);
+                  // setFieldValue("plan", selectedOp);
+                  // setFieldTouched("subPlan", true, true);
+                  // setFieldValue("subPlan", "");
+                  if (selectedOp && selectedOp.membershipTypeId) {
+                    Spn.Show();
+                    // ShowSpinner();
+                    // getAttachment(selectedOp.membershipTypeId)
+                    //   .then((res) => {
+                    //     console.log(res);
+                    //     //     setSubDropdown(res.data || []);
+                    //   })
+                    //   .catch((err) => {
+                    //     console.error(err);
+                    //     ToastsStore.info("Failed to retrive list");
+                    //   })
+                    //   .finally(() => {
+                    //     setLoader(false);
+                    //   });
+                  }
                 }}
-                value={values.service || ''}
+                getOptionLabel={(op) => op.membershipTypeName}
+                getOptionValue={(op) => op}
+              // value={values.plan.membershipTypeId || ""}
+              // value={"KKPP"}
               />
-              <Error field="service" />
-            </div> */}
-              <div className="mtb-20">
-                <label className="fs-16">Membership Dues/Fees:</label>
+              <Error field="plan" />
+            </div>
+            {subDropdown && (
+              <div className="mt-10">
                 <Select
-                  id="plan"
-                  placeholder="Select membership type"
-                  options={dropdown || []}
+                  id="subPlan"
+                  placeholder="Amount"
+                  options={subDropdown || []}
                   styles={{
                     control: (value) => {
                       return {
@@ -208,92 +236,41 @@ const Membership = (props) => {
                     }),
                   }}
                   onChange={(selectedOp) => {
-                    setLoader(true);
-                    setFieldTouched("plan", true, true);
-                    setFieldValue("plan", selectedOp);
                     setFieldTouched("subPlan", true, true);
-                    setFieldValue("subPlan", "");
-                    getAttachment(selectedOp.membershipTypeId)
-                      .then((res) => {
-                        setSubDropdown(res.data || []);
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                        ToastsStore.info("Failed to retrive list");
-                      })
-                      .finally(() => {
-                        setLoader(false);
-                      });
+                    setFieldValue("subPlan", selectedOp);
                   }}
-                  getOptionLabel={(op) => op.membershipTypeName}
+                  getOptionLabel={(op) => op.chargesTitle}
                   getOptionValue={(op) => op}
-                  value={values.plan || ""}
+                  value={values.subPlan || ""}
                 />
-                <Error field="plan" />
+                <Error field="subPlan" />
               </div>
-              {subDropdown && (
-                <div className="mt-10">
-                  <Select
-                    id="subPlan"
-                    placeholder="Amount"
-                    options={subDropdown || []}
-                    styles={{
-                      control: (value) => {
-                        return {
-                          ...value,
-                          minHeight: "44px",
-                          width: window.innerWidth >= 768 ? "50%" : "100%",
-                        };
-                      },
-                      placeholder: (defaultStyles) => {
-                        return {
-                          ...defaultStyles,
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          fontSize: "14px",
-                        };
-                      },
-                      menu: (provided, state) => ({
-                        ...provided,
-                        width: window.innerWidth >= 768 ? "50%" : "100%",
-                      }),
-                    }}
-                    onChange={(selectedOp) => {
-                      setFieldTouched("subPlan", true, true);
-                      setFieldValue("subPlan", selectedOp);
-                    }}
-                    getOptionLabel={(op) => op.chargesTitle}
-                    getOptionValue={(op) => op}
-                    value={values.subPlan || ""}
-                  />
-                  <Error field="subPlan" />
-                </div>
-              )}
+            )}
 
-              <div className="text-center mt-50">
-                <button
-                  type="button"
-                  className="btn btn-rounded button plr-50 ptb-10"
-                  onClick={(e) => handleForm(e)}
-                // disabled={loader}
-                >
-                  NEXT
-                </button>
-              </div>
-            </form>
-          </div>
+            <div className="text-center mt-50">
+              <button
+                type="button"
+                className="btn btn-rounded button plr-50 ptb-10"
+                onClick={(e) => handleForm(e)}
+              // disabled={loader}
+              >
+                NEXT
+              </button>
+            </div>
+          </form>
         </div>
-        {data && isOpen && (
-          <Modal
-            isOpen={isOpen}
-            toggle={() => setOpen(!isOpen)}
-            data={data}
-            membershipValue={values}
-            changeURL={props.history.push}
-          />
-        )}
-      </Overlay>
-    </Wrapper>
+      </div>
+      {data && isOpen && (
+        <Modal
+          isOpen={isOpen}
+          toggle={() => setOpen(!isOpen)}
+          data={data}
+          membershipValue={values}
+          changeURL={props.history.push}
+        />
+      )}
+      {/* </Overlay> */}
+    </Wrapper >
   );
 };
 
