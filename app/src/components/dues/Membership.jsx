@@ -187,18 +187,18 @@ const Membership = (props) => {
                   if (selectedOp && selectedOp.membershipTypeId) {
                     Spn.Show();
                     // ShowSpinner();
-                    // getAttachment(selectedOp.membershipTypeId)
-                    //   .then((res) => {
-                    //     console.log(res);
-                    //     //     setSubDropdown(res.data || []);
-                    //   })
-                    //   .catch((err) => {
-                    //     console.error(err);
-                    //     ToastsStore.info("Failed to retrive list");
-                    //   })
-                    //   .finally(() => {
-                    //     setLoader(false);
-                    //   });
+                    getAttachment(selectedOp.membershipTypeId)
+                      .then((res) => {
+                        setSubDropdown(res.data || []);
+                      })
+                      .catch((err) => {
+                        //     console.error(err);
+                        //     ToastsStore.info("Failed to retrive list");
+                      })
+                      .finally(() => {
+                        Spn.Hide();
+                        //     setLoader(false);
+                      });
                   }
                 }}
                 getOptionLabel={(op) => op.membershipTypeName}
@@ -236,12 +236,12 @@ const Membership = (props) => {
                     }),
                   }}
                   onChange={(selectedOp) => {
-                    setFieldTouched("subPlan", true, true);
-                    setFieldValue("subPlan", selectedOp);
+                    // setFieldTouched("subPlan", true, true);
+                    // setFieldValue("subPlan", selectedOp);
                   }}
                   getOptionLabel={(op) => op.chargesTitle}
                   getOptionValue={(op) => op}
-                  value={values.subPlan || ""}
+                // value={values.subPlan || ""}
                 />
                 <Error field="subPlan" />
               </div>
