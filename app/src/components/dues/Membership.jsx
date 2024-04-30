@@ -96,31 +96,38 @@ const Membership = (props) => {
   };
 
   const handleForm = (e) => {
+    const
+      plan = document.querySelector('#plan input'),
+      subPlan = document.querySelector('#subPlan input');
+
+    console.log(plan.value, subPlan);
+    // e.preventDefault();
+    // handleSubmit();
+    // if (isValid) {
+    //   getMembership({
+    //     membershipChargesId: values.subPlan.membershipChargesId,
+    //     membershipTypeId: values.plan.membershipTypeId,
+    //     // serviceAward: values.service.value,
+    //     serviceAward: "NotApplicable",
+    //   })
+    //     .then((res) => {
+    //       if (res.success === 1) {
+    //         setData(res.data);
+    //         setLoader(false);
+    //         setOpen(!isOpen);
+    //       } else {
+    //         setLoader(false);
+    //         ToastsStore.error(res.message);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //       setLoader(false);
+    //       ToastsStore.error("Something went wrong!");
+    //     });
+    // }
     e.preventDefault();
-    handleSubmit();
-    if (isValid) {
-      getMembership({
-        membershipChargesId: values.subPlan.membershipChargesId,
-        membershipTypeId: values.plan.membershipTypeId,
-        // serviceAward: values.service.value,
-        serviceAward: "NotApplicable",
-      })
-        .then((res) => {
-          if (res.success === 1) {
-            setData(res.data);
-            setLoader(false);
-            setOpen(!isOpen);
-          } else {
-            setLoader(false);
-            ToastsStore.error(res.message);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          setLoader(false);
-          ToastsStore.error("Something went wrong!");
-        });
-    }
+    return false;
   };
 
 
