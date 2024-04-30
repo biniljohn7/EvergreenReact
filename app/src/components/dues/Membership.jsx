@@ -43,6 +43,8 @@ const Membership = (props) => {
   const [isOpen, setOpen] = useState(false);
   const [data, setData] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [PkdPlan, setPkdPlan] = useState(false);
+  const [PkdSubPlan, setPkdSubPlan] = useState(false);
 
   const {
     values,
@@ -66,7 +68,7 @@ const Membership = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        // console.error(err);
         if (err.response) {
           if (err.response.status === 401) {
             props.logout();
@@ -96,36 +98,36 @@ const Membership = (props) => {
   };
 
   const handleForm = (e) => {
-    const
-      plan = document.querySelector('#plan input'),
-      subPlan = document.querySelector('#subPlan input');
-
-    console.log(plan.value, subPlan);
-    // e.preventDefault();
-    // handleSubmit();
-    // if (isValid) {
-    //   getMembership({
-    //     membershipChargesId: values.subPlan.membershipChargesId,
-    //     membershipTypeId: values.plan.membershipTypeId,
-    //     // serviceAward: values.service.value,
-    //     serviceAward: "NotApplicable",
-    //   })
-    //     .then((res) => {
-    //       if (res.success === 1) {
-    //         setData(res.data);
-    //         setLoader(false);
-    //         setOpen(!isOpen);
-    //       } else {
-    //         setLoader(false);
-    //         ToastsStore.error(res.message);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //       setLoader(false);
-    //       ToastsStore.error("Something went wrong!");
-    //     });
-    // }
+    if (PkdPlan && PkdSubPlan) {
+      // e.preventDefault();
+      // handleSubmit();
+      // if (isValid) {
+      Spn.Show();
+      getMembership({
+        membershipTypeId: PkdPlan,
+        membershipChargesId: PkdSubPlan.membershipChargesId,
+        // serviceAward: values.service.value,
+        serviceAward: "NotApplicable",
+      })
+        .then((res) => {
+          if (res.success === 1) {
+            setData(res.data);
+            setOpen(!isOpen);
+            //         setLoader(false);
+          } else {
+            //         setLoader(false);
+            //         ToastsStore.error(res.message);
+          }
+        })
+        .catch((err) => {
+          //       console.error(err);
+          //       setLoader(false);
+          //       ToastsStore.error("Something went wrong!");
+        }).finally(() => {
+          Spn.Hide();
+        });
+      // }
+    }
     e.preventDefault();
     return false;
   };
@@ -190,10 +192,16 @@ const Membership = (props) => {
                   // setFieldTouched("plan", true, true);
                   // setFieldValue("plan", selectedOp);
                   // setFieldTouched("subPlan", true, true);
-                  // setFieldValue("subPlan", "");
-                  if (selectedOp && selectedOp.membershipTypeId) {
+                  if (
+                    selectedOp &&
+                    selectedOp.membershipTypeId
+                  ) {
                     Spn.Show();
-                    // ShowSpinner();
+
+                    setPkdPlan(selectedOp.membershipTypeId);
+                    setPkdSubPlan(false);
+                    // setFieldValue("subPlan", "");
+
                     getAttachment(selectedOp.membershipTypeId)
                       .then((res) => {
                         setSubDropdown(res.data || []);
@@ -204,7 +212,6 @@ const Membership = (props) => {
                       })
                       .finally(() => {
                         Spn.Hide();
-                        //     setLoader(false);
                       });
                   }
                 }}
@@ -243,34 +250,43 @@ const Membership = (props) => {
                     }),
                   }}
                   onChange={(selectedOp) => {
+                    setPkdSubPlan(selectedOp);
                     // setFieldTouched("subPlan", true, true);
                     // setFieldValue("subPlan", selectedOp);
                   }}
                   getOptionLabel={(op) => op.chargesTitle}
                   getOptionValue={(op) => op}
+                  value={PkdSubPlan}
+                // value={{ value: 'orange', label: 'Orange' }}
+                // value={values.subPlan}
                 // value={values.subPlan || ""}
                 />
                 <Error field="subPlan" />
               </div>
             )}
 
-            <div className="text-center mt-50">
-              <button
-                type="button"
-                className="btn btn-rounded button plr-50 ptb-10"
-                onClick={(e) => handleForm(e)}
-              // disabled={loader}
-              >
-                NEXT
-              </button>
-            </div>
+            {
+              PkdPlan && PkdSubPlan ?
+                <div className="text-center mt-50">
+                  <button
+                    type="button"
+                    className="btn btn-rounded button plr-50 ptb-10"
+                    onClick={(e) => handleForm(e)}
+                  >
+                    NEXT
+                  </button>
+                </div> :
+                null
+            }
           </form>
         </div>
       </div>
       {data && isOpen && (
         <Modal
           isOpen={isOpen}
-          toggle={() => setOpen(!isOpen)}
+          toggle={() => {
+            setOpen(!isOpen)
+          }}
           data={data}
           membershipValue={values}
           changeURL={props.history.push}

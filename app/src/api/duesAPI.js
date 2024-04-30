@@ -48,7 +48,7 @@ export const applyCode = (code) => {
 export const getMembership = (body) => {
   setHeaders();
   return axios
-    .post(`${BASE_URL}/dues/payment-summary`, body)
+    .post(`${BASE_URL}/member/?method=payment-summary`, body)
     .then((response) => {
       return response.data;
     });
@@ -56,7 +56,7 @@ export const getMembership = (body) => {
 
 export const addMembership = (body) => {
   setHeaders();
-  return axios.post(`${BASE_URL}/member/membership`, body).then((response) => {
+  return axios.post(`${BASE_URL}/member/?method=membership`, body).then((response) => {
     return response.data;
   });
 };

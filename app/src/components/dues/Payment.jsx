@@ -98,8 +98,6 @@ const PaymentSummary = (props) => {
         centered
         size="lg"
         className="signup"
-        backdrop="static"
-        keyboard={false}
       >
         <Wrapper>
           <div
