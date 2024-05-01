@@ -21,6 +21,7 @@ const input = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         value={props.value}
+        style={props.style}
         className={[
           'inputmain pa-10',
           props.contentFontSize,

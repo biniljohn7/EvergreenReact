@@ -15,6 +15,8 @@ const PaymentSummary = (props) => {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [discount, setDiscount] = useState(0);
+  const [ErrorList, setErrorList] = useState({});
+  const [DonationInp, setDonationInp] = useState({})
 
   const {
     values,
@@ -27,56 +29,91 @@ const PaymentSummary = (props) => {
     handleChange,
   } = props;
 
-  const Error = (props) => {
-    const field1 = props.field;
-    if ((errors[field1] && touched[field1]) || submitCount > 0) {
-      return <div className="text-danger">{errors[field1]}</div>;
-    } else {
-      return <div />;
-    }
+  const Error = ({ field }) => {
+    return ErrorList[field] ?
+      <div className="text-danger">
+        {ErrorList[field]}
+      </div> :
+      <></>;
   };
   const handleForm = (e) => {
+    function el(id) {
+      return document.getElementById(id);
+    }
+    function isNum(num) {
+      if (num) {
+        num = Number(num);
+        if (!isNaN(num) && num > 0.01) {
+          return true;
+        }
+      }
+      return false;
+    }
     if (step === 1) {
-      handleSubmit(e);
-      if (isValid) {
+      let
+        sErrs = {},
+        locAmount = el('localAmount').value.trim(),
+        natAmount = el('nationalAmount').value.trim();
+
+      if (
+        el('isLocal').checked &&
+        !isNum(locAmount)
+      ) {
+        sErrs['amountLocal'] = 'Invalid amount';
+      }
+      if (
+        el('isNational').checked &&
+        !isNum(natAmount)
+      ) {
+        sErrs['amountNational'] = 'Invalid amount';
+      }
+      setErrorList(sErrs);
+
+      if (Object.keys(sErrs).length < 1) {
+        setDonationInp({
+          loc: Number(locAmount),
+          nat: Number(natAmount)
+        });
         setStep(2);
       }
+
     } else if (step === 2) {
-      setLoading(true);
-      addMembership({
-        membershipTypeId: props.membershipValue.plan.membershipTypeId,
-        recurring: isChecked,
-        membershipChargesId: props.membershipValue.subPlan.membershipChargesId,
-        serviceAward: props.membershipValue.service.value,
-        chapterDonation: values.localAmount ? values.localAmount : 0,
-        nationDonation: values.nationalAmount ? values.nationalAmount : 0,
-        year: 1,
-        currency: "USD",
-      })
-        .then((res) => {
-          if (res.success === 1) {
-            // window.location.href =  res.data.paymentUrl
-            props.changeURL(res.data.paymentUrlForWebsite, {
-              fromWebsite: true,
-              referralCode: code,
-            });
-          } else {
-            ToastsStore.error(res.message);
-          }
-        })
-        .catch((err) => {
-          console.error(err);
-          ToastsStore.error("Something went wrong!");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      alert('Step 2 codes');
+      // setLoading(true);
+      // addMembership({
+      //   membershipTypeId: props.membershipValue.plan.membershipTypeId,
+      //   recurring: isChecked,
+      //   membershipChargesId: props.membershipValue.subPlan.membershipChargesId,
+      //   serviceAward: props.membershipValue.service.value,
+      //   chapterDonation: DonationInp.loc ? DonationInp.loc : 0,
+      //   nationDonation: DonationInp.nat ? DonationInp.nat : 0,
+      //   year: 1,
+      //   currency: "USD",
+      // })
+      //   .then((res) => {
+      //     if (res.success === 1) {
+      //       // window.location.href =  res.data.paymentUrl
+      //       props.changeURL(res.data.paymentUrlForWebsite, {
+      //         fromWebsite: true,
+      //         referralCode: code,
+      //       });
+      //     } else {
+      //       ToastsStore.error(res.message);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.error(err);
+      //     ToastsStore.error("Something went wrong!");
+      //   })
+      //   .finally(() => {
+      //     setLoading(false);
+      //   });
     }
   };
 
   const GetCharge = () => {
-    const localAmount = values.localAmount || 0;
-    const nationalAmount = values.nationalAmount || 0;
+    const localAmount = DonationInp.loc || 0;
+    const nationalAmount = DonationInp.nat || 0;
     const total = (
       parseFloat(props.data.totalCharges) +
       parseFloat(localAmount) +
@@ -170,7 +207,7 @@ const PaymentSummary = (props) => {
                         <Checkbox
                           id="isLocal"
                           name="isLocal"
-                          checked={values.isLocal}
+                          // checked={ChkSecDonation}
                           // onChange={(e) => {
                           //   if (localChecked) {
                           //     document.getElementById('local_error').innerHTML = ''
@@ -182,27 +219,35 @@ const PaymentSummary = (props) => {
                           // }}
                           onChange={(e) => {
                             // setFieldTouched('isLocal',true,true)
-                            handleChange(e);
+                            // console.log(e);
+                            // setChkSecDonation(!ChkSecDonation)
+                            // handleChange(e);
+                            let inp = document.getElementById('localAmount');
+                            inp.style.display = e.target.checked ? '' : 'none';
+                            if (e.target.checked) {
+                              inp.focus();
+                            }
                           }}
                           label="Section Donation"
                         />
-                        {values.isLocal && (
-                          <Input
-                            type="number"
-                            placeholder="Enter Amount"
-                            id="localAmount"
-                            value={values.localAmount}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                        )}
-                        <Error field="localAmount" />
+                        {/* {values.isLocal && ( */}
+                        <Input
+                          type="number"
+                          style={{ display: 'none' }}
+                          placeholder="Enter Amount"
+                          id="localAmount"
+                        // value={DonationInp.loc}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        />
+                        {/* )} */}
+                        <Error field="amountLocal" />
                       </>
                       <>
                         <Checkbox
                           id="isNational"
                           name="isNational"
-                          checked={values.isNational}
+                          // checked={values.isNational}
                           // onChange={(e) => {
                           //   if (nationalChecked) {
                           //     document.getElementById('national_error').innerHTML = ''
@@ -212,21 +257,29 @@ const PaymentSummary = (props) => {
                           //   }
                           //   setNational(!nationalChecked)
                           // }}
-                          onChange={handleChange}
+                          // onChange={handleChange}
+                          onChange={function (e) {
+                            let inp = document.getElementById('nationalAmount');
+                            inp.style.display = e.target.checked ? '' : 'none';
+                            if (e.target.checked) {
+                              inp.focus();
+                            }
+                          }}
                           margin="mt-15"
                           label="National Donation"
                         />
-                        {values.isNational && (
-                          <Input
-                            type="number"
-                            placeholder="Enter Amount"
-                            id="nationalAmount"
-                            value={values.nationalAmount}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
-                        )}
-                        <Error field="nationalAmount" />
+                        {/* {values.isNational && ( */}
+                        <Input
+                          type="number"
+                          placeholder="Enter Amount"
+                          id="nationalAmount"
+                          // value={values.nationalAmount}
+                          style={{ display: 'none' }}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        />
+                        {/* )} */}
+                        <Error field="amountNational" />
                       </>
                     </>
                   </>
@@ -294,19 +347,20 @@ const PaymentSummary = (props) => {
                       ${props.data.totalCharges.toFixed(2)}
                     </span>
                   </div>
-                  {values.localAmount ? (
+                  {console.log(DonationInp)}
+                  {DonationInp.loc ? (
                     <div className="pb-7">
                       Section Donation:
                       <span className="float-right text-dark">
-                        ${values.localAmount.toFixed(2)}
+                        ${DonationInp.loc.toFixed(2)}
                       </span>
                     </div>
                   ) : null}
-                  {values.nationalAmount ? (
+                  {DonationInp.nat ? (
                     <div className="pb-7">
                       National Donation:
                       <span className="float-right text-dark">
-                        ${values.nationalAmount.toFixed(2)}
+                        ${DonationInp.nat.toFixed(2)}
                       </span>
                     </div>
                   ) : null}
