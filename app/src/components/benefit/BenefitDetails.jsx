@@ -95,19 +95,19 @@ const Benefit = (props) => {
                 <Link
                   to={{
                     pathname:
-                      '/benefits/' + benefit.categoryName.replaceAll('/', ' '),
+                      '/benefits/' + (benefit ? benefit.categoryName : '').replaceAll('/', ' '),
                     state: {
-                      categoryId: benefit.categoryId,
-                      name: benefit.categoryName,
+                      categoryId: benefit ? benefit.categoryId : '',
+                      name: (benefit ? benefit.categoryName : ''),
                     },
                   }}
                   className="text-white"
                 >
-                  {benefit.categoryName}
+                  {benefit ? benefit.categoryName : ''}
                 </Link>
               </BreadcrumbItem>
               <BreadcrumbItem active className="text-white">
-                {benefit.shortDetails.substr(0, TEXT_LENGTH) + '...'}
+                {benefit ? (benefit.shortDetails.substr(0, TEXT_LENGTH) + '...') : ''}
               </BreadcrumbItem>
             </Breadcrumb>
           </div>

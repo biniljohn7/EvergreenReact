@@ -84,11 +84,16 @@ const Benefit = (props) => {
                   className="search"
                   onEnter={searchBenefit}
                 />
-                <i
+                {/* <i
                   className="fa fa-search eye pwd cursor-pointer"
                   id="benefit_search_apply"
                   onClick={searchBenefit}
-                ></i>
+                ></i> */}
+                <span 
+                  className="material-symbols-outlined eye pwd cursor-pointer"
+                  id="benefit_search_apply"
+                  onClick={searchBenefit}
+                >search</span>
               </div>
             </div>
             {category && category.length > 0 ? (

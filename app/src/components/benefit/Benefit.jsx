@@ -81,14 +81,14 @@ const Benefit = (props) => {
             </Link>
           </BreadcrumbItem>
           <BreadcrumbItem active className="text-white">
-            {props.location.state.name}
+            {props.location.state ? (props.location.state.name || '') : ''}
           </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <div className="benefits-section inner-benefits inner-section">
         <div className="head-box">
             <div className="container">
-                <h2>{props.location.state.name || ''}</h2>
+                <h2>{props.location.state ? (props.location.state.name || '') : ''}</h2>
             </div>
         </div>
 

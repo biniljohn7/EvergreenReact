@@ -7,7 +7,7 @@ import AuthActions from '../../redux/auth/actions'
 import { connect } from 'react-redux'
 import { Spinner } from 'reactstrap'
 const { logout } = AuthActions
-const queryString = require('query-string')
+//const queryString = require('query-string')
 
 const COL_NO = window.innerWidth < 768 ? 1 : 2
 const COL_WIDTH = window.innerWidth < 768 ? '100%' : '50%'
@@ -20,7 +20,7 @@ const SearchBenefit = (props) => {
   const [totalPage, setTotalPage] = useState(0)
 
   useEffect(() => {
-    const search = '';//queryString.parse(props.location.search).text
+    const search = props.location.search.split('=')[1] || '';
 
     if (search && search !== '') {
       searchBenefit({
@@ -57,7 +57,9 @@ const SearchBenefit = (props) => {
           }
         })
     } else {
-      // props.replace({ pathname: '/benefits' })
+      props.history.replace({
+        pathname: '/benefits',
+      })
     }
   }, [currentPage])
 
