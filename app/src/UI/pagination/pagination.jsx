@@ -6,10 +6,8 @@ const pagination = (props) => {
   return (
     <PaginationWrapper>
       <Pagination
-        prevPageText={<i className="fa fa-chevron-left" aria-hidden="true"></i>}
-        nextPageText={
-          <i className="fa fa-chevron-right" aria-hidden="true"></i>
-        }
+        prevPageText={<span className="material-symbols-outlined">chevron_left</span>}
+        nextPageText={<span className="material-symbols-outlined">chevron_right</span>}
         hideFirstLastPages
         activePage={props.activePage}
         itemsCountPerPage={parseInt(props.count)}
