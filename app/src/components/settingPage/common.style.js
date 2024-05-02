@@ -48,6 +48,16 @@ const CommonWrapper = styled.div`
     // object-fit: contain;
   }
 
+  .mamber-pic {
+    position: relative;
+    height: 122px;
+  }
+
+  .star-icn {
+    right: 25px;
+    bottom: 5px
+  }
+
   .active {
     background-color: #f5f4f4;
     // background-color: #e7efff;
