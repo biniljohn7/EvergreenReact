@@ -56,7 +56,7 @@ export const getMembership = (body) => {
 
 export const addMembership = (body) => {
   setHeaders();
-  return axios.post(`${BASE_URL}/member/?method=membership`, body).then((response) => {
+  return axios.post(`${BASE_URL}/member/?method=membership-add`, body).then((response) => {
     return response.data;
   });
 };

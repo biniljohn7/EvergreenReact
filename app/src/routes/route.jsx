@@ -155,15 +155,15 @@ function Routes() {
         )}
       />
 
-      <Route 
-        exact 
-        path="/verification/:t" 
+      <Route
+        exact
+        path="/verification/:t"
         render={(props) => (
-            <PageContainer>
-                <AccountVerification {...props} />
-            </PageContainer>
-        )} 
-    />
+          <PageContainer>
+            <AccountVerification {...props} />
+          </PageContainer>
+        )}
+      />
 
       <Route path="/" render={(props) => <ExtraRoutes />} />
     </Switch>

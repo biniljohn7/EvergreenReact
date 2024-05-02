@@ -57,6 +57,8 @@ const Membership = (props) => {
     isValid,
   } = props;
 
+  console.log(props);
+
   let Spn = Spinner();
 
 
