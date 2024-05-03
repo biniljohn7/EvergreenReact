@@ -8,6 +8,7 @@ import { payment as enhancer } from "./enhancer";
 import { applyCode } from "../../api/duesAPI";
 import { ToastsStore } from "react-toasts";
 import { addMembership } from "../../api/duesAPI";
+import Spinner from "../../UI/Spinner/Spinner";
 
 const PaymentSummary = (props) => {
   const [code, setCode] = useState("");
@@ -28,6 +29,8 @@ const PaymentSummary = (props) => {
     isValid,
     handleChange,
   } = props;
+
+  let Spn = Spinner();
 
   const Error = ({ field }) => {
     return ErrorList[field] ?
@@ -78,36 +81,38 @@ const PaymentSummary = (props) => {
       }
 
     } else if (step === 2) {
-      alert('Step 2 codes');
-      // setLoading(true);
-      // addMembership({
-      //   membershipTypeId: props.membershipValue.plan.membershipTypeId,
-      //   recurring: isChecked,
-      //   membershipChargesId: props.membershipValue.subPlan.membershipChargesId,
-      //   serviceAward: props.membershipValue.service.value,
-      //   chapterDonation: DonationInp.loc ? DonationInp.loc : 0,
-      //   nationDonation: DonationInp.nat ? DonationInp.nat : 0,
-      //   year: 1,
-      //   currency: "USD",
-      // })
-      //   .then((res) => {
-      //     if (res.success === 1) {
-      //       // window.location.href =  res.data.paymentUrl
-      //       props.changeURL(res.data.paymentUrlForWebsite, {
-      //         fromWebsite: true,
-      //         referralCode: code,
-      //       });
-      //     } else {
-      //       ToastsStore.error(res.message);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.error(err);
-      //     ToastsStore.error("Something went wrong!");
-      //   })
-      //   .finally(() => {
-      //     setLoading(false);
-      //   });
+      Spn.Show();
+      addMembership({
+        membershipTypeId: props.data.type,
+        recurring: isChecked,
+        membershipChargesId: props.data.id,
+        //   serviceAward: props.membershipValue.service.value,
+        chapterDonation: DonationInp.loc,
+        nationDonation: DonationInp.nat,
+        // year: 1,
+        // currency: "USD",
+      })
+        .then((res) => {
+          if (res.success === 1) {
+            //       // window.location.href =  res.data.paymentUrl
+            props.changeURL(
+              res.data.paymentUrlForWebsite,
+              {
+                fromWebsite: true,
+                referralCode: code,
+              }
+            );
+          } else {
+            //       ToastsStore.error(res.message);
+          }
+        })
+        //   .catch((err) => {
+        //     console.error(err);
+        //     ToastsStore.error("Something went wrong!");
+        //   })
+        .finally(() => {
+          Spn.Hide()
+        });
     }
   };
 
@@ -125,6 +130,7 @@ const PaymentSummary = (props) => {
 
   return (
     <div>
+      {Spn.Obj}
       <div
         className="bg-light"
         style={{ height: window.innerHeight + "px" }}
@@ -219,7 +225,6 @@ const PaymentSummary = (props) => {
                           // }}
                           onChange={(e) => {
                             // setFieldTouched('isLocal',true,true)
-                            // console.log(e);
                             // setChkSecDonation(!ChkSecDonation)
                             // handleChange(e);
                             let inp = document.getElementById('localAmount');
@@ -347,7 +352,6 @@ const PaymentSummary = (props) => {
                       ${props.data.totalCharges.toFixed(2)}
                     </span>
                   </div>
-                  {console.log(DonationInp)}
                   {DonationInp.loc ? (
                     <div className="pb-7">
                       Section Donation:
@@ -382,6 +386,7 @@ const PaymentSummary = (props) => {
                     name="terms"
                     checked={isChecked}
                     onChange={(e) => {
+                      // 
                       // if (isChecked) {
                       //   document.getElementById('term_condition').innerHTML =
                       //     'This field is required'
