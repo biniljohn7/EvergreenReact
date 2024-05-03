@@ -99,11 +99,12 @@ const Home = (props) => {
                           key={ev.newsfeedId}
                         >
                             <div className="image-box">
-                              <img
+                            {ev.media?
+                              (<img
                                 src={ev.media}
                                 alt={ev.title.substr(0, 10) + "..."}
                                 className="image-sizes"
-                              />
+                              />):null}
                             </div>
                             
                             <h2>
@@ -339,11 +340,12 @@ const Home = (props) => {
                                 )
                               }
                             >
-                              <img
+                                {ev.image?
+                              (<img
                                     src={ev.image}
                                     alt={ev.name.substr(0, 10) + "..."}
                                     className="image-sizes"
-                                  />
+                                  />):null}
 
                                
                                 
@@ -590,11 +592,12 @@ const Home = (props) => {
                                 }
                               >
                                 <div className="image-box">
-                                  <img
+                                {ev.image?
+                                (<img
                                     src={ev.image}
                                     alt={ev.title.substr(0, 10) + "..."}
                                     className="image-sizes"
-                                  />
+                                  />):null}
                                 </div>
                                 <h2 className="">
                                   {/* <h6 className="text-bold">{ev.title}</h6> */}

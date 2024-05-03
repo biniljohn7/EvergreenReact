@@ -117,10 +117,12 @@ const Career = (props) => {
                           }
                         >
                           <div className="per career-bg">
-                            <img
-                              alt=''
-                              src={car.image}
-                            />
+                            {car.image ? (
+                                <img
+                                alt=''
+                                src={car.image}
+                                />
+                            ) : null}
                           </div>
                           <div className="title">
                             {car.title}
