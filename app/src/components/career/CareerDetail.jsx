@@ -71,12 +71,14 @@ const Career = (props) => {
             ) : (
               <React.Fragment>
                 <section>
-                  <img
-                    src={career.image}
-                    // src={CareerImage}
-                    className="full-image"
-                    alt={career.title.substr(0, 10) + '...'}
-                  />
+                  {career.image?(
+                    <img
+                        src={career.image}
+                        // src={CareerImage}
+                        className="full-image"
+                        alt={career.title.substr(0, 10) + '...'}
+                    />
+                  ):null}
                 </section>
                 <section className="row mt-30">
                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">

@@ -70,11 +70,13 @@ const Event = (props) => {
             ) : (
               <React.Fragment>
                 <section>
-                  <img
-                    src={event.image}
-                    className="full-image"
-                    alt={event.title.substr(0, 10) + "..."}
-                  />
+                    {event.image ? (
+                        <img
+                        src={event.image}
+                        className="full-image"
+                        alt={event.title.substr(0, 10) + "..."}
+                        />
+                    ) : null}
                 </section>
                 <section className="row mt-30">
                   <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9">
