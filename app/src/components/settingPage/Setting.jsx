@@ -159,13 +159,13 @@ const Setting = (props) => {
                       alt="profile_pic"
                       className="profile_pic"
                     />
-                    {/* <label className="position-relative"> */}
+                    <label className="position-relative">
                       {/* <img
                         src={CameraIcon}
                         alt="change"
                         className="position-absolute camera cursor-pointer"
-                      /> */}
-                      <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 star-icn">
+                      /> */}                      
+                      <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
                         {/* <i className="fa fa-star fs-20" aria-hidden="true"></i> */}
                         <span className="material-symbols-outlined fs-22">star</span>
                       </div>
@@ -238,7 +238,7 @@ const Setting = (props) => {
                             });
                         }}
                       />
-                    {/* </label> */}
+                    </label>
                   </div>
                   <div className="text-bold fs-20 pt-7">
                     {(profile.profile.prefix
@@ -504,14 +504,14 @@ const Setting = (props) => {
                         alt="profile_pic"
                         className="profile_pic"
                       />
-                      {/* <label className="position-relative"> */}
+                      <label className="position-relative"> 
                         {/* <img
                     src={CameraIcon}
                     alt="change"
                     className="position-absolute camera cursor-pointer"
                   /> */}
 
-                        <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 star-icn">
+                        <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
                           <i
                             className="fa fa-star fs-20"
                             aria-hidden="true"
@@ -563,7 +563,7 @@ const Setting = (props) => {
                               });
                           }}
                         />
-                      {/* </label> */}
+                      </label>
                     </div>
                     <div className="text-bold fs-20 pt-7">
                       {(profile.profile.prefix
