@@ -9,6 +9,8 @@ import {
 } from "../../api/duesAPI";
 import { ToastsStore } from "react-toasts";
 import { Modal, Spinner } from "reactstrap";
+import Pix from "../../helper/Pix";
+
 import Echeck from "../../assets/images/e_check.png";
 import Express from "../../assets/images/express.png";
 import Discover from "../../assets/images/discover.png";
@@ -109,7 +111,7 @@ const Dues = (props) => {
                               National Dues
                             </td>
                             <td className="text-right">
-                              ${(data.nationalDues || 0).toFixed(2)}
+                              {Pix.dollar(data.nationalDues || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -117,7 +119,7 @@ const Dues = (props) => {
                               Section Dues
                             </td>
                             <td className="text-right">
-                              ${(data.localDues || 0).toFixed(2)}
+                              {Pix.dollar(data.localDues || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -125,7 +127,7 @@ const Dues = (props) => {
                               Payment Processing Fee
                             </td>
                             <td className="text-right">
-                              ${(data.nationalLateFee || 0).toFixed(2)}
+                              {Pix.dollar(data.nationalLateFee || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -133,7 +135,7 @@ const Dues = (props) => {
                               Section Donation
                             </td>
                             <td className="text-right">
-                              ${(data.chapterDonation || 0).toFixed(2)}
+                              {Pix.dollar(data.chapterDonation || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -141,7 +143,7 @@ const Dues = (props) => {
                               National Donation
                             </td>
                             <td className="text-right">
-                              ${(data.nationDonation || 0).toFixed(2)}
+                              {Pix.dollar(data.nationDonation || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -149,7 +151,7 @@ const Dues = (props) => {
                               Total
                             </td>
                             <td className="text-right text-12 bold-600">
-                              ${(data.totalAmount || 0).toFixed(2)}
+                              {Pix.dollar(data.totalAmount || 0, 1)}
                             </td>
                           </tr>
                         </table>
@@ -237,7 +239,7 @@ const Dues = (props) => {
                           <div>
                             {new Date(el.paidAt).toLocaleDateString("en-US")}
                           </div>
-                          {el.totalAmount}
+                          {Pix.dollar(el.totalAmount, 1)}
                         </div>;
                       });
                     } else {
