@@ -9,6 +9,8 @@ import {
 } from "../../api/duesAPI";
 import { ToastsStore } from "react-toasts";
 import { Modal, Spinner } from "reactstrap";
+import Pix from "../../helper/Pix";
+
 import Echeck from "../../assets/images/e_check.png";
 import Express from "../../assets/images/express.png";
 import Discover from "../../assets/images/discover.png";
@@ -50,116 +52,6 @@ const Dues = (props) => {
     },
   ];
 
-  // useEffect(() => {
-  //   setLoading(true);
-
-  //   viewPaymentHistory()
-  //     .then((res) => {
-  //       if (res.success === 1) {
-  //         setHistoryData(res.data);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //       ToastsStore.error("Something went wrong!");
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-  // const handleManageCard = () => {
-  //   return (
-  //     <>
-  //       {isOpen && (
-  //         <div>
-  //           {/* <div
-  //             className="bg-light"
-  //             style={{ height: window.innerHeight + "px" }}
-  //           ></div> */}
-  //           <Modal
-  //             isOpen={isOpen}
-  //             toggle={() => {
-  //               setOpen(!isOpen);
-  //             }}
-  //             centered
-  //             size="lg"
-  //             className="manageCard"
-  //           >
-  //             <Wrapper>
-  //               <div className="ptb-30 plr-20 position-relative">
-  //                 <label
-  //                   className="cancel text-bold cursor-pointer"
-  //                   onClick={() => {
-  //                     setOpen(!isOpen);
-  //                   }}
-  //                 >
-  //                   X
-  //                 </label>
-  //                 <h4 className="mb-20 text-bold">Manage Cards</h4>
-  //                 {/* {FILTER.map((f, index) => {
-  //                   return (
-  //                     <RadioButton
-  //                       key={index}
-  //                       id={f}
-  //                       name="filter_option"
-  //                       value={f}
-  //                       checked={tempState === f}
-  //                       label={f}
-  //                       padding="ptb-5"
-  //                       onChange={(e) => setState(f)}
-  //                     />
-  //                   );
-  //                 })} */}
-  //                 <div className="text-center">
-  //                   <Button
-  //                     className="mt-20 plr-50"
-  //                     name="SET"
-  //                     clicked={(e) => {
-  //                       // setPage(1);
-  //                       // setTotalPage(0);
-  //                       // setSearch("");
-  //                       // setFilter(tempState);
-  //                       setOpen(!isOpen);
-  //                     }}
-  //                   />
-  //                 </div>
-  //               </div>
-  //             </Wrapper>
-  //           </Modal>
-  //         </div>
-  //       )}
-  //     </>
-  //   );
-  // };
-
-  const isMembershipExpiredAPI = (membershipId) => {
-    isMembershipExpired(membershipId)
-      .then((res) => {
-        res.data.success === 0 && ToastsStore.error(res.data.message);
-        res.data.success === 1 && props.history.push("/dues/membership");
-      })
-      .catch((err) => {
-        console.error(err);
-        if (err.response) {
-          if (err.response.status === 401) {
-            props.logout();
-            ToastsStore.error("Session Expire! Please login again.");
-            setTimeout(() => props.history.replace("/signin"), 800);
-          } else {
-            setLoading(false);
-            ToastsStore.error("Something went wrong!");
-          }
-        } else if (err.request) {
-          setLoading(false);
-          ToastsStore.error("Unable to connect to server!");
-        } else {
-          setLoading(false);
-          ToastsStore.error("Something went wrong!");
-        }
-      });
-  };
-
   useEffect(() => {
     setLoading(true);
     viewMemebership()
@@ -198,35 +90,6 @@ const Dues = (props) => {
     </div>
   ) : (
     <Wrapper>
-
-      {/* <div className="row site-spacing ptb-70">
-        <div
-          className={
-            "col-12 col-sm-12 col-md-12 col-lg-8 col-xl-6" +
-            (window.innerWidth <= 1024 ? " col-lg-12" : "")
-          }
-        > */}
-      {/* <div className="text-center mt-15">
-            <Button
-              className="button ptb-15"
-              name="Manage Card"
-              clicked={() => {
-                setOpen(!isOpen);
-                handleManageCard();
-              }}
-            />
-          </div> */}
-
-      {/* {data.totalSavedCard>0 && <div className="text-center mt-15">
-            <Button
-              className="button ptb-15"
-              name="MANAGE CARDS"
-              
-            />
-          </div>} */}
-      {/* </div>
-      </div> */}
-
       <div className="due-section">
         <div className="head-box">
           <div className="container">
@@ -248,7 +111,7 @@ const Dues = (props) => {
                               National Dues
                             </td>
                             <td className="text-right">
-                              ${(data.nationalDues || 0).toFixed(2)}
+                              {Pix.dollar(data.nationalDues || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -256,7 +119,7 @@ const Dues = (props) => {
                               Section Dues
                             </td>
                             <td className="text-right">
-                              ${(data.localDues || 0).toFixed(2)}
+                              {Pix.dollar(data.localDues || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -264,7 +127,7 @@ const Dues = (props) => {
                               Payment Processing Fee
                             </td>
                             <td className="text-right">
-                              ${(data.nationalLateFee || 0).toFixed(2)}
+                              {Pix.dollar(data.nationalLateFee || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -272,7 +135,7 @@ const Dues = (props) => {
                               Section Donation
                             </td>
                             <td className="text-right">
-                              ${(data.chapterDonation || 0).toFixed(2)}
+                              {Pix.dollar(data.chapterDonation || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -280,7 +143,7 @@ const Dues = (props) => {
                               National Donation
                             </td>
                             <td className="text-right">
-                              ${(data.nationDonation || 0).toFixed(2)}
+                              {Pix.dollar(data.nationDonation || 0, 1)}
                             </td>
                           </tr>
                           <tr>
@@ -288,24 +151,10 @@ const Dues = (props) => {
                               Total
                             </td>
                             <td className="text-right text-12 bold-600">
-                              ${(data.totalAmount || 0).toFixed(2)}
+                              {Pix.dollar(data.totalAmount || 0, 1)}
                             </td>
                           </tr>
                         </table>
-                        {/* 
-                        <div className="ptb-7">
-                          National Per Capital Fee:
-                          <span className="float-right text-dark">
-                            ${(data.nationalPerCapitalFee || 0).toFixed(2)}
-                          </span>
-                        </div>
-
-                        <div className="ptb-7">
-                          Reinstatement Fee:
-                          <span className="float-right text-dark">
-                            ${(data.nationalReinstatementFee || 0).toFixed(2)}
-                          </span>
-                        </div> */}
                       </>
                     } else {
                       return <div className="text-center">
@@ -336,7 +185,6 @@ const Dues = (props) => {
               <div className="input-btn">
                 <button className="btn"
                   onClick={() => {
-                    // isMembershipExpiredAPI(data.membershipId && data.membershipId);
                     props.history.push("/dues/membership");
                   }}
                 >
@@ -391,7 +239,7 @@ const Dues = (props) => {
                           <div>
                             {new Date(el.paidAt).toLocaleDateString("en-US")}
                           </div>
-                          {el.totalAmount}
+                          {Pix.dollar(el.totalAmount, 1)}
                         </div>;
                       });
                     } else {
