@@ -18,15 +18,6 @@ export const getMembershipType = () => {
     });
 };
 
-export const isMembershipExpired = (membershipId) => {
-  setHeaders();
-  return axios
-    .get(`${BASE_URL}/dues/isMembershipExpired?membershipId=${membershipId}`)
-    .then((response) => {
-      return response;
-    });
-};
-
 export const getAttachment = (id) => {
   setHeaders();
   return axios

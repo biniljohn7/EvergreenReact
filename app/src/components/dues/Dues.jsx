@@ -5,7 +5,6 @@ import {
   viewMemebership,
   cancelSubscription,
   viewPaymentHistory,
-  isMembershipExpired,
 } from "../../api/duesAPI";
 import { ToastsStore } from "react-toasts";
 import { Modal, Spinner } from "reactstrap";
