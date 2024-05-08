@@ -95,11 +95,11 @@ const AdvocacyDetails = (props) => {
             ) : (
               <React.Fragment>
                 <section>
-                  <img
+                  {advocacy.image?(<img
                     src={advocacy.image}
                     className="full-image"
                     alt={advocacy.title.substr(0, 10) + '...'}
-                  />
+                  />):null}
                 </section>
                 <section className="mt-30">
                   <label className="text-secondary">

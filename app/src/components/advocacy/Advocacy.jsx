@@ -109,11 +109,11 @@ const Advocacy = (props) => {
                       key={ev.advocacyId}
                     >
                       <div className="image-box">
-                        <img
+                        {ev.image?(<img
                           src={ev.image}
                           alt={ev.title.substr(0, 10) + '...'}
                           onClick={click}
-                        />
+                        />):null}
                       </div>
                       <h2>
                         {ev.title}
