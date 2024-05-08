@@ -17,6 +17,7 @@ import { chooseMembership as enhancer } from "./enhancer";
 import Modal from "./Payment";
 import Overlay from "react-loading-overlay";
 import Spinner from "../../UI/Spinner/Spinner";
+import Toast from "../../UI/Toast/Toast";
 
 const { logout } = AuthActions;
 
@@ -58,6 +59,7 @@ const Membership = (props) => {
   } = props;
 
   let Spn = Spinner();
+  let Tst = Toast();
 
 
   useEffect(() => {
@@ -142,6 +144,7 @@ const Membership = (props) => {
       {/* <Overlay active={loader} spinner={<Spinner />}> */}
       {/* <Overlay active={loader} spinner={true}> */}
       {Spn.Obj}
+      {Tst.Obj}
       <div className="red pt-20 bread-nav">
         <div className="container">
           <Breadcrumb>
@@ -281,6 +284,13 @@ const Membership = (props) => {
           </form>
         </div>
       </div>
+
+
+      <button onClick={function () {
+        Tst.Success('Your message goes here');
+      }}>Click Me</button>
+
+
       {data && isOpen && (
         <Modal
           isOpen={isOpen}
