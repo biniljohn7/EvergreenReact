@@ -85,11 +85,12 @@ const Payment = (props) => {
     if (!props.match.params.token) {
       props.history.replace("/");
     } else {
-      const error = window.WePay.configure(
-        WEPAY_ENV,
-        WEPAY_APP_ID,
-        WEPAY_VERSION
-      );
+      const error = false;
+      // const error = window.WePay.configure(
+      //   WEPAY_ENV,
+      //   WEPAY_APP_ID,
+      //   WEPAY_VERSION
+      // );
       if (error) {
         console.error(error);
         ToastsStore.error("Failed to load script");

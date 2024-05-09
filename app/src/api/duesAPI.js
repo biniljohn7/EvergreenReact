@@ -54,9 +54,10 @@ export const addMembership = (body) => {
 
 export const validateToken = (token) => {
   // setHeaders()
-  return axios.get(`${BASE_URL}/dues/verify/${token}`).then((response) => {
-    return response.data;
-  });
+  return axios.get(`${BASE_URL}/member/?method=txn-verify&token=${token}`).
+    then((response) => {
+      return response.data;
+    });
 };
 
 export const fetchStoredCard = (token) => {
