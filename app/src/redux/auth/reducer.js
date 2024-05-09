@@ -42,6 +42,11 @@ export default function rootReducer(state = initState, action) {
         ...state,
         ...action.data,
       }
+    case 'UPDATE_PROFILE_IMAGE':
+      return {
+        ...state,
+        profileImage: action.payload,
+      };
     default:
       return state
   }

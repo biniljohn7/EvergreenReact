@@ -19,8 +19,8 @@ import {
   uploadImage,
 } from "../../api/memberAPI";
 import { logout as logoutAPI } from "../../api/commonAPI";
-import { Spinner } from "reactstrap";
-import { ToastsStore } from "react-toasts";
+// import { Spinner, Toast } from "reactstrap";
+// import { ToastsStore } from "react-toasts";
 import ChangePassword from "./ChangePassword";
 import PrivacyPolicy from "../staticPage/PrivacyPolicy";
 import Terms from "../staticPage/Terms&Services";
@@ -29,8 +29,10 @@ import { HEADER_COLOR } from "../../helper/constant";
 import Profile from "./Profile";
 import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
-//import firebase from "../../firebaseChat";
+import { useDispatch } from 'react-redux';
 
+import Toast from "../../UI/Toast/Toast";
+import Spinner from "../../UI/Spinner/Spinner";
 const { logout, login } = AuthActions;
 
 const CHILD_STATE = {
@@ -83,6 +85,11 @@ const Setting = (props) => {
   const [profile, setProfile] = useState(null);
   const [photo, setPhoto] = useState(null);
 
+  const dispatch = useDispatch();
+
+  let Tst = Toast();
+  let Spn = Spinner();
+
   useEffect(() => {
     if (store.getState().auth.isLogin && store.getState().auth.accessToken) {
       viewProfile()
@@ -95,10 +102,12 @@ const Setting = (props) => {
           console.error(err);
           if (err.response && err.response.status === 401) {
             props.logout();
-            ToastsStore.error("Session Expire! Please login again.");
+            // ToastsStore.error("Session Expire! Please login again.");
+            Tst.Error('Session Expire! Please login again.');
             setTimeout(() => props.history.push("/signin"), 800);
           } else {
-            ToastsStore.error("Something Went Wrong!");
+            // ToastsStore.error("Something Went Wrong!");
+            Tst.Error('Something Went Wrong!');
             props.history.push("/home");
           }
         });
@@ -130,11 +139,14 @@ const Setting = (props) => {
   };
 
   return (
-    <Wrapper>
+    <>
+    {Tst.Obj}
+    {Spn.Obj}
+    <Wrapper>      
       {window.innerWidth > 800 ? (
         loading ? (
           <div className="custom-spinner">
-            <Spinner color="danger" />
+            {/* <Spinner color="danger" /> */}
           </div>
         ) : (
           <div className="row site-spacing ptb-50">
@@ -166,7 +178,6 @@ const Setting = (props) => {
                         className="position-absolute camera cursor-pointer"
                       /> */}                      
                       <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
-                        {/* <i className="fa fa-star fs-20" aria-hidden="true"></i> */}
                         <span className="material-symbols-outlined fs-22">star</span>
                       </div>
                       <input
@@ -176,7 +187,7 @@ const Setting = (props) => {
                         type="file"
                         accept="image/*"
                         onChange={(e) => {
-                          setLoading(true);
+                          Spn.Show();
                           const formData = new FormData();
                           formData.append("file", e.target.files[0]);
                           uploadImage(formData)
@@ -186,55 +197,15 @@ const Setting = (props) => {
                                 isLogin: true,
                                 profileImage: res.data.profileImage,
                               });
-                              try {
-                                /*let ref = firebase
-                                  .firestore()
-                                  .collection("users")
-                                  .doc(
-                                    store.getState().auth.memberId.toString()
-                                  );
-                                ref.update({
-                                  profileImage: res.data.profileImage || null,
-                                });
-
-                                // Update profile image using references
-                                ref
-                                  .get()
-                                  .then((doc) => {
-                                    if (doc.exists) {
-                                      const refArray = doc.data().userRef;
-                                      refArray.forEach((element) => {
-                                        element.update({
-                                          profileImage:
-                                            res.data.profileImage || null,
-                                        });
-                                      });
-                                    }
-                                  })
-                                  .catch((err) => {
-                                    console.error(
-                                      "Error getting document:",
-                                      err
-                                    );
-                                  });*/
-                                // .update({
-                                //   profileImage: res.data.profileImage || null,
-                                // })
-                              } catch (error) {
-                                console.error(
-                                  "Failed to update profile image in Firestore, ",
-                                  error
-                                );
-                              }
-                              ToastsStore.info(res.message);
-                              setLoading(false);
+                              dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
+                              
+                              Tst.Show(res.message);
+                              Spn.Hide();
                             })
                             .catch((err) => {
                               console.error(err);
-                              setLoading(false);
-                              ToastsStore.error(
-                                "Failed to upload the profile photo!"
-                              );
+                              Spn.Hide();
+                              Tst.Error('Failed to upload the profile photo!');
                             });
                         }}
                       />
@@ -262,7 +233,7 @@ const Setting = (props) => {
                   <div className="ml-15 text-bold">Notification</div>
                   <Switch
                     onChange={(checked) => {
-                      setLoading(true);
+                      Spn.Show();
                       updateNotificationStatus(checked)
                         .then((res) => {
                           setNotification(checked);
@@ -270,15 +241,13 @@ const Setting = (props) => {
                             isLogin: true,
                             isNotificationOn: checked,
                           });
-                          setLoading(false);
-                          ToastsStore.info(res.message);
+                          Spn.Hide();
+                          Tst.Show(res.message);
                         })
                         .catch((err) => {
                           console.error(err);
-                          setLoading(false);
-                          ToastsStore.error(
-                            "Failed to update the notification status!"
-                          );
+                          Spn.Hide();
+                          Tst.Error('Failed to update the notification status!');
                         });
                     }}
                     disabled={!store.getState().auth.isProfileCreated}
@@ -306,8 +275,6 @@ const Setting = (props) => {
                       key={i}
                     >
                       <img
-                        // height="23px"
-                        // width="23px"
                         height="25px"
                         width="25px"
                         src={el.icon}
@@ -335,17 +302,17 @@ const Setting = (props) => {
                   <label
                     className="ml-15 text-bold cursor-pointer"
                     onClick={(e) => {
-                      setLoading(true);
+                      Spn.Show();
                       logoutAPI()
                         .then((res) => {
                           props.logout();
-                          ToastsStore.info("You are logged out successfully!");
+                          Tst.Success('You are logged out successfully!');
                           props.history.push("/");
                         })
                         .catch((err) => {
                           console.error(err);
                           props.logout();
-                          ToastsStore.info("You are logged out successfully!");
+                          Tst.Success('You are logged out successfully!');
                           props.history.push("/");
                         });
                     }}
@@ -362,7 +329,7 @@ const Setting = (props) => {
         )
       ) : loading ? (
         <div className="custom-spinner">
-          <Spinner color="danger" />
+          {/* <Spinner color="danger" /> */}
         </div>
       ) : (
         <div className="site-spacing mtb-50">
@@ -385,7 +352,7 @@ const Setting = (props) => {
                   <div className="ml-15 text-bold">Notification</div>
                   <Switch
                     onChange={(checked) => {
-                      setLoading(true);
+                      Spn.Show();
                       updateNotificationStatus(checked)
                         .then((res) => {
                           setNotification(checked);
@@ -393,15 +360,13 @@ const Setting = (props) => {
                             isLogin: true,
                             isNotificationOn: checked,
                           });
-                          setLoading(false);
-                          ToastsStore.info(res.message);
+                          Spn.Hide();
+                          Tst.Show('res.message');
                         })
                         .catch((err) => {
                           console.error(err);
-                          setLoading(false);
-                          ToastsStore.error(
-                            "Failed to update the notification status!"
-                          );
+                          Spn.Hide();
+                          Tst.Error('Failed to update the notification status!');
                         });
                     }}
                     disabled={!store.getState().auth.isProfileCreated}
@@ -459,17 +424,17 @@ const Setting = (props) => {
                   <label
                     className="ml-15 text-bold cursor-pointer"
                     onClick={(e) => {
-                      setLoading(true);
+                      Spn.Show();
                       logoutAPI()
                         .then((res) => {
                           props.logout();
-                          ToastsStore.info("You are logged out successfully!");
+                          Tst.Success('You are logged out successfully!');
                           props.history.push("/");
                         })
                         .catch((err) => {
                           console.error(err);
                           props.logout();
-                          ToastsStore.info("You are logged out successfully!");
+                          Tst.Success('You are logged out successfully!');
                           props.history.push("/");
                         });
                     }}
@@ -512,10 +477,7 @@ const Setting = (props) => {
                   /> */}
 
                         <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
-                          <i
-                            className="fa fa-star fs-20"
-                            aria-hidden="true"
-                          ></i>
+                          <span className="material-symbols-outlined fs-22">star</span>
                         </div>
                         <input
                           id="profileImageUpload"
@@ -524,7 +486,7 @@ const Setting = (props) => {
                           type="file"
                           accept="image/*"
                           onChange={(e) => {
-                            setLoading(true);
+                            Spn.Show();
                             const formData = new FormData();
                             formData.append("file", e.target.files[0]);
                             uploadImage(formData)
@@ -534,32 +496,15 @@ const Setting = (props) => {
                                   isLogin: true,
                                   profileImage: res.data.profileImage,
                                 });
-                                try {
-                                  /*firebase
-                                    .firestore()
-                                    .collection("users")
-                                    .doc(
-                                      store.getState().auth.memberId.toString()
-                                    )
-                                    .update({
-                                      profileImage:
-                                        res.data.profileImage || null,
-                                    });*/
-                                } catch (error) {
-                                  console.error(
-                                    "Failed to update profile image in Firestore, ",
-                                    error
-                                  );
-                                }
-                                ToastsStore.info(res.message);
-                                setLoading(false);
+                                dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
+                               
+                                Tst.Show(res.message);
+                                Spn.Hide();
                               })
                               .catch((err) => {
                                 console.error(err);
-                                setLoading(false);
-                                ToastsStore.error(
-                                  "Failed to upload the profile photo!"
-                                );
+                                Spn.Hide();
+                                Tst.Error('Failed to upload the profile photo!');
                               });
                           }}
                         />
@@ -583,6 +528,7 @@ const Setting = (props) => {
         </div>
       )}
     </Wrapper>
+    </>
   );
 };
 

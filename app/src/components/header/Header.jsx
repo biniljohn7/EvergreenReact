@@ -12,12 +12,15 @@ import { Link, useLocation } from 'react-router-dom'
 // import icon from '../../assets/images/man_icon1.5x.png'
 import icon from '../../assets/images/man_icon1x.png'
 import { store } from '../../redux/store'
+import { useSelector } from 'react-redux';
 
 const Header = (props) => {
 
   const [MobMenu, setMobMenu] = useState(0)
 
   const location = useLocation()
+  const profileImage = useSelector((state) => state.auth.profileImage)
+
   return (
     <HeaderWrapper>
 
@@ -62,7 +65,7 @@ const Header = (props) => {
 
             <li className="my-acc">
               <img
-                src={store.getState().auth.profileImage || icon}
+                src={profileImage || icon}
                 alt={'profile_image'}
                 className="profile-image-size cursor-pointer"
                 onClick={(e) => props.history.push('/account')}
@@ -178,7 +181,7 @@ const Header = (props) => {
 
                   <li className="my-acc">
                     <img
-                      src={store.getState().auth.profileImage || icon}
+                      src={profileImage || icon}
                       alt={'profile_image'}
                       className="profile-image-size cursor-pointer"
                       onClick={(e) => props.history.push('/account')}
