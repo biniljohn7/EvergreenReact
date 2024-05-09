@@ -54,7 +54,7 @@ export const addMembership = (body) => {
 
 export const validateToken = (token) => {
   // setHeaders()
-  return axios.get(`${BASE_URL}/member/?method=txn-verify&token=${token}`).
+  return axios.get(`${BASE_URL}/public/?method=payment-verify&token=${token}`).
     then((response) => {
       return response.data;
     });
@@ -62,7 +62,7 @@ export const validateToken = (token) => {
 
 export const fetchStoredCard = (token) => {
   // setHeaders()
-  return axios.get(`${BASE_URL}/dues/credit-card/${token}`).then((response) => {
+  return axios.get(`${BASE_URL}/public/?method=dues-fetch-card&token${token}`).then((response) => {
     return response.data;
   });
 };

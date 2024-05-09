@@ -99,11 +99,11 @@ const Payment = (props) => {
         validateToken(props.match.params.token)
           .then((res) => {
             if (res.success === 1) {
-              const error = window.WePay.configure(
+              const error = /* window.WePay.configure(
                 WEPAY_ENV,
                 WEPAY_APP_ID,
                 WEPAY_VERSION
-              );
+              ) */0;
               if (error) {
                 console.error(error);
                 ToastsStore.error("Failed to load script");
@@ -231,16 +231,16 @@ const Payment = (props) => {
         show_error_messages_when_unfocused: true,
       };
       if (!isFailed) {
-        const creditCard = window.WePay.createCreditCardIframe(
-          "credit_card_iframe",
-          options
-        );
-        setCreditCard(creditCard);
-        if (!creditCard || !creditCard.tokenize) {
-          iFrameMessage = "Failed to load credit card iFrame";
-        } else {
-          setIFrameSuccess(true);
-        }
+        // const creditCard = window.WePay.createCreditCardIframe(
+        //   "credit_card_iframe",
+        //   options
+        // );
+        // setCreditCard(creditCard);
+        // if (!creditCard || !creditCard.tokenize) {
+        //   iFrameMessage = "Failed to load credit card iFrame";
+        // } else {
+        setIFrameSuccess(true);
+        // }
       } else {
         setIFrameSuccess(true);
       }
