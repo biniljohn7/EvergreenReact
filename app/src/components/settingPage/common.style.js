@@ -162,6 +162,14 @@ const CommonWrapper = styled.div`
     top: 20px;
     right: 20px;
   }
+
+  .float-right {
+    float: right;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
 `
 
 export default CommonWrapper

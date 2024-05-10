@@ -55,31 +55,43 @@ export const contactUs = (body) => {
 };
 
 export const getDropdown = () => {
-  return axios.get(`${BASE_URL}/member/profile/dropdown`).then((response) => {
-    return response.data;
-  });
+  setHeaders();
+  return axios
+    .get(
+      `${BASE_URL}/member/?method=profile-get-all-dropdown`
+    )
+    .then((response) => {
+      return response.data;
+    });
 };
 
 export const getNation = () => {
+  setHeaders();
   return axios
-    .get(`${BASE_URL}/member/profile/dropdown/nation`)
+    .get(
+      `${BASE_URL}/member/?method=profile-get-nation`
+    )
     .then((response) => {
       return response.data;
     });
 };
 
 export const getRegion = (nationId) => {
+  setHeaders();
   return axios
-    .get(`${BASE_URL}/member/profile/dropdown/region?nationId=${nationId}`)
+    .get(
+      `${BASE_URL}/member/?method=profile-get-region&nationId=${nationId}`
+    )
     .then((response) => {
       return response.data;
     });
 };
 
 export const getStateFromRegion = (regionId) => {
+  setHeaders();
   return axios
     .get(
-      `${BASE_URL}/member/profile/dropdown/state-from-region-id?regionId=${regionId}`
+      `${BASE_URL}/member/?method=profile-get-state-from-region-id&regionId=${regionId}`
     )
     .then((response) => {
       return response.data;
@@ -87,24 +99,33 @@ export const getStateFromRegion = (regionId) => {
 };
 
 export const getState = (countryId) => {
+  setHeaders();
   return axios
-    .get(`${BASE_URL}/member/profile/dropdown/state?countryId=${countryId}`)
+    .get(
+      `${BASE_URL}/member/?method=profile-get-state&countryId=${countryId}`
+    )
     .then((response) => {
       return response.data;
     });
 };
 
 export const getCity = (stateId) => {
+  setHeaders();
   return axios
-    .get(`${BASE_URL}/member/profile/dropdown/city?stateId=${stateId}`)
+    .get(
+      `${BASE_URL}/member/?method=profile-get-city&stateId=${stateId}`
+    )
     .then((response) => {
       return response.data;
     });
 };
 
 export const getChapter = (stateId) => {
+  setHeaders();
   return axios
-    .get(`${BASE_URL}/member/profile/dropdown/chapter?stateId=${stateId}`)
+    .get(
+      `${BASE_URL}/member/?method=profile-get-chapter&stateId=${stateId}`
+    )
     .then((response) => {
       return response.data;
     });

@@ -70,6 +70,8 @@ const EditProfile = (props) => {
     isValid,
   } = props;
 
+  console.log(props);
+
   const isProfileCreated = store.getState().auth.isProfileCreated;
 
   const LEFT_CLASS = isProfileCreated
@@ -100,7 +102,7 @@ const EditProfile = (props) => {
               label: ex.name,
               value: ex.id,
             };
-          });
+          });          
           setFieldValue("expertise", exp);
         }
         if (props.profile.profile.certifications) {

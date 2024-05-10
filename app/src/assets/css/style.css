@@ -1106,6 +1106,11 @@ a:focus {
     z-index: 1100;
 }
 
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 @media only screen and (min-width:1560px) and (max-width:1660px) {
     .container {
         width: 1530px;
