@@ -199,7 +199,7 @@ const Setting = (props) => {
                               });
                               dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
                               
-                              Tst.Show(res.message);
+                              Tst.Success(res.message);
                               Spn.Hide();
                             })
                             .catch((err) => {
@@ -498,7 +498,7 @@ const Setting = (props) => {
                                 });
                                 dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
                                
-                                Tst.Show(res.message);
+                                Tst.Success(res.message);
                                 Spn.Hide();
                               })
                               .catch((err) => {
