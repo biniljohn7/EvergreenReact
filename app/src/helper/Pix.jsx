@@ -11,7 +11,7 @@ export default {
         if (dec !== 0) {
             if (
                 (!dec && dml !== '00') ||
-                dec == 1
+                dec === 1
             ) {
                 amount += '.' + dml;
             }
