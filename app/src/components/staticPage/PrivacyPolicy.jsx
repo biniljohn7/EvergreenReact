@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { PAGE_ID } from '../../helper/constant'
 import { getPage } from '../../api/staticPage'
-import ToastsStore from 'react-toasts'
 import { Spinner } from 'reactstrap'
 
 const PrivacyPolicy = (props) => {

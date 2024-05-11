@@ -11,8 +11,6 @@ import {
   SITE_SHORT_DESC,
   REGISTER_TYPE,
 } from "../../helper/constant";
-import Logo from "../../assets/images/logo.png";
-import { ToastsStore } from "react-toasts";
 import { LoginEnhancer as enhancer } from "./enhancer";
 import AuthActions from "../../redux/auth/actions";
 import { Link } from "react-router-dom";
@@ -20,13 +18,20 @@ import { Link } from "react-router-dom";
 // import Google from '../../assets/images/google_icon_1x.png'
 import ForgotPassword from "../forgotPassword/ForgotPassword";
 import { login as logIn } from "../../api/commonAPI";
+import Toast from "../../UI/Toast/Toast";
+import Spinner from "../../UI/Spinner/Spinner";
+
+import Logo from "../../assets/images/logo.png";
+
 const { login } = AuthActions;
 
 const SignIn = (props) => {
   const [signInState, setSignInState] = useState(true);
-  const [isLoading, setLoading] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
   const [setForgotPassword, setForgotPasswordState] = useState(false);
+
+  const Tst = Toast();
+  const Spn = Spinner();
 
   function toggleForgotPassword() {
     if (setForgotPassword === false) {
@@ -52,7 +57,6 @@ const SignIn = (props) => {
     errors,
     touched,
     submitCount,
-    handleSubmit,
     isValid,
   } = props;
 
@@ -75,35 +79,39 @@ const SignIn = (props) => {
 
   const SignUp = () => {
     return (
-      <div className="flex-item">
-        <Link to="/" className="cursor-pointer hover-none">
-          <img
-            src={Logo}
-            alt={SITE_NAME}
-            className="image-size"
-            height="50px"
-            width="50px"
-          />
-          <div>
-            <label className="white--text text-bold fs-25 letter-spacing-2 title mt-3 mb-0">
-              {SITE_NAME}
-            </label>
-          </div>
-          <p className="white--text text-bold fs-7 short-desc">
-            {SITE_SHORT_DESC}
+      <>
+        {Tst.Obj}
+        {Spn.Obj}
+        <div className="flex-item">
+          <Link to="/" className="cursor-pointer hover-none">
+            <img
+              src={Logo}
+              alt={SITE_NAME}
+              className="image-size"
+              height="50px"
+              width="50px"
+            />
+            <div>
+              <label className="white--text text-bold fs-25 letter-spacing-2 title mt-3 mb-0">
+                {SITE_NAME}
+              </label>
+            </div>
+            <p className="white--text text-bold fs-7 short-desc">
+              {SITE_SHORT_DESC}
+            </p>
+          </Link>
+          <h4 className="text-bold mt-20">Welcome Back!</h4>
+          <p className="mt-10">Sign up to access your account</p>{" "}
+          <p className="mt-10">
+            Don’t have an account? Create an account for free.
           </p>
-        </Link>
-        <h4 className="text-bold mt-20">Welcome Back!</h4>
-        <p className="mt-10">Sign up to access your account</p>{" "}
-        <p className="mt-10">
-          Don’t have an account? Create an account for free.
-        </p>
-        <Button
-          className="border-radius-41 bg-white red--text mt-20"
-          name="SIGN UP"
-          clicked={() => props.history.push("/signup")}
-        />
-      </div>
+          <Button
+            className="border-radius-41 bg-white red--text mt-20"
+            name="SIGN UP"
+            clicked={() => props.history.push("/signup")}
+          />
+        </div>
+      </>
     );
   };
 
@@ -112,7 +120,7 @@ const SignIn = (props) => {
     // handleSubmit();
 
     if (isValid) {
-      setLoading(true);
+      Spn.Show();
       const body = {
         method: 'login',
         email: values.email,
@@ -140,22 +148,22 @@ const SignIn = (props) => {
               currentChapter: res.data.currentChapter,
             };
             props.login(userData);
-            setLoading(false);
-            ToastsStore.info(res.message);
+            Tst.Success(res.message);
             if (res.data.profileCreated) {
               props.history.push("/home");
             } else {
               props.history.push("/account");
             }
           } else {
-            setLoading(false);
             props.resetForm();
-            ToastsStore.error(res.message);
+            Tst.Error(res.message);
           }
         })
         .catch((err) => {
-          setLoading(false);
-          ToastsStore.error("Something went wrong!");
+          Tst.Error("Something went wrong!");
+        })
+        .finally(() => {
+          Spn.Hide();
         });
     }
   };
@@ -289,8 +297,6 @@ const SignIn = (props) => {
                     className="button mt-20"
                     name="LOGIN"
                     type="submit"
-                    // clicked={handleSignIn}
-                    disabled={isLoading}
                   />
                 </div>
               </div>

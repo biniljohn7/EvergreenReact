@@ -1,21 +1,16 @@
 import React, { useEffect } from 'react'
+import { Link } from 'react-router-dom/cjs/react-router-dom'
 import LandingWrapper from './landing.style'
+
 import Landing from '../../assets/images/landing.png'
 import Landing75 from '../../assets/images/landing_0.75x.png'
 import Landing05 from '../../assets/images/landing_0.5x.png'
-// import ScreenShot1x from '../../assets/images/screenshot.jpg'
-// import ScreenShot05x from '../../assets/images/screenshot_0.5x.png'
 import ScreenShot15x from '../../assets/images/screenshot_1.5x.png'
 import ScreenShot75x from '../../assets/images/screenshot_0.75x.png'
-// import ScreenShot2x from '../../assets/images/screenshot2x.png'
-// import AppleStore from '../../assets/images/Apple_Store.png'
-// import GooglePlayStore from '../../assets/images/Google_Play_Store_1.png'
 import AppleStore from '../../assets/images/Apple_Store_1.5x.png'
 import GooglePlayStore from '../../assets/images/Google_Play_Store_1.5x.png'
-// import ScreenShot05x from '../../assets/images/screenshot_0.5x.png'
 import {
   SITE_SHORT_DESC,
-  WEBSITE_URL,
   APP_STORE_LINK,
   GOOGLE_MAP_KEY,
 } from '../../helper/constant'
@@ -53,15 +48,14 @@ const LandingPage = (props) => {
                   resources, such as news, messaging, event calendars,
                   membership benefits, job postings, advocacy, and much more.
                   Otherwise, you can download the app and access your account on
-                  your phone, tablet, or other mobile device.
+                  your phone, tablet, or other mobile device.2222
                 </p>
-                <a
-                  href={WEBSITE_URL + 'signup'}
+                <Link
+                  to="/signup/"
                   className="btn btn-md btn-rounded button plr-25 ptb-7 text-bold"
-                  role="button"
                 >
                   SIGN UP
-                </a>
+                </Link>
               </div>
             </div>
           </section>
@@ -167,23 +161,22 @@ const LandingPage = (props) => {
                   Otherwise, you can download the app and access your account on
                   your phone, tablet, or other mobile device.
                 </p>
-                <a
-                  href={WEBSITE_URL + 'signup'}
+                <Link
+                  to="/signup/"
                   className="btn btn-md btn-rounded button plr-25 ptb-7 text-bold"
-                  role="button"
                 >
                   SIGN UP
-                </a>
+                </Link>
               </div>
               <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                 <img
                   src={
                     window.innerWidth === 1024 ||
-                    (window.innerWidth > 1024 && window.innerWidth < 1300)
+                      (window.innerWidth > 1024 && window.innerWidth < 1300)
                       ? Landing75
                       : window.innerWidth < 1024
-                      ? Landing05
-                      : Landing
+                        ? Landing05
+                        : Landing
                   }
                   alt={SITE_SHORT_DESC}
                   className="landing-image"

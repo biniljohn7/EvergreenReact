@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "./payment.style";
 import {
-  WEPAY_APP_ID,
-  WEPAY_VERSION,
-  WEPAY_ENV,
+  // WEPAY_APP_ID,
+  // WEPAY_VERSION,
+  // WEPAY_ENV,
   COUNTRY_CODE,
 } from "../../helper/constant";
 import {

@@ -1,4 +1,4 @@
-export default {
+const Pix = {
     dollar: function (amount, dec) {
         let dml;
         amount = Number(amount);
@@ -20,3 +20,5 @@ export default {
         return '$' + amount;
     }
 }
+
+export default Pix;
