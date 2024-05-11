@@ -70,8 +70,7 @@ const EditProfile = (props) => {
     isValid,
   } = props;
 
-  console.log(props);
-
+ 
   const isProfileCreated = store.getState().auth.isProfileCreated;
 
   const LEFT_CLASS = isProfileCreated
@@ -112,7 +111,7 @@ const EditProfile = (props) => {
               value: ex.id,
             };
           });
-          setFieldValue("certification", cert);
+          //setFieldValue("certification", cert);
         }
         if (props.profile.profile.educations) {
           const edu = props.profile.profile.educations.map((ex) => {
@@ -127,11 +126,11 @@ const EditProfile = (props) => {
               },
             };
           });
-          setFieldValue("education", edu);
+          //setFieldValue("education", edu);
         }
         if (props.profile.profile.yearOfInitiation) {
           const YOI = props.profile.profile.yearOfInitiation.split("/");
-          setFieldValue("yearOfIni", YOI[2] + "-" + YOI[1] + "-" + YOI[0]);
+          //setFieldValue("yearOfIni", YOI[2] + "-" + YOI[1] + "-" + YOI[0]);
         }
         if (props.profile.profile.country) {
           getState(props.profile.profile.country.id)
