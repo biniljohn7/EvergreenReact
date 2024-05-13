@@ -42,7 +42,8 @@ const input = (props) => {
         id={props.id}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        value={props.value}
+        //value={props.value}
+        defaultValue={props.defaultValue}
         className={[
           'input-switch-main pa-10',
           props.contentFontSize,
