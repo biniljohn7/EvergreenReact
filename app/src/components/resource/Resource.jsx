@@ -58,7 +58,6 @@ const Resource = (props) => {
   let Tst = Toast();
 
   const fetchData = useCallback(function () {
-    console.log('eff running', '--');
     Spn.Show();
     Spn.Show();
     getResourceInfo()
@@ -75,7 +74,7 @@ const Resource = (props) => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, []);
 
   // const [isActive, setActive] = useState(false)
 
@@ -163,7 +162,6 @@ const Resource = (props) => {
             </div>
           </div>
 
-          {/* ///------------------------ */}
           {resourceInfo ? (
             window.innerWidth <= 768 ? (
               <div
@@ -199,9 +197,11 @@ const Resource = (props) => {
                       <span className="col-6 text-right">
                         <label className="text-white">Valid Thru:</label>
                         <div>
-                          {resourceInfo.validThru
-                            ? `Dec ${moment(new Date()).year()}`
-                            : "-"}
+                          {
+                            resourceInfo.validThru ?
+                              resourceInfo.validThru :
+                              "-"
+                          }
                         </div>
                       </span>
                     </div>
@@ -258,9 +258,11 @@ const Resource = (props) => {
                     <div className="title"><strong>Name: </strong>{resourceInfo.fullName ? resourceInfo.fullName : "-"}</div>
                     <div className="title mb-12">
                       <strong>Valid Thru: </strong>
-                      {resourceInfo.validThru
-                        ? `Dec ${moment(new Date()).year()}`
-                        : "-"}
+                      {
+                        resourceInfo.validThru ?
+                          new Date(resourceInfo.validThru).toDateString() :
+                          "-"
+                      }
                     </div>
                     <div className="button-box white">
                       <span>{resourceInfo.status}</span>
