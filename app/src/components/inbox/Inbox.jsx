@@ -96,7 +96,6 @@ const Inbox = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err);
         setLoading(false);
         if (err.request) {
           ToastsStore.error(
