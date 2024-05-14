@@ -51,8 +51,10 @@ const COL =
         ? "1fr 1fr"
         : "1fr 1fr";
 
+
 const Resource = (props) => {
   const [resourceInfo, setResourceInfo] = useState(null);
+  const accessTkn = store.getState().auth.accessToken;
 
   let Spn = Spinner();
   let Tst = Toast();
@@ -199,7 +201,7 @@ const Resource = (props) => {
                         <div>
                           {
                             resourceInfo.validThru ?
-                              resourceInfo.validThru :
+                              new Date(resourceInfo.validThru).toDateString() :
                               "-"
                           }
                         </div>
@@ -229,7 +231,7 @@ const Resource = (props) => {
                   }
                 >
                   <a
-                    href={RECOMMENDATION_LETTER + store.getState().auth.memberId}
+                    href={RECOMMENDATION_LETTER + '&token=' + (accessTkn || '')}
                     target="_blank"
                     rel="noreferrer noopener"
                   >
@@ -279,7 +281,7 @@ const Resource = (props) => {
                   <div className="benefit-item">
                     <div className="per">Recommendation Letter <br /> &nbsp;</div>
                     <div className="button-box white">
-                      <a href={RECOMMENDATION_LETTER + store.getState().auth.memberId} target="_blank" rel="noreferrer noopener" >
+                      <a href={RECOMMENDATION_LETTER + '&token=' + (accessTkn || '')} target="_blank" rel="noreferrer noopener" >
                         Download
                       </a>
                     </div>
