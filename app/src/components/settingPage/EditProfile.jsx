@@ -56,6 +56,8 @@ export const SELECT_CSS = {
   }),
 };
 
+console.clear();
+
 const EditProfile = (props) => {
   const {
     values,
@@ -90,12 +92,14 @@ const EditProfile = (props) => {
   const [chapterList, setChapter] = useState([]);
   const [chapterOfIntiationList, setChapterOfIntiation] = useState([]);
   //const [formValues, setFormValues] = useState(props.profile);
-  const [formValues, setFormValues] = useState(values);
+  const [formValues, setFormValues] = useState({ ...values });
 
   useEffect(() => {
     getDropdown()
       .then((res) => {
         setDropdown(res.data);
+        let ndata = { ...formValues };
+
         if (props.profile.profile.expertises) {
           const exp = props.profile.profile.expertises.map((ex) => {
             return {
@@ -103,9 +107,7 @@ const EditProfile = (props) => {
               value: ex.id,
             };
           });
-          let ndata = { ...formValues };
           ndata.expertise = exp;
-          setFormValues(ndata);
         }
         if (props.profile.profile.certifications) {
           const cert = props.profile.profile.certifications.map((ex) => {
@@ -114,9 +116,7 @@ const EditProfile = (props) => {
               value: ex.id,
             };
           });
-          let ndata = { ...formValues };
           ndata.certification = cert;
-          setFormValues(ndata);
         }
         if (props.profile.profile.educations) {
           const edu = props.profile.profile.educations.map((ex) => {
@@ -131,16 +131,12 @@ const EditProfile = (props) => {
               },
             };
           });
-          let ndata = { ...formValues };
           ndata.education = edu;
-          setFormValues(ndata);
         }
         if (props.profile.profile.yearOfInitiation) {
           const YOI = props.profile.profile.yearOfInitiation.split("/");
 
-          let ndata = { ...formValues };
           ndata.yearOfIni = YOI[2] + "-" + YOI[1] + "-" + YOI[0];
-          setFormValues(ndata);
         }
         if (props.profile.profile.country) {
           getState(props.profile.profile.country.id)
@@ -198,15 +194,15 @@ const EditProfile = (props) => {
             });
         }
 
+        console.log(ndata);
         setLoading(false);
+        setFormValues(ndata);
       })
       .catch((err) => {
         ToastsStore.error("Something went wrong!");
         props.history.push("/home");
       });
   }, []);
-
-  console.log(formValues);
 
   useEffect(() => {
     getNation()
@@ -1006,11 +1002,11 @@ const EditProfile = (props) => {
                                       array.splice(index, 1);
                                       let ndata = { ...formValues };
                                       ndata.education[index] = array;
-                                      setFormValues(ndata);
+                                      //setFormValues(ndata);
                                     }}
                                   ></i>
                                 </div>
-
+                                {/* {console.log(edu)} */}
                                 <div className="">
                                   <Select
                                     placeholder="Select University"
@@ -1034,6 +1030,9 @@ const EditProfile = (props) => {
                                     //value={edu.university || ""}
                                     value={formValues.education[index] ? (formValues.education[index].university || "") : ''}
                                   />
+                                  {/* {
+                                    console.log(formValues.education, formValues.education[index].university)
+                                  } */}
                                   <Error2 field="university" index={index} />
                                 </div>
                                 <div className="mt-10">
