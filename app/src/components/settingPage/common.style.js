@@ -1,6 +1,17 @@
 import styled from 'styled-components'
 
 const CommonWrapper = styled.div`
+.go2139093995 {
+  --rmsc-main:#4285f4;
+  --rmsc-hover:#f1f3f5;
+  --rmsc-selected:#e2e6ea;
+  --rmsc-border:#ccc;
+  --rmsc-gray:#aaa;
+  --rmsc-bg:#fff;
+  --rmsc-p:10px;
+  --rmsc-radius:4px;
+  --rmsc-h:38px;
+}
   .cancelmain {
     width: 20px;
     height: 20px;

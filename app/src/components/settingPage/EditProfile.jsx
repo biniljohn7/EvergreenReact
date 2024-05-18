@@ -194,7 +194,6 @@ const EditProfile = (props) => {
             });
         }
 
-        console.log(ndata);
         setLoading(false);
         setFormValues(ndata);
       })
@@ -268,8 +267,10 @@ const EditProfile = (props) => {
 
   const handleForm = (e) => {
     e.preventDefault();
-    handleSubmit();
-    if (isValid) {
+    //handleSubmit();
+    //console.log(isValid);
+    //if (isValid) {
+    if (1) {
       setLoader(true);
       let body = {
         statusUpdate: values.statusUpdate || null,
@@ -305,7 +306,7 @@ const EditProfile = (props) => {
         leadershipRole: values.leadershipRole,
         householdId: values.household.value,
         salaryRangeId: values.salaryRange.value,
-        expertiseIds: values.expertise.map((ex) => ex.value),
+        expertiseIds: formValues.expertise.map((ex) => ex.value),
       };
       const YOI = values.yearOfIni.split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
@@ -347,6 +348,7 @@ const EditProfile = (props) => {
           },
           ...body,
         };
+        console.log(totalBody);
         updateProfile(totalBody)
           .then((res) => {
             if (res.success === 1) {
@@ -984,29 +986,33 @@ const EditProfile = (props) => {
                       />
                     )}
                   </div>
+
+
+
+
+
+
                   <FieldArray
                     name="education"
                     render={({ remove, push }) => (
                       <div>
-                        {values.education &&
-                          values.education.length > 0 &&
-                          values.education.map((edu, index) => (
+                        {formValues.education &&
+                          formValues.education.length > 0 &&
+                          formValues.education.map((edu, index) => (
                             <div key={index} className="">
                               <div name={`education.${index}`}>
                                 <div className="text-right">
-                                  <i
-                                    className="fa fa-trash-o cursor-pointer"
-                                    aria-hidden="true"
+                                  <span
+                                    className="material-symbols-outlined cursor-pointer"
                                     onClick={() => {
-                                      let array = values.education;
+                                      let array = formValues.education;
                                       array.splice(index, 1);
-                                      let ndata = { ...formValues };
-                                      ndata.education[index] = array;
-                                      //setFormValues(ndata);
+                                      // let ndata = { ...formValues };
+                                      // ndata.education[index] = array;
+                                      // setFormValues(ndata);
                                     }}
-                                  ></i>
+                                  >delete</span>
                                 </div>
-                                {/* {console.log(edu)} */}
                                 <div className="">
                                   <Select
                                     placeholder="Select University"
@@ -1027,12 +1033,8 @@ const EditProfile = (props) => {
                                       setFormValues(ndata);
                                     }}
                                     name={`education.${index}.university`}
-                                    //value={edu.university || ""}
                                     value={formValues.education[index] ? (formValues.education[index].university || "") : ''}
                                   />
-                                  {/* {
-                                    console.log(formValues.education, formValues.education[index].university)
-                                  } */}
                                   <Error2 field="university" index={index} />
                                 </div>
                                 <div className="mt-10">
@@ -1080,6 +1082,9 @@ const EditProfile = (props) => {
                             onClick={(event) => {
                               //setFieldTouched("education", true, true);
                               //setFieldValue("education", []);
+                              let ndata = { ...formValues };
+                              ndata.education = [];
+                              setFormValues(ndata);
                             }}
                             style={{ width: "fit-content" }}
                           >
@@ -1089,6 +1094,10 @@ const EditProfile = (props) => {
                       </div>
                     )}
                   />
+
+
+
+
                   {((errors["education"] &&
                     touched["education"] &&
                     errors["education"].length <= 0) ||
@@ -1263,7 +1272,7 @@ const EditProfile = (props) => {
                   <MultiSelect
                     id="expertise"
                     options={PROFILE_OPTIONS.expertise}
-                    value={values.expertise || []}
+                    value={formValues.expertise || []}
                     onChange={(value) => {
                       let ndata = { ...formValues };
                       ndata.expertise = value;
@@ -1553,9 +1562,13 @@ const EditProfile = (props) => {
                     className={
                       WIDTH_CLASS + " date-picker text-dark pa-10 fs-14"
                     }
-                    //onChange={handleChange}
+                    onChange={(e) => {
+                      let ndata = { ...formValues };
+                      ndata.yearOfIni = e.target.value;
+                      setFormValues(ndata);
+                    }}
                     //onBlur={handleBlur}
-                    //value={values.yearOfIni || ""}
+                    value={formValues.yearOfIni || ""}
                     max={new Date().toISOString().split("T")[0]}
                   />
                   <Error field="yearOfIni" />
