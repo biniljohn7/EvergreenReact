@@ -146,7 +146,8 @@ const Inbox = (props) => {
           <TabContent activeTab={activeTab}>
             {activeTab === "Messages" && (
               <TabPane tabId="Messages" className="mt-20">
-                {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />}
+                {/* {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />} */}
+                <WebChat />
               </TabPane>
             )}
             <TabPane tabId="Directory" className="mt-20">
