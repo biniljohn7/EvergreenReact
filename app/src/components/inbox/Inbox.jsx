@@ -96,6 +96,7 @@ const Inbox = (props) => {
         setLoading(false);
       })
       .catch((err) => {
+        console.error(err);
         setLoading(false);
         if (err.request) {
           ToastsStore.error(
@@ -147,7 +148,7 @@ const Inbox = (props) => {
             {activeTab === "Messages" && (
               <TabPane tabId="Messages" className="mt-20">
                 {/* {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />} */}
-                <WebChat />
+                <MobileChat />
               </TabPane>
             )}
             <TabPane tabId="Directory" className="mt-20">

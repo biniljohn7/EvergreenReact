@@ -1,215 +1,590 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Input, Spinner, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Modal } from 'reactstrap';
-import moment from 'moment';
-import Compressor from 'compressorjs';
-import axios from 'axios'; 
-import { store } from "../../redux/store";
-import { useSelector, useDispatch } from 'react-redux';
-import { ToastsStore } from 'react-toasts';
+import React, { useState, useEffect } from "react";
 import Wrapper from "./inbox.style";
+import firebase from "../../firebaseChat";
+import { store } from "../../redux/store";
 import User_05 from "../../assets/images/user_05x.png";
+import { Spinner, Modal, Button, Input } from "reactstrap";
+import { ToastsStore } from "react-toasts";
+import ChatProfile from "./ChatProfile";
 import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
-import ChatProfile from './ChatProfile';
+import moment from "moment";
+import Compressor from "compressorjs";
+import {
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
+// To delete chat
+let deleteChatId;
+
+// To see profile
 let memberId;
+
+// Set fixed height of chat room according to device height
+// const HEIGHT =
+//   window.innerWidth > 1024
+//     ? (((window.innerHeight * 95) / 100) * 83) / 100 + 18
+//     : (((window.innerHeight * 95) / 100) * 81) / 100 + 95
+
+/*  Set fixed height of chat room accrording to device height
+ 155 is the result of summation of following height
+ 1. The portion where receiver's photo and name are dislayed along with other options
+ 2. The portion where input to send the message is given
+
+ 35 is the random yet appropriate number used to set the height of chat room
+ */
 const HEIGHT = window.innerHeight - 155 - 35;
 
-const WebChat = () => {
-  const [message, setMessage] = useState('');
-  const [messageArray, setMessageArray] = useState([]);
-  const [recentChatArray, setRecentChatArray] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
+const WebChat = (props) => {
+  const [recentChatArray, setRecentChat] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(false);
-  const [deleteMessage, setDeleteMessage] = useState(false);
-  const [deleteArray, setArray] = useState([]);
-  const [isDeleteOn, setDelete] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [modal, setModal] = useState(false);
+  // const [sending, setIsSending] = useState(false)
   const [open, setOpen] = useState(false);
-//   const HEIGHT = window.innerHeight;
+  const [modal, setModal] = useState(false);
 
-  const auth = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  // Delete message array
+  const [deleteArray, setArray] = useState([]);
 
-  const fetchRecentChats = async () => {
-    try {
-      const response = await axios.get('/api/recent_chats', {
-        params: { memberId: auth.memberId }
-      });
-      setRecentChatArray(response.data);
-    } catch (error) {
-      console.error('Error fetching recent chats:', error);
-    }
-  };
+  // Display checkbox if this state is on
+  const [isDeleteOn, setDelete] = useState(false);
+
+  // Display Menu to let the user select option
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  // Select chat from recent chat to view messages
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [messageArray, setMessageArray] = useState([]);
+
+  // Message to be sent
+  const [message, setMessage] = useState("");
+
+  // Manage confirmation modal where user deletes messages
+  const [deleteMessage, setDeleteMessage] = useState(false);
 
   useEffect(() => {
-    fetchRecentChats();
+    // console.log('fetch recent chat')
+    getRecentChat();
+    return () => {
+      //your cleanup code codes here
+      setSelectedUser(null);
+    };
   }, []);
 
-  const sendMessage = async (isImage, imageUrl) => {
-    setLoader(true);
-    try {
-      const userData = {
-        chatIds: [selectedUser.memberId],
-        email: selectedUser.email || '',
-        fullName: `${auth.firstName} ${auth.lastName}`,
-        lastChatDate: new Date(),
-        lastMessage: isImage ? '' : message,
-        memberId: auth.memberId,
-        mobileNumber: '',
-        profileImage: auth.profileImage || null,
-        chatImage: isImage ? imageUrl : '',
-      };
+  useEffect(() => {
+    if (messageArray && messageArray.length > 0) {
+      let messageBody = document.getElementById("message_list_scroll");
 
-      const receiverRecentMessage = {
-        lastMessageTime: new Date(),
-        isRead: false,
-        lastMessage: isImage ? 'Image' : message,
-        fullName: selectedUser.fullName,
-        profileImage: selectedUser.profileImage,
-        memberId: selectedUser.memberId,
-        delete: false,
-      };
-
-      const senderRecentMessage = {
-        lastMessageTime: new Date(),
-        isRead: false,
-        lastMessage: isImage ? 'Image' : message,
-        fullName: `${auth.firstName} ${auth.lastName}`,
-        profileImage: auth.profileImage || null,
-        memberId: auth.memberId,
-        delete: false,
-      };
-
-      if (messageArray.length === 0) {
-        receiverRecentMessage.lastReadTime = new Date();
-        senderRecentMessage.lastReadTime = new Date();
-        userData.lastReadTime = new Date();
+      if (messageBody) {
+        messageBody.scrollTop =
+          messageBody.scrollHeight - messageBody.clientHeight;
       }
+    }
+  }, [messageArray]);
 
-      const dataDict = {
-        message: isImage ? '' : message,
-        receiverId: selectedUser.memberId,
-        senderId: auth.memberId,
-        timestamp: new Date(),
-        chatImage: isImage ? imageUrl : '',
-        senderName: `${auth.firstName} ${auth.lastName}`,
-      };
+  useEffect(() => {
+    // console.log('in chat', store.getState().auth.chatMemberId)
+
+    if (store.getState().auth.chatMemberId) {
+      // Check if document is exist
+      let docRef = firebase
+        .firestore()
+        .collection("recent_chat")
+        .doc(store.getState().auth.memberId.toString())
+        .collection("users")
+        .doc(store.getState().auth.chatMemberId.toString());
+
+      docRef
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            setSelectedUser(doc.data());
+          } else {
+            setSelectedUser({
+              memberId: store.getState().auth.chatMemberId,
+              fullName: store.getState().auth.chatFullName,
+              profileImage: store.getState().auth.chatProfileImage,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error("Error getting document:", error);
+        });
+    }
+  }, [store.getState().auth.chatMemberId]);
+
+  useEffect(() => {
+    if (selectedUser) {
+      // console.log('fetch message')
+      setMessageArray([]);
+      const senderId = store.getState().auth.memberId;
+      const receiverId = selectedUser.memberId;
 
       const chatPath =
-        auth.memberId < selectedUser.memberId
-          ? `${auth.memberId}_${selectedUser.memberId}`
-          : `${selectedUser.memberId}_${auth.memberId}`;
+        senderId < receiverId
+          ? senderId + "_" + receiverId
+          : receiverId + "_" + senderId;
 
-      await axios.post('/api/messages', {
-        userData,
-        receiverRecentMessage,
-        senderRecentMessage,
-        dataDict,
-        chatPath
-      });
+      const query = selectedUser.lastReadTime
+        ? firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .orderBy("timestamp")
+            .where("timestamp", ">=", selectedUser.lastReadTime)
+        : firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .orderBy("timestamp");
 
-      setMessage('');
-      setLoader(false);
-    } catch (error) {
-      console.error('Error sending message:', error);
-      ToastsStore.error('Failed to send message');
-      setLoader(false);
+      query.onSnapshot(
+        (snapshot) => {
+          let array = [];
+          snapshot.forEach((doc) => {
+            array.push(doc.data());
+          });
+          setMessageArray(array);
+          // Add event listener
+          // snapshot.docChanges().forEach((change) => {
+          //   if (change.type === 'added') {
+          //     // console.log('add event: ')
+          //   }
+          //   if (change.type === 'modified') {
+          //     // console.log('Modified event: ')
+          //   }
+          //   if (change.type === 'removed') {
+          //     // console.log('Removed event: ')
+          //   }
+          // })
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
+  }, [selectedUser]);
+
+  const getRecentChat = () => {
+    setLoading(true);
+    firebase
+      .firestore()
+      .collection("recent_chat")
+      .doc(store.getState().auth.memberId.toString())
+      .collection("users")
+      .where("delete", "==", false)
+      .orderBy("lastMessageTime", "desc")
+      .onSnapshot(
+        (snapshot) => {
+          // Add recent chat
+          let arr = [];
+          snapshot.forEach((doc) => {
+            arr.push(doc.data());
+          });
+          setRecentChat(arr);
+
+          // Add event listener
+          // snapshot.docChanges().forEach((change) => {
+          //   if (change.type === 'added') {
+          //     // console.log('add event: ', change.doc.data())
+          //   }
+          //   if (change.type === 'modified') {
+          //     // console.log('Modified event: ', change.doc.data())
+          //   }
+          //   if (change.type === 'removed') {
+          //     // console.log('Removed event: ', change.doc.data())
+          //   }
+          // })
+          setLoading(false);
+        },
+        (error) => {
+          console.error(error);
+          setLoading(false);
+        }
+      );
   };
 
-  const uploadImage = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      new Compressor(e.target.files[0], {
-        quality: 0.8,
-        success(result) {
-          const formData = new FormData();
-          formData.append('file', result);
+  const deleteRecentChat = (wasLastMessage = false) => {
+    setLoader(true);
 
-          axios.post('/api/upload', formData)
-            .then((response) => {
-              sendMessage(true, response.data.url);
-            })
-            .catch((error) => {
-              console.error('Error uploading image:', error);
-              ToastsStore.error('Failed to send an image');
-            });
-        },
-        error(err) {
-          console.error(err.message);
-          ToastsStore.error('Failed to send an image');
-        },
+    // Update the flag 'delete' to true
+    firebase
+      .firestore()
+      .collection("recent_chat")
+      .doc(store.getState().auth.memberId.toString())
+      .collection("users")
+      .doc(deleteChatId.toString())
+      .update({
+        delete: true,
+        lastReadTime: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        // Update the lastReadTime of opposite member
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(deleteChatId.toString())
+          .update({
+            lastReadTime: firebase.firestore.FieldValue.serverTimestamp(),
+          })
+          .then(() => {
+            if (
+              !wasLastMessage &&
+              selectedUser &&
+              deleteChatId === selectedUser.memberId
+            ) {
+              setSelectedUser(null);
+            }
+            deleteChatId = null;
+            if (!wasLastMessage) {
+              ToastsStore.info("Chat deleted successfully");
+              setLoader(false);
+              setOpen(!open);
+            }
+          })
+          .catch((error) => {
+            if (
+              !wasLastMessage &&
+              selectedUser &&
+              deleteChatId === selectedUser.memberId
+            ) {
+              setSelectedUser(null);
+            }
+            deleteChatId = null;
+            console.error("Error removing rececent chat: ", error);
+            if (!wasLastMessage) {
+              ToastsStore.error("Failed to delete chat");
+              setLoader(false);
+              setOpen(!open);
+            }
+          });
+      })
+      .catch((error) => {
+        if (
+          !wasLastMessage &&
+          selectedUser &&
+          deleteChatId === selectedUser.memberId
+        ) {
+          setSelectedUser(null);
+        }
+        deleteChatId = null;
+        console.error("Error removing rececent chat: ", error);
+        if (!wasLastMessage) {
+          ToastsStore.error("Failed to delete chat");
+          setLoader(false);
+          setOpen(!open);
+        }
       });
-    }
   };
+
   const deleteUserMessage = () => {
     if (deleteArray && deleteArray.length > 0) {
       setLoader(true);
       try {
-        const memberId = store.getState().auth.memberId;
-        const selectedMemberId = selectedUser.memberId;
-        const chatPath = memberId < selectedMemberId ? `${memberId}_${selectedMemberId}` : `${selectedMemberId}_${memberId}`;
-        
-        // API call to delete messages
-        fetch('/api/deleteMessages', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            chatPath: chatPath,
-            messages: deleteArray,
-          }),
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            // After successful deletion, update the recent chat log
-            fetch(`/api/getLastMessage?chatPath=${chatPath}&lastReadTime=${selectedUser.lastReadTime || ''}`)
-              .then(response => response.json())
-              .then(snapshot => {
-                if (snapshot && snapshot.length > 0) {
-                  const message = snapshot[0];
+        let batch = firebase.firestore().batch();
+        let chatPath =
+          store.getState().auth.memberId < selectedUser.memberId
+            ? store.getState().auth.memberId + "_" + selectedUser.memberId
+            : selectedUser.memberId + "_" + store.getState().auth.memberId;
+
+        deleteArray.forEach((element) => {
+          const msgRef = firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .doc(element);
+          batch.delete(msgRef);
+        });
+
+        batch
+          .commit()
+          .then(() => {
+            const query = selectedUser.lastReadTime
+              ? firebase
+                  .firestore()
+                  .collection("chats")
+                  .doc(chatPath)
+                  .collection("messages")
+                  .orderBy("timestamp", "desc")
+                  .where("timestamp", ">=", selectedUser.lastReadTime)
+                  .limit(1)
+              : firebase
+                  .firestore()
+                  .collection("chats")
+                  .doc(chatPath)
+                  .collection("messages")
+                  .orderBy("timestamp", "desc")
+                  .limit(1);
+            query.onSnapshot(
+              (snapshot) => {
+                if (snapshot && snapshot.docs.length > 0) {
+                  const message = snapshot.docs[0].data();
                   let msg = {
                     lastMessageTime: message.timestamp,
                     isRead: true,
-                    lastMessage: message.message && message.message.trim() ? message.message : "Image",
+                    lastMessage:
+                      message.message && message.message.trim()
+                        ? message.message
+                        : "Image",
                   };
-  
-                //   updateRecentChatLog(memberId, selectedMemberId, msg);
-                //   updateRecentChatLog(selectedMemberId, memberId, msg);
+
+                  updateRecentChatLog(
+                    store.getState().auth.memberId,
+                    selectedUser.memberId,
+                    msg
+                  );
+                  updateRecentChatLog(
+                    selectedUser.memberId,
+                    store.getState().auth.memberId,
+                    msg
+                  );
                 } else {
                   // Delete recent chat (No message left)
-                //   deleteChatId = selectedUser.memberId;
-                //   deleteRecentChat(true);
+                  deleteChatId = selectedUser.memberId;
+                  deleteRecentChat(true);
                 }
-              })
-              .catch(error => {
+              },
+              (error) => {
                 console.error(error);
-              });
-          } else {
+              }
+            );
+          })
+          .catch((err) => {
+            console.error(err);
             ToastsStore.error("Failed to delete messages");
-          }
-        })
-        .catch(error => {
-          console.error(error);
-          ToastsStore.error("Failed to delete messages");
-        });
-  
+          });
       } catch (err) {
         console.error(err);
         ToastsStore.error("Failed to delete messages");
       }
-  
+
       setLoader(false);
       setDeleteMessage(!deleteMessage);
       setArray([]);
       setDelete(!isDeleteOn);
     }
   };
-  
-  return loader ? (
+
+  const updateRecentChatLog = (firstId, secondId, lastMessage) => {
+    // console.log('updateRecentChat', firstId, secondId, lastMessage)
+    firebase
+      .firestore()
+      .collection("recent_chat")
+      .doc(firstId.toString())
+      .collection("users")
+      .doc(secondId.toString())
+      .set(lastMessage, { merge: true });
+  };
+
+  const sendMessage = (isImage, imageUrl) => {
+    setLoader(true);
+    // setIsSending(true)
+    // console.log('in send msg', selectedUser.memberId)
+    try {
+      // This reference is used to update profile image in recent chat if it is updated by sender
+      let userRef = firebase
+        .firestore()
+        .collection("recent_chat")
+        .doc(selectedUser.memberId.toString())
+        .collection("users")
+        .doc(store.getState().auth.memberId.toString());
+
+      // Store user data under 'users' collection
+      let userData = {
+        chatIds: [selectedUser.memberId],
+        email: selectedUser.email || "",
+        fullName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+        lastChatDate: firebase.firestore.FieldValue.serverTimestamp(),
+        lastMessage: isImage ? "" : message,
+        memberId: store.getState().auth.memberId,
+        mobileNumber: "",
+        profileImage: store.getState().auth.profileImage || null,
+        userRef: [userRef],
+        chatImage: isImage ? imageUrl : "",
+      };
+
+      // console.log('userData ', userData)
+
+      // Update recent message
+      let receiverRecentMessage = {
+        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        isRead: false,
+        lastMessage: isImage ? "Image" : message,
+        fullName: selectedUser.fullName,
+        profileImage: selectedUser.profileImage,
+        memberId: selectedUser.memberId,
+        delete: false,
+      };
+
+      // Update recent message
+      let senderRecentMessage = {
+        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        isRead: false,
+        lastMessage: isImage ? "Image" : message,
+        fullName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+        profileImage: store.getState().auth.profileImage || null,
+        memberId: store.getState().auth.memberId,
+        delete: false,
+      };
+
+      // If the message is the 1st entry
+      if (messageArray.count === 0) {
+        receiverRecentMessage.lastReadTime =
+          firebase.firestore.FieldValue.serverTimestamp();
+        senderRecentMessage.lastReadTime =
+          firebase.firestore.FieldValue.serverTimestamp();
+        userData.lastReadTime = firebase.firestore.FieldValue.serverTimestamp();
+      }
+
+      // console.log('receiverRM', receiverRecentMessage)
+      // console.log('senderRM', senderRecentMessage)
+
+      let dataDict = {
+        message: isImage ? "" : message,
+        receiverId: selectedUser.memberId,
+        senderId: store.getState().auth.memberId,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        chatImage: isImage ? imageUrl : "",
+        senderName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+      };
+
+      // console.log('dataDict ', dataDict)
+
+      const chatPath =
+        store.getState().auth.memberId < selectedUser.memberId
+          ? store.getState().auth.memberId + "_" + selectedUser.memberId
+          : selectedUser.memberId + "_" + store.getState().auth.memberId;
+
+      /**
+       * NEED TO CROSS VERIFY WITH APP FLOW,
+       * Replaced Update method to set method for below Firebase Method.
+       *
+       */
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(store.getState().auth.memberId.toString())
+        .set(userData)
+        .then(() => {
+          updateRecentChatLog(
+            store.getState().auth.memberId,
+            selectedUser.memberId,
+            receiverRecentMessage
+          );
+
+          updateRecentChatLog(
+            selectedUser.memberId,
+            store.getState().auth.memberId,
+            senderRecentMessage
+          );
+
+          let messageCollection = firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .doc();
+
+          // console.log(
+          //   'message collection ',
+          //   messageCollection,
+          //   messageCollection.id,
+          // )
+          dataDict.chatId = messageCollection.id;
+          messageCollection.set(dataDict, { merge: true });
+
+          // Add extra fields to message queue
+          dataDict.fullName = senderRecentMessage.fullName;
+          dataDict.profileImage = senderRecentMessage.profileImage;
+          if (senderRecentMessage.lastReadTime) {
+            dataDict.lastReadTime = senderRecentMessage.lastReadTime;
+          } else {
+            dataDict.lastReadTime = "";
+          }
+
+          firebase.firestore().collection("messageQueue").doc().set(dataDict);
+
+          setMessage("");
+          // setIsSending(false)
+          setLoader(false);
+          // console.log('in end msg')
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+          setLoader(false);
+          // setIsSending(false)
+        });
+    } catch (error) {
+      console.error(error);
+      setMessage("");
+      ToastsStore.error("Failed to send message");
+      setLoader(false);
+      // setIsSending(false)
+    }
+  };
+
+  const uploadImage = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      // Upload image to cloud storage
+
+      new Compressor(e.target.files && e.target.files[0], {
+        quality: 0.8,
+        success(result) {
+          // console.log(result)
+          // Points to the reference
+          let imageRef = firebase
+            .storage()
+            .ref()
+            .child(
+              `chatImages/${store.getState().auth.memberId.toString()}/${
+                result.size
+              } bytes`
+            );
+
+          try {
+            imageRef.put(result).then((snapshot) => {
+              // console.log('Uploaded a blob or file!', snapshot)
+              imageRef
+                .getDownloadURL()
+                .then((url) => {
+                  // console.log('url ', url)
+                  sendMessage(true, url);
+                })
+                .catch((error) => {
+                  // Handle any errors
+                  console.error(error);
+                  ToastsStore.error("Failed to send an image");
+                });
+            });
+          } catch (err) {
+            console.error(err);
+            ToastsStore.error("Failed to send an image");
+          }
+        },
+        error(err) {
+          console.error(err, err.message);
+          ToastsStore.error("Failed to send an image");
+        },
+      });
+    }
+  };
+
+  return loading ? (
     <div className="text-center mt-20">
       <Spinner color="danger" />
     </div>
@@ -219,52 +594,60 @@ const WebChat = () => {
         <div className="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 pr-10 pl-0">
           {recentChatArray && recentChatArray.length > 0 ? (
             <div className="border plr-10 recent-chat">
-              {recentChatArray.map((chat, index) => (
-                <div
-                  className={
-                    'd-flex ptb-10 cursor-pointer position-relative ' +
-                    (index !== 0 ? ' border-top' : '')
-                  }
-                  key={index}
-                >
-                  <img
-                    src={chat.profileImage || User_05}
-                    alt="user"
-                    className="photo mr-10"
-                    onClick={() => {
-                      setModal(true);
-                    }}
-                  />
+              {recentChatArray.map((chat, index) => {
+                return (
                   <div
-                    className="wp-75"
-                    onClick={() => {
-                      if (!selectedUser || chat.memberId !== selectedUser.memberId) {
-                        setMessage('');
-                        setMessageArray([]);
-                        setDelete(false);
-                        setDropdownOpen(false);
-                        setSelectedUser(chat);
-                      }
-                    }}
+                    className={
+                      "d-flex ptb-10 cursor-pointer position-relative " +
+                      (index !== 0 ? " border-top" : "")
+                    }
+                    key={index}
                   >
-                    <div className="text-bold">{chat.fullName}</div>
-                    <div>
-                      {chat.lastMessage.toString().length > 20
-                        ? chat.lastMessage.toString().substr(0, 20) + '...'
-                        : chat.lastMessage.toString().substr(0, 20)}
+                    <img
+                      src={chat.profileImage || User_05}
+                      alt="user"
+                      className="photo mr-10"
+                      onClick={(e) => {
+                        memberId = chat.memberId;
+                        setModal(!modal);
+                      }}
+                    />
+                    <div
+                      className="wp-75"
+                      onClick={(e) => {
+                        if (
+                          !selectedUser ||
+                          chat.memberId !== selectedUser.memberId
+                        ) {
+                          setMessage("");
+                          setMessageArray([]);
+                          setArray([]);
+                          setDelete(false);
+                          setDropdownOpen(false);
+                          setSelectedUser(chat);
+                        }
+                      }}
+                    >
+                      <div className="text-bold">{chat.fullName}</div>
+                      <div>
+                        {chat.lastMessage.toString().length > 20
+                          ? chat.lastMessage.toString().substr(0, 20) + "..."
+                          : chat.lastMessage.toString().substr(0, 20)}
+                      </div>
+                    </div>
+                    <div className="bin">
+                      <i
+                        className="fa fa-trash"
+                        aria-hidden="true"
+                        onClick={(e) => {
+                          deleteChatId = chat.memberId;
+                          setOpen(!open);
+                        }}
+                      ></i>
                     </div>
                   </div>
-                  <div className="bin">
-                    <i
-                      className="fa fa-trash"
-                      aria-hidden="true"
-                      onClick={() => {
-                        setOpen(true);
-                      }}
-                    ></i>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <div className="ptb-50 border plr-20 text-bold text-center">
@@ -272,6 +655,7 @@ const WebChat = () => {
             </div>
           )}
         </div>
+
         {selectedUser ? (
           <React.Fragment>
             <div className="plr-0 col-12 col-sm-12 col-md-7 col-lg-7 col-xl-7 border position-relative">
@@ -280,34 +664,44 @@ const WebChat = () => {
                   src={selectedUser.profileImage || User_05}
                   className="chat_pic"
                   alt="profile_pic"
-                  onClick={() => setModal(true)}
+                  onClick={(e) => {
+                    memberId = selectedUser.memberId;
+                    setModal(!modal);
+                  }}
                 />
                 <label
                   className="text-bold mlp-3 mtp-2"
-                  onClick={() => setModal(true)}
+                  onClick={(e) => {
+                    memberId = selectedUser.memberId;
+                    setModal(!modal);
+                  }}
                 >
                   {selectedUser.fullName}
                 </label>
                 <div className="option d-flex align-items-baseline">
                   <i
                     className={
-                      'fa fa-times mr-10' +
-                      (isDeleteOn ? ' visible ' : ' invisible ')
+                      "fa fa-times mr-10" +
+                      (isDeleteOn ? " visible " : " invisible ")
                     }
                     aria-hidden="true"
-                    onClick={() => {
+                    onClick={(e) => {
                       setDelete(false);
+                      setArray([]);
                       setDropdownOpen(false);
                     }}
                   ></i>
                   <i
                     className={
-                      'fa fa-trash mr-10' +
-                      (isDeleteOn && deleteArray.length > 0 ? ' visible ' : ' invisible ')
+                      "fa fa-trash mr-10" +
+                      (isDeleteOn && deleteArray.length > 0
+                        ? " visible "
+                        : " invisible ")
                     }
                     aria-hidden="true"
-                    onClick={() => setDeleteMessage(!deleteMessage)}
+                    onClick={(e) => setDeleteMessage(!deleteMessage)}
                   ></i>
+
                   <div>
                     <Dropdown
                       isOpen={dropdownOpen}
@@ -317,9 +711,14 @@ const WebChat = () => {
                         <i
                           className="fa fa-ellipsis-v"
                           aria-hidden="true"
+                          id="open_menu"
                         ></i>
                       </DropdownToggle>
-                      <DropdownMenu style={{ right: -50 }}>
+                      <DropdownMenu
+                        style={{
+                          right: -50,
+                        }}
+                      >
                         <DropdownItem
                           className="item"
                           onClick={() => {
@@ -335,73 +734,116 @@ const WebChat = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Display message */}
               <div className="chat-room bg-light plr-15 ptb-10">
                 <div className="message_list" id="message_list_scroll">
                   {messageArray &&
-                    messageArray.map((msg) => (
-                      <div key={msg.chatId} className="wp-100">
-                        <div
-                          className={
-                            msg.senderId === auth.memberId
-                              ? 'mtb-5 d-flex justify-content-end height'
-                              : 'mtb-5 d-flex justify-content-start height'
-                          }
-                        >
+                    messageArray.map((msg, index) => {
+                      return (
+                        <div key={msg.chatId} className="wp-100">
                           <div
                             className={
-                              msg.senderId === auth.memberId
-                                ? 'messageDetailBox right_side red--text bg-white'
-                                : 'messageDetailBox left_side text-white red'
+                              msg.senderId === store.getState().auth.memberId
+                                ? "mtb-5 d-flex justify-content-end height"
+                                : "mtb-5 d-flex justify-content-start height"
                             }
-                            style={{ borderRadius: 16 }}
                           >
-                            {msg.message && msg.message.trim() ? (
-                              <div>{msg.message}</div>
-                            ) : (
-                              <img
-                                src={msg.chatImage}
-                                height="75px"
-                                width="100px"
-                                className="object-fit-contain"
-                                alt="sent_image"
+                            {/* {msg.senderId !==
+                              store.getState().auth.memberId && (
+                              <input
+                                type="checkbox"
+                                id={index}
+                                name="delete_chat"
+                                className={
+                                  'mr-7' +
+                                  (isDeleteOn ? ' d-block ' : ' d-none ')
+                                }
+                                checked={deleteArray.includes(msg.chatId)}
+                                style={{ height: '24px' }}
+                                onChange={(e) => {
+                                  console.log('clicked checkbox')
+                                  //     console.log(e.target.checked, index)
+                                  let arr = deleteArray
+                                  if (e.target.checked) {
+                                    arr.push(msg.chatId)
+                                  } else {
+                                    const i = deleteArray.findIndex(
+                                      (el) => el === msg.chatId,
+                                    )
+                                    if (i !== -1) {
+                                      arr.splice(i, 1)
+                                    }
+                                  }
+
+                                  setArray([...arr])
+                                }}
+                              />
+                            )} */}
+                            <div
+                              className={
+                                msg.senderId === store.getState().auth.memberId
+                                  ? "messageDetailBox right_side red--text bg-white"
+                                  : "messageDetailBox left_side text-white red"
+                              }
+                              style={{ borderRadius: 16 }}
+                            >
+                              {msg.message && msg.message.trim() ? (
+                                <div className="">{msg.message}</div>
+                              ) : (
+                                <img
+                                  src={msg.chatImage}
+                                  height="75px"
+                                  width="100px"
+                                  className="object-fit-contain"
+                                  alt="sent_image"
+                                />
+                              )}
+                              <div className="text-right fs-12 text-dark">
+                                {/* {moment(msg.timestamp.toDate()).format(
+                    'MM-DD-YYYY hh:mm A',
+                  )} */}
+                                {msg.timestamp &&
+                                  moment(msg.timestamp.toDate()).format(
+                                    "MM/DD/yyyy hh:mm a"
+                                  )}
+                              </div>
+                            </div>
+                            {msg.senderId ===
+                              store.getState().auth.memberId && (
+                              <input
+                                type="checkbox"
+                                id={msg.chatId}
+                                name="delete_chat"
+                                className={
+                                  "ml-7" +
+                                  (isDeleteOn ? " d-block " : " d-none ")
+                                }
+                                checked={deleteArray.includes(msg.chatId)}
+                                style={{ height: "24px" }}
+                                onChange={(e) => {
+                                  // console.log('clicked checkbox')
+                                  //     console.log(e.target.checked, index)
+                                  let arr = deleteArray;
+                                  if (e.target.checked) {
+                                    arr.push(msg.chatId);
+                                  } else {
+                                    const i = deleteArray.findIndex(
+                                      (el) => el === msg.chatId
+                                    );
+                                    if (i !== -1) {
+                                      arr.splice(i, 1);
+                                    }
+                                  }
+                                  setArray([...arr]);
+                                }}
                               />
                             )}
-                            <div className="text-right fs-12 text-dark">
-                              {msg.timestamp &&
-                                moment(msg.timestamp).format(
-                                  'MM/DD/yyyy hh:mm a'
-                                )}
-                            </div>
                           </div>
-                          {msg.senderId === auth.memberId && (
-                            <input
-                              type="checkbox"
-                              id={msg.chatId}
-                              name="delete_chat"
-                              className={
-                                'ml-7' + (isDeleteOn ? ' d-block ' : ' d-none ')
-                              }
-                              checked={deleteArray.includes(msg.chatId)}
-                              style={{ height: '24px' }}
-                              onChange={(e) => {
-                                let arr = deleteArray;
-                                if (e.target.checked) {
-                                  arr.push(msg.chatId);
-                                } else {
-                                  const i = deleteArray.findIndex(
-                                    (el) => el === msg.chatId
-                                  );
-                                  if (i !== -1) {
-                                    arr.splice(i, 1);
-                                  }
-                                }
-                                setArray([...arr]);
-                              }}
-                            />
-                          )}
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
+                  {/* {sending && <div className="text-center">Sending...</div>} */}
                 </div>
               </div>
               <div className="ptb-10 plrp-3 d-flex box border-top align-items-center">
@@ -410,13 +852,15 @@ const WebChat = () => {
                   placeholder="Say something..."
                   className="mlp-2 mrp-1 message_input"
                   value={message}
+                  // type="textarea"
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter' && message && message.length > 0) {
+                    if (e.key === "Enter" && message && message.length > 0) {
                       sendMessage(false, null);
                     }
                   }}
                 />
+
                 <div className="image-upload mrp-3">
                   <label htmlFor="file-input">
                     <img
@@ -427,6 +871,7 @@ const WebChat = () => {
                       className="cursor-pointer"
                     />
                   </label>
+
                   <input
                     id="file-input"
                     type="file"
@@ -435,6 +880,7 @@ const WebChat = () => {
                     onChange={uploadImage}
                   />
                 </div>
+
                 <input
                   type="image"
                   src={Send}
@@ -442,7 +888,7 @@ const WebChat = () => {
                   width="20px"
                   height="20px"
                   id="send_message"
-                  onClick={() => {
+                  onClick={(e) => {
                     if (message && message.length > 0) {
                       sendMessage(false, null);
                     }
@@ -455,7 +901,7 @@ const WebChat = () => {
               <div>
                 <div
                   className="bg-light"
-                  style={{ height: window.innerHeight + 'px' }}
+                  style={{ height: window.innerHeight + "px" }}
                 ></div>
                 <Modal
                   isOpen={deleteMessage}
@@ -465,11 +911,11 @@ const WebChat = () => {
                   className="signin"
                 >
                   <div className="ptb-50 plr-20 text-center text-bold">
-                    Are you sure you want to delete?
+                    Are you sure want to delete?
                     <div className="d-flex justify-content-center mt-15">
                       <Button
                         color="danger"
-                        onClick={() => {
+                        onClick={(e) => {
                           setArray([]);
                           setDelete(!isDeleteOn);
                           setDeleteMessage(!deleteMessage);
@@ -480,7 +926,7 @@ const WebChat = () => {
                       <Button
                         color="success"
                         className="ml-7"
-                        onClick={deleteUserMessage}
+                        onClick={(e) => deleteUserMessage()}
                         disabled={loader}
                       >
                         DELETE
@@ -493,11 +939,12 @@ const WebChat = () => {
           </React.Fragment>
         ) : null}
       </div>
+
       {open && (
         <div>
           <div
             className="bg-light"
-            style={{ height: window.innerHeight + 'px' }}
+            style={{ height: window.innerHeight + "px" }}
           ></div>
           <Modal
             isOpen={open}
@@ -507,15 +954,15 @@ const WebChat = () => {
             className="signin"
           >
             <div className="ptb-50 plr-20 text-center text-bold">
-              Are you sure you want to delete chat?
+              Are you sure want to delete chat?
               <div className="d-flex justify-content-center mt-15">
-                <Button color="danger" onClick={() => setOpen(!open)}>
+                <Button color="danger" onClick={(e) => setOpen(!open)}>
                   CANCEL
                 </Button>
                 <Button
                   color="success"
                   className="ml-7"
-                //   onClick={deleteRecentChat}
+                  onClick={(e) => deleteRecentChat()}
                   disabled={loader}
                 >
                   DELETE
@@ -525,11 +972,12 @@ const WebChat = () => {
           </Modal>
         </div>
       )}
+
       {modal && memberId && (
         <ChatProfile
           memberId={memberId}
           isOpen={modal}
-          toggle={() => {
+          toggle={(e) => {
             setModal(!modal);
             memberId = null;
           }}

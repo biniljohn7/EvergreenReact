@@ -10,6 +10,7 @@ import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
 import moment from "moment";
 import Compressor from "compressorjs";
+import { msgSendApi, msgLoadApi } from "../../api/inboxAPI";
 import {
   Dropdown,
   DropdownToggle,
@@ -115,7 +116,34 @@ const MobileChat = (props) => {
 
   useEffect(() => {
     if (selectedUser) {
-      setMessageArray([]);
+        setMessageArray([]);
+        msgLoadApi({
+            id: selectedUser.memberId,
+            pgn: 0
+        })
+        .then((res) => {
+            setMessageArray(res.data.messages);
+        })
+        .catch((err) => {
+            console.error(err)
+            if (err.response) {
+                if (err.response.status === 401) {
+                    props.logout()
+                    ToastsStore.error('Session Expire! Please login again.')
+                    setTimeout(() => props.history.replace('/signin'), 800)
+                } else {
+                    setLoading(false)
+                    ToastsStore.error('Something went wrong!')
+                }
+            } else if (err.request) {
+                setLoading(false)
+                ToastsStore.error('Unable to connect to server!')
+            } else {
+                setLoading(false)
+                ToastsStore.error('Something went wrong!')
+            }
+        });
+      return;
       const senderId = store.getState().auth.memberId;
       const receiverId = selectedUser.memberId;
 
@@ -167,7 +195,7 @@ const MobileChat = (props) => {
   }, [selectedUser]);
 
   const getRecentChat = () => {
-    setLoading(true);
+    setLoader(true);
     firebase
       .firestore()
       .collection("recent_chat")
@@ -354,6 +382,33 @@ const MobileChat = (props) => {
 
   const sendMessage = (isImage, imageUrl) => {
     setLoader(true);
+    msgSendApi({
+        message: message,
+        recipient: selectedUser.memberId
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error(err)
+          if (err.response) {
+            if (err.response.status === 401) {
+              props.logout()
+              ToastsStore.error('Session Expire! Please login again.')
+              setTimeout(() => props.history.replace('/signin'), 800)
+            } else {
+              setLoading(false)
+              ToastsStore.error('Something went wrong!')
+            }
+          } else if (err.request) {
+            setLoading(false)
+            ToastsStore.error('Unable to connect to server!')
+          } else {
+            setLoading(false)
+            ToastsStore.error('Something went wrong!')
+          }
+        });
+    return;
     // console.log('in send msg', selectedUser.memberId)
     try {
       let userRef = firebase
@@ -648,22 +703,21 @@ const MobileChat = (props) => {
                           <div key={index} className="wp-100">
                             <div
                               className={
-                                msg.senderId === store.getState().auth.memberId
+                                msg.isSent
                                   ? "mtb-5 d-flex justify-content-end height"
                                   : "mtb-5 d-flex justify-content-start height"
                               }
                             >
                               <div
                                 className={
-                                  msg.senderId ===
-                                  store.getState().auth.memberId
+                                  msg.isSent
                                     ? "messageDetailBox right_side red--text bg-white"
                                     : "messageDetailBox left_side text-white red"
                                 }
                                 style={{ borderRadius: 16 }}
                               >
-                                {msg.message && msg.message.trim() ? (
-                                  <div className="">{msg.message}</div>
+                                {msg.text && msg.text.trim() ? (
+                                  <div className="">{msg.text}</div>
                                 ) : (
                                   <img
                                     src={msg.chatImage}
@@ -677,33 +731,29 @@ const MobileChat = (props) => {
                                   {/* {moment(msg.timestamp.toDate()).format(
                                 'MM-DD-YYYY hh:mm A',
                               )} */}
-                                  {msg.timestamp &&
-                                    moment(msg.timestamp.toDate()).format(
-                                      "hh:mm a"
-                                    )}
+                                  {msg.time && msg.shortTime}
                                 </div>
                               </div>
-                              {msg.senderId ===
-                                store.getState().auth.memberId && (
+                              {msg.isSent && (
                                 <input
                                   type="checkbox"
-                                  id={msg.chatId}
+                                  id={msg.id}
                                   name="delete_chat"
                                   className={
                                     "ml-7" +
                                     (isDeleteOn ? " d-block " : " d-none ")
                                   }
-                                  checked={deleteArray.includes(msg.chatId)}
+                                  checked={deleteArray.includes(msg.id)}
                                   style={{ height: "24px" }}
                                   onChange={(e) => {
                                     // console.log('clicked checkbox')
                                     //     console.log(e.target.checked, index)
                                     let arr = deleteArray;
                                     if (e.target.checked) {
-                                      arr.push(msg.chatId);
+                                      arr.push(msg.id);
                                     } else {
                                       const i = deleteArray.findIndex(
-                                        (el) => el === msg.chatId
+                                        (el) => el === msg.id
                                       );
                                       if (i !== -1) {
                                         arr.splice(i, 1);

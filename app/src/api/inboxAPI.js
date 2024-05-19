@@ -13,18 +13,27 @@ export const getContacts = (body) => {
         })
 }
 
-export const msgTxtSend = (body) => {
+export const msgLoadApi = (body) => {
     setHeaders()
-    return axios.post(`${BASE_URL}/member/?method=message-send`, body).then((response) => {
-        return response.data
-    })
+    return axios
+        .get(
+            `${BASE_URL}/member/?method=messages-load&id=${body.id}&pgn=${body.pgn}`,
+        )
+        .then((response) => {
+            return response.data
+        })
 }
 
-export const msgImgSend = (body) => {
+export const msgSendApi = (body) => {
     setHeaders()
-    return axios.post(`${BASE_URL}/member/?method=message-file-upload`, body).then((response) => {
-        return response.data
-    })
+    return axios
+        .post(
+            `${BASE_URL}/member/?method=message-send`,
+            body
+        )
+        .then((response) => {
+            return response.data
+        })
 }
 
 export const getProfile = (memberId) => {
