@@ -68,7 +68,7 @@ const editProfile = withFormik({
         })
       ),
     certification: Yup.array().notRequired().nullable(),
-    chapterOfInitiation: Yup.string().trim().required("This field is required"),
+    //chapterOfInitiation: Yup.string().trim().required("This field is required"),
     yearOfIni: Yup.date().required("This field is required"),
     currentChapter: Yup.string().required("This field is required"),
     leadershipRole: Yup.string().trim().required("This field is required"),

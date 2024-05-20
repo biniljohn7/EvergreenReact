@@ -56,7 +56,7 @@ export const SELECT_CSS = {
   }),
 };
 
-console.clear();
+
 
 const EditProfile = (props) => {
   const {
@@ -93,6 +93,7 @@ const EditProfile = (props) => {
   const [chapterOfIntiationList, setChapterOfIntiation] = useState([]);
   //const [formValues, setFormValues] = useState(props.profile);
   const [formValues, setFormValues] = useState({ ...values });
+  const [ErrorList, setErrorList] = useState({});
 
   useEffect(() => {
     getDropdown()
@@ -224,13 +225,21 @@ const EditProfile = (props) => {
       });
   }, []);
 
-  const Error = (props) => {
-    const field1 = props.field;
-    if ((errors[field1] && touched[field1]) || submitCount > 0) {
-      return <div className="text-danger">{errors[field1]}</div>;
-    } else {
-      return <div />;
-    }
+  // const Error = (props) => {
+  //   const field1 = props.field;
+  //   if ((errors[field1] && touched[field1]) || submitCount > 0) {
+  //     return <div className="text-danger">{errors[field1]}</div>;
+  //   } else {
+  //     return <div />;
+  //   }
+  // };
+
+  const Error = ({ field }) => {
+    return ErrorList[field] ?
+      <div className="text-danger">
+        {ErrorList[field]}
+      </div> :
+      <></>;
   };
 
   const Error2 = (props) => {
@@ -266,49 +275,118 @@ const EditProfile = (props) => {
   };
 
   const handleForm = (e) => {
-    e.preventDefault();
-    //handleSubmit();
-    //console.log(isValid);
-    //if (isValid) {
-    if (1) {
+    function el(id) {
+      return document.getElementById(id);
+    }
+
+    let
+      sErrs = {}
+
+    if (!formValues.prefix.value) {
+      sErrs['prefix'] = 'This field is required';
+    }
+    if (!el('firstName').value.trim()) {
+      sErrs['firstName'] = 'This field is required';
+    }
+    if (!el('lastName').value.trim()) {
+      sErrs['lastName'] = 'This field is required';
+    }
+    if (!formValues.country.profileOptionsId) {
+      sErrs['country'] = 'This field is required';
+    }
+    if (!formValues.state.id) {
+      sErrs['state'] = 'This field is required';
+    }
+    if (!formValues.city.id) {
+      sErrs['city'] = 'This field is required';
+    }
+    if (!el('address').value.trim()) {
+      sErrs['address'] = 'This field is required';
+    }
+    if (!el('zip').value.trim()) {
+      sErrs['zip'] = 'This field is required';
+    }
+    // check phone no here
+    if (!formValues.occupation.profileOptionsId) {
+      sErrs['occupation'] = 'This field is required';
+    }
+    if (!formValues.industry.profileOptionsId) {
+      sErrs['industry'] = 'This field is required';
+    }
+    if (!el('leadershipRole').value.trim()) {
+      sErrs['leadershipRole'] = 'This field is required';
+    }
+    if (!formValues.household.value) {
+      sErrs['household'] = 'This field is required';
+    }
+    if (!formValues.salaryRange.value) {
+      sErrs['salaryRange'] = 'This field is required';
+    }
+    if (!formValues.expertise.map((ex) => ex.value).length) {
+      sErrs['expertise'] = 'This field is required';
+    }
+    if (!formValues.nation.nationId) {
+      sErrs['nation'] = 'This field is required';
+    }
+    if (!formValues.region.regionId) {
+      sErrs['region'] = 'This field is required';
+    }
+    if (!formValues.organizationalState.id) {
+      sErrs['organizationalState'] = 'This field is required';
+    }
+    if (!formValues.chapterOfInitiation.chapterId) {
+      sErrs['chapterOfInitiation'] = 'This field is required';
+    }
+    if (!el('yearOfIni').value.trim()) {
+      sErrs['yearOfIni'] = 'This field is required';
+    }
+    if (!formValues.currentChapter.chapterId) {
+      sErrs['currentChapter'] = 'This field is required';
+    }
+    setErrorList(sErrs);
+
+    // e.preventDefault();
+    // handleSubmit();
+    // if (isValid) {
+    if (Object.keys(sErrs).length < 1) {
       setLoader(true);
       let body = {
-        statusUpdate: values.statusUpdate || null,
-        prefixId: values.prefix.value,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        suffixId: values.suffix ? values.suffix.value : null,
-        countryId: values.country.profileOptionsId,
-        stateId: values.state.id,
-        organizationalStateId: values.organizationalState.id,
-        regionId: values.region.regionId,
-        nationId: values.nation.nationId,
-        cityId: values.city.id,
-        address: values.address,
-        zipcode: values.zip,
-        phoneCodeId: values.phoneCode.profileOptionsId,
-        phoneNumber: values.phoneNumber,
-        biography: values.biography || null,
-        occupationId: values.occupation.profileOptionsId,
-        industryId: values.industry.profileOptionsId,
-        educations: values.education.map((edu) => {
+        statusUpdate: formValues.statusUpdate || null,
+        prefixId: formValues.prefix.value,
+        firstName: el('firstName').value.trim(),
+        lastName: el('lastName').value.trim(),
+        suffixId: formValues.suffix ? formValues.suffix.value : null,
+        countryId: formValues.country.profileOptionsId,
+        stateId: formValues.state.id,
+        organizationalStateId: formValues.organizationalState.id,
+        regionId: formValues.region.regionId,
+        nationId: formValues.nation.nationId,
+        cityId: formValues.city.id,
+        address: el('address').value.trim(),
+        zipcode: el('zip').value.trim(),
+        phoneCodeId: formValues.phoneCode.profileOptionsId,
+        phoneNumber: formValues.phoneNumber,
+        biography: el('address').value.trim() || null,
+        occupationId: formValues.occupation.profileOptionsId,
+        industryId: formValues.industry.profileOptionsId,
+        educations: formValues.education.map((edu) => {
           return {
             degreeId: edu.degree.value,
             universityId: edu.university.profileOptionsId,
           };
         }),
-        certificationId: values.certification
-          ? values.certification.map((cert) => cert.value)
+        certificationId: formValues.certification
+          ? formValues.certification.map((cert) => cert.value)
           : [],
-        chapterOfInitiation: values.chapterOfInitiation.chapterId,
-        // yearOfInitiation: values.yearOfIni,
-        currentChapter: values.currentChapter.chapterId,
-        leadershipRole: values.leadershipRole,
-        householdId: values.household.value,
-        salaryRangeId: values.salaryRange.value,
+        chapterOfInitiation: formValues.chapterOfInitiation.chapterId,
+        //yearOfInitiation: formValues.yearOfIni,
+        currentChapter: formValues.currentChapter.chapterId,
+        leadershipRole: el('leadershipRole').value.trim(),
+        householdId: formValues.household.value,
+        salaryRangeId: formValues.salaryRange.value,
         expertiseIds: formValues.expertise.map((ex) => ex.value),
       };
-      const YOI = values.yearOfIni.split("-");
+      const YOI = el('yearOfIni').value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
       if (isProfileCreated) {
         const totalBody = {
@@ -319,32 +397,32 @@ const EditProfile = (props) => {
             profileImage: props.profile.visible.profileImage || true,
             memberId: store.getState().auth.memberId,
             profileVisibilityId: 0,
-            statusUpdate: values.statusUpdateSwitch || false,
-            prefix: values.prefixSwitch || false,
-            email: values.emailSwitch || false,
-            memberCode: values.memberCodeSwitch || false,
-            country: values.countrySwitch || false,
-            state: values.stateSwitch || false,
-            organizationalState: values.organizationalStateSwich || false,
-            city: values.citySwitch || false,
-            address: values.addressSwitch || false,
-            zipcode: values.zipSwitch || false,
-            biography: values.biographySwitch || false,
-            certification: values.certificationSwitch || false,
-            chapterOfInitiation: values.chapOfIniSwitch || false,
-            currentChapter: values.currentChapSwitch || false,
-            educations: values.educationSwitch || false,
-            expertise: values.expertiseSwitch || false,
-            household: values.householdSwitch || false,
-            industry: values.industrySwitch || false,
-            leadershipRole: values.roleSwitch || false,
-            occupation: values.occupationSwitch || false,
-            phoneCode: values.phoneNumberSwitch || false,
-            phoneNumber: values.phoneNumberSwitch || false,
-            salaryRange: values.salarySwitch || false,
-            yearOfInitiation: values.yearOfIniSwitch || false,
-            nation: values.nationSwitch || false,
-            region: values.regionSwitch || false,
+            statusUpdate: formValues.statusUpdateSwitch || false,
+            prefix: formValues.prefixSwitch || false,
+            email: formValues.emailSwitch || false,
+            memberCode: formValues.memberCodeSwitch || false,
+            country: formValues.countrySwitch || false,
+            state: formValues.stateSwitch || false,
+            organizationalState: formValues.organizationalStateSwich || false,
+            city: formValues.citySwitch || false,
+            address: formValues.addressSwitch || false,
+            zipcode: formValues.zipSwitch || false,
+            biography: formValues.biographySwitch || false,
+            certification: formValues.certificationSwitch || false,
+            chapterOfInitiation: formValues.chapOfIniSwitch || false,
+            currentChapter: formValues.currentChapSwitch || false,
+            educations: formValues.educationSwitch || false,
+            expertise: formValues.expertiseSwitch || false,
+            household: formValues.householdSwitch || false,
+            industry: formValues.industrySwitch || false,
+            leadershipRole: formValues.roleSwitch || false,
+            occupation: formValues.occupationSwitch || false,
+            phoneCode: formValues.phoneNumberSwitch || false,
+            phoneNumber: formValues.phoneNumberSwitch || false,
+            salaryRange: formValues.salarySwitch || false,
+            yearOfInitiation: formValues.yearOfIniSwitch || false,
+            nation: formValues.nationSwitch || false,
+            region: formValues.regionSwitch || false,
           },
           ...body,
         };
@@ -353,7 +431,7 @@ const EditProfile = (props) => {
           .then((res) => {
             if (res.success === 1) {
               props.login({
-                currentChapter: values.currentChapter.chapterId,
+                currentChapter: formValues.currentChapter.chapterId,
                 isLogin: true,
               });
               ToastsStore.info(res.message);
@@ -375,7 +453,7 @@ const EditProfile = (props) => {
               if (!isProfileCreated) {
                 props.login({
                   isProfileCreated: true,
-                  currentChapter: values.currentChapter.chapterId,
+                  currentChapter: formValues.currentChapter.chapterId,
                   isLogin: true,
                 });
               }
@@ -653,7 +731,7 @@ const EditProfile = (props) => {
                     value={formValues.state || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.country
+                        {!formValues.country
                           ? "Select Country first"
                           : "No States Found"}
                       </>
@@ -700,7 +778,7 @@ const EditProfile = (props) => {
                     value={formValues.city || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.state ? "Select State first" : "No City Found"}
+                        {!formValues.state ? "Select State first" : "No City Found"}
                       </>
                     )}
                   />
@@ -1007,9 +1085,10 @@ const EditProfile = (props) => {
                                     onClick={() => {
                                       let array = formValues.education;
                                       array.splice(index, 1);
-                                      // let ndata = { ...formValues };
-                                      // ndata.education[index] = array;
-                                      // setFormValues(ndata);
+                                      let ndata = { ...formValues };
+                                      ndata.education[index] = array;
+                                      setFormValues(ndata);
+                                      console.log(11);
                                     }}
                                   >delete</span>
                                 </div>
@@ -1068,6 +1147,7 @@ const EditProfile = (props) => {
                             className="c-btn c-info form-button"
                             type="button"
                             onClick={() => {
+                              console.log(79879);
                               push({ university: "", degree: "" });
                             }}
                             style={{ width: "fit-content", marginTop: "10px" }}
@@ -1343,7 +1423,7 @@ const EditProfile = (props) => {
                           );
                         });
                     }}
-                    //value={values.nation || ""}
+                    //value={formValues.nation || ""}
                     value={formValues.nation || ""}
                   />
                   <Error field="nation" />
@@ -1407,7 +1487,7 @@ const EditProfile = (props) => {
                     value={formValues.region || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.nation
+                        {!formValues.nation
                           ? "Select nation first"
                           : "No Region Found"}
                       </>
@@ -1471,7 +1551,7 @@ const EditProfile = (props) => {
                     value={formValues.organizationalState || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.region
+                        {!formValues.region
                           ? "Select Region first"
                           : "No States Found"}
                       </>
@@ -1521,7 +1601,7 @@ const EditProfile = (props) => {
                     value={formValues.chapterOfInitiation || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.organizationalStateSwich
+                        {!formValues.chapterOfInitiation
                           ? "Select Organizational State first"
                           : "No Section Found"}
                       </>
@@ -1617,7 +1697,7 @@ const EditProfile = (props) => {
                     value={formValues.currentChapter || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.organizationalStateSwich
+                        {!formValues.organizationalStateSwich
                           ? "Select Organizational State first"
                           : "No Section Found"}
                       </>
