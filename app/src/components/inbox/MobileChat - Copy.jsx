@@ -10,7 +10,6 @@ import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
 import moment from "moment";
 import Compressor from "compressorjs";
-import { txtSendApi, msgLoadApi, imgSendApi } from "../../api/inboxAPI";
 import {
   Dropdown,
   DropdownToggle,
@@ -116,38 +115,59 @@ const MobileChat = (props) => {
 
   useEffect(() => {
     if (selectedUser) {
-        setMessageArray([]);
-        msgLoadApi({
-            id: selectedUser.memberId,
-            pgn: 0
-        })
-        .then((res) => {
-            setMessageArray(res.data.messages);
-        })
-        .catch((err) => {
-            console.error(err)
-            if (err.response) {
-                if (err.response.status === 401) {
-                    props.logout()
-                    ToastsStore.error('Session Expire! Please login again.')
-                    setTimeout(() => props.history.replace('/signin'), 800)
-                } else {
-                    setLoading(false)
-                    ToastsStore.error('Something went wrong!')
-                }
-            } else if (err.request) {
-                setLoading(false)
-                ToastsStore.error('Unable to connect to server!')
-            } else {
-                setLoading(false)
-                ToastsStore.error('Something went wrong!')
-            }
-        });
+      setMessageArray([]);
+      const senderId = store.getState().auth.memberId;
+      const receiverId = selectedUser.memberId;
+
+      const chatPath =
+        senderId < receiverId
+          ? senderId + "_" + receiverId
+          : receiverId + "_" + senderId;
+
+      const query = selectedUser.lastReadTime
+        ? firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .orderBy("timestamp")
+            .where("timestamp", ">=", selectedUser.lastReadTime)
+        : firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .orderBy("timestamp");
+
+      query.onSnapshot(
+        (snapshot) => {
+          let array = [];
+          snapshot.forEach((doc) => {
+            array.push(doc.data());
+          });
+          setMessageArray(array);
+          // Add event listener
+          // snapshot.docChanges().forEach((change) => {
+          //   if (change.type === 'added') {
+          //     // console.log('add event: ')
+          //   }
+          //   if (change.type === 'modified') {
+          //     // console.log('Modified event: ')
+          //   }
+          //   if (change.type === 'removed') {
+          //     // console.log('Removed event: ')
+          //   }
+          // })
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
     }
   }, [selectedUser]);
 
   const getRecentChat = () => {
-    setLoader(true);
+    setLoading(true);
     firebase
       .firestore()
       .collection("recent_chat")
@@ -332,121 +352,195 @@ const MobileChat = (props) => {
       .set(lastMessage, { merge: true });
   };
 
-  const sendMessage = () => {
-    var msgArr;
+  const sendMessage = (isImage, imageUrl) => {
     setLoader(true);
-    txtSendApi({
-        message: message,
-        recipient: selectedUser.memberId
-      })
-        .then((res) => {
-            msgArr = messageArray;
-            msgArr.push(res.data);
-            setMessageArray(msgArr);
-            setMessage("");
-            setLoader(false);
-        })
-        .catch((err) => {
-          console.error(err)
-          if (err.response) {
-            if (err.response.status === 401) {
-              props.logout()
-              ToastsStore.error('Session Expire! Please login again.')
-              setTimeout(() => props.history.replace('/signin'), 800)
-            } else {
-              setLoading(false)
-              ToastsStore.error('Something went wrong!')
-            }
-          } else if (err.request) {
-            setLoading(false)
-            ToastsStore.error('Unable to connect to server!')
+    // console.log('in send msg', selectedUser.memberId)
+    try {
+      let userRef = firebase
+        .firestore()
+        .collection("recent_chat")
+        .doc(selectedUser.memberId.toString())
+        .collection("users")
+        .doc(store.getState().auth.memberId.toString());
+
+      // Store user data under 'users' collection
+      let userData = {
+        chatIds: [selectedUser.memberId],
+        email: selectedUser.email || "",
+        fullName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+        lastChatDate: firebase.firestore.FieldValue.serverTimestamp(),
+        lastMessage: isImage ? "" : message,
+        memberId: store.getState().auth.memberId,
+        mobileNumber: "",
+        profileImage: store.getState().auth.profileImage || null,
+        userRef: [userRef],
+        chatImage: isImage ? imageUrl : "",
+      };
+
+      // console.log('userData ', userData)
+
+      // Update recent message
+      let receiverRecentMessage = {
+        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        isRead: false,
+        lastMessage: isImage ? "Image" : message,
+        fullName: selectedUser.fullName,
+        profileImage: selectedUser.profileImage,
+        memberId: selectedUser.memberId,
+        delete: false,
+      };
+
+      // Update recent message
+      let senderRecentMessage = {
+        lastMessageTime: firebase.firestore.FieldValue.serverTimestamp(),
+        isRead: false,
+        lastMessage: isImage ? "Image" : message,
+        fullName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+        profileImage: store.getState().auth.profileImage || null,
+        memberId: store.getState().auth.memberId,
+        delete: false,
+      };
+
+      // If the message is the 1st entry
+      if (messageArray.count === 0) {
+        receiverRecentMessage.lastReadTime =
+          firebase.firestore.FieldValue.serverTimestamp();
+        senderRecentMessage.lastReadTime =
+          firebase.firestore.FieldValue.serverTimestamp();
+        userData.lastReadTime = firebase.firestore.FieldValue.serverTimestamp();
+      }
+
+      // console.log('receiverRM', receiverRecentMessage)
+      // console.log('senderRM', senderRecentMessage)
+
+      let dataDict = {
+        message: isImage ? "" : message,
+        receiverId: selectedUser.memberId,
+        senderId: store.getState().auth.memberId,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        chatImage: isImage ? imageUrl : "",
+        senderName:
+          store.getState().auth.firstName +
+          " " +
+          store.getState().auth.lastName,
+      };
+
+      // console.log('dataDict ', dataDict)
+
+      const chatPath =
+        store.getState().auth.memberId < selectedUser.memberId
+          ? store.getState().auth.memberId + "_" + selectedUser.memberId
+          : selectedUser.memberId + "_" + store.getState().auth.memberId;
+
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(store.getState().auth.memberId.toString())
+        .update(userData)
+        .then(() => {
+          updateRecentChatLog(
+            store.getState().auth.memberId,
+            selectedUser.memberId,
+            receiverRecentMessage
+          );
+
+          updateRecentChatLog(
+            selectedUser.memberId,
+            store.getState().auth.memberId,
+            senderRecentMessage
+          );
+
+          let messageCollection = firebase
+            .firestore()
+            .collection("chats")
+            .doc(chatPath)
+            .collection("messages")
+            .doc();
+
+          // console.log(
+          //   'message collection ',
+          //   messageCollection,
+          //   messageCollection.id,
+          // )
+          dataDict.chatId = messageCollection.id;
+          messageCollection.set(dataDict, { merge: true });
+
+          // Add extra fields to message queue
+          dataDict.fullName = senderRecentMessage.fullName;
+          dataDict.profileImage = senderRecentMessage.profileImage;
+          if (senderRecentMessage.lastReadTime) {
+            dataDict.lastReadTime = senderRecentMessage.lastReadTime;
           } else {
-            setLoading(false)
-            ToastsStore.error('Something went wrong!')
+            dataDict.lastReadTime = "";
           }
+
+          firebase.firestore().collection("messageQueue").doc().set(dataDict);
+
+          setMessage("");
+          setLoader(false);
+          // console.log('in end msg')
+        })
+        .catch((error) => {
+          console.error("Error updating document: ", error);
+          setLoader(false);
         });
+    } catch (error) {
+      console.error(error);
+      setMessage("");
+      ToastsStore.error("Failed to send message");
+      setLoader(false);
+    }
   };
 
   const uploadImage = (e) => {
-    var 
-        img,
-        msgArr;
     if (e.target.files && e.target.files[0]) {
-        img = e.target.files[0];
-        if ((/\.(jpe*g|png|gif)$/).test(img.name)) {
-            setLoader(true);
-            const formData = new FormData();
-            formData.append("recipient", selectedUser.memberId);
-            formData.append("image", img);
-            imgSendApi(formData)
-                .then((res) => {
-                    msgArr = messageArray;
-                    msgArr.push(res.data);
-                    setMessageArray(msgArr);
-                    setMessage("");
-                    setLoader(false);
-                })
-                .catch((err) => {
-                    console.error(err)
-                    if (err.response) {
-                        if (err.response.status === 401) {
-                        props.logout()
-                        ToastsStore.error('Session Expire! Please login again.')
-                        setTimeout(() => props.history.replace('/signin'), 800)
-                        } else {
-                        setLoading(false)
-                        ToastsStore.error('Something went wrong!')
-                        }
-                    } else if (err.request) {
-                        setLoading(false)
-                        ToastsStore.error('Unable to connect to server!')
-                    } else {
-                        setLoading(false)
-                        ToastsStore.error('Something went wrong!')
-                    }
-                });
-        }
       // Upload image to cloud storage
 
-    //   new Compressor(e.target.files && e.target.files[0], {
-    //     quality: 0.8,
-    //     success(result) {
-    //       // console.log(result)
-    //       // Points to the reference
-    //       let imageRef = firebase
-    //         .storage()
-    //         .ref()
-    //         .child(
-    //           `msgImgs/${store.getState().auth.memberId.toString()}/${
-    //             result.size
-    //           } bytes`
-    //         );
+      new Compressor(e.target.files && e.target.files[0], {
+        quality: 0.8,
+        success(result) {
+          // console.log(result)
+          // Points to the reference
+          let imageRef = firebase
+            .storage()
+            .ref()
+            .child(
+              `chatImages/${store.getState().auth.memberId.toString()}/${
+                result.size
+              } bytes`
+            );
 
-    //       try {
-    //         imageRef.put(result).then((snapshot) => {
-    //           // console.log('Uploaded a blob or file!', snapshot)
-    //           imageRef
-    //             .getDownloadURL()
-    //             .then((url) => {
-    //               // console.log('url ', url)
-    //               sendMessage(true, url);
-    //             })
-    //             .catch((error) => {
-    //               // Handle any errors
-    //               console.error(error);
-    //               ToastsStore.error("Failed to send an image");
-    //             });
-    //         });
-    //       } catch (err) {
-    //         console.error(err);
-    //         ToastsStore.error("Failed to send an image");
-    //       }
-    //     },
-    //     error(err) {
-    //       console.error(err, err.message);
-    //       ToastsStore.error("Failed to send an image");
-    //     },
-    //   });
+          try {
+            imageRef.put(result).then((snapshot) => {
+              // console.log('Uploaded a blob or file!', snapshot)
+              imageRef
+                .getDownloadURL()
+                .then((url) => {
+                  // console.log('url ', url)
+                  sendMessage(true, url);
+                })
+                .catch((error) => {
+                  // Handle any errors
+                  console.error(error);
+                  ToastsStore.error("Failed to send an image");
+                });
+            });
+          } catch (err) {
+            console.error(err);
+            ToastsStore.error("Failed to send an image");
+          }
+        },
+        error(err) {
+          console.error(err, err.message);
+          ToastsStore.error("Failed to send an image");
+        },
+      });
     }
   };
 
@@ -554,24 +648,25 @@ const MobileChat = (props) => {
                           <div key={index} className="wp-100">
                             <div
                               className={
-                                msg.isSent
+                                msg.senderId === store.getState().auth.memberId
                                   ? "mtb-5 d-flex justify-content-end height"
                                   : "mtb-5 d-flex justify-content-start height"
                               }
                             >
                               <div
                                 className={
-                                  msg.isSent
+                                  msg.senderId ===
+                                  store.getState().auth.memberId
                                     ? "messageDetailBox right_side red--text bg-white"
                                     : "messageDetailBox left_side text-white red"
                                 }
                                 style={{ borderRadius: 16 }}
                               >
-                                {msg.text && msg.text.trim() ? (
-                                  <div className="">{msg.text}</div>
+                                {msg.message && msg.message.trim() ? (
+                                  <div className="">{msg.message}</div>
                                 ) : (
                                   <img
-                                    src={msg.msgImg}
+                                    src={msg.chatImage}
                                     height="75px"
                                     width="100px"
                                     className="object-fit-contain"
@@ -582,29 +677,33 @@ const MobileChat = (props) => {
                                   {/* {moment(msg.timestamp.toDate()).format(
                                 'MM-DD-YYYY hh:mm A',
                               )} */}
-                                  {msg.time && msg.shortTime}
+                                  {msg.timestamp &&
+                                    moment(msg.timestamp.toDate()).format(
+                                      "hh:mm a"
+                                    )}
                                 </div>
                               </div>
-                              {msg.isSent && (
+                              {msg.senderId ===
+                                store.getState().auth.memberId && (
                                 <input
                                   type="checkbox"
-                                  id={msg.id}
+                                  id={msg.chatId}
                                   name="delete_chat"
                                   className={
                                     "ml-7" +
                                     (isDeleteOn ? " d-block " : " d-none ")
                                   }
-                                  checked={deleteArray.includes(msg.id)}
+                                  checked={deleteArray.includes(msg.chatId)}
                                   style={{ height: "24px" }}
                                   onChange={(e) => {
                                     // console.log('clicked checkbox')
                                     //     console.log(e.target.checked, index)
                                     let arr = deleteArray;
                                     if (e.target.checked) {
-                                      arr.push(msg.id);
+                                      arr.push(msg.chatId);
                                     } else {
                                       const i = deleteArray.findIndex(
-                                        (el) => el === msg.id
+                                        (el) => el === msg.chatId
                                       );
                                       if (i !== -1) {
                                         arr.splice(i, 1);

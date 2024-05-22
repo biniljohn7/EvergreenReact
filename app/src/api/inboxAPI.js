@@ -24,7 +24,7 @@ export const msgLoadApi = (body) => {
         })
 }
 
-export const msgSendApi = (body) => {
+export const txtSendApi = (body) => {
     setHeaders()
     return axios
         .post(
@@ -35,6 +35,16 @@ export const msgSendApi = (body) => {
             return response.data
         })
 }
+
+export const imgSendApi = (body) => {
+    setHeaders();
+    return axios.post(
+        BASE_URL + '/member/?method=message-file-upload',
+        body
+    ).then((response) => {
+        return response.data;
+    });
+};
 
 export const getProfile = (memberId) => {
     setHeaders()
