@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./news.style.js";
-//import { viewNews, reactToNews } from "../../api/newsApi";
-import { reactToNews } from "../../api/newsApi";
+import { ViewNews, reactToNews } from "../../api/newsApi";
+// import { reactToNews } from "../../api/newsApi";
 import { ToastsStore } from "react-toasts";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Spinner } from "reactstrap";
-import TimeAgo from "javascript-time-ago";
+// import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import ReactTimeAgo from "react-time-ago";
+// import ReactTimeAgo from "react-time-ago";
 import LoadingOverlay from "react-loading-overlay";
 
 const TEXT_LENGTH = window.innerWidth >= 768 ? 20 : 10;
 // TimeAgo.addDefaultLocale(en)
-TimeAgo.addLocale(en);
+// TimeAgo.addLocale(en);
 
 const NewsDetails = (props) => {
   const [news, setNews] = useState(null);
@@ -24,10 +24,6 @@ const NewsDetails = (props) => {
     likeCount: 0,
   });
 
-  console.log("news", news && news);
-
-  console.log("description", news && news.description);
-
   useEffect(() => {
     props &&
       props.location.state &&
@@ -36,33 +32,34 @@ const NewsDetails = (props) => {
     setLoading(false);
   }, []);
 
-  // useEffect(() => {
-  //   if (!props.match || !props.match.params || !props.match.params.newsfeedId) {
-  //     props.history.replace({
-  //       pathname: "/news",
-  //     });
-  //   } else {
-  //     viewNews(Number.parseInt(props.match.params.newsfeedId))
-  //       .then((res) => {
-  //         if (res.success === 1) {
-  //           setNews(res.data);
-  //           setLiked({
-  //             liked: res.data.isLikedByMe,
-  //             likeCount: res.data.likesCount,
-  //           });
-  //           setLoading(false);
-  //         } else {
-  //           setLoading(false);
-  //           ToastsStore.error(res.message);
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         console.error(err);
-  //         setLoading(false);
-  //         ToastsStore.error("Something went wrong!");
-  //       });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!props.match || !props.match.params || !props.match.params.newsfeedId) {
+      props.history.replace({
+        pathname: "/news",
+      });
+
+    } else {
+      ViewNews(Number.parseInt(props.match.params.newsfeedId))
+        .then((res) => {
+          if (res.success === 1) {
+            setNews(res.data);
+            //           setLiked({
+            //             liked: res.data.isLikedByMe,
+            //             likeCount: res.data.likesCount,
+            //           });
+            //           setLoading(false);
+          } else {
+            //           setLoading(false);
+            //           ToastsStore.error(res.message);
+          }
+        })
+        .catch((err) => {
+          //         console.error(err);
+          //         setLoading(false);
+          //         ToastsStore.error("Something went wrong!");
+        });
+    }
+  }, []);
 
   const likeOrDislike = () => {
     setLoader(true);
@@ -96,7 +93,8 @@ const NewsDetails = (props) => {
           <Spinner color="danger" />
         </div>
       ) : (
-        <LoadingOverlay active={loader} spinner={<Spinner />}>
+        <>
+          {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
           <div className="red pt-20">
             <Breadcrumb className="site-spacing">
               <BreadcrumbItem>
@@ -105,7 +103,7 @@ const NewsDetails = (props) => {
                 </Link>
               </BreadcrumbItem>
               <BreadcrumbItem active className="text-white">
-                {news.title.substr(0, TEXT_LENGTH) + "..."}
+                {(news?.title || '').substr(0, TEXT_LENGTH) + "..."}
               </BreadcrumbItem>
             </Breadcrumb>
           </div>
@@ -139,10 +137,10 @@ const NewsDetails = (props) => {
                     {news.newsSource}
                     <div className="date">
                       <i className="fa fa-clock-o mr-5" aria-hidden="true"></i>
-                      <ReactTimeAgo
+                      {/* <ReactTimeAgo
                         date={new Date(news.createdAt)}
                         locale="en-US"
-                      />
+                      /> */}
                     </div>
                   </div>
                   {/* <div className="text-danger">
@@ -181,7 +179,8 @@ const NewsDetails = (props) => {
               </React.Fragment>
             )}
           </div>
-        </LoadingOverlay>
+          {/* </LoadingOverlay> */}
+        </>
       )}
     </Wrapper>
   );

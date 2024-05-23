@@ -23,8 +23,8 @@ const IMAGE_SIZE =
   window.innerWidth < 768
     ? "100px"
     : window.innerWidth <= 1440
-    ? "150px"
-    : "200px";
+      ? "150px"
+      : "200px";
 
 const RECORD_NO =
   window.innerWidth < 768 ? 4 : window.innerWidth <= 1024 ? 3 : 4;
@@ -71,10 +71,10 @@ const Home = (props) => {
 
 
         <div className="news-section">
-            <div className="head-box">
-                <div className="container">
-                    <h2  className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
-                    {/*
+          <div className="head-box">
+            <div className="container">
+              <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
+              {/*
                     <div className="head-tab">
                         <ul>
                             <li><a className="nav-link">National</a></li>
@@ -84,63 +84,63 @@ const Home = (props) => {
                         </ul>
                     </div>
                      */}
-                </div>
             </div>
-            <div className="news-box">
-                <div className="container">
-                {data.news && data.news.length > 0 ? (
+          </div>
+          <div className="news-box">
+            <div className="container">
+              {data.news && data.news.length > 0 ? (
                 <React.Fragment>
-                    {data.news.slice(0, RECORD_NO).map((ev) => {
-                      return (
-                        <div onClick={(e) =>
-                          props.history.push(`/news/${ev.newsfeedId}`)
-                        }
-                          className="news-item cursor-pointer"
-                          key={ev.newsfeedId}
-                        >
-                            <div className="image-box">
-                            {ev.media?
-                              (<img
-                                src={ev.media}
-                                alt={ev.title.substr(0, 10) + "..."}
-                                className="image-sizes"
-                              />):null}
-                            </div>
-                            
-                            <h2>
-                              <ClampLines
-                                text={ev.title}
-                                id={"news_title_" + ev.newsfeedId}
-                                lines={2}
-                                ellipsis="..."
-                                buttons={false}
-                                className=""
-                              />
-                            </h2>
-                            <p className="">
-                              <ClampLines
-                                text={ev.description}
-                                id={"news_desc" + ev.newsfeedId}
-                                lines={2}
-                                ellipsis="..."
-                                buttons={false}
-                                className=""
-                              />
-                            </p>
-                            <div className="button-box white">
-                                <span>READ MORE</span>
-                            </div>
+                  {data.news.slice(0, RECORD_NO).map((ev) => {
+                    return (
+                      <div onClick={(e) =>
+                        props.history.push(`/news/${ev.newsfeedId}`)
+                      }
+                        className="news-item cursor-pointer"
+                        key={ev.newsfeedId}
+                      >
+                        <div className="image-box">
+                          {ev.media ?
+                            (<img
+                              src={ev.media}
+                              alt={ev.title.substr(0, 10) + "..."}
+                              className="image-sizes"
+                            />) : null}
                         </div>
-                      );
-                    })}
+
+                        <h2>
+                          <ClampLines
+                            text={ev.title}
+                            id={"news_title_" + ev.newsfeedId}
+                            lines={2}
+                            ellipsis="..."
+                            buttons={false}
+                            className=""
+                          />
+                        </h2>
+                        <p className="">
+                          <ClampLines
+                            text={ev.description}
+                            id={"news_desc" + ev.newsfeedId}
+                            lines={2}
+                            ellipsis="..."
+                            buttons={false}
+                            className=""
+                          />
+                        </p>
+                        <div className="button-box white">
+                          <span>READ MORE</span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </React.Fragment>
               ) : (
                 <div className="text-center ">
                   No Record Found!
                 </div>
               )}
-                </div>
             </div>
+          </div>
         </div>
         {/*
         <section className="mb-50">
@@ -316,97 +316,97 @@ const Home = (props) => {
         </section>
         */}
         <div className="event-section">
-            <div className="head-box right">
-                <div className="container">
-                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
-                </div>
+          <div className="head-box right">
+            <div className="container">
+              <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
             </div>
-            <div className="event-box">
-                <div className="container">
-                    <div className="image-box">
-                    {data.events && data.events.length > 0 ? (
-                      <>
-                        {data.events.slice(0, 1).map((ev) => {
-                          return (
-                            <div
-                              className="cursor-pointer"
-                              key={ev.eventId}
-                              onClick={(e) =>
-                                props.history.push(
-                                  `/events/${ev.name.replaceAll("/", " ")}`,
-                                  {
-                                    eventId: ev.eventId,
-                                  }
-                                )
+          </div>
+          <div className="event-box">
+            <div className="container">
+              <div className="image-box">
+                {data.events && data.events.length > 0 ? (
+                  <>
+                    {data.events.slice(0, 1).map((ev) => {
+                      return (
+                        <div
+                          className="cursor-pointer"
+                          key={ev.eventId}
+                          onClick={(e) =>
+                            props.history.push(
+                              `/events/${ev.name.replaceAll("/", " ")}`,
+                              {
+                                eventId: ev.eventId,
                               }
-                            >
-                                {ev.image?
-                              (<img
-                                    src={ev.image}
-                                    alt={ev.name.substr(0, 10) + "..."}
-                                    className="image-sizes"
-                                  />):null}
+                            )
+                          }
+                        >
+                          {ev.image ?
+                            (<img
+                              src={ev.image}
+                              alt={ev.name.substr(0, 10) + "..."}
+                              className="image-sizes"
+                            />) : null}
 
-                               
-                                
-                            </div>
-                          );
-                        })}
-                      </>
-                    ) : (
-                      <>
-                        No Image Found!
-                      </>
-                    )}
-                    </div>
-                    <div className="content-box">
-                    {data.events && data.events.length > 0 ? (
-                      <>
-                        {data.events.slice(0, RECORD_NO).map((ev) => {
-                          return (
-                            <div
-                              className="event-item cursor-pointer"
-                              key={ev.eventId}
-                              onClick={(e) =>
-                                props.history.push(
-                                  `/events/${ev.name.replaceAll("/", " ")}`,
-                                  {
-                                    eventId: ev.eventId,
-                                  }
-                                )
+
+
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>
+                    No Image Found!
+                  </>
+                )}
+              </div>
+              <div className="content-box">
+                {data.events && data.events.length > 0 ? (
+                  <>
+                    {data.events.slice(0, RECORD_NO).map((ev) => {
+                      return (
+                        <div
+                          className="event-item cursor-pointer"
+                          key={ev.eventId}
+                          onClick={(e) =>
+                            props.history.push(
+                              `/events/${ev.name.replaceAll("/", " ")}`,
+                              {
+                                eventId: ev.eventId,
                               }
-                            >
-                              <div className="e-date">{ev.date }</div>
-                              <h2>
-                              <ClampLines
-                                  text={ev.name}
-                                  id={"event_name_" + ev.eventId}
-                                  lines={2}
-                                  ellipsis="..."
-                                  buttons={false}
-                                  className="text-bold"
-                                />
-                              </h2>
-                              <p>{ev.address || ""}</p>
-                              <div className="button-box">
-                                  <span>READ MORE</span>
-                              </div>
+                            )
+                          }
+                        >
+                          <div className="e-date">{ev.date}</div>
+                          <h2>
+                            <ClampLines
+                              text={ev.name}
+                              id={"event_name_" + ev.eventId}
+                              lines={2}
+                              ellipsis="..."
+                              buttons={false}
+                              className="text-bold"
+                            />
+                          </h2>
+                          <p>{ev.address || ""}</p>
+                          <div className="button-box">
+                            <span>READ MORE</span>
+                          </div>
 
-                                
-                                
-                            </div>
-                          );
-                        })}
-                      </>
-                    ) : (
-                      <div className="text-center">
-                        No Record Found!
-                      </div>
-                    )}
-                        
-                    </div>
-                </div>
+
+
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div className="text-center">
+                    No Record Found!
+                  </div>
+                )}
+
+              </div>
             </div>
+          </div>
         </div>
         {/*
         <section className="mb-50">
@@ -465,56 +465,55 @@ const Home = (props) => {
         </section>
         */}
         <div className="benefits-section">
-            <div className="head-box">
-                <div className="container">
-                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/benefits")}>benefits</h2>
-                </div>
+          <div className="head-box">
+            <div className="container">
+              <h2 className="cursor-pointer" onClick={(e) => props.history.push("/benefits")}>benefits</h2>
             </div>
-            <div className="benefit-box">
-                <div className="container">
-                {data.benefits && data.benefits.length > 0 ? (
-                  <>
-                    {data.benefits.slice(0, RECORD_NO).map((ev) => {
-                      return (
-                        <div
-                          className="benefit-item cursor-pointer"
-                          key={ev.benefitId}
-                          onClick={(e) =>
-                            props.history.push(
-                              `/benefits/${ev.categoryName.replaceAll("/", "")}/${
-                                ev.categoryId
-                              }/${ev.benefitId}`
-                            )
-                          }
-                        >
-                          <div className="per">
-                            {ev.discount} OFF
-                          </div>
-                          <ClampLines
-                            text={ev.shortDetails}
-                            id={"benefit_shortDetails_" + ev.benefitId}
-                            lines={2}
-                            ellipsis="..."
-                            buttons={false}
-                            className="title"
-                          />
-                          <div className="cat">
-                            {ev.categoryName}
-                          </div>
+          </div>
+          <div className="benefit-box">
+            <div className="container">
+              {data.benefits && data.benefits.length > 0 ? (
+                <>
+                  {data.benefits.slice(0, RECORD_NO).map((ev) => {
+                    return (
+                      <div
+                        className="benefit-item cursor-pointer"
+                        key={ev.benefitId}
+                        onClick={(e) =>
+                          props.history.push(
+                            `/benefits/${ev.categoryName.replaceAll("/", "")}/${ev.categoryId
+                            }/${ev.benefitId}`
+                          )
+                        }
+                      >
+                        <div className="per">
+                          {ev.discount} OFF
                         </div>
-                      );
-                    })}
-                  </>
-                ) : (
-                  <div className="text-center">
-                    No Record Found!
-                  </div>
-                )}
-                    
-                    
-                    
+                        <ClampLines
+                          text={ev.shortDetails}
+                          id={"benefit_shortDetails_" + ev.benefitId}
+                          lines={2}
+                          ellipsis="..."
+                          buttons={false}
+                          className="title"
+                        />
+                        <div className="cat">
+                          {ev.categoryName}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </>
+              ) : (
+                <div className="text-center">
+                  No Record Found!
                 </div>
+              )}
+
+
+
             </div>
+          </div>
         </div>
         {/*
         <section className="mb-50">
@@ -566,71 +565,71 @@ const Home = (props) => {
         */}
         <HomeNational />
         <div className="advo-section home">
-            <div className="head-box right">
-                <div className="container">
-                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/advocacy")}>advocacy</h2>
-                </div>
+          <div className="head-box right">
+            <div className="container">
+              <h2 className="cursor-pointer" onClick={(e) => props.history.push("/advocacy")}>advocacy</h2>
             </div>
-            <div className="advo-box">
-                <div className="container">
-                    <div className="ad-left">
-                    {data.advocacies && data.advocacies.length > 0 ? (
-                        <>
-                          {data.advocacies.slice(0, RECORD_NO).map((ev) => {
-                            return (
-                              <div
-                                className="adv-item cursor-pointer"
-                                key={ev.advocacyId}
-                                onClick={(e) =>
-                                  props.history.push(
-                                    `/advocacy/Issues/${ev.title.replaceAll("/", " ")}`,
-                                    {
-                                      advocacyId: ev.advocacyId,
-                                      advocacyType: "Issues",
-                                    }
-                                  )
-                                }
-                              >
-                                <div className="image-box">
-                                {ev.image?
-                                (<img
-                                    src={ev.image}
-                                    alt={ev.title.substr(0, 10) + "..."}
-                                    className="image-sizes"
-                                  />):null}
-                                </div>
-                                <h2 className="">
-                                  {/* <h6 className="text-bold">{ev.title}</h6> */}
-                                  <ClampLines
-                                    text={ev.title}
-                                    id={"advocacy_title" + ev.advocacyId}
-                                    lines={2}
-                                    ellipsis="..."
-                                    buttons={false}
-                                    className="text-bold"
-                                  />
-                                  
-                                </h2>
-                                <div className="button-box">
-                                    <span>READ MORE</span>
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </>
-                      ) : (
-                        <div className="text-center">
-                          No Record Found!
+          </div>
+          <div className="advo-box">
+            <div className="container">
+              <div className="ad-left">
+                {data.advocacies && data.advocacies.length > 0 ? (
+                  <>
+                    {data.advocacies.slice(0, RECORD_NO).map((ev) => {
+                      return (
+                        <div
+                          className="adv-item cursor-pointer"
+                          key={ev.advocacyId}
+                          onClick={(e) =>
+                            props.history.push(
+                              `/advocacy/Issues/${ev.title.replaceAll("/", " ")}`,
+                              {
+                                advocacyId: ev.advocacyId,
+                                advocacyType: "Issues",
+                              }
+                            )
+                          }
+                        >
+                          <div className="image-box">
+                            {ev.image ?
+                              (<img
+                                src={ev.image}
+                                alt={ev.title.substr(0, 10) + "..."}
+                                className="image-sizes"
+                              />) : null}
+                          </div>
+                          <h2 className="">
+                            {/* <h6 className="text-bold">{ev.title}</h6> */}
+                            <ClampLines
+                              text={ev.title}
+                              id={"advocacy_title" + ev.advocacyId}
+                              lines={2}
+                              ellipsis="..."
+                              buttons={false}
+                              className="text-bold"
+                            />
+
+                          </h2>
+                          <div className="button-box">
+                            <span>READ MORE</span>
+                          </div>
                         </div>
-                      )}
-                        
-                        
-                    </div>
-                    <div className="ad-right">
-                        What do you want to advocate for? There are many options to choose from. Passionate about Social Justice? Join us now!
-                    </div>
-                </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <div className="text-center">
+                    No Record Found!
+                  </div>
+                )}
+
+
+              </div>
+              <div className="ad-right">
+                What do you want to advocate for? There are many options to choose from. Passionate about Social Justice? Join us now!
+              </div>
             </div>
+          </div>
         </div>
         {/*
         <section className="">
@@ -698,81 +697,81 @@ const Home = (props) => {
     </div>
   ) : data ? (
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
-      <LoadingOverlay active={loader} spinner={<Spinner />}>
-        <div className="site-spacing- ptb-50-">
-          <Banner />
-          
-          <TabContent activeTab={activeTab}>
+      {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
+      <div className="site-spacing- ptb-50-">
+        <Banner />
+
+        <TabContent activeTab={activeTab}>
           <div className="home-tab">
             <div className="container">
-            <Nav  tabs>
-              <NavItem>
-                <NavLink
-                  className={
-                    classnames({ active: activeTab === "National" }) + " fs-18"
-                  }
-                  onClick={() => {
-                    toggle("National");
-                  }}
-                >
-                  National
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={
-                    classnames({ active: activeTab === "Regional" }) + " fs-18"
-                  }
-                  onClick={() => {
-                    toggle("Regional");
-                  }}
-                >
-                  Regional
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={
-                    classnames({ active: activeTab === "State" }) + " fs-18"
-                  }
-                  onClick={() => {
-                    toggle("State");
-                  }}
-                >
-                  State
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={
-                    classnames({ active: activeTab === "Chapter" }) + " fs-18"
-                  }
-                  onClick={() => {
-                    toggle("Chapter");
-                  }}
-                >
-                  Section
-                </NavLink>
-              </NavItem>
-            </Nav>
+              <Nav tabs>
+                <NavItem>
+                  <NavLink
+                    className={
+                      classnames({ active: activeTab === "National" }) + " fs-18"
+                    }
+                    onClick={() => {
+                      toggle("National");
+                    }}
+                  >
+                    National
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={
+                      classnames({ active: activeTab === "Regional" }) + " fs-18"
+                    }
+                    onClick={() => {
+                      toggle("Regional");
+                    }}
+                  >
+                    Regional
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={
+                      classnames({ active: activeTab === "State" }) + " fs-18"
+                    }
+                    onClick={() => {
+                      toggle("State");
+                    }}
+                  >
+                    State
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={
+                      classnames({ active: activeTab === "Chapter" }) + " fs-18"
+                    }
+                    onClick={() => {
+                      toggle("Chapter");
+                    }}
+                  >
+                    Section
+                  </NavLink>
+                </NavItem>
+              </Nav>
             </div>
           </div>
-          
-            <TabPane tabId="National" className="mt-20">
-              <List />
-            </TabPane>
-            <TabPane tabId="Regional" className="mt-20">
-              <List />
-            </TabPane>
-            <TabPane tabId="State" className="mt-20">
-              <List />
-            </TabPane>
-            <TabPane tabId="Chapter" className="mt-20">
-              <List />
-            </TabPane>
-          </TabContent>
-        </div>
-      </LoadingOverlay>
+
+          <TabPane tabId="National" className="mt-20">
+            <List />
+          </TabPane>
+          <TabPane tabId="Regional" className="mt-20">
+            <List />
+          </TabPane>
+          <TabPane tabId="State" className="mt-20">
+            <List />
+          </TabPane>
+          <TabPane tabId="Chapter" className="mt-20">
+            <List />
+          </TabPane>
+        </TabContent>
+      </div>
+      {/* </LoadingOverlay> */}
     </Wrapper>
   ) : (
     <div className="border text-center text-bold mt-20 ptb-50 plr-20">
