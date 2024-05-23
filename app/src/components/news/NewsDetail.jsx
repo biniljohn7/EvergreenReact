@@ -86,6 +86,8 @@ const NewsDetails = (props) => {
       });
   };
 
+  console.log(news);
+
   return (
     <Wrapper>
       {isLoading ? (
@@ -95,7 +97,7 @@ const NewsDetails = (props) => {
       ) : (
         <>
           {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
-          <div className="red pt-20">
+          <div className="bread-nav pt-20">
             <Breadcrumb className="site-spacing">
               <BreadcrumbItem>
                 <Link to="/news" className="text-white">
@@ -116,22 +118,29 @@ const NewsDetails = (props) => {
             ) : (
               <React.Fragment>
                 <section>
-                  {news.mediaType === "image" || news.mediaType === 1 ? (
-                    <img
-                      src={news.media}
-                      className="full-image"
-                      alt={news.title.substr(0, 10) + "..."}
-                    />
-                  ) : (
-                    <video className="full-image" controls>
-                      <source src={news.media} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  )}
+                  {
+                    news.mediaType === "image" ?
+                      <img
+                        src={news.media}
+                        className="full-image"
+                        alt={news.title.substr(0, 10) + "..."}
+                      /> :
+                      null
+                  }
+                  {
+                    news.mediaType === "video" ?
+                      <video className="full-image" controls>
+                        <source src={news.media} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video> :
+                      null
+                  }
                 </section>
 
                 <section className="mt-20">
-                  <h5 className="text-bold">{news.title}</h5>
+                  <h5 className="text-bold">
+                    {news.title}
+                  </h5>
                   <div className="mt-3 mb-10 text-danger position-relative">
                     <i className="fa fa-globe mr-3" aria-hidden="true"></i>
                     {news.newsSource}
