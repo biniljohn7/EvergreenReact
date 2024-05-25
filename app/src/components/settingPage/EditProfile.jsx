@@ -169,7 +169,7 @@ const EditProfile = (props) => {
               );
             });
         }
-        if (props.profile.profile.state) {
+        /*if (props.profile.profile.state) {
           getCity(props.profile.profile.state.id)
             .then((res) => {
               setCity(res.data.city);
@@ -179,7 +179,7 @@ const EditProfile = (props) => {
                 "Failed to retrive City list. Please try again later!"
               );
             });
-        }
+        }*/
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
@@ -309,7 +309,7 @@ const EditProfile = (props) => {
     if (!formValues.state.id) {
       sErrs['state'] = 'This field is required';
     }
-    if (!formValues.city.id) {
+    if (!el('city').value.trim()) {
       sErrs['city'] = 'This field is required';
     }
     if (!el('address').value.trim()) {
@@ -318,9 +318,9 @@ const EditProfile = (props) => {
     if (!el('zip').value.trim()) {
       sErrs['zip'] = 'This field is required';
     }
-    if (!formValues.phoneCode.profileOptionsId) {
-      sErrs['phoneCode'] = 'Phone code is required';
-    }
+    // if (!formValues.phoneCode.profileOptionsId) {
+    //   sErrs['phoneCode'] = 'Phone code is required';
+    // }
     if (!el('phoneNumber').value) {
       sErrs['phoneNumber'] = 'Pnone number is required';
     } else if (!phoneRegex.test(el('phoneNumber').value.trim())) {
@@ -383,10 +383,10 @@ const EditProfile = (props) => {
         organizationalStateId: formValues.organizationalState.id,
         regionId: formValues.region.regionId,
         nationId: formValues.nation.nationId,
-        cityId: formValues.city.id,
+        cityId: el('city').value.trim(),
         address: el('address').value.trim(),
         zipcode: el('zip').value.trim(),
-        phoneCodeId: formValues.phoneCode.profileOptionsId,
+        //phoneCodeId: formValues.phoneCode.profileOptionsId,
         phoneNumber: el('phoneNumber').value.trim(),
         biography: el('address').value.trim() || null,
         occupationId: formValues.occupation.profileOptionsId,
@@ -688,6 +688,7 @@ const EditProfile = (props) => {
                     onChange={(selectedOp) => {
                       let ndata = { ...formValues };
                       ndata.country = selectedOp;
+                      ndata.state = '';
                       setFormValues(ndata);
                       getState(selectedOp.profileOptionsId)
                         .then((res) => {
@@ -739,7 +740,7 @@ const EditProfile = (props) => {
                       ndata.state = selectedOp;
                       ndata.city = '';
                       setFormValues(ndata);
-                      getCity(selectedOp.id)
+                      /*getCity(selectedOp.id)
                         .then((res) => {
                           setCity([...res.data.city]);
                         })
@@ -747,7 +748,7 @@ const EditProfile = (props) => {
                           ToastsStore.error(
                             "Failed to retrive City list. Please try again later!"
                           );
-                        });
+                        });*/
                     }}
                     value={formValues.state || ""}
                     noOptionsMessage={() => (
@@ -760,7 +761,7 @@ const EditProfile = (props) => {
                   />
                   <Error field="state" />
                 </div>
-                <div className="mb-15">
+                {/* <div className="mb-15">
                   <div className="position-relative">
                     <label className="fs-16 mb-5 text-dark">City</label>
                     {isProfileCreated && (
@@ -804,6 +805,27 @@ const EditProfile = (props) => {
                     )}
                   />
                   <Error field="city" />
+                </div> */}
+
+                <div className="mb-15">
+                  <Input
+                    id="city"
+                    label="City"
+                    placeholder="City"
+                    type="text"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={isProfileCreated}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.citySwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.citySwitch || false}
+                    defaultValue={formValues.city || ""}
+                  />
+                  <Error field="city" />
                 </div>
                 <div className="mb-15">
                   <Input
@@ -845,7 +867,27 @@ const EditProfile = (props) => {
                   />
                   <Error field="zip" />
                 </div>
-                <div className="row mb-15 mlr-0">
+                <div className="mb-15 position-relative">
+                  <Input
+                    id="phoneNumber"
+                    label="Phone Number"
+                    placeholder="Phone Number"
+                    type="text"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={isProfileCreated}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.phoneNumberSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.phoneNumberSwitch || false}
+                    defaultValue={formValues.phoneNumber || ""}
+                  />
+                  <Error field="phoneNumber" />
+                </div>
+                {/* <div className="row mb-15 mlr-0">
                   <div className="col-12 position-relative plr-0">
                     <label className="fs-16 mb-5 text-dark">Phone Number</label>
                     {isProfileCreated && (
@@ -904,16 +946,16 @@ const EditProfile = (props) => {
                     />
                   </div>
                   <div className="col-8 col-lg-9 col-sm-8 col-md-9 col-xl-9 plr-0">
-                    <Input
-                      id="phoneNumber"
-                      placeholder="Phone Number"
-                      type="number"
-                      fontSize={"fs-16 text-dark"}
-                      className={window.innerWidth >= 1024 ? "wp-73" : "wp-100"}
-                      contentFontSize="fs-14"
-                      switchPresent={false}
-                      defaultValue={formValues.phoneNumber || ""}
-                    />
+                  <Input
+                    id="phoneNumber"
+                    placeholder="Phone Number"
+                    type="number"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={false}
+                    defaultValue={formValues.phoneNumber || ""}
+                  />
                   </div>
                   {(ErrorList["phoneCode"] || ErrorList["phoneNumber"]) && (
                     <div className={"col-12"} style={{ color: '#e20000' }}>
@@ -922,7 +964,11 @@ const EditProfile = (props) => {
                         : ErrorList["phoneNumber"]}
                     </div>
                   )}
-                </div>
+                </div> */}
+
+
+
+
                 <div className="mb-15">
                   <Input
                     label="Email"

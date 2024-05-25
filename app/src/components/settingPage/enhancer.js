@@ -48,7 +48,7 @@ const editProfile = withFormik({
     city: Yup.string().required("This field is required"),
     address: Yup.string().trim().required("This field is required"),
     zip: Yup.string().trim().required("This field is required"),
-    phoneCode: Yup.string().required("This field is required"),
+    //phoneCode: Yup.string().required("This field is required"),
     phoneNumber: Yup.string()
       .required("This field is required")
       .matches(
@@ -147,20 +147,15 @@ const editProfile = withFormik({
         id: props.profile.profile.state.id,
       }
       : "",
-    city: props.profile.profile.city
-      ? {
-        name: props.profile.profile.city.name,
-        id: props.profile.profile.city.id,
-      }
-      : "",
+    city: props.profile.profile.city || "",
     address: props.profile.profile.address || "",
     zip: props.profile.profile.zipcode || "",
-    phoneCode: props.profile.profile.phoneCode
-      ? {
-        name: props.profile.profile.phoneCode.name,
-        profileOptionsId: props.profile.profile.phoneCode.id,
-      }
-      : "",
+    // phoneCode: props.profile.profile.phoneCode
+    //   ? {
+    //     name: props.profile.profile.phoneCode.name,
+    //     profileOptionsId: props.profile.profile.phoneCode.id,
+    //   }
+    //   : "",
     phoneNumber: props.profile.profile.phoneNumber || "",
     biography: props.profile.profile.biography || "",
     occupation: props.profile.profile.occupation
