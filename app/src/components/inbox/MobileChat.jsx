@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./inbox.style";
-import firebase from "../../firebaseChat";
 import { store } from "../../redux/store";
 import User_05 from "../../assets/images/user_05x.png";
 import { Spinner, Modal, Button, Input } from "reactstrap";
@@ -8,9 +7,7 @@ import { ToastsStore } from "react-toasts";
 import ChatProfile from "./ChatProfile";
 import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
-import moment from "moment";
-import Compressor from "compressorjs";
-import { txtSendApi, msgLoadApi, imgSendApi } from "../../api/inboxAPI";
+import { txtSendApi, msgLoadApi, imgSendApi, recentChatsApi } from "../../api/inboxAPI";
 import {
   Dropdown,
   DropdownToggle,
@@ -79,35 +76,11 @@ const MobileChat = (props) => {
   useEffect(() => {
     if (store.getState().auth.chatMemberId) {
       setChatOn(true);
-    }
-    // setChatOn(true)
-
-    if (store.getState().auth.chatMemberId) {
-      // Check if document is exist
-      let docRef = firebase
-        .firestore()
-        .collection("recent_chat")
-        .doc(store.getState().auth.memberId.toString())
-        .collection("users")
-        .doc(store.getState().auth.chatMemberId.toString());
-
-      docRef
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            setSelectedUser(doc.data());
-          } else {
-            setSelectedUser({
-              memberId: store.getState().auth.chatMemberId,
-              fullName: store.getState().auth.chatFullName,
-              profileImage: store.getState().auth.chatProfileImage,
-            });
-          }
-        })
-        .catch((error) => {
-          console.error("Error getting document:", error);
-          setChatOn(false);
-        });
+      setSelectedUser({
+        memberId: store.getState().auth.chatMemberId,
+        fullName: store.getState().auth.chatFullName,
+        profileImage: store.getState().auth.chatProfileImage,
+      });
     }
   }, [store.getState().auth.chatMemberId]);
 
@@ -117,219 +90,73 @@ const MobileChat = (props) => {
   useEffect(() => {
     if (selectedUser) {
         setMessageArray([]);
+        setLoading(true);
         msgLoadApi({
             id: selectedUser.memberId,
             pgn: 0
         })
         .then((res) => {
-            setMessageArray(res.data.messages);
+            if(res.status=='ok'){
+                setLoading(false);
+                setMessageArray(res.data.messages);
+            }else{
+                this.error({message:res.message});
+            }
         })
         .catch((err) => {
-            console.error(err)
-            if (err.response) {
-                if (err.response.status === 401) {
-                    props.logout()
-                    ToastsStore.error('Session Expire! Please login again.')
-                    setTimeout(() => props.history.replace('/signin'), 800)
-                } else {
-                    setLoading(false)
-                    ToastsStore.error('Something went wrong!')
-                }
-            } else if (err.request) {
-                setLoading(false)
-                ToastsStore.error('Unable to connect to server!')
-            } else {
-                setLoading(false)
-                ToastsStore.error('Something went wrong!')
-            }
+            showErr(err);
         });
     }
   }, [selectedUser]);
 
-  const getRecentChat = () => {
-    setLoader(true);
-    firebase
-      .firestore()
-      .collection("recent_chat")
-      .doc(store.getState().auth.memberId.toString())
-      .collection("users")
-      .where("delete", "==", false)
-      .orderBy("lastMessageTime", "desc")
-      .onSnapshot(
-        (snapshot) => {
-          // Add recent chat
-          let arr = [];
-          snapshot.forEach((doc) => {
-            arr.push(doc.data());
-          });
-          setRecentChat(arr);
-
-          // Add event listener
-          snapshot.docChanges().forEach((change) => {
-            if (change.type === "added") {
-              // console.log('add event: ', change.doc.data())
-            }
-            if (change.type === "modified") {
-              // console.log('Modified event: ', change.doc.data())
-            }
-            if (change.type === "removed") {
-              // console.log('Removed event: ', change.doc.data())
-            }
-          });
-          setLoading(false);
-        },
-        (error) => {
-          console.error(error);
-          setLoading(false);
+  const showErr = (err) => {
+    console.error(err)
+    if (err.response) {
+        if (err.response.status === 401) {
+            props.logout()
+            ToastsStore.error('Session Expire! Please login again.')
+            setTimeout(() => props.history.replace('/signin'), 800)
+        } else {
+            setLoading(false)
+            ToastsStore.error('Something went wrong!')
         }
-      );
+    } else if (err.request) {
+        setLoading(false)
+        ToastsStore.error('Unable to connect to server!')
+    } else {
+        setLoading(false)
+        ToastsStore.error('Something went wrong!')
+    }
+  }
+
+  const getRecentChat = (body) => {
+    setLoader(true);
+    recentChatsApi(body)
+      .then((res) => {
+        setRecentChat(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
   };
 
   const deleteRecentChat = (wasLastMessage = false) => {
     setLoader(true);
 
-    // Update the flag 'delete' to true
-    firebase
-      .firestore()
-      .collection("recent_chat")
-      .doc(store.getState().auth.memberId.toString())
-      .collection("users")
-      .doc(deleteChatId.toString())
-      .update({
-        delete: true,
-        lastReadTime: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        // Update the lastReadTime of opposite member
-        firebase
-          .firestore()
-          .collection("users")
-          .doc(deleteChatId.toString())
-          .update({
-            lastReadTime: firebase.firestore.FieldValue.serverTimestamp(),
-          })
-          .then(() => {
-            deleteChatId = null;
 
-            // Do not toggle the modal if this method is called from deleteUserMessage
-            if (!wasLastMessage) {
-              ToastsStore.info("Chat deleted successfully");
-              setLoader(false);
-              setOpen(!open);
-            }
-          });
-      })
-      .catch((error) => {
-        deleteChatId = null;
-        console.error("Error removing rececent chat: ", error);
-        if (!wasLastMessage) {
-          ToastsStore.error("Failed to delete chat");
-          setLoader(false);
-          setOpen(!open);
-        }
-      });
   };
 
   const deleteUserMessage = () => {
     if (deleteArray && deleteArray.length > 0) {
       setLoader(true);
-      try {
-        let batch = firebase.firestore().batch();
-        let chatPath =
-          store.getState().auth.memberId < selectedUser.memberId
-            ? store.getState().auth.memberId + "_" + selectedUser.memberId
-            : selectedUser.memberId + "_" + store.getState().auth.memberId;
-
-        deleteArray.forEach((element) => {
-          const msgRef = firebase
-            .firestore()
-            .collection("chats")
-            .doc(chatPath)
-            .collection("messages")
-            .doc(element);
-          batch.delete(msgRef);
-        });
-
-        batch
-          .commit()
-          .then(() => {
-            ToastsStore.info("Messages deleted successfully");
-            const query = selectedUser.lastReadTime
-              ? firebase
-                  .firestore()
-                  .collection("chats")
-                  .doc(chatPath)
-                  .collection("messages")
-                  .orderBy("timestamp", "desc")
-                  .where("timestamp", ">=", selectedUser.lastReadTime)
-                  .limit(1)
-              : firebase
-                  .firestore()
-                  .collection("chats")
-                  .doc(chatPath)
-                  .collection("messages")
-                  .orderBy("timestamp", "desc")
-                  .limit(1);
-
-            query.onSnapshot(
-              (snapshot) => {
-                if (snapshot && snapshot.docs.length > 0) {
-                  const message = snapshot.docs[0].data();
-                  let msg = {
-                    lastMessageTime: message.timestamp,
-                    isRead: true,
-                    lastMessage:
-                      message.message && message.message.trim()
-                        ? message.message
-                        : "Image",
-                  };
-
-                  updateRecentChatLog(
-                    store.getState().auth.memberId,
-                    selectedUser.memberId,
-                    msg
-                  );
-                  updateRecentChatLog(
-                    selectedUser.memberId,
-                    store.getState().auth.memberId,
-                    msg
-                  );
-                } else {
-                  // Delete recent chat (No message left)
-                  deleteChatId = selectedUser.memberId;
-                  deleteRecentChat(true);
-                }
-              },
-              (error) => {
-                console.error(error);
-              }
-            );
-          })
-          .catch((err) => {
-            console.error(err);
-            // ToastsStore.error('Failed to delete messages')
-          });
-      } catch (err) {
-        console.error(err);
-        ToastsStore.error("Failed to delete messages");
-      }
-
+     
       setLoader(false);
       setDeleteMessage(!deleteMessage);
       setArray([]);
       setDelete(!isDeleteOn);
     }
-  };
-
-  const updateRecentChatLog = (firstId, secondId, lastMessage) => {
-    // console.log('updateRecentChat', firstId, secondId, lastMessage)
-    firebase
-      .firestore()
-      .collection("recent_chat")
-      .doc(firstId.toString())
-      .collection("users")
-      .doc(secondId.toString())
-      .set(lastMessage, { merge: true });
   };
 
   const sendMessage = () => {
@@ -340,30 +167,18 @@ const MobileChat = (props) => {
         recipient: selectedUser.memberId
       })
         .then((res) => {
-            msgArr = messageArray;
-            msgArr.push(res.data);
-            setMessageArray(msgArr);
-            setMessage("");
-            setLoader(false);
+            if(res.status=='ok'){
+                msgArr = messageArray;
+                msgArr.push(res.data);
+                setMessageArray(msgArr);
+                setMessage("");
+                setLoader(false);
+            }else{
+                this.error({message:res.message});
+            }
         })
         .catch((err) => {
-          console.error(err)
-          if (err.response) {
-            if (err.response.status === 401) {
-              props.logout()
-              ToastsStore.error('Session Expire! Please login again.')
-              setTimeout(() => props.history.replace('/signin'), 800)
-            } else {
-              setLoading(false)
-              ToastsStore.error('Something went wrong!')
-            }
-          } else if (err.request) {
-            setLoading(false)
-            ToastsStore.error('Unable to connect to server!')
-          } else {
-            setLoading(false)
-            ToastsStore.error('Something went wrong!')
-          }
+            showErr(err);
         });
   };
 
@@ -380,73 +195,20 @@ const MobileChat = (props) => {
             formData.append("image", img);
             imgSendApi(formData)
                 .then((res) => {
-                    msgArr = messageArray;
-                    msgArr.push(res.data);
-                    setMessageArray(msgArr);
-                    setMessage("");
-                    setLoader(false);
+                    if(res.status=='ok'){
+                        msgArr = messageArray;
+                        msgArr.push(res.data);
+                        setMessageArray(msgArr);
+                        setMessage("");
+                        setLoader(false);
+                    }else{
+                        this.error({message:res.message});
+                    }
                 })
                 .catch((err) => {
-                    console.error(err)
-                    if (err.response) {
-                        if (err.response.status === 401) {
-                        props.logout()
-                        ToastsStore.error('Session Expire! Please login again.')
-                        setTimeout(() => props.history.replace('/signin'), 800)
-                        } else {
-                        setLoading(false)
-                        ToastsStore.error('Something went wrong!')
-                        }
-                    } else if (err.request) {
-                        setLoading(false)
-                        ToastsStore.error('Unable to connect to server!')
-                    } else {
-                        setLoading(false)
-                        ToastsStore.error('Something went wrong!')
-                    }
+                    showErr(err);
                 });
         }
-      // Upload image to cloud storage
-
-    //   new Compressor(e.target.files && e.target.files[0], {
-    //     quality: 0.8,
-    //     success(result) {
-    //       // console.log(result)
-    //       // Points to the reference
-    //       let imageRef = firebase
-    //         .storage()
-    //         .ref()
-    //         .child(
-    //           `msgImgs/${store.getState().auth.memberId.toString()}/${
-    //             result.size
-    //           } bytes`
-    //         );
-
-    //       try {
-    //         imageRef.put(result).then((snapshot) => {
-    //           // console.log('Uploaded a blob or file!', snapshot)
-    //           imageRef
-    //             .getDownloadURL()
-    //             .then((url) => {
-    //               // console.log('url ', url)
-    //               sendMessage(true, url);
-    //             })
-    //             .catch((error) => {
-    //               // Handle any errors
-    //               console.error(error);
-    //               ToastsStore.error("Failed to send an image");
-    //             });
-    //         });
-    //       } catch (err) {
-    //         console.error(err);
-    //         ToastsStore.error("Failed to send an image");
-    //       }
-    //     },
-    //     error(err) {
-    //       console.error(err, err.message);
-    //       ToastsStore.error("Failed to send an image");
-    //     },
-    //   });
     }
   };
 

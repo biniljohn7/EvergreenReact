@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./inbox.style";
-import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
-import { Spinner } from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink, Spinner, Modal } from "reactstrap";
 import { ToastsStore } from "react-toasts";
 import classnames from "classnames";
-import Filter from "../../assets/images/filter.png";
+// import Filter from "../../assets/images/filter.png";
 import Input from "../../UI/input/input";
-import RadioButton from "../../UI/radiobutton/radiobutton";
-import Button from "../../UI/button/button";
-import { Modal } from "reactstrap";
+// import RadioButton from "../../UI/radiobutton/radiobutton";
+// import Button from "../../UI/button/button";
 import User_05 from "../../assets/images/user_05x.png";
 import Pagination from "../../UI/pagination/pagination";
 import { getContacts } from "../../api/inboxAPI";
-import WebChat from "./WebChat";
+// import WebChat from "./WebChat";
 import MobileChat from "./MobileChat";
 import Chat from "../../assets/images/chat.png";
 import ProfileModal from "./ChatProfile";
@@ -25,17 +23,17 @@ const LIMIT = 10;
 
 let memberId;
 
-const FILTER = ["Nation", "Region", "State", "Chapter"];
+// const FILTER = ["Nation", "Region", "State", "Chapter"];
 
 const Inbox = (props) => {
   const [isLoading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("Messages");
   const [filter, setFilter] = useState("Nation");
-  const [tempState, setState] = useState("Nation");
+//   const [tempState, setState] = useState("Nation");
   const [search, setSearch] = useState("");
   const [currentPage, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-  const [isOpen, setOpen] = useState(false);
+//   const [isOpen, setOpen] = useState(false);
   const [directory, setDirectory] = useState(null);
   const [modal, setModal] = useState(false);
 
@@ -52,7 +50,7 @@ const Inbox = (props) => {
         setSearch("");
         setDirectory(null);
         setFilter("Nation");
-        setState("Nation");
+        // setState("Nation");
         getList({
           pageId: 1,
           search: "",
@@ -153,16 +151,17 @@ const Inbox = (props) => {
             )}
             <TabPane tabId="Directory" className="mt-20">
               <div className="row mb-30">
-                <div className="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-10">
+                <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <div
-                    className={
-                      "position-relative " +
-                      (window.innerWidth >= 1024
-                        ? "wp-40"
-                        : window.innerWidth === 768
-                          ? "wp-50"
-                          : "wp-90")
-                    }
+                    className="position-relative "
+                    // {
+                    //   "position-relative " +
+                    //   (window.innerWidth >= 1024
+                    //     ? "wp-40"
+                    //     : window.innerWidth === 768
+                    //       ? "wp-50"
+                    //       : "wp-90")
+                    // }
                   >
                     <Input
                       type="text"
@@ -196,7 +195,7 @@ const Inbox = (props) => {
                     ></i>
                   </div>
                 </div>
-                <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
+                {/* <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">
                   <img
                     src={Filter}
                     alt="filter"
@@ -207,7 +206,7 @@ const Inbox = (props) => {
                       setOpen(!isOpen);
                     }}
                   />
-                </div>
+                </div> */}
               </div>
               {directory && directory.length > 0 ? (
                 <>
@@ -286,12 +285,11 @@ const Inbox = (props) => {
                       count={LIMIT}
                       handler={(pageNumber) => {
                         setPage(pageNumber);
-                        // getList({
-                        //   advocacyType: activeTab,
-                        //   pageId: pageNumber,
-                        //   search: search,
-                        //   type: type.value,
-                        // })
+                        getList({
+                          filter: filter,
+                          pageId: pageNumber,
+                          search: search,
+                        });
                       }}
                     />
                   </div>
@@ -306,7 +304,7 @@ const Inbox = (props) => {
         )}
       </div>
 
-      {isOpen && (
+      {/* {isOpen && (
         <div>
           <div
             className="bg-light"
@@ -365,7 +363,7 @@ const Inbox = (props) => {
             </Wrapper>
           </Modal>
         </div>
-      )}
+      )} */}
 
       {modal && memberId && (
         <ProfileModal

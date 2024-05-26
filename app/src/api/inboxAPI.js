@@ -13,6 +13,17 @@ export const getContacts = (body) => {
         })
 }
 
+export const recentChatsApi = (body) => {
+    setHeaders()
+    return axios
+        .get(
+            `${BASE_URL}/member/?method=recent-chat`,
+        )
+        .then((response) => {
+            return response.data
+        })
+}
+
 export const msgLoadApi = (body) => {
     setHeaders()
     return axios
@@ -49,7 +60,7 @@ export const imgSendApi = (body) => {
 export const getProfile = (memberId) => {
     setHeaders()
     return axios
-        .get(`${BASE_URL}/member/chatProfile?memberId=${memberId}`)
+        .get(`${BASE_URL}/member/?method=member-profile&memberId=${memberId}`)
         .then((response) => {
             return response.data
         })
