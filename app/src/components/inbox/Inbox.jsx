@@ -10,7 +10,7 @@ import Input from "../../UI/input/input";
 import User_05 from "../../assets/images/user_05x.png";
 import Pagination from "../../UI/pagination/pagination";
 import { getContacts } from "../../api/inboxAPI";
-// import WebChat from "./WebChat";
+import WebChat from "./WebChat";
 import MobileChat from "./MobileChat";
 import Chat from "../../assets/images/chat.png";
 import ProfileModal from "./ChatProfile";
@@ -145,8 +145,7 @@ const Inbox = (props) => {
           <TabContent activeTab={activeTab}>
             {activeTab === "Messages" && (
               <TabPane tabId="Messages" className="mt-20">
-                {/* {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />} */}
-                <MobileChat />
+                {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />}
               </TabPane>
             )}
             <TabPane tabId="Directory" className="mt-20">
@@ -182,7 +181,7 @@ const Inbox = (props) => {
                       }}
                     />
                     <i
-                      className="fa fa-search pwd cursor-pointer"
+                      className="material-symbols-outlined pwd cursor-pointer"
                       onClick={(e) => {
                         setPage(1);
                         setTotalPage(0);
@@ -192,7 +191,7 @@ const Inbox = (props) => {
                           search: search,
                         });
                       }}
-                    ></i>
+                    >search</i>
                   </div>
                 </div>
                 {/* <div className="col-2 col-sm-2 col-md-2 col-lg-2 col-xl-2">

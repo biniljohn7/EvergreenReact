@@ -18,6 +18,7 @@ export const recentChatsApi = (body) => {
     return axios
         .get(
             `${BASE_URL}/member/?method=recent-chat`,
+            body
         )
         .then((response) => {
             return response.data
@@ -61,6 +62,29 @@ export const getProfile = (memberId) => {
     setHeaders()
     return axios
         .get(`${BASE_URL}/member/?method=member-profile&memberId=${memberId}`)
+        .then((response) => {
+            return response.data
+        })
+}
+
+export const chatDeleteApi = (member) => {
+    setHeaders()
+    return axios
+        .get(
+            `${BASE_URL}/member/?method=messages-clear&member=${member}`,
+        )
+        .then((response) => {
+            return response.data
+        })
+}
+
+export const msgDeleteApi = (body) => {
+    setHeaders()
+    return axios
+        .post(
+            `${BASE_URL}/member/?method=message-delete`,
+            body
+        )
         .then((response) => {
             return response.data
         })

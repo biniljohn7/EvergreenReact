@@ -7,7 +7,14 @@ import { ToastsStore } from "react-toasts";
 import ChatProfile from "./ChatProfile";
 import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
-import { txtSendApi, msgLoadApi, imgSendApi, recentChatsApi } from "../../api/inboxAPI";
+import { 
+    txtSendApi, 
+    msgLoadApi, 
+    imgSendApi, 
+    recentChatsApi, 
+    chatDeleteApi,
+    msgDeleteApi 
+} from "../../api/inboxAPI";
 import {
   Dropdown,
   DropdownToggle,
@@ -130,7 +137,7 @@ const MobileChat = (props) => {
   }
 
   const getRecentChat = (body) => {
-    setLoader(true);
+    setLoading(true);
     recentChatsApi(body)
       .then((res) => {
         setRecentChat(res.data);
@@ -144,13 +151,50 @@ const MobileChat = (props) => {
 
   const deleteRecentChat = (wasLastMessage = false) => {
     setLoader(true);
-
-
+    chatDeleteApi(deleteChatId)
+    .then((res) => {
+        if(res.status=='ok'){
+            deleteChatId = null;
+            setLoader(false);
+            setRecentChat(recentChatArray.filter(chat => chat.memberId !== deleteChatId));
+            if(selectedUser.memberId==deleteChatId){
+                setSelectedUser(null);
+            }
+            if (!wasLastMessage) {
+              ToastsStore.info("Chat deleted successfully");
+              setOpen(!open);
+            }
+        }else{
+            this.error({message:res.message});
+        }
+    })
+    .catch((err) => {
+        showErr(err);
+        if (!wasLastMessage) {
+          ToastsStore.error("Failed to delete chat");
+          setLoader(false);
+          setOpen(!open);
+        }
+    });
   };
 
   const deleteUserMessage = () => {
     if (deleteArray && deleteArray.length > 0) {
       setLoader(true);
+      msgDeleteApi({
+        partner: selectedUser.memberId,
+        id: deleteArray
+      })
+      .then((res) => {
+        if(res.status=='ok'){
+          setMessageArray(messageArray.filter(message => !deleteArray.includes(message.id)));
+        }else{
+            this.error({message:res.message});
+        }
+      })
+      .catch((err) => {
+          showErr(err);
+      });
      
       setLoader(false);
       setDeleteMessage(!deleteMessage);
@@ -251,7 +295,7 @@ const MobileChat = (props) => {
                   <div className="option d-flex align-items-baseline">
                     <i
                       className={
-                        "fa fa-times mr-10" +
+                        "material-symbols-outlined mr-10" +
                         (isDeleteOn ? " visible " : " invisible ")
                       }
                       aria-hidden="true"
@@ -260,17 +304,17 @@ const MobileChat = (props) => {
                         setArray([]);
                         setDropdownOpen(false);
                       }}
-                    ></i>
+                    >close_small</i>
                     <i
                       className={
-                        "fa fa-trash mr-10" +
+                        "material-symbols-outlined mr-10" +
                         (isDeleteOn && deleteArray.length > 0
                           ? " visible "
                           : " invisible ")
                       }
                       aria-hidden="true"
                       onClick={(e) => setDeleteMessage(!deleteMessage)}
-                    ></i>
+                    >delete</i>
 
                     <div>
                       <Dropdown
@@ -281,10 +325,10 @@ const MobileChat = (props) => {
                       >
                         <DropdownToggle className="text-dark bg-white">
                           <i
-                            className="fa fa-ellipsis-v"
+                            className="material-symbols-outlined"
                             aria-hidden="true"
                             id="open_menu"
-                          ></i>
+                          >more_vert</i>
                         </DropdownToggle>
                         <DropdownMenu
                         // style={{
@@ -521,13 +565,13 @@ const MobileChat = (props) => {
                       </div>
                       <div className="bin">
                         <i
-                          className="fa fa-trash"
+                          className="material-symbols-outlined"
                           aria-hidden="true"
                           onClick={(e) => {
                             deleteChatId = chat.memberId;
                             setOpen(!open);
                           }}
-                        ></i>
+                        >delete</i>
                       </div>
                     </div>
                   );
