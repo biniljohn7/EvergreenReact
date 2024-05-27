@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import moment from "moment";
+import html2canvas from "html2canvas";
+
 import Wrapper from "./wrapper.style";
-import Download from "../../assets/images/download.png";
 import { store } from "../../redux/store";
 import { RECOMMENDATION_LETTER } from "../../helper/constant";
-import html2canvas from "html2canvas";
 import { getResourceInfo } from "../../api/resourceApi";
-import ToastsStore from "react-toasts";
-import moment from "moment";
+import Spinner from "../../UI/Spinner/Spinner";
+import Toast from "../../UI/Toast/Toast";
+
+import Download from "../../assets/images/download.png";
 
 const PADDING =
   window.innerWidth >= 2560
@@ -48,23 +51,31 @@ const COL =
         ? "1fr 1fr"
         : "1fr 1fr";
 
+
 const Resource = (props) => {
   const [resourceInfo, setResourceInfo] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  const accessTkn = store.getState().auth.accessToken;
 
-  useEffect(() => {
-    setLoading(true);
+  let Spn = Spinner();
+  let Tst = Toast();
+
+  const fetchData = useCallback(function () {
+    Spn.Show();
+    Spn.Show();
     getResourceInfo()
       .then((res) => {
         if (res.success === 1) {
           setResourceInfo(res.data);
         }
-        setLoading(false);
       })
       .catch((error) => {
-        setLoading(false);
-        ToastsStore.error("Something went wrong!");
-      });
+        Tst.Error("Something went wrong!");
+      })
+      .finally(() => Spn.Hide());
+  }, [Spn, Tst]);
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   // const [isActive, setActive] = useState(false)
@@ -142,143 +153,150 @@ const Resource = (props) => {
   };
 
   return (
-    <Wrapper padding={PADDING} top={TOP} member={MEMBER} col={COL}>
-      <div className="benefits-section inner-benefits">
-        <div className="head-box">
-          <div className="container">
-            <h2>Resource Details:</h2>
+    <>
+      {Spn.Obj}
+      {Tst.Obj}
+      <Wrapper padding={PADDING} top={TOP} member={MEMBER} col={COL}>
+        <div className="benefits-section inner-benefits">
+          <div className="head-box">
+            <div className="container">
+              <h2>Resource Details:</h2>
+            </div>
           </div>
-        </div>
 
-        {/* ///------------------------ */}
-        {resourceInfo ? (
-          window.innerWidth <= 768 ? (
-            <div
-              className={
-                "row mlr-0" + (window.innerWidth === 768 ? " wp-60" : "")
-              }
-            >
-              <div className={"col-12 plr-0"}>
-                <div
-                  className="fs-16 card ash radius padding position-relative"
-                  id="membership_card1"
-                >
-                  <div className="text-bold bg-light rounded-pill plr-20 ptb-4 pill">
-                    {resourceInfo.status}
-                  </div>
+          {resourceInfo ? (
+            window.innerWidth <= 768 ? (
+              <div
+                className={
+                  "row mlr-0" + (window.innerWidth === 768 ? " wp-60" : "")
+                }
+              >
+                <div className={"col-12 plr-0"}>
+                  <div
+                    className="fs-16 card ash radius padding position-relative"
+                    id="membership_card1"
+                  >
+                    <div className="text-bold bg-light rounded-pill plr-20 ptb-4 pill">
+                      {resourceInfo.status}
+                    </div>
 
-                  <div className="mt-25">
-                    <label className="text-white">Membership Number:</label>
-                    <div className="fs-18 text-bold">
-                      {resourceInfo.membershipNumber
-                        ? resourceInfo.membershipNumber
-                        : "-"}
-                    </div>
-                  </div>
-                  <div className="row mt-30">
-                    <div className="col-6">
-                      <label className="text-white">Name:</label>
-                      <div>
-                        {" "}
-                        {resourceInfo.fullName ? resourceInfo.fullName : "-"}
-                      </div>
-                    </div>
-                    <span className="col-6 text-right">
-                      <label className="text-white">Valid Thru:</label>
-                      <div>
-                        {resourceInfo.validThru
-                          ? `Dec ${moment(new Date()).year()}`
+                    <div className="mt-25">
+                      <label className="text-white">Membership Number:</label>
+                      <div className="fs-18 text-bold">
+                        {resourceInfo.membershipNumber
+                          ? resourceInfo.membershipNumber
                           : "-"}
                       </div>
-                    </span>
+                    </div>
+                    <div className="row mt-30">
+                      <div className="col-6">
+                        <label className="text-white">Name:</label>
+                        <div>
+                          {" "}
+                          {resourceInfo.fullName ? resourceInfo.fullName : "-"}
+                        </div>
+                      </div>
+                      <span className="col-6 text-right">
+                        <label className="text-white">Valid Thru:</label>
+                        <div>
+                          {
+                            resourceInfo.validThru ?
+                              new Date(resourceInfo.validThru).toDateString() :
+                              "-"
+                          }
+                        </div>
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div
-                className={
-                  "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
-                  (window.innerWidth === 768 ? " col-5" : " col-12")
-                }
-              >
-                <img
-                  src={Download}
-                  alt="download"
-                  className="download cursor-pointer"
-                  onClick={() => getMembershipCard(true)}
-                />
-                Membership Card
-              </div>
-              {window.innerWidth === 768 && <div className="col-2"></div>}
-              <div
-                className={
-                  "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
-                  (window.innerWidth === 768 ? " col-5" : " col-12")
-                }
-              >
-                <a
-                  href={RECOMMENDATION_LETTER + store.getState().auth.memberId}
-                  target="_blank"
-                  rel="noreferrer noopener"
+                <div
+                  className={
+                    "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
+                    (window.innerWidth === 768 ? " col-5" : " col-12")
+                  }
                 >
                   <img
                     src={Download}
                     alt="download"
                     className="download cursor-pointer"
+                    onClick={() => getMembershipCard(true)}
                   />
-                </a>
-                Recommendation Letter
-              </div>
-            </div>
-          ) : (
-            <div className="benefit-box">
-              <div className="container">
+                  Membership Card
+                </div>
+                {window.innerWidth === 768 && <div className="col-2"></div>}
                 <div
-                  className="benefit-item"
-                  id="membership_card"
+                  className={
+                    "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
+                    (window.innerWidth === 768 ? " col-5" : " col-12")
+                  }
                 >
-                  <div className="per">
-                    Membership Number:<br />
-                    {resourceInfo.membershipNumber
-                      ? resourceInfo.membershipNumber
-                      : "-"}
-                  </div>
-                  <div className="title"><strong>Name: </strong>{resourceInfo.fullName ? resourceInfo.fullName : "-"}</div>
-                  <div className="title mb-12">
-                    <strong>Valid Thru: </strong>
-                    {resourceInfo.validThru
-                      ? `Dec ${moment(new Date()).year()}`
-                      : "-"}
-                  </div>
-                  <div className="button-box white">
-                    <span>{resourceInfo.status}</span>
-                  </div>
-
+                  <a
+                    href={RECOMMENDATION_LETTER + '&token=' + (accessTkn || '')}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <img
+                      src={Download}
+                      alt="download"
+                      className="download cursor-pointer"
+                    />
+                  </a>
+                  Recommendation Letter
                 </div>
-                <div className="benefit-item">
-                  <div className="per">Membership Card <br /> &nbsp;</div>
-                  <div className="button-box white">
-                    <span onClick={() => getMembershipCard(false)}>Download</span>
-                  </div>
-                </div>
-
-                <div className="benefit-item">
-                  <div className="per">Recommendation Letter <br /> &nbsp;</div>
-                  <div className="button-box white">
-                    <a href={RECOMMENDATION_LETTER + store.getState().auth.memberId} target="_blank" rel="noreferrer noopener" >
-                      Download
-                    </a>
-                  </div>
-                </div>
-
-
               </div>
-            </div>
-          )
-        ) : (
-          <div>No Data</div>
-        )}
-      </div>
-    </Wrapper>
+            ) : (
+              <div className="benefit-box">
+                <div className="container">
+                  <div
+                    className="benefit-item"
+                    id="membership_card"
+                  >
+                    <div className="per">
+                      Membership Number:<br />
+                      {resourceInfo.membershipNumber
+                        ? resourceInfo.membershipNumber
+                        : "-"}
+                    </div>
+                    <div className="title"><strong>Name: </strong>{resourceInfo.fullName ? resourceInfo.fullName : "-"}</div>
+                    <div className="title mb-12">
+                      <strong>Valid Thru: </strong>
+                      {
+                        resourceInfo.validThru ?
+                          new Date(resourceInfo.validThru).toDateString() :
+                          "-"
+                      }
+                    </div>
+                    <div className="button-box white">
+                      <span>{resourceInfo.status}</span>
+                    </div>
+
+                  </div>
+                  <div className="benefit-item">
+                    <div className="per">Membership Card <br /> &nbsp;</div>
+                    <div className="button-box white">
+                      <span onClick={() => getMembershipCard(false)}>Download</span>
+                    </div>
+                  </div>
+
+                  <div className="benefit-item">
+                    <div className="per">Recommendation Letter <br /> &nbsp;</div>
+                    <div className="button-box white">
+                      <a href={RECOMMENDATION_LETTER + '&token=' + (accessTkn || '')} target="_blank" rel="noreferrer noopener" >
+                        Download
+                      </a>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+            )
+          ) : (
+            <div>No Data</div>
+          )}
+        </div>
+      </Wrapper>
+    </>
   );
 };
 

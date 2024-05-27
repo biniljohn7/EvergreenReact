@@ -2,10 +2,10 @@ import axios from "axios";
 import { BASE_URL } from "../helper/constant";
 import { setHeaders } from "./apiHelpers";
 
-export const viewNews = (newsId) => {
+export const ViewNews = (newsId) => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/home/news?newsId=${newsId}`)
+    .get(`${BASE_URL}/member/?method=news-details&id=${newsId}`)
     .then((response) => {
       return response.data;
     });

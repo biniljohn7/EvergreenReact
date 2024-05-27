@@ -70,8 +70,6 @@ const EditProfile = (props) => {
     isValid,
   } = props;
 
-  console.log(props);
-
   const isProfileCreated = store.getState().auth.isProfileCreated;
 
   const LEFT_CLASS = isProfileCreated
@@ -91,19 +89,23 @@ const EditProfile = (props) => {
   const [cityList, setCity] = useState([]);
   const [chapterList, setChapter] = useState([]);
   const [chapterOfIntiationList, setChapterOfIntiation] = useState([]);
+  const [formValues, setFormValues] = useState({ ...values });
+  const [ErrorList, setErrorList] = useState({});
 
   useEffect(() => {
     getDropdown()
       .then((res) => {
         setDropdown(res.data);
+        let ndata = { ...formValues };
+
         if (props.profile.profile.expertises) {
           const exp = props.profile.profile.expertises.map((ex) => {
             return {
               label: ex.name,
               value: ex.id,
             };
-          });          
-          setFieldValue("expertise", exp);
+          });
+          ndata.expertise = exp;
         }
         if (props.profile.profile.certifications) {
           const cert = props.profile.profile.certifications.map((ex) => {
@@ -112,7 +114,7 @@ const EditProfile = (props) => {
               value: ex.id,
             };
           });
-          setFieldValue("certification", cert);
+          ndata.certification = cert;
         }
         if (props.profile.profile.educations) {
           const edu = props.profile.profile.educations.map((ex) => {
@@ -127,11 +129,12 @@ const EditProfile = (props) => {
               },
             };
           });
-          setFieldValue("education", edu);
+          ndata.education = edu;
         }
         if (props.profile.profile.yearOfInitiation) {
           const YOI = props.profile.profile.yearOfInitiation.split("/");
-          setFieldValue("yearOfIni", YOI[2] + "-" + YOI[1] + "-" + YOI[0]);
+
+          ndata.yearOfIni = YOI[2] + "-" + YOI[1] + "-" + YOI[0];
         }
         if (props.profile.profile.country) {
           getState(props.profile.profile.country.id)
@@ -166,7 +169,7 @@ const EditProfile = (props) => {
               );
             });
         }
-        if (props.profile.profile.state) {
+        /*if (props.profile.profile.state) {
           getCity(props.profile.profile.state.id)
             .then((res) => {
               setCity(res.data.city);
@@ -176,7 +179,7 @@ const EditProfile = (props) => {
                 "Failed to retrive City list. Please try again later!"
               );
             });
-        }
+        }*/
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
@@ -190,6 +193,7 @@ const EditProfile = (props) => {
         }
 
         setLoading(false);
+        setFormValues(ndata);
       })
       .catch((err) => {
         ToastsStore.error("Something went wrong!");
@@ -218,13 +222,12 @@ const EditProfile = (props) => {
       });
   }, []);
 
-  const Error = (props) => {
-    const field1 = props.field;
-    if ((errors[field1] && touched[field1]) || submitCount > 0) {
-      return <div className="text-danger">{errors[field1]}</div>;
-    } else {
-      return <div />;
-    }
+  const Error = ({ field }) => {
+    return ErrorList[field] ?
+      <div className="text-danger">
+        {ErrorList[field]}
+      </div> :
+      <></>;
   };
 
   const Error2 = (props) => {
@@ -260,47 +263,151 @@ const EditProfile = (props) => {
   };
 
   const handleForm = (e) => {
-    e.preventDefault();
-    handleSubmit();
-    if (isValid) {
+    function el(id) {
+      return document.getElementById(id);
+    }
+
+    function validateEducation(education) {
+      if (!education || !Array.isArray(education)) {
+        return "This field is required!";
+      }
+      if (education.length < 1) {
+        return "At least one education entry is required!";
+      }
+      for (let i = 0; i < education.length; i++) {
+        const entry = education[i];
+        if (typeof entry !== "object" || entry === null) {
+          return `Education entry ${i + 1} must be an object`;
+        }
+        if (!entry.university || !entry.university.name || !entry.university.profileOptionsId) {
+          return `University field is required in education entry ${i + 1}`;
+        }
+        if (!entry.degree || !entry.degree.label || !entry.degree.value) {
+          return `Degree field is required in education entry ${i + 1}`;
+        }
+      }
+      return null;
+    }
+
+    const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+
+    let
+      sErrs = {}
+
+    if (!formValues.prefix.value) {
+      sErrs['prefix'] = 'This field is required';
+    }
+    if (!el('firstName').value.trim()) {
+      sErrs['firstName'] = 'This field is required';
+    }
+    if (!el('lastName').value.trim()) {
+      sErrs['lastName'] = 'This field is required';
+    }
+    if (!formValues.country.profileOptionsId) {
+      sErrs['country'] = 'This field is required';
+    }
+    if (!formValues.state.id) {
+      sErrs['state'] = 'This field is required';
+    }
+    if (!el('city').value.trim()) {
+      sErrs['city'] = 'This field is required';
+    }
+    if (!el('address').value.trim()) {
+      sErrs['address'] = 'This field is required';
+    }
+    if (!el('zip').value.trim()) {
+      sErrs['zip'] = 'This field is required';
+    }
+    // if (!formValues.phoneCode.profileOptionsId) {
+    //   sErrs['phoneCode'] = 'Phone code is required';
+    // }
+    if (!el('phoneNumber').value) {
+      sErrs['phoneNumber'] = 'Pnone number is required';
+    } else if (!phoneRegex.test(el('phoneNumber').value.trim())) {
+      sErrs['phoneNumber'] = 'Not a valid phone number';
+    }
+    if (!formValues.occupation.profileOptionsId) {
+      sErrs['occupation'] = 'This field is required';
+    }
+    if (!formValues.industry.profileOptionsId) {
+      sErrs['industry'] = 'This field is required';
+    }
+    if (!el('leadershipRole').value.trim()) {
+      sErrs['leadershipRole'] = 'This field is required';
+    }
+    if (!formValues.household.value) {
+      sErrs['household'] = 'This field is required';
+    }
+    if (!formValues.salaryRange.value) {
+      sErrs['salaryRange'] = 'This field is required';
+    }
+    if (!formValues.expertise.map((ex) => ex.value).length) {
+      sErrs['expertise'] = 'This field is required';
+    }
+    if (!formValues.nation.nationId) {
+      sErrs['nation'] = 'This field is required';
+    }
+    if (!formValues.region.regionId) {
+      sErrs['region'] = 'This field is required';
+    }
+    if (!formValues.organizationalState.id) {
+      sErrs['organizationalState'] = 'This field is required';
+    }
+    if (!formValues.chapterOfInitiation.chapterId) {
+      sErrs['chapterOfInitiation'] = 'This field is required';
+    }
+    if (!el('yearOfIni').value.trim()) {
+      sErrs['yearOfIni'] = 'This field is required';
+    }
+    if (!formValues.currentChapter.chapterId) {
+      sErrs['currentChapter'] = 'This field is required';
+    }
+
+    let res = validateEducation(formValues.education);
+    if (res) {
+      sErrs['education'] = res;
+    }
+
+    setErrorList(sErrs);
+
+    if (Object.keys(sErrs).length < 1) {
       setLoader(true);
       let body = {
-        statusUpdate: values.statusUpdate || null,
-        prefixId: values.prefix.value,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        suffixId: values.suffix ? values.suffix.value : null,
-        countryId: values.country.profileOptionsId,
-        stateId: values.state.id,
-        organizationalStateId: values.organizationalState.id,
-        regionId: values.region.regionId,
-        nationId: values.nation.nationId,
-        cityId: values.city.id,
-        address: values.address,
-        zipcode: values.zip,
-        phoneCodeId: values.phoneCode.profileOptionsId,
-        phoneNumber: values.phoneNumber,
-        biography: values.biography || null,
-        occupationId: values.occupation.profileOptionsId,
-        industryId: values.industry.profileOptionsId,
-        educations: values.education.map((edu) => {
+        statusUpdate: formValues.statusUpdate || null,
+        prefixId: formValues.prefix.value,
+        firstName: el('firstName').value.trim(),
+        lastName: el('lastName').value.trim(),
+        suffixId: formValues.suffix ? formValues.suffix.value : null,
+        countryId: formValues.country.profileOptionsId,
+        stateId: formValues.state.id,
+        organizationalStateId: formValues.organizationalState.id,
+        regionId: formValues.region.regionId,
+        nationId: formValues.nation.nationId,
+        cityId: el('city').value.trim(),
+        address: el('address').value.trim(),
+        zipcode: el('zip').value.trim(),
+        //phoneCodeId: formValues.phoneCode.profileOptionsId,
+        phoneNumber: el('phoneNumber').value.trim(),
+        biography: el('address').value.trim() || null,
+        occupationId: formValues.occupation.profileOptionsId,
+        industryId: formValues.industry.profileOptionsId,
+        educations: formValues.education.map((edu) => {
           return {
             degreeId: edu.degree.value,
             universityId: edu.university.profileOptionsId,
           };
         }),
-        certificationId: values.certification
-          ? values.certification.map((cert) => cert.value)
+        certificationId: formValues.certification
+          ? formValues.certification.map((cert) => cert.value)
           : [],
-        chapterOfInitiation: values.chapterOfInitiation.chapterId,
-        // yearOfInitiation: values.yearOfIni,
-        currentChapter: values.currentChapter.chapterId,
-        leadershipRole: values.leadershipRole,
-        householdId: values.household.value,
-        salaryRangeId: values.salaryRange.value,
-        expertiseIds: values.expertise.map((ex) => ex.value),
+        chapterOfInitiation: formValues.chapterOfInitiation.chapterId,
+        currentChapter: formValues.currentChapter.chapterId,
+        leadershipRole: el('leadershipRole').value.trim(),
+        householdId: formValues.household.value,
+        salaryRangeId: formValues.salaryRange.value,
+        expertiseIds: formValues.expertise.map((ex) => ex.value),
       };
-      const YOI = values.yearOfIni.split("-");
+      const YOI = el('yearOfIni').value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
       if (isProfileCreated) {
         const totalBody = {
@@ -311,40 +418,41 @@ const EditProfile = (props) => {
             profileImage: props.profile.visible.profileImage || true,
             memberId: store.getState().auth.memberId,
             profileVisibilityId: 0,
-            statusUpdate: values.statusUpdateSwitch || false,
-            prefix: values.prefixSwitch || false,
-            email: values.emailSwitch || false,
-            memberCode: values.memberCodeSwitch || false,
-            country: values.countrySwitch || false,
-            state: values.stateSwitch || false,
-            organizationalState: values.organizationalStateSwich || false,
-            city: values.citySwitch || false,
-            address: values.addressSwitch || false,
-            zipcode: values.zipSwitch || false,
-            biography: values.biographySwitch || false,
-            certification: values.certificationSwitch || false,
-            chapterOfInitiation: values.chapOfIniSwitch || false,
-            currentChapter: values.currentChapSwitch || false,
-            educations: values.educationSwitch || false,
-            expertise: values.expertiseSwitch || false,
-            household: values.householdSwitch || false,
-            industry: values.industrySwitch || false,
-            leadershipRole: values.roleSwitch || false,
-            occupation: values.occupationSwitch || false,
-            phoneCode: values.phoneNumberSwitch || false,
-            phoneNumber: values.phoneNumberSwitch || false,
-            salaryRange: values.salarySwitch || false,
-            yearOfInitiation: values.yearOfIniSwitch || false,
-            nation: values.nationSwitch || false,
-            region: values.regionSwitch || false,
+            statusUpdate: formValues.statusUpdateSwitch || false,
+            prefix: formValues.prefixSwitch || false,
+            email: formValues.emailSwitch || false,
+            memberCode: formValues.memberCodeSwitch || false,
+            country: formValues.countrySwitch || false,
+            state: formValues.stateSwitch || false,
+            organizationalState: formValues.organizationalStateSwich || false,
+            city: formValues.citySwitch || false,
+            address: formValues.addressSwitch || false,
+            zipcode: formValues.zipSwitch || false,
+            biography: formValues.biographySwitch || false,
+            certification: formValues.certificationSwitch || false,
+            chapterOfInitiation: formValues.chapOfIniSwitch || false,
+            currentChapter: formValues.currentChapSwitch || false,
+            educations: formValues.educationSwitch || false,
+            expertise: formValues.expertiseSwitch || false,
+            household: formValues.householdSwitch || false,
+            industry: formValues.industrySwitch || false,
+            leadershipRole: formValues.roleSwitch || false,
+            occupation: formValues.occupationSwitch || false,
+            phoneCode: formValues.phoneNumberSwitch || false,
+            phoneNumber: formValues.phoneNumberSwitch || false,
+            salaryRange: formValues.salarySwitch || false,
+            yearOfInitiation: formValues.yearOfIniSwitch || false,
+            nation: formValues.nationSwitch || false,
+            region: formValues.regionSwitch || false,
           },
           ...body,
         };
+        console.log(totalBody);
         updateProfile(totalBody)
           .then((res) => {
             if (res.success === 1) {
               props.login({
-                currentChapter: values.currentChapter.chapterId,
+                currentChapter: formValues.currentChapter.chapterId,
                 isLogin: true,
               });
               ToastsStore.info(res.message);
@@ -366,7 +474,7 @@ const EditProfile = (props) => {
               if (!isProfileCreated) {
                 props.login({
                   isProfileCreated: true,
-                  currentChapter: values.currentChapter.chapterId,
+                  currentChapter: formValues.currentChapter.chapterId,
                   isLogin: true,
                 });
               }
@@ -455,13 +563,14 @@ const EditProfile = (props) => {
                     contentFontSize={"fs-14 " + WIDTH_CLASS}
                     maxLength={140}
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("statusUpdateSwitch", checked)
-                    }
-                    checked={values.statusUpdateSwitch || false}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.statusUpdate || ""}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.statusUpdateSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.statusUpdateSwitch}
+                    disabled={!formValues.statusUpdateSwitch}
+                    defaultValue={formValues.statusUpdate || ""}
                   />
                   <Error field="statusUpdate" />
                 </div>
@@ -471,9 +580,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("prefixSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.prefixSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.prefixSwitch}
+                        checked={formValues.prefixSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -493,10 +604,11 @@ const EditProfile = (props) => {
                     options={PROFILE_OPTIONS.prefix}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("prefix", true, true);
-                      setFieldValue("prefix", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.prefix = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.prefix || ""}
+                    value={formValues.prefix || ""}
                   />
                   <Error field="prefix" />
                 </div>
@@ -509,9 +621,7 @@ const EditProfile = (props) => {
                     fontSize={"fs-16 text-dark"}
                     contentFontSize="fs-14"
                     className={WIDTH_CLASS}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.firstName || ""}
+                    defaultValue={formValues.firstName || ""}
                   />
                   <Error field="firstName" />
                 </div>
@@ -524,9 +634,7 @@ const EditProfile = (props) => {
                     fontSize={"fs-16 text-dark"}
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.lastName || ""}
+                    defaultValue={formValues.lastName || ""}
                   />
                   <Error field="lastName" />
                 </div>
@@ -538,10 +646,11 @@ const EditProfile = (props) => {
                     options={PROFILE_OPTIONS.suffix}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      props.setFieldTouched("suffix", true, true);
-                      props.setFieldValue("suffix", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.suffix = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.suffix || ""}
+                    value={formValues.suffix || ""}
                   />
                   <Error field="suffix" />
                 </div>
@@ -551,9 +660,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("countrySwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.countrySwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.countrySwitch}
+                        checked={formValues.countrySwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -575,8 +686,10 @@ const EditProfile = (props) => {
                     getOptionLabel={(op) => op.name}
                     getOptionValue={(op) => op.profileOptionsId}
                     onChange={(selectedOp) => {
-                      setFieldTouched("country", true, true);
-                      setFieldValue("country", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.country = selectedOp;
+                      ndata.state = '';
+                      setFormValues(ndata);
                       getState(selectedOp.profileOptionsId)
                         .then((res) => {
                           setState([...res.data]);
@@ -587,7 +700,7 @@ const EditProfile = (props) => {
                           );
                         });
                     }}
-                    value={values.country || ""}
+                    value={formValues.country || ""}
                   />
                   <Error field="country" />
                 </div>
@@ -597,9 +710,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("stateSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.stateSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.stateSwitch}
+                        checked={formValues.stateSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -621,10 +736,11 @@ const EditProfile = (props) => {
                     getOptionLabel={(op) => op.name}
                     getOptionValue={(op) => op.id}
                     onChange={(selectedOp) => {
-                      setFieldTouched("state", true, true);
-                      setFieldValue("state", selectedOp);
-                      setFieldValue("city", "");
-                      getCity(selectedOp.id)
+                      let ndata = { ...formValues };
+                      ndata.state = selectedOp;
+                      ndata.city = '';
+                      setFormValues(ndata);
+                      /*getCity(selectedOp.id)
                         .then((res) => {
                           setCity([...res.data.city]);
                         })
@@ -632,12 +748,12 @@ const EditProfile = (props) => {
                           ToastsStore.error(
                             "Failed to retrive City list. Please try again later!"
                           );
-                        });
+                        });*/
                     }}
-                    value={values.state || ""}
+                    value={formValues.state || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.country
+                        {!formValues.country
                           ? "Select Country first"
                           : "No States Found"}
                       </>
@@ -645,15 +761,17 @@ const EditProfile = (props) => {
                   />
                   <Error field="state" />
                 </div>
-                <div className="mb-15">
+                {/* <div className="mb-15">
                   <div className="position-relative">
                     <label className="fs-16 mb-5 text-dark">City</label>
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("citySwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.citySwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.citySwitch}
+                        checked={formValues.citySwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -675,15 +793,37 @@ const EditProfile = (props) => {
                     getOptionValue={(op) => op.id}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("city", true, true);
-                      setFieldValue("city", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.city = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.city || ""}
+                    value={formValues.city || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.state ? "Select State first" : "No City Found"}
+                        {!formValues.state ? "Select State first" : "No City Found"}
                       </>
                     )}
+                  />
+                  <Error field="city" />
+                </div> */}
+
+                <div className="mb-15">
+                  <Input
+                    id="city"
+                    label="City"
+                    placeholder="City"
+                    type="text"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={isProfileCreated}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.citySwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.citySwitch || false}
+                    defaultValue={formValues.city || ""}
                   />
                   <Error field="city" />
                 </div>
@@ -697,13 +837,13 @@ const EditProfile = (props) => {
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("addressSwitch", checked)
-                    }
-                    checked={values.addressSwitch || false}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.address || ""}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.addressSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.addressSwitch || false}
+                    defaultValue={formValues.address || ""}
                   />
                   <Error field="address" />
                 </div>
@@ -717,25 +857,47 @@ const EditProfile = (props) => {
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("zipSwitch", checked)
-                    }
-                    checked={values.zipSwitch || false}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.zip || ""}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.zipSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.zipSwitch || false}
+                    defaultValue={formValues.zip || ""}
                   />
                   <Error field="zip" />
                 </div>
-                <div className="row mb-15 mlr-0">
+                <div className="mb-15 position-relative">
+                  <Input
+                    id="phoneNumber"
+                    label="Phone Number"
+                    placeholder="Phone Number"
+                    type="text"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={isProfileCreated}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.phoneNumberSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.phoneNumberSwitch || false}
+                    defaultValue={formValues.phoneNumber || ""}
+                  />
+                  <Error field="phoneNumber" />
+                </div>
+                {/* <div className="row mb-15 mlr-0">
                   <div className="col-12 position-relative plr-0">
                     <label className="fs-16 mb-5 text-dark">Phone Number</label>
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("phoneNumberSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.phoneNumberSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.phoneNumberSwitch}
+                        checked={formValues.phoneNumberSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -776,34 +938,37 @@ const EditProfile = (props) => {
                         }),
                       }}
                       onChange={(selectedOp) => {
-                        setFieldTouched("phoneCode", true, true);
-                        setFieldValue("phoneCode", selectedOp);
+                        let ndata = { ...formValues };
+                        ndata.phoneCode = selectedOp;
+                        setFormValues(ndata);
                       }}
-                      value={values.phoneCode || ""}
+                      value={formValues.phoneCode || ""}
                     />
                   </div>
                   <div className="col-8 col-lg-9 col-sm-8 col-md-9 col-xl-9 plr-0">
-                    <Input
-                      id="phoneNumber"
-                      placeholder="Phone Number"
-                      type="number"
-                      fontSize={"fs-16 text-dark"}
-                      className={window.innerWidth >= 1024 ? "wp-73" : "wp-100"}
-                      contentFontSize="fs-14"
-                      switchPresent={false}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phoneNumber || ""}
-                    />
+                  <Input
+                    id="phoneNumber"
+                    placeholder="Phone Number"
+                    type="number"
+                    fontSize={"fs-16 text-dark"}
+                    className={WIDTH_CLASS}
+                    contentFontSize="fs-14"
+                    switchPresent={false}
+                    defaultValue={formValues.phoneNumber || ""}
+                  />
                   </div>
-                  {(errors["phoneCode"] || errors["phoneNumber"]) && (
-                    <div className={"red--text col-12"}>
-                      {errors["phoneCode"]
-                        ? errors["phoneCode"]
-                        : errors["phoneNumber"]}
+                  {(ErrorList["phoneCode"] || ErrorList["phoneNumber"]) && (
+                    <div className={"col-12"} style={{ color: '#e20000' }}>
+                      {ErrorList["phoneCode"]
+                        ? ErrorList["phoneCode"]
+                        : ErrorList["phoneNumber"]}
                     </div>
                   )}
-                </div>
+                </div> */}
+
+
+
+
                 <div className="mb-15">
                   <Input
                     label="Email"
@@ -813,11 +978,13 @@ const EditProfile = (props) => {
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("emailSwitch", checked)
-                    }
-                    checked={values.emailSwitch || false}
-                    value={props.profile.profile.email || ""}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.emailSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.emailSwitch || false}
+                    defaultValue={props.profile.profile.email || ""}
                     disabled={true}
                   />
                 </div>
@@ -830,12 +997,14 @@ const EditProfile = (props) => {
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("memberCodeSwitch", checked)
-                    }
-                    checked={values.memberCodeSwitch || false}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.memberCodeSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.memberCodeSwitch || false}
                     disabled={true}
-                    value={props.profile.profile.memberCode || ""}
+                    defaultValue={props.profile.profile.memberCode || ""}
                   />
                 </div>
                 <div className="mb-15">
@@ -847,14 +1016,14 @@ const EditProfile = (props) => {
                     fontSize={"fs-16 text-dark"}
                     contentFontSize={"fs-14 " + WIDTH_CLASS}
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("biographySwitch", checked)
-                    }
-                    checked={values.biographySwitch || false}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.biographySwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.biographySwitch}
                     maxLength={1000}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.biography || ""}
+                    defaultValue={formValues.biography || ""}
                   />
                   <Error field="biography" />
                 </div>
@@ -864,9 +1033,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("occupationSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.occupationSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.occupationSwitch}
+                        checked={formValues.occupationSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -888,10 +1059,11 @@ const EditProfile = (props) => {
                     getOptionValue={(op) => op.profileOptionsId}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("occupation", true, true);
-                      setFieldValue("occupation", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.occupation = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.occupation || ""}
+                    value={formValues.occupation || ""}
                   />
                   <Error field="occupation" />
                 </div>
@@ -901,9 +1073,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("industrySwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.industrySwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.industrySwitch}
+                        checked={formValues.industrySwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -925,10 +1099,11 @@ const EditProfile = (props) => {
                     getOptionValue={(op) => op.profileOptionsId}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("industry", true, true);
-                      setFieldValue("industry", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.industry = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.industry || ""}
+                    value={formValues.industry || ""}
                   />
                   <Error field="industry" />
                 </div>
@@ -938,9 +1113,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("educationSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.educationSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.educationSwitch}
+                        checked={formValues.educationSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -958,23 +1135,24 @@ const EditProfile = (props) => {
                     name="education"
                     render={({ remove, push }) => (
                       <div>
-                        {values.education &&
-                          values.education.length > 0 &&
-                          values.education.map((edu, index) => (
+                        {formValues.education &&
+                          formValues.education.length > 0 &&
+                          formValues.education.map((edu, index) => (
                             <div key={index} className="">
                               <div name={`education.${index}`}>
                                 <div className="text-right">
-                                  <i
-                                    className="fa fa-trash-o cursor-pointer"
-                                    aria-hidden="true"
+                                  <span
+                                    className="material-symbols-outlined cursor-pointer"
                                     onClick={() => {
-                                      let array = values.education;
+                                      let array = formValues.education;
                                       array.splice(index, 1);
-                                      setFieldValue("education", array);
-                                    }}
-                                  ></i>
-                                </div>
 
+                                      let ndata = { ...formValues };
+                                      ndata.education = array;
+                                      setFormValues(ndata);
+                                    }}
+                                  >delete</span>
+                                </div>
                                 <div className="">
                                   <Select
                                     placeholder="Select University"
@@ -983,14 +1161,14 @@ const EditProfile = (props) => {
                                     getOptionValue={(op) => op.profileOptionsId}
                                     styles={SELECT_CSS}
                                     onChange={(selectedOp) => {
-                                      setFieldTouched(`education`, true, true);
-                                      setFieldValue(
-                                        `education.${index}.university`,
-                                        selectedOp
-                                      );
+                                      let ndata = { ...formValues };
+                                      if (ndata.education[index]) {
+                                        ndata.education[index].university = selectedOp;
+                                      }
+                                      setFormValues(ndata);
                                     }}
                                     name={`education.${index}.university`}
-                                    value={edu.university || ""}
+                                    value={formValues.education[index] ? (formValues.education[index].university || "") : ''}
                                   />
                                   <Error2 field="university" index={index} />
                                 </div>
@@ -1000,14 +1178,15 @@ const EditProfile = (props) => {
                                     options={PROFILE_OPTIONS.degree}
                                     styles={SELECT_CSS}
                                     onChange={(selectedOp) => {
-                                      setFieldTouched(`education`, true, true);
-                                      setFieldValue(
-                                        `education.${index}.degree`,
-                                        selectedOp
-                                      );
+
+                                      let ndata = { ...formValues };
+                                      if (ndata.education[index]) {
+                                        ndata.education[index].degree = selectedOp;
+                                      }
+                                      setFormValues(ndata);
                                     }}
                                     name={`education.${index}.degree`}
-                                    value={edu.degree || ""}
+                                    value={formValues.education[index] ? (formValues.education[index].degree || "") : ''}
                                   />
                                   <Error2 field="degree" index={index} />
                                 </div>
@@ -1019,7 +1198,10 @@ const EditProfile = (props) => {
                             className="c-btn c-info form-button"
                             type="button"
                             onClick={() => {
-                              push({ university: "", degree: "" });
+                              let ndata = { ...formValues }, edcn = formValues.education;
+                              edcn.push({ university: "", degree: "" });
+                              ndata.education = edcn;
+                              setFormValues(ndata);
                             }}
                             style={{ width: "fit-content", marginTop: "10px" }}
                           >
@@ -1031,8 +1213,9 @@ const EditProfile = (props) => {
                             className="c-btn c-danger form-button"
                             type="button"
                             onClick={(event) => {
-                              setFieldTouched("education", true, true);
-                              setFieldValue("education", []);
+                              let ndata = { ...formValues };
+                              ndata.education = [];
+                              setFormValues(ndata);
                             }}
                             style={{ width: "fit-content" }}
                           >
@@ -1042,12 +1225,7 @@ const EditProfile = (props) => {
                       </div>
                     )}
                   />
-                  {((errors["education"] &&
-                    touched["education"] &&
-                    errors["education"].length <= 0) ||
-                    (submitCount > 0 && errors["education"])) && (
-                    <div className="text-danger">This field is required!</div>
-                  )}
+                  <Error field="education" />
                 </div>
                 <div className="mb-15">
                   <div className="position-relative">
@@ -1057,9 +1235,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("certificationSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.certificationSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.certificationSwitch}
+                        checked={formValues.certificationSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1081,10 +1261,11 @@ const EditProfile = (props) => {
                         value: el.profileOptionsId,
                       };
                     })}
-                    value={values.certification || []}
+                    value={formValues.certification || []}
                     onChange={(value) => {
-                      setFieldTouched("certification", true, true);
-                      setFieldValue("certification", value);
+                      let ndata = { ...formValues };
+                      ndata.certification = value;
+                      setFormValues(ndata);
                     }}
                     className={WIDTH_CLASS}
                   />
@@ -1100,13 +1281,13 @@ const EditProfile = (props) => {
                     className={WIDTH_CLASS}
                     contentFontSize="fs-14"
                     switchPresent={isProfileCreated}
-                    switchChange={(checked) =>
-                      setFieldValue("roleSwitch", checked)
-                    }
-                    checked={values.roleSwitch || false}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.leadershipRole || ""}
+                    switchChange={(checked) => {
+                      let ndata = { ...formValues };
+                      ndata.roleSwitch = checked;
+                      setFormValues(ndata);
+                    }}
+                    checked={formValues.roleSwitch || false}
+                    defaultValue={formValues.leadershipRole || ""}
                   />
                   <Error field="leadershipRole" />
                 </div>
@@ -1116,9 +1297,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("householdSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.householdSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.householdSwitch}
+                        checked={formValues.householdSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1138,10 +1321,11 @@ const EditProfile = (props) => {
                     options={PROFILE_OPTIONS.houseHold}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("household", true, true);
-                      setFieldValue("household", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.household = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.household || ""}
+                    value={formValues.household || ""}
                   />
                   <Error field="household" />
                 </div>
@@ -1151,9 +1335,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("salarySwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.salarySwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.salarySwitch}
+                        checked={formValues.salarySwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1173,10 +1359,11 @@ const EditProfile = (props) => {
                     options={PROFILE_OPTIONS.salaryRange}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("salaryRange", true, true);
-                      setFieldValue("salaryRange", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.salaryRange = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.salaryRange || ""}
+                    value={formValues.salaryRange || ""}
                   />
                   <Error field="salaryRange" />
                 </div>
@@ -1186,9 +1373,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("expertiseSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.expertiseSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.expertiseSwitch}
+                        checked={formValues.expertiseSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1205,10 +1394,11 @@ const EditProfile = (props) => {
                   <MultiSelect
                     id="expertise"
                     options={PROFILE_OPTIONS.expertise}
-                    value={values.expertise || []}
+                    value={formValues.expertise || []}
                     onChange={(value) => {
-                      setFieldTouched("expertise", true, true);
-                      setFieldValue("expertise", value);
+                      let ndata = { ...formValues };
+                      ndata.expertise = value;
+                      setFormValues(ndata);
                     }}
                     className={WIDTH_CLASS}
                   />
@@ -1224,9 +1414,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("nationSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.nationSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.nationSwitch}
+                        checked={formValues.nationSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1248,12 +1440,13 @@ const EditProfile = (props) => {
                     getOptionValue={(op) => op.nationId}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("nation", true, true);
-                      setFieldValue("nation", selectedOp);
-                      setFieldValue("region", "");
-                      setFieldValue("organizationalState", "");
-                      setFieldValue("currentChapter", "");
-                      // setState([]);
+                      let ndata = { ...formValues };
+                      ndata.nation = selectedOp;
+                      ndata.region = '';
+                      ndata.organizationalState = '';
+                      ndata.currentChapter = '';
+                      setFormValues(ndata);
+
                       setOrganizationalState([]);
                       setCity([]);
                       setChapter([]);
@@ -1267,7 +1460,7 @@ const EditProfile = (props) => {
                           );
                         });
                     }}
-                    value={values.nation || ""}
+                    value={formValues.nation || ""}
                   />
                   <Error field="nation" />
                 </div>
@@ -1278,9 +1471,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("regionSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.regionSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.regionSwitch}
+                        checked={formValues.regionSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1302,10 +1497,11 @@ const EditProfile = (props) => {
                     getOptionValue={(op) => op.regionId}
                     styles={SELECT_CSS}
                     onChange={(selectedOp) => {
-                      setFieldTouched("region", true, true);
-                      setFieldValue("region", selectedOp);
-                      setFieldValue("organizationalState", "");
-                      setFieldValue("currentChapter", "");
+                      let ndata = { ...formValues };
+                      ndata.region = selectedOp;
+                      ndata.organizationalState = '';
+                      ndata.currentChapter = '';
+                      setFormValues(ndata);
                       setCity([]);
                       setChapter([]);
                       getStateFromRegion(selectedOp?.regionId)
@@ -1318,10 +1514,10 @@ const EditProfile = (props) => {
                           );
                         });
                     }}
-                    value={values.region || ""}
+                    value={formValues.region || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.nation
+                        {!formValues.nation
                           ? "Select nation first"
                           : "No Region Found"}
                       </>
@@ -1337,9 +1533,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("organizationalStateSwich", checked);
+                          let ndata = { ...formValues };
+                          ndata.organizationalStateSwich = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.organizationalStateSwich}
+                        checked={formValues.organizationalStateSwich}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1361,9 +1559,10 @@ const EditProfile = (props) => {
                     getOptionLabel={(op) => op.name}
                     getOptionValue={(op) => op.id}
                     onChange={(selectedOp) => {
-                      setFieldTouched("organizationalState", true, true);
-                      setFieldValue("organizationalState", selectedOp);
-                      setFieldValue("currentChapter", "");
+                      let ndata = { ...formValues };
+                      ndata.organizationalState = selectedOp;
+                      ndata.currentChapter = '';
+                      setFormValues(ndata);
                       getChapter(selectedOp.id)
                         .then((res) => {
                           setChapter([...res.data]);
@@ -1374,10 +1573,10 @@ const EditProfile = (props) => {
                           );
                         });
                     }}
-                    value={values.organizationalState || ""}
+                    value={formValues.organizationalState || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.region
+                        {!formValues.region
                           ? "Select Region first"
                           : "No States Found"}
                       </>
@@ -1392,9 +1591,11 @@ const EditProfile = (props) => {
                   {isProfileCreated && (
                     <Switch
                       onChange={(checked) => {
-                        setFieldValue("chapOfIniSwitch", checked);
+                        let ndata = { ...formValues };
+                        ndata.chapOfIniSwitch = checked;
+                        setFormValues(ndata);
                       }}
-                      checked={values.chapOfIniSwitch}
+                      checked={formValues.chapOfIniSwitch}
                       onColor="#EAEAEA"
                       onHandleColor={HEADER_COLOR}
                       handleDiameter={10}
@@ -1415,13 +1616,14 @@ const EditProfile = (props) => {
                     getOptionLabel={(op) => op.chapterName}
                     getOptionValue={(op) => op.chapterId}
                     onChange={(selectedOp) => {
-                      setFieldTouched("chapterOfInitiation", true, true);
-                      setFieldValue("chapterOfInitiation", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.chapterOfInitiation = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.chapterOfInitiation || ""}
+                    value={formValues.chapterOfInitiation || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.organizationalStateSwich
+                        {!formValues.chapterOfInitiation
                           ? "Select Organizational State first"
                           : "No Section Found"}
                       </>
@@ -1437,9 +1639,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("yearOfIniSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.yearOfIniSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.yearOfIniSwitch}
+                        checked={formValues.yearOfIniSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1459,9 +1663,12 @@ const EditProfile = (props) => {
                     className={
                       WIDTH_CLASS + " date-picker text-dark pa-10 fs-14"
                     }
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.yearOfIni || ""}
+                    onChange={(e) => {
+                      let ndata = { ...formValues };
+                      ndata.yearOfIni = e.target.value;
+                      setFormValues(ndata);
+                    }}
+                    value={formValues.yearOfIni || ""}
                     max={new Date().toISOString().split("T")[0]}
                   />
                   <Error field="yearOfIni" />
@@ -1474,9 +1681,11 @@ const EditProfile = (props) => {
                     {isProfileCreated && (
                       <Switch
                         onChange={(checked) => {
-                          setFieldValue("currentChapSwitch", checked);
+                          let ndata = { ...formValues };
+                          ndata.currentChapSwitch = checked;
+                          setFormValues(ndata);
                         }}
-                        checked={values.currentChapSwitch}
+                        checked={formValues.currentChapSwitch}
                         onColor="#EAEAEA"
                         onHandleColor={HEADER_COLOR}
                         handleDiameter={10}
@@ -1498,13 +1707,14 @@ const EditProfile = (props) => {
                     getOptionLabel={(op) => op.chapterName}
                     getOptionValue={(op) => op.chapterId}
                     onChange={(selectedOp) => {
-                      setFieldTouched("currentChapter", true, true);
-                      setFieldValue("currentChapter", selectedOp);
+                      let ndata = { ...formValues };
+                      ndata.currentChapter = selectedOp;
+                      setFormValues(ndata);
                     }}
-                    value={values.currentChapter || ""}
+                    value={formValues.currentChapter || ""}
                     noOptionsMessage={() => (
                       <>
-                        {!values.organizationalStateSwich
+                        {!formValues.organizationalStateSwich
                           ? "Select Organizational State first"
                           : "No Section Found"}
                       </>

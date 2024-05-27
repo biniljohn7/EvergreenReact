@@ -13,7 +13,7 @@ const textarea = (props) => {
         {props.required ? <span className="red--text"> *</span> : null}
         {props.switchPresent && (
           <Switch
-            onChange={(checked) => {
+            onChange={(checked, e) => {
               props.switchChange(checked)
             }}
             checked={props.checked}
@@ -44,7 +44,8 @@ const textarea = (props) => {
         onChange={props.onChange}
         onBlur={props.onBlur}
         maxLength={props.maxLength}
-        value={props.value}
+        // value={props.value}
+        defaultValue={props.defaultValue}
         disabled={props.disabled || false}
       ></textarea>
     </TextareaWrapper>

@@ -8,7 +8,7 @@ const contactUs = withFormik({
     subject: Yup.string().trim().required("This field is required"),
     message: Yup.string().trim().required("This field is required"),
   }),
-  handleSubmit: (values) => {},
+  handleSubmit: (values) => { },
   isInitialValid: false,
   enableReinitialize: true,
 });
@@ -28,7 +28,7 @@ const changePwd = withFormik({
       .oneOf([Yup.ref("newPassword"), null], "Password didn't match"),
   }),
 
-  handleSubmit: (values) => {},
+  handleSubmit: (values) => { },
   enableReinitialize: true,
   isInitialValid: false,
 });
@@ -48,7 +48,7 @@ const editProfile = withFormik({
     city: Yup.string().required("This field is required"),
     address: Yup.string().trim().required("This field is required"),
     zip: Yup.string().trim().required("This field is required"),
-    phoneCode: Yup.string().required("This field is required"),
+    //phoneCode: Yup.string().required("This field is required"),
     phoneNumber: Yup.string()
       .required("This field is required")
       .matches(
@@ -68,7 +68,7 @@ const editProfile = withFormik({
         })
       ),
     certification: Yup.array().notRequired().nullable(),
-    chapterOfInitiation: Yup.string().trim().required("This field is required"),
+    //chapterOfInitiation: Yup.string().trim().required("This field is required"),
     yearOfIni: Yup.date().required("This field is required"),
     currentChapter: Yup.string().required("This field is required"),
     leadershipRole: Yup.string().trim().required("This field is required"),
@@ -105,101 +105,96 @@ const editProfile = withFormik({
     statusUpdate: props.profile.profile.statusUpdate || "",
     prefix: props.profile.profile.prefix
       ? {
-          label: props.profile.profile.prefix.name,
-          value: props.profile.profile.prefix.id,
-        }
+        label: props.profile.profile.prefix.name,
+        value: props.profile.profile.prefix.id,
+      }
       : "",
     suffix: props.profile.profile.suffix
       ? {
-          label: props.profile.profile.suffix.name,
-          value: props.profile.profile.suffix.id,
-        }
+        label: props.profile.profile.suffix.name,
+        value: props.profile.profile.suffix.id,
+      }
       : "",
     firstName: props.profile.profile.firstName || "",
     lastName: props.profile.profile.lastName || "",
     country: props.profile.profile.country
       ? {
-          name: props.profile.profile.country.name,
-          profileOptionsId: props.profile.profile.country.id,
-        }
+        name: props.profile.profile.country.name,
+        profileOptionsId: props.profile.profile.country.id,
+      }
       : "",
     nation: props.profile.profile.nation
       ? {
-          nationName: props.profile.profile.nation.name,
-          nationId: props.profile.profile.nation.id,
-        }
+        nationName: props.profile.profile.nation.name,
+        nationId: props.profile.profile.nation.id,
+      }
       : "",
     organizationalState: props.profile.profile.organizationalState
       ? {
-          name: props.profile.profile.organizationalState.name,
-          id: props.profile.profile.organizationalState.id,
-        }
+        name: props.profile.profile.organizationalState.name,
+        id: props.profile.profile.organizationalState.id,
+      }
       : "",
     region: props.profile.profile.region
       ? {
-          regionName: props.profile.profile.region.name,
-          regionId: props.profile.profile.region.id,
-        }
+        regionName: props.profile.profile.region.name,
+        regionId: props.profile.profile.region.id,
+      }
       : "",
     state: props.profile.profile.state
       ? {
-          name: props.profile.profile.state.name,
-          id: props.profile.profile.state.id,
-        }
+        name: props.profile.profile.state.name,
+        id: props.profile.profile.state.id,
+      }
       : "",
-    city: props.profile.profile.city
-      ? {
-          name: props.profile.profile.city.name,
-          id: props.profile.profile.city.id,
-        }
-      : "",
+    city: props.profile.profile.city || "",
     address: props.profile.profile.address || "",
     zip: props.profile.profile.zipcode || "",
-    phoneCode: props.profile.profile.phoneCode
-      ? {
-          name: props.profile.profile.phoneCode.name,
-          profileOptionsId: props.profile.profile.phoneCode.id,
-        }
-      : "",
+    // phoneCode: props.profile.profile.phoneCode
+    //   ? {
+    //     name: props.profile.profile.phoneCode.name,
+    //     profileOptionsId: props.profile.profile.phoneCode.id,
+    //   }
+    //   : "",
     phoneNumber: props.profile.profile.phoneNumber || "",
     biography: props.profile.profile.biography || "",
     occupation: props.profile.profile.occupation
       ? {
-          name: props.profile.profile.occupation.name,
-          profileOptionsId: props.profile.profile.occupation.id,
-        }
+        name: props.profile.profile.occupation.name,
+        profileOptionsId: props.profile.profile.occupation.id,
+      }
       : "",
     industry: props.profile.profile.industry
       ? {
-          name: props.profile.profile.industry.name,
-          profileOptionsId: props.profile.profile.industry.id,
-        }
+        name: props.profile.profile.industry.name,
+        profileOptionsId: props.profile.profile.industry.id,
+      }
       : "",
     chapterOfInitiation: props.profile.profile.chapterOfInitiation
       ? {
-          chapterName: props.profile.profile.chapterOfInitiation.name,
-          chapterId: props.profile.profile.chapterOfInitiation.id,
-        }
+        chapterName: props.profile.profile.chapterOfInitiation.name,
+        chapterId: props.profile.profile.chapterOfInitiation.id,
+      }
       : "",
     yearOfIni: props.profile.profile.yearOfInitiation || "",
     currentChapter: props.profile.profile.currentChapter
       ? {
-          chapterName: props.profile.profile.currentChapter.name,
-          chapterId: props.profile.profile.currentChapter.id,
-        }
+        chapterName: props.profile.profile.currentChapter.name,
+        chapterId: props.profile.profile.currentChapter.id,
+      }
       : "",
     leadershipRole: props.profile.profile.leadershipRole || "",
     household: props.profile.profile.household
       ? {
-          label: props.profile.profile.household.name,
-          value: props.profile.profile.household.id,
-        }
+        label: props.profile.profile.household.name,
+        value: props.profile.profile.household.id,
+      }
       : "",
     salaryRange: props.profile.profile.salaryRange
       ? {
-          label: props.profile.profile.salaryRange.name,
-          value: props.profile.profile.salaryRange.id,
-        }
+        label: props.profile.profile.salaryRange.name,
+        value: props.profile.profile.salaryRange.id,
+      }
       : "",
     education: [{ university: "", degree: "" }],
     certification: "",
@@ -282,7 +277,7 @@ const editProfile = withFormik({
       : false,
   }),
 
-  handleSubmit: (values) => {},
+  handleSubmit: (values) => { },
   enableReinitialize: true,
   isInitialValid: false,
 });

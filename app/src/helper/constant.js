@@ -256,9 +256,7 @@ export const NEWS_LOCATION = [
   },
 ];
 
-export const RECOMMENDATION_LETTER =
-  "https://memberapp-api.apps.openxcell.dev/api/member/website/recommendation-letter-dynamic?memberId=";
-// "https://memberapp-api.apps.openxcell.dev/api/member/website/recommendation-letter?memberId=";
+export const RECOMMENDATION_LETTER = BASE_URL + "/member/?method=recommendation-letter";
 
 export const WEPAY_APP_ID = "739963";
 export const WEPAY_VERSION = "3.0";

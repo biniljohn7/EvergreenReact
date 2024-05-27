@@ -34,7 +34,7 @@ export const createProfile = (body) => {
 export const updateProfile = (body) => {
   setHeaders();
   return axios
-    .post(`${BASE_URL}/member/profile/update`, body)
+    .post(`${BASE_URL}/member/?method=profile-update`, body)
     .then((response) => {
       return response.data;
     });
