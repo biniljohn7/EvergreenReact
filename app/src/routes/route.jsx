@@ -13,7 +13,7 @@ import PrivacyPolicy from "../components/staticPage/PrivacyPolicy";
 import ChangePassword from "../components/settingPage/ChangePassword";
 // import ProtectedRoutes from './ProtectedRoutes'
 // import ProtectedLayout from '../layout/ProtectedLayout'
-import ExtraRoutes from "./FirebaseListener";
+import ExtraRoutes from "./ExtraRoutes";
 import Setting from "../components/settingPage/Setting";
 import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
