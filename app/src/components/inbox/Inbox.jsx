@@ -106,6 +106,24 @@ const Inbox = (props) => {
       });
   };
 
+function ResponsiveChat() {
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 1024);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+    return isMobile ? <MobileChat /> : <WebChat />;
+}
+
   return (
     <Wrapper>
       <div className="site-spacing ptb-50">
@@ -145,7 +163,7 @@ const Inbox = (props) => {
           <TabContent activeTab={activeTab}>
             {activeTab === "Messages" && (
               <TabPane tabId="Messages" className="mt-20">
-                {window.innerWidth >= 1024 ? <WebChat /> : <MobileChat />}
+                <ResponsiveChat />
               </TabPane>
             )}
             <TabPane tabId="Directory" className="mt-20">
