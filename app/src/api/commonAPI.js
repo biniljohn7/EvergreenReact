@@ -57,7 +57,7 @@ export const resetPassword = (body) => {
 
 export const contactUs = (body) => {
     return axios
-        .post(`${BASE_URL}/contactus/normal/add`, body)
+        .post(`${BASE_URL}/public/?method=enquiry`, body)
         .then((response) => {
             return response.data
         })

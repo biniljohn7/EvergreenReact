@@ -65,7 +65,7 @@ const ContactUs = (props) => {
     if (isValid) {
       setProcessing(true)
       addQuery({
-        contactUsQuestionId: values.question.id,
+        contactUsQuestionId: values.question,
         name: values.name,
         subject: values.subject,
         description: values.message,
@@ -130,9 +130,9 @@ const ContactUs = (props) => {
               },
             }}
             onChange={(selectedOp) => {
-              props.setFieldValue('question', selectedOp)
+              props.setFieldValue('question', selectedOp.id) 
             }}
-            value={values.question || ''}
+            value={questions.find(option => option.id === values.question) || null}
             onBlur={handleBlur}
           />
           <Error field="question" />
