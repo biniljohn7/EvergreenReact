@@ -367,7 +367,7 @@ const EditProfile = (props) => {
         address: el('address').value.trim(),
         zipcode: el('zip').value.trim(),
         phoneNumber: el('phoneNumber').value.trim(),
-        biography: el('address').value.trim() || null,
+        biography: el('biography').value.trim() || null,
         occupationId: formValues.occupation.profileOptionsId,
         industryId: formValues.industry.profileOptionsId,
         educations: formValues.education.map((edu) => {
