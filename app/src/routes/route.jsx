@@ -3,13 +3,15 @@ import { Switch, Route } from "react-router-dom";
 // import NotFound from '../views/NotFound'
 import LandingPage from "../components/landing/LandingPage";
 import ContactUs from "../components/footer/ContactUs";
-import Contact from "../components/settingPage/ContactUs";
+// import Contact from "../components/settingPage/ContactUs";
 import PageContainer from "../layout/PageContainer";
 import SignUp from "../components/signup/Signup";
 import SignIn from "../components/signin/SignIn";
 import AboutUs from "../components/staticPage/AboutUs";
 import TermsOfService from "../components/staticPage/Terms&Services";
 import PrivacyPolicy from "../components/staticPage/PrivacyPolicy";
+import Help from "../components/staticPage/Help";
+import ContactUsPage from "../components/staticPage/ContactUs";
 import ChangePassword from "../components/settingPage/ChangePassword";
 // import ProtectedRoutes from './ProtectedRoutes'
 // import ProtectedLayout from '../layout/ProtectedLayout'
@@ -89,13 +91,31 @@ function Routes() {
       />
       <Route
         exact
+        path="/help"
+        render={(props) => (
+          <PageContainer>
+            <Help {...props} fromRoute={true} />
+          </PageContainer>
+        )}
+      />
+      <Route
+        exact
+        path="/contactus"
+        render={(props) => (
+          <PageContainer>
+            <ContactUsPage {...props} fromRoute={true} />
+          </PageContainer>
+        )}
+      />
+      {/* <Route
+        exact
         path="/help/contact_us"
         render={(props) => (
           <PageContainer>
             <Contact {...props} />
           </PageContainer>
         )}
-      />
+      /> */}
       <Route
         exact
         path="/change_password"

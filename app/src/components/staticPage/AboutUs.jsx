@@ -12,7 +12,7 @@ const AboutUs = (props) => {
     getPage(PAGE_ID.aboutUs)
       .then((res) => {
         if (res.success === 1) {
-          setContent(res.data)
+            setContent(decodeHTMLEntities(res.data.content))
         }
         setLoading(false)
       })
@@ -22,6 +22,12 @@ const AboutUs = (props) => {
         console.log(error)
       })
   }, [])
+  
+  const decodeHTMLEntities=(encodedString) =>{
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return textArea.value;
+  }
 
   return isLoading ? (
     <div className="d-flex justify-content-center">
@@ -42,7 +48,7 @@ const AboutUs = (props) => {
       {/* <h4 className="text-justify text-bold">{content.title}</h4> */}
       <div
         className="text-justify mt-20"
-        dangerouslySetInnerHTML={{ __html: content.content }}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
     </section>
   )

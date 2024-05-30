@@ -11,7 +11,7 @@ const PrivacyPolicy = (props) => {
     getPage(PAGE_ID.privacyPolicy)
       .then((res) => {
         if (res.success === 1) {
-          setContent(res.data)
+            setContent(decodeHTMLEntities(res.data.content))
         }
         setLoading(false)
       })
@@ -21,6 +21,12 @@ const PrivacyPolicy = (props) => {
         console.log(error)
       })
   }, [])
+  
+  const decodeHTMLEntities=(encodedString) =>{
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return textArea.value;
+  }
 
   return isLoading ? (
     <div className="custom-spinner">
@@ -36,7 +42,7 @@ const PrivacyPolicy = (props) => {
       {/* <h4 className="text-justify text-bold">{content.title}</h4> */}
       <div
         className="text-justify"
-        dangerouslySetInnerHTML={{ __html: (content || {}).content || '' }}
+        dangerouslySetInnerHTML={{ __html: content }}
       />
     </section>
   )

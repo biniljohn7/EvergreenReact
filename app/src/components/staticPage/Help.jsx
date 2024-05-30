@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react'
+// import Image from '../../assets/images/landing.png'
 import { PAGE_ID } from '../../helper/constant'
 import { getPage } from '../../api/staticPage'
-import { Spinner } from 'reactstrap'
+import ToastsStore from 'react-toasts'
 
-const TermsAndService = (props) => {
+const AboutUs = (props) => {
   const [content, setContent] = useState(null)
   const [isLoading, setLoading] = useState(true)
   useEffect(() => {
     setLoading(true)
-    getPage(PAGE_ID.terms)
+    getPage(PAGE_ID.help)
       .then((res) => {
         if (res.success === 1) {
             setContent(decodeHTMLEntities(res.data.content))
@@ -17,8 +18,8 @@ const TermsAndService = (props) => {
       })
       .catch((error) => {
         setLoading(false)
-        // ToastsStore.error('Something went wrong!')
-        console.error(error)
+        ToastsStore.error('Something went wrong!')
+        console.log(error)
       })
   }, [])
   
@@ -29,23 +30,28 @@ const TermsAndService = (props) => {
   }
 
   return isLoading ? (
-    <div className="custom-spinner">
-      <Spinner color="danger" />
+    <div className="d-flex justify-content-center">
+      <div className="spinner-border" role="status">
+        <span className="sr-only">Loading...</span>
+      </div>
     </div>
   ) : (
     <section
       className={
-        (props.isMobile ? ' border plr-15 ptb-30' : '') +
+        (window.innerWidth < 768 ? 'pa-20 ' : 'pa-40') +
         (props.fromRoute ? ' site-spacing ptb-50' : '')
       }
     >
+      {/* <div className="text-center">
+        <img src={Image} alt={SITE_NAME} />
+      </div> */}
       {/* <h4 className="text-justify text-bold">{content.title}</h4> */}
       <div
-        className="text-justify"
+        className="text-justify mt-20"
         dangerouslySetInnerHTML={{ __html: content }}
       />
     </section>
   )
 }
 
-export default TermsAndService
+export default AboutUs
