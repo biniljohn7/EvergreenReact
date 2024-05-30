@@ -417,7 +417,7 @@ const EditProfile = (props) => {
             industry: formValues.industrySwitch || false,
             leadershipRole: formValues.roleSwitch || false,
             occupation: formValues.occupationSwitch || false,
-            phoneCode: formValues.phoneNumberSwitch || false,
+            //phoneCode: formValues.phoneNumberSwitch || false,
             phoneNumber: formValues.phoneNumberSwitch || false,
             salaryRange: formValues.salarySwitch || false,
             yearOfInitiation: formValues.yearOfIniSwitch || false,
