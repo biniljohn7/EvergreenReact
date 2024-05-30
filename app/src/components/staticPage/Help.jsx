@@ -4,7 +4,7 @@ import { PAGE_ID } from '../../helper/constant'
 import { getPage } from '../../api/staticPage'
 import ToastsStore from 'react-toasts'
 
-const AboutUs = (props) => {
+const Help = (props) => {
   const [content, setContent] = useState(null)
   const [isLoading, setLoading] = useState(true)
   useEffect(() => {
@@ -54,4 +54,4 @@ const AboutUs = (props) => {
   )
 }
 
-export default AboutUs
+export default Help
