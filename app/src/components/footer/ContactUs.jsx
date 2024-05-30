@@ -1,12 +1,15 @@
 import { ToastsStore } from 'react-toasts'
 import enhancer from './contactUsEnhancer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import FooterWrapper from './footer.style'
 import Input from '../../UI/input/input'
 import Textarea from '../../UI/textarea/textarea'
 import { contactUs as contactAPI } from '../../api/commonAPI'
+import { PAGE_ID } from '../../helper/constant'
+import { getPage } from '../../api/staticPage'
 
 const ContactUs = (props) => {
+  const [content, setContent] = useState(null)
   const [loading, setLoading] = useState(false)
   const {
     values,
@@ -18,6 +21,28 @@ const ContactUs = (props) => {
     handleSubmit,
     isValid,
   } = props
+
+  useEffect(() => {
+    setLoading(true)
+    getPage(PAGE_ID.contactus)
+      .then((res) => {
+        if (res.success === 1) {
+            setContent(decodeHTMLEntities(res.data.content))
+        }
+        setLoading(false)
+      })
+      .catch((error) => {
+        setLoading(false)
+        ToastsStore.error('Something went wrong!')
+        console.log(error)
+      })
+  }, [])
+  
+  const decodeHTMLEntities=(encodedString) =>{
+    const textArea = document.createElement('textarea');
+    textArea.innerHTML = encodedString;
+    return textArea.value;
+  }
 
   const Error = (fields) => {
     const field1 = fields.field
@@ -129,6 +154,14 @@ const ContactUs = (props) => {
             SUBMIT
           </button>
         </form>
+        {
+            props.isFooter != 1 && (
+                <div
+                    className="text-justify mt-20 "
+                    dangerouslySetInnerHTML={{ __html: content }}
+                />
+            )
+        }
       </div>
     </FooterWrapper>
   )
