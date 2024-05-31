@@ -51,7 +51,7 @@ const Career = (props) => {
       })
   }, [currentPage, search])
 
-  document.title = 'careers - ' + window.seoTagLine;
+  document.title = 'Careers - ' + window.seoTagLine;
 
   return (
     // <ProtectLayout>

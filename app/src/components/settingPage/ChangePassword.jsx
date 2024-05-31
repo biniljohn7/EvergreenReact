@@ -59,7 +59,7 @@ const ChangePassword = (props) => {
     }
   }
 
-  document.title = 'Settings | Set Password - ' + window.seoTagLine;
+  document.title = 'Set Password - ' + window.seoTagLine;
 
   return (
     <Wrapper>

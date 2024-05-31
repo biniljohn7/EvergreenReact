@@ -62,6 +62,8 @@ const Home = (props) => {
       });
   }, [activeTab]);
 
+  document.title = window.seoTagLine;
+
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };

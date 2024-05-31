@@ -95,7 +95,7 @@ const ContactUs = (props) => {
     }
   }
 
-  document.title = 'Settings | Contact Us - ' + window.seoTagLine;
+  document.title = 'Contact Us - ' + window.seoTagLine;
 
   return initialLoading ? (
     <div className="custom-spinner">

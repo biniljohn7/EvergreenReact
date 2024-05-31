@@ -9,7 +9,7 @@ const Profile = (props) => {
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
 
-  document.title = 'Settings | Profile - ' + window.seoTagLine;
+  document.title = 'Profile - ' + window.seoTagLine;
 
   return (
     <Wrapper>
