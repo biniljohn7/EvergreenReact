@@ -86,7 +86,7 @@ const NewsDetails = (props) => {
       });
   };
 
-  console.log(news);
+  document.title = 'News | News Details - ' + window.seoTagLine;
 
   return (
     <Wrapper>

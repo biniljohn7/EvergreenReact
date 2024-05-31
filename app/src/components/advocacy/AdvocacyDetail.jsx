@@ -53,6 +53,8 @@ const AdvocacyDetails = (props) => {
     }
   }, [])
 
+  document.title = 'Advocacy | Advocacy Details - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       {isLoading ? (

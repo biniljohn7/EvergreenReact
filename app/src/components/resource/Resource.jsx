@@ -152,6 +152,8 @@ const Resource = (props) => {
     });
   };
 
+  document.title = 'Resource - ' + window.seoTagLine;
+
   return (
     <>
       {Spn.Obj}

@@ -41,6 +41,8 @@ const Event = (props) => {
     }
   }, []);
 
+  document.title = 'Events | Event Details - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       {isLoading ? (

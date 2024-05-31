@@ -317,6 +317,8 @@ const Payment = (props) => {
       });
   };
 
+  document.title = 'Payment - ' + window.seoTagLine;
+
   return validating ? (
     <div className="custom-spinner">
       <Spinner color="danger" />

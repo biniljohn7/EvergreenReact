@@ -83,6 +83,8 @@ const Dues = (props) => {
       });
   }, []);
 
+  document.title = 'Dues - ' + window.seoTagLine;
+
   return loading ? (
     <div className="custom-spinner">
       <Spinner color="danger" />

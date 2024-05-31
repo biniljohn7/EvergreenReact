@@ -95,6 +95,8 @@ const ContactUs = (props) => {
     }
   }
 
+  document.title = 'Settings | Contact Us - ' + window.seoTagLine;
+
   return initialLoading ? (
     <div className="custom-spinner">
       <Spinner color="danger" />

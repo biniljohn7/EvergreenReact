@@ -138,6 +138,8 @@ const Setting = (props) => {
     document.getElementById("settingNavbar").style.width = "0";
   };
 
+  document.title = 'Settings - ' + window.seoTagLine;
+
   return (
     <>
     {Tst.Obj}

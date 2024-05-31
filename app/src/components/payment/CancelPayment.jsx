@@ -60,6 +60,8 @@ const CancelPayment = (props) => {
       });
   };
 
+  document.title = 'Payment Cancellation - ' + window.seoTagLine;
+
   return isLoading ? (
     <div className="custom-spinner">
       <Spinner color="danger" />

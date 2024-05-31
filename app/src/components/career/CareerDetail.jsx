@@ -42,6 +42,8 @@ const Career = (props) => {
     }
   }, [])
 
+  document.title = 'Careers | Career Details - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       {isLoading ? (

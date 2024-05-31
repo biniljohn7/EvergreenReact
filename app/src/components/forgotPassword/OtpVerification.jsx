@@ -74,6 +74,8 @@ const OtpVerification = (props) => {
     }
   }
 
+  document.title = 'Verification - ' + window.seoTagLine;
+
   return (
     <>
       <Modal

@@ -37,6 +37,10 @@ const ContactUs = (props) => {
         console.log(error)
       })
   }, [])
+
+  if(props.isFooter != 1){
+    document.title = 'Contact Us - ' + window.seoTagLine;
+  }
   
   const decodeHTMLEntities=(encodedString) =>{
     const textArea = document.createElement('textarea');

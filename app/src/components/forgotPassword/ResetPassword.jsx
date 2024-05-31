@@ -63,6 +63,8 @@ const ResetPassword = (props) => {
     }
   }
 
+  document.title = 'Password Reset - ' + window.seoTagLine;
+
   return (
     <Modal
       isOpen={props.show}

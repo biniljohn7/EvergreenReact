@@ -22,6 +22,8 @@ const AccountVerification = () => {
     }
   }, [t]);
 
+  document.title = 'Verification - ' + window.seoTagLine;
+
   return (
     <div>
       <h1>Account Verification</h1>

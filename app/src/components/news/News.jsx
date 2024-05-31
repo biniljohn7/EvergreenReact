@@ -56,6 +56,8 @@ const News = (props) => {
       });
   };
 
+  document.title = 'News - ' + window.seoTagLine;
+
   const ListNews = () => {
     return isLoading ? (
       <div className="text-center mt-40">

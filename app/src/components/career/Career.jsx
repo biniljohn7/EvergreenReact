@@ -51,6 +51,8 @@ const Career = (props) => {
       })
   }, [currentPage, search])
 
+  document.title = 'careers - ' + window.seoTagLine;
+
   return (
     // <ProtectLayout>
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>

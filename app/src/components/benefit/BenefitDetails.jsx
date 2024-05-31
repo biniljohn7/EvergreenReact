@@ -66,6 +66,8 @@ const Benefit = (props) => {
     }
   }, [])
 
+  document.title = 'Benefits | Benefit Details - ' + window.seoTagLine;
+
   const copyToClipboard = () => {
     const el = document.createElement('textarea')
     el.value = benefit.code

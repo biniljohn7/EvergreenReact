@@ -21,6 +21,8 @@ const AcceptedTerms = (props) => {
     }
   }, []);
 
+  document.title = 'Terms of Service - ' + window.seoTagLine;
+
   const submitAgreement = () => {
     const ele = document.getElementById("merchant_terms");
     if (ele.checked) {

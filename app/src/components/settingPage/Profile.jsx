@@ -9,6 +9,8 @@ const Profile = (props) => {
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
 
+  document.title = 'Settings | Profile - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       <section className={props.isMobile ? " border plr-15 ptb-30" : ""}>

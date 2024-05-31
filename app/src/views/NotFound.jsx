@@ -6,6 +6,7 @@ import { store } from '../redux/store'
 import { WEBSITE_URL } from '../helper/constant'
 
 const NotFound = () => {
+    document.title = '404 | Page Not Found - ' + window.seoTagLine;
   return (
     <CommonWrapper>
       <div className="flex-container not-found m-auto bg-light plr-30">

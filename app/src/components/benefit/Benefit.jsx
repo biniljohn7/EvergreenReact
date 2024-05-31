@@ -71,6 +71,8 @@ const Benefit = (props) => {
     }
   }, [currentPage, type])
 
+  document.title = 'Benefits - ' + window.seoTagLine;
+
   return (
     <Wrapper col={COL_NO} width={COL_WIDTH}>
       <div className="red bread-nav pt-20">

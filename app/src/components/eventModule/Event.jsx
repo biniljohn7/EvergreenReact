@@ -49,6 +49,8 @@ const Event = (props) => {
     });
   }, []);
 
+  document.title = 'Events - ' + window.seoTagLine;
+
   //   useEffect(() => {
   //     getList({
   //       location: activeTab === 'all' && option ? option.type : null,

@@ -59,6 +59,8 @@ const ChangePassword = (props) => {
     }
   }
 
+  document.title = 'Settings | Set Password - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       <section className={props.isMobile ? ' border plr-15 ptb-30' : ''}>

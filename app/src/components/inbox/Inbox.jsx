@@ -124,6 +124,8 @@ function ResponsiveChat() {
     return isMobile ? <MobileChat /> : <WebChat />;
 }
 
+document.title = 'Inbox - ' + window.seoTagLine;
+
   return (
     <Wrapper>
       <div className="site-spacing ptb-50">

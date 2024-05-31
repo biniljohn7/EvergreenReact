@@ -49,6 +49,8 @@ const Referral = (props) => {
     }
   };
 
+  document.title = 'Referral - ' + window.seoTagLine;
+
   return loading ? (
     <div className="custom-spinner">
       <Spinner color="danger" />
