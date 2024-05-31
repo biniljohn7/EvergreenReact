@@ -353,7 +353,7 @@ const EditProfile = (props) => {
       setLoader(true);
       Spn.Show();
       let body = {
-        statusUpdate: formValues.statusUpdate || null,
+        statusUpdate: el('statusUpdate').value.trim(),
         prefixId: formValues.prefix.value,
         firstName: el('firstName').value.trim(),
         lastName: el('lastName').value.trim(),
@@ -540,7 +540,7 @@ const EditProfile = (props) => {
                         setFormValues(ndata);
                       }}
                       checked={formValues.statusUpdateSwitch}
-                      disabled={!formValues.statusUpdateSwitch}
+                      //disabled={!formValues.statusUpdateSwitch}
                       defaultValue={formValues.statusUpdate || ""}
                     />
                     <Error field="statusUpdate" />
