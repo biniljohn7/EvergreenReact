@@ -52,6 +52,8 @@ const SignUp = (props) => {
     setSignupState(!signupState)
   }
 
+  document.title = 'Sign Up - ' + window.seoTagLine;
+
   const Login = () => {
     return (
       <div className="flex-item">

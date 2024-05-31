@@ -22,6 +22,8 @@ const AboutUs = (props) => {
         console.log(error)
       })
   }, [])
+
+  document.title = 'About Us - ' + window.seoTagLine;
   
   const decodeHTMLEntities=(encodedString) =>{
     const textArea = document.createElement('textarea');

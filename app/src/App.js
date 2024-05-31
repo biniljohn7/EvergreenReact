@@ -10,30 +10,32 @@ import './assets/css/mobile-menu.css'
 import './assets/css/style.css'
 
 import {
-  ToastsContainer,
-  ToastsContainerPosition,
-  ToastsStore,
+    ToastsContainer,
+    ToastsContainerPosition,
+    ToastsStore,
 } from 'react-toasts'
+
+window.seoTagLine = 'Evergreen';
 
 function App() {
 
 
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Router>
-          <div className="page-container">
-            <Routes />
-            <ToastsContainer
-              store={ToastsStore}
-              position={ToastsContainerPosition.TOP_CENTER}
-              className="height-80"
-            />
-          </div>
-        </Router>
-      </PersistGate>
-    </Provider>
-  )
+    return (
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router>
+                    <div className="page-container">
+                        <Routes />
+                        <ToastsContainer
+                            store={ToastsStore}
+                            position={ToastsContainerPosition.TOP_CENTER}
+                            className="height-80"
+                        />
+                    </div>
+                </Router>
+            </PersistGate>
+        </Provider>
+    )
 }
 
 export default App

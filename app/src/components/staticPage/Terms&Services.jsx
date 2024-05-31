@@ -21,6 +21,8 @@ const TermsAndService = (props) => {
         console.error(error)
       })
   }, [])
+
+  document.title = 'Terms & Services - ' + window.seoTagLine;
   
   const decodeHTMLEntities=(encodedString) =>{
     const textArea = document.createElement('textarea');

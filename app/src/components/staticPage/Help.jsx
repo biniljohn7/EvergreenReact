@@ -22,6 +22,8 @@ const Help = (props) => {
         console.log(error)
       })
   }, [])
+
+  document.title = 'Help - ' + window.seoTagLine;
   
   const decodeHTMLEntities=(encodedString) =>{
     const textArea = document.createElement('textarea');

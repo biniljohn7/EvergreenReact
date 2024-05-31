@@ -77,6 +77,8 @@ const SignIn = (props) => {
     setSignInState(!signInState);
   };
 
+  document.title = 'Sign In - ' + window.seoTagLine;
+
   const SignUp = () => {
     return (
       <>

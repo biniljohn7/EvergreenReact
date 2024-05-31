@@ -21,6 +21,8 @@ const PrivacyPolicy = (props) => {
         console.log(error)
       })
   }, [])
+
+  document.title = 'Privacy Policy - ' + window.seoTagLine;
   
   const decodeHTMLEntities=(encodedString) =>{
     const textArea = document.createElement('textarea');

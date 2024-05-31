@@ -62,6 +62,8 @@ const Advocacy = (props) => {
     })
   }, [activeTab])
 
+  document.title = 'Advocacy - ' + window.seoTagLine;
+
   const getList = (body) => {
     setLoading(true)
     listAdvocacy(body)
