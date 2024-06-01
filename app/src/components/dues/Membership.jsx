@@ -114,7 +114,7 @@ const Membership = (props) => {
     return false;
   };
 
-  <Wrapper>
+  return <Wrapper>
     {Spn.Obj}
     {Tst.Obj}
     <div className="red pt-20 bread-nav">
