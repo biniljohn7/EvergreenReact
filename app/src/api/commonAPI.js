@@ -64,9 +64,9 @@ export const contactUs = (body) => {
 }
 
 export const changePassword = (body) => {
-    setHeaders()
+    //setHeaders()
     return axios
-        .post(`${BASE_URL}/member/changepassword`, body)
+        .post(`${BASE_URL}/member/?method=change-password`, body)
         .then((response) => {
             return response.data
         })
