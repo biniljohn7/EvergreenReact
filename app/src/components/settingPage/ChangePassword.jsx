@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { changePwd as enhancer } from './enhancer'
 import Input from '../../UI/input/input'
 import Wrapper from './common.style'
 import { changePassword } from '../../api/commonAPI'
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
+
+//import { store } from "../../redux/store";
 import AuthActions from "../../redux/auth/actions";
-
+import { connect } from "react-redux";
+//import { useDispatch } from 'react-redux';
 const { login } = AuthActions;
-
 
 const ChangePassword = (props) => {
   const {
@@ -23,43 +25,58 @@ const ChangePassword = (props) => {
   } = props
   const [passwordType, setPasswordType] = useState('password')
   const [loading, setLoading] = useState(false)
+  const [ErrorList, setErrorList] = useState({});
+
+  useEffect(() => { })
 
   let Tst = Toast();
   let Spn = Spinner();
 
-  const Error = (props) => {
-    const field1 = props.field
-    if ((errors[field1] && touched[field1]) || submitCount > 0) {
-      return (
-        <div className={props.class ? props.class : 'error-msg'}>
-          {errors[field1]}
-        </div>
-      )
-    } else {
-      return <div />
-    }
-  }
+  // const Error = (props) => {
+  //   const field1 = props.field
+  //   if ((errors[field1] && touched[field1]) || submitCount > 0) {
+  //     return (
+  //       <div className={props.class ? props.class : 'error-msg'}>
+  //         {errors[field1]}
+  //       </div>
+  //     )
+  //   } else {
+  //     return <div />
+  //   }
+  // }
+  const Error = ({ field }) => {
+    return ErrorList[field] ?
+      <div className="text-danger">
+        {ErrorList[field]}
+      </div> :
+      <></>;
+  };
 
   const handleChangePwd = (e) => {
-    e.preventDefault()
-    handleSubmit()
-    if (isValid) {
+    function el(id) {
+      return document.getElementById(id);
+    }
+    //e.preventDefault()
+    //handleSubmit()
+    //if (isValid) {
+    if (1) {
       setLoading(true);
       Spn.Show();
       changePassword({
-        currentPassword: values.oldPassword,
-        newPassword: values.newPassword,
-        confirmPwd: values.confirmPwd
+        currentPassword: el('oldPassword').value,
+        newPassword: el('newPassword').value,
+        confirmPwd: el('confirmPwd').value
       })
         .then((res) => {
           if (res.success === 0) {
             Tst.Error(res.message);
           } else {
-            /*props.login({
-              isLogin: true,
-              accessToken: 'ha-ha-ha',
-            });*/
+            props.login({
+              isLogin: false,
+              accessToken: null,
+            });
             Tst.Success(res.message);
+            setTimeout(() => props.history.push("/signin"), 800);
           }
         })
         .catch((err) => {
@@ -67,7 +84,7 @@ const ChangePassword = (props) => {
           Tst.Error('Something went wrong!');
         })
         .finally(() => {
-          props.resetForm()
+          //props.resetForm()
           setLoading(false);
           Spn.Hide();
         })
@@ -96,7 +113,7 @@ const ChangePassword = (props) => {
                 contentFontSize="fs-14"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.oldPassword || ''}
+              //value={values.oldPassword || ''}
               />
               <Error field="oldPassword" />
             </div>
@@ -111,7 +128,7 @@ const ChangePassword = (props) => {
                   contentFontSize={'fs-14'}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.newPassword || ''}
+                //value={values.newPassword || ''}
                 />
                 {passwordType === 'password' ? (
                   <span
@@ -145,7 +162,7 @@ const ChangePassword = (props) => {
                 contentFontSize={'fs-14'}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.confirmPwd || ''}
+              //value={values.confirmPwd || ''}
               />
               <Error field="confirmPwd" />
             </div>
@@ -164,4 +181,5 @@ const ChangePassword = (props) => {
   )
 }
 
-export default enhancer(ChangePassword)
+//export default enhancer(ChangePassword)
+export default connect(null, { login })(ChangePassword);
