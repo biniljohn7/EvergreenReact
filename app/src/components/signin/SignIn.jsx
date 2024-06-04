@@ -14,10 +14,9 @@ import {
 import { LoginEnhancer as enhancer } from "./enhancer";
 import AuthActions from "../../redux/auth/actions";
 import { Link } from "react-router-dom";
-// import FB from '../../assets/images/fb_icon_1x.png'
-// import Google from '../../assets/images/google_icon_1x.png'
 import ForgotPassword from "../forgotPassword/ForgotPassword";
 import { login as logIn } from "../../api/commonAPI";
+
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
 
@@ -118,11 +117,10 @@ const SignIn = (props) => {
   };
 
   const handleSignIn = (e) => {
-    // e.preventDefault();
-    // handleSubmit();
 
     if (isValid) {
       Spn.Show();
+
       const body = {
         method: 'login',
         email: values.email,
