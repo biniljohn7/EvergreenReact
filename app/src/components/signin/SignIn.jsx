@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import SignInWrapper from "./signin.style";
@@ -14,16 +14,37 @@ import {
 import { LoginEnhancer as enhancer } from "./enhancer";
 import AuthActions from "../../redux/auth/actions";
 import { Link } from "react-router-dom";
-// import FB from '../../assets/images/fb_icon_1x.png'
-// import Google from '../../assets/images/google_icon_1x.png'
+import FBIcon from '../../assets/images/fb_icon_1x.png';
+import Google from '../../assets/images/google_icon_1x.png';
 import ForgotPassword from "../forgotPassword/ForgotPassword";
 import { login as logIn } from "../../api/commonAPI";
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
-
 import Logo from "../../assets/images/logo.png";
 
 const { login } = AuthActions;
+
+const loadFacebookSDK = () => {
+  (function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) { return; }
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+};
+
+const initializeFacebookSDK = (appId) => {
+  window.fbAsyncInit = function () {
+    window.FB.init({
+      appId: appId,
+      cookie: true,
+      xfbml: true,
+      version: 'v11.0'
+    });
+    window.FB.AppEvents.logPageView();
+  };
+};
 
 const SignIn = (props) => {
   const [signInState, setSignInState] = useState(true);
@@ -32,6 +53,24 @@ const SignIn = (props) => {
 
   const Tst = Toast();
   const Spn = Spinner();
+
+  useEffect(() => {
+    loadFacebookSDK();
+    initializeFacebookSDK('3860878400902204'); 
+  }, []);
+
+  const handleFacebookLogin = () => {
+    window.FB.login((response) => {
+      if (response.authResponse) {
+        console.log('Welcome! Fetching your information.... ');
+        window.FB.api('/me', { fields: 'name,email,picture' }, (response) => {
+          handleSignIn(response);
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    }, { scope: 'public_profile,email' });
+  };
 
   function toggleForgotPassword() {
     if (setForgotPassword === false) {
@@ -220,10 +259,10 @@ const SignIn = (props) => {
                   {SITE_NAME.charAt(0).toUpperCase() +
                     SITE_NAME.slice(1).toLowerCase()}
                 </h4>
-                {/* <div className="d-flex justify-content-center">
-                  <a href="#">
+                <div className="d-flex justify-content-center">
+                  <a href="#" onClick={handleFacebookLogin}>
                     <img
-                      src={FB}
+                      src={FBIcon}
                       alt="Create with Facebook"
                       className="mr-20"
                     />
@@ -233,7 +272,7 @@ const SignIn = (props) => {
                       <img src={Google} alt="Create with Google" className="" />
                     </a>
                   </span>
-                </div> */}
+                </div>
                 <div className="justify-content-center row mtb-20">
                   <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
                     <Input

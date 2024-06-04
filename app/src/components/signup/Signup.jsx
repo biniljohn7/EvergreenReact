@@ -15,8 +15,8 @@ import Logo from '../../assets/images/logo.png'
 import { ToastsStore } from 'react-toasts'
 import enhancer from './enhancer'
 import { Link } from 'react-router-dom'
-// import FB from '../../assets/images/fb_icon_1x.png'
-// import Google from '../../assets/images/google_icon_1x.png'
+import FB from '../../assets/images/fb_icon_1x.png'
+import Google from '../../assets/images/google_icon_1x.png'
 import { signUp as createAccount } from '../../api/commonAPI'
 
 const SignUp = (props) => {
@@ -170,7 +170,7 @@ const SignUp = (props) => {
                 <h4 className="flex-container text-bold mt-30 mb-10 flex-item">
                   Create an Account
                 </h4>
-                {/* <div className="d-flex justify-content-center">
+                <div className="d-flex justify-content-center">
                   <a href="#">
                     <img
                       src={FB}
@@ -183,7 +183,7 @@ const SignUp = (props) => {
                       <img src={Google} alt="Create with Google" className="" />
                     </a>
                   </span>
-                </div> */}
+                </div>
                 <div className="row mtb-20">
                   <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
                     <div className="mb-20">
