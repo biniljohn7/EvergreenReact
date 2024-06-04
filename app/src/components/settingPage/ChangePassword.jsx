@@ -5,11 +5,10 @@ import Wrapper from './common.style'
 import { changePassword } from '../../api/commonAPI'
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
+import { useHistory } from 'react-router-dom';
 
-//import { store } from "../../redux/store";
 import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
-//import { useDispatch } from 'react-redux';
 const { login } = AuthActions;
 
 const ChangePassword = (props) => {
@@ -26,24 +25,11 @@ const ChangePassword = (props) => {
   const [passwordType, setPasswordType] = useState('password')
   const [loading, setLoading] = useState(false)
   const [ErrorList, setErrorList] = useState({});
-
-  useEffect(() => { })
+  const history = useHistory();
 
   let Tst = Toast();
   let Spn = Spinner();
 
-  // const Error = (props) => {
-  //   const field1 = props.field
-  //   if ((errors[field1] && touched[field1]) || submitCount > 0) {
-  //     return (
-  //       <div className={props.class ? props.class : 'error-msg'}>
-  //         {errors[field1]}
-  //       </div>
-  //     )
-  //   } else {
-  //     return <div />
-  //   }
-  // }
   const Error = ({ field }) => {
     return ErrorList[field] ?
       <div className="text-danger">
@@ -56,10 +42,38 @@ const ChangePassword = (props) => {
     function el(id) {
       return document.getElementById(id);
     }
-    //e.preventDefault()
-    //handleSubmit()
-    //if (isValid) {
-    if (1) {
+
+    function validatePassword(password) {
+      const trimmedPassword = password.trim();
+      if (!trimmedPassword) {
+        return "Password is required";
+      }
+      const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$/;
+      if (!passwordRegex.test(trimmedPassword)) {
+        return "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character";
+      }
+      return null;
+    }
+
+    let
+      sErrs = {}
+
+    if (!el('oldPassword').value.trim()) {
+      sErrs['oldPassword'] = 'Old password is required';
+    }
+    let res = validatePassword(el('newPassword').value);
+    if (res) {
+      sErrs['newPassword'] = res;
+    }
+    if (!el('confirmPwd').value.trim()) {
+      sErrs['confirmPwd'] = 'This field is required';
+    } else if (el('confirmPwd').value.trim() != el('newPassword').value.trim()) {
+      sErrs['confirmPwd'] = 'Password didn\'t match';
+    }
+
+    setErrorList(sErrs);
+
+    if (Object.keys(sErrs).length < 1) {
       setLoading(true);
       Spn.Show();
       changePassword({
@@ -76,7 +90,6 @@ const ChangePassword = (props) => {
               accessToken: null,
             });
             Tst.Success(res.message);
-            setTimeout(() => props.history.push("/signin"), 800);
           }
         })
         .catch((err) => {
@@ -84,9 +97,9 @@ const ChangePassword = (props) => {
           Tst.Error('Something went wrong!');
         })
         .finally(() => {
-          //props.resetForm()
           setLoading(false);
           Spn.Hide();
+          setTimeout(() => history.replace('/signin'), 800)
         })
     }
   }
@@ -113,7 +126,6 @@ const ChangePassword = (props) => {
                 contentFontSize="fs-14"
                 onChange={handleChange}
                 onBlur={handleBlur}
-              //value={values.oldPassword || ''}
               />
               <Error field="oldPassword" />
             </div>
@@ -128,7 +140,6 @@ const ChangePassword = (props) => {
                   contentFontSize={'fs-14'}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                //value={values.newPassword || ''}
                 />
                 {passwordType === 'password' ? (
                   <span
@@ -162,7 +173,6 @@ const ChangePassword = (props) => {
                 contentFontSize={'fs-14'}
                 onChange={handleChange}
                 onBlur={handleBlur}
-              //value={values.confirmPwd || ''}
               />
               <Error field="confirmPwd" />
             </div>
@@ -181,5 +191,4 @@ const ChangePassword = (props) => {
   )
 }
 
-//export default enhancer(ChangePassword)
 export default connect(null, { login })(ChangePassword);
