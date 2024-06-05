@@ -2,7 +2,10 @@ import styled from 'styled-components'
 import { HEADER_COLOR } from '../../helper/constant'
 
 const style = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 2px;
+  position:relative;
+  padding-left:15px;
+
   .term {
     text-align: left;
     letter-spacing: 0;
@@ -11,6 +14,16 @@ const style = styled.div`
   }
 
   .custom-checkbox
+    .custom-control-input {
+      height:24px;
+      position:absolute;
+      top:4px;
+      left:0;
+    }
+    .custom-control-label {
+      padding-top:4px;
+      line-height:1.5em;
+    }
     .custom-control-input:checked
     ~ .custom-control-label::before {
     background-color: ${HEADER_COLOR};
