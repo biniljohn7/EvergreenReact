@@ -27,7 +27,7 @@ const ContactUs = (props) => {
     getPage(PAGE_ID.contactus)
       .then((res) => {
         if (res.success === 1) {
-            setContent(decodeHTMLEntities(res.data.content))
+          setContent(decodeHTMLEntities(res.data.content))
         }
         setLoading(false)
       })
@@ -38,11 +38,11 @@ const ContactUs = (props) => {
       })
   }, [])
 
-  if(props.isFooter != 1){
+  if (props.isFooter != 1) {
     document.title = 'Contact Us - ' + window.seoTagLine;
   }
-  
-  const decodeHTMLEntities=(encodedString) =>{
+
+  const decodeHTMLEntities = (encodedString) => {
     const textArea = document.createElement('textarea');
     textArea.innerHTML = encodedString;
     return textArea.value;
@@ -103,7 +103,7 @@ const ContactUs = (props) => {
         >
           Questions? Comments? We’d love to hear from you.
         </label>
-        <form className={window.innerWidth < 768 ? 'wp-100' : 'wp-80'}>
+        <form>
           <div className="mb-20">
             <Input
               label="Name"
@@ -159,12 +159,12 @@ const ContactUs = (props) => {
           </button>
         </form>
         {
-            props.isFooter != 1 && (
-                <div
-                    className="text-justify mt-20 "
-                    dangerouslySetInnerHTML={{ __html: content }}
-                />
-            )
+          props.isFooter != 1 && (
+            <div
+              className="text-justify mt-20 "
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          )
         }
       </div>
     </FooterWrapper>
