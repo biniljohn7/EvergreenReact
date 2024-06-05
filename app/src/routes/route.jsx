@@ -6,6 +6,7 @@ import ContactUs from "../components/footer/ContactUs";
 import Contact from "../components/settingPage/ContactUs";
 import PageContainer from "../layout/PageContainer";
 import SignUp from "../components/signup/Signup";
+import AccountCreated from "../components/accountCreated/accountCreated";
 import SignIn from "../components/signin/SignIn";
 import AboutUs from "../components/staticPage/AboutUs";
 import TermsOfService from "../components/staticPage/Terms&Services";
@@ -49,6 +50,15 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             <SignUp {...props} />
+          </PageContainer>
+        )}
+      />
+      <Route
+        exact
+        path="/account-created"
+        render={(props) => (
+          <PageContainer>
+            <AccountCreated {...props} />
           </PageContainer>
         )}
       />

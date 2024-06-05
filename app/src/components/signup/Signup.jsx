@@ -12,7 +12,6 @@ import {
   REGISTER_TYPE
 } from '../../helper/constant'
 import Logo from '../../assets/images/logo.png'
-import { ToastsStore } from 'react-toasts'
 import enhancer from './enhancer'
 import { Link } from 'react-router-dom'
 import { signUp as createAccount } from '../../api/commonAPI'
@@ -22,7 +21,6 @@ import Spinner from '../../UI/Spinner/Spinner';
 
 const SignUp = (props) => {
   const [signupState, setSignupState] = useState(true)
-  const [isLoading, setLoading] = useState(false)
   const [passwordType, setPasswordType] = useState('password')
 
   const Tst = Toast();
@@ -112,11 +110,10 @@ const SignUp = (props) => {
       createAccount(body)
         .then((res) => {
           if (res.success === 1) {
-            Tst.Show(res.message)
+            props.history.push('/account-created')
           } else {
             Tst.Error(res.message)
           }
-          props.history.push('/signin')
         })
         .catch((err) => {
           Tst.Error('Something went wrong!')
@@ -347,7 +344,6 @@ const SignUp = (props) => {
                     className="button mt-20"
                     name="SIGN UP"
                     clicked={handleSignup}
-                    disabled={isLoading}
                   />
                 </div>
               </div>
