@@ -17,6 +17,15 @@ export const signUp = (body) => {
     })
 }
 
+export const logInViaSMedia = (body) => {
+    return axios.post(
+        BASE_URL + '/public/?method=login-via-smedia',
+        body
+    ).then((response) => {
+        return response.data
+    })
+}
+
 export const login = (body) => {
     return axios.post(
         BASE_URL + '/public/?method=login',

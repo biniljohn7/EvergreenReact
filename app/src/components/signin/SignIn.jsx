@@ -14,15 +14,16 @@ import {
 import { LoginEnhancer as enhancer } from "./enhancer";
 import AuthActions from "../../redux/auth/actions";
 import { Link } from "react-router-dom";
-import FBIcon from '../../assets/images/fb_icon_1x.png';
-import Google from '../../assets/images/google_icon_1x.png';
+import FB from '../../assets/images/fb_icon_1x.png'
+import Google from '../../assets/images/google_icon_1x.png'
 import ForgotPassword from "../forgotPassword/ForgotPassword";
 import { login as logIn } from "../../api/commonAPI";
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
+
 import Logo from "../../assets/images/logo.png";
 
-const { login } = AuthActions;
+const { login, logInViaSMedia } = AuthActions;
 
 const loadFacebookSDK = () => {
   (function (d, s, id) {
@@ -46,6 +47,21 @@ const initializeFacebookSDK = (appId) => {
   };
 };
 
+const loadGoogleSDK = () => {
+  const script = document.createElement('script');
+  script.src = 'https://apis.google.com/js/platform.js';
+  script.async = true;
+  script.defer = true;
+  script.onload = () => {
+    window.gapi.load('auth2', () => {
+      window.gapi.auth2.init({
+        client_id: '62789215844-7nnod75t7s76nh4orrcn4bevlqmtl4fe.apps.googleusercontent.com',
+      });
+    });
+  };
+  document.body.appendChild(script);
+};
+
 const SignIn = (props) => {
   const [signInState, setSignInState] = useState(true);
   const [passwordType, setPasswordType] = useState("password");
@@ -57,20 +73,45 @@ const SignIn = (props) => {
   useEffect(() => {
     loadFacebookSDK();
     initializeFacebookSDK('3860878400902204'); 
+    loadGoogleSDK(); 
   }, []);
+
+  const handleGoogleLogin = () => {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signIn().then(googleUser => {
+      const profile = googleUser.getBasicProfile();
+      const userData = {
+        email: profile.getEmail(),
+        firstName: profile.getGivenName(),
+        lastName: profile.getFamilyName(),
+        imageUrl: profile.getImageUrl(),
+        googleId: profile.getId(),
+      };
+      handleSMediaSignIn(userData);
+    }).catch(error => {
+      console.error('Google login error', error);
+    });
+  };
 
   const handleFacebookLogin = () => {
     window.FB.login((response) => {
       if (response.authResponse) {
-        console.log('Welcome! Fetching your information.... ');
-        window.FB.api('/me', { fields: 'name,email,picture' }, (response) => {
-          handleSignIn(response);
+        window.FB.api('/me', { fields: 'first_name,last_name,email,picture' }, (response) => {
+          const userData = {
+            email: response.email,
+            firstName: response.first_name,
+            lastName: response.last_name,
+            imageUrl: response.picture.data.url,
+            facebookId: response.id,
+          };
+          handleSMediaSignIn(userData);
         });
       } else {
         console.log('User cancelled login or did not fully authorize.');
       }
     }, { scope: 'public_profile,email' });
   };
+
 
   function toggleForgotPassword() {
     if (setForgotPassword === false) {
@@ -154,6 +195,56 @@ const SignIn = (props) => {
         </div>
       </>
     );
+  };
+
+  const handleSMediaSignIn = (userData) => {
+    Spn.Show();
+    const body = {
+    method: 'login-via-smedia',
+    email: userData.email,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    imageUrl: userData.imageUrl,
+    facebookId: userData.facebookId || null,
+    googleId: userData.googleId || null,
+    registerType: userData.googleId ? REGISTER_TYPE.google : (userData.facebookId ? REGISTER_TYPE.facebook : REGISTER_TYPE.normal),
+    deviceType: "web",
+    };
+
+    logInViaSMedia(body)
+    .then((res) => {
+        if (res.success === 1) {
+        const userData = {
+            isLogin: true,
+            accessToken: res.data.accessToken,
+            memberId: res.data.memberId,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            referralPoints: res.data.refferalPoints || 0,
+            prefix: res.data.prefix,
+            profileImage: res.data.profileImage,
+            isProfileCreated: res.data.profileCreated,
+            isNotificationOn: res.data.notification || false,
+            currentChapter: res.data.currentChapter,
+        };
+        props.login(userData);
+        Tst.Success(res.message);
+        if (res.data.profileCreated) {
+            props.history.push("/home");
+        } else {
+            props.history.push("/account");
+        }
+        } else {
+        props.resetForm();
+        Tst.Error(res.message);
+        }
+    })
+    .catch((err) => {
+        Tst.Error("Something went wrong!");
+    })
+    .finally(() => {
+        Spn.Hide();
+    });
   };
 
   const handleSignIn = (e) => {
@@ -262,13 +353,13 @@ const SignIn = (props) => {
                 <div className="d-flex justify-content-center">
                   <a href="#" onClick={handleFacebookLogin}>
                     <img
-                      src={FBIcon}
+                      src={FB}
                       alt="Create with Facebook"
                       className="mr-20"
                     />
                   </a>
                   <span>
-                    <a href="#">
+                    <a href="#" onClick={handleGoogleLogin}>
                       <img src={Google} alt="Create with Google" className="" />
                     </a>
                   </span>
