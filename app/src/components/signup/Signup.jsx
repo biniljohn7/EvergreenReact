@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { compose } from 'redux'
 import SignUpWrapper from './signup.style'
 import Button from '../../UI/button/button'
@@ -17,7 +17,46 @@ import enhancer from './enhancer'
 import { Link } from 'react-router-dom'
 import FB from '../../assets/images/fb_icon_1x.png'
 import Google from '../../assets/images/google_icon_1x.png'
-import { signUp as createAccount } from '../../api/commonAPI'
+import { signUp as createAccount, logInViaSMedia } from '../../api/commonAPI'
+
+
+
+const loadFacebookSDK = () => {
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) { return; }
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  };
+
+const initializeFacebookSDK = (appId) => {
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: appId,
+        cookie: true,
+        xfbml: true,
+        version: 'v11.0'
+      });
+      window.FB.AppEvents.logPageView();
+    };
+  };
+  
+  const loadGoogleSDK = () => {
+    const script = document.createElement('script');
+    script.src = 'https://apis.google.com/js/platform.js';
+    script.async = true;
+    script.defer = true;
+    // script.onload = () => {
+    //   window.gapi.load('auth2', () => {
+    //     window.gapi.auth2.init({
+    //       client_id: '',
+    //     });
+    //   });
+    // };
+    document.body.appendChild(script);
+  };
 
 const SignUp = (props) => {
   const [signupState, setSignupState] = useState(true)
@@ -54,6 +93,48 @@ const SignUp = (props) => {
 
   document.title = 'Sign Up - ' + window.seoTagLine;
 
+  useEffect(() => {
+    loadFacebookSDK();
+    initializeFacebookSDK(''); 
+    loadGoogleSDK(); 
+  }, []);
+
+  const handleGoogleLogin = () => {
+    const auth2 = window.gapi.auth2.getAuthInstance();
+    auth2.signIn().then(googleUser => {
+      const profile = googleUser.getBasicProfile();
+      const userData = {
+        email: profile.getEmail(),
+        firstName: profile.getGivenName(),
+        lastName: profile.getFamilyName(),
+        imageUrl: profile.getImageUrl(),
+        googleId: profile.getId(),
+      };
+      handleSMediaSignIn(userData);
+    }).catch(error => {
+      console.error('Google login error', error);
+    });
+  };
+
+  const handleFacebookLogin = () => {
+    window.FB.login((response) => {
+      if (response.authResponse) {
+        window.FB.api('/me', { fields: 'first_name,last_name,email,picture' }, (response) => {
+          const userData = {
+            email: response.email,
+            firstName: response.first_name,
+            lastName: response.last_name,
+            imageUrl: response.picture.data.url,
+            facebookId: response.id,
+          };
+          handleSMediaSignIn(userData);
+        });
+      } else {
+        console.log('User cancelled login or did not fully authorize.');
+      }
+    }, { scope: 'public_profile,email' });
+  };
+
   const Login = () => {
     return (
       <div className="flex-item">
@@ -84,6 +165,56 @@ const SignUp = (props) => {
       </div>
     )
   }
+
+  const handleSMediaSignIn = (userData) => {
+    setLoading(true)
+    const body = {
+    method: 'login-via-smedia',
+    email: userData.email,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    imageUrl: userData.imageUrl,
+    facebookId: userData.facebookId || null,
+    googleId: userData.googleId || null,
+    registerType: userData.googleId ? REGISTER_TYPE.google : (userData.facebookId ? REGISTER_TYPE.facebook : REGISTER_TYPE.normal),
+    deviceType: "web",
+    };
+
+    logInViaSMedia(body)
+    .then((res) => {
+        if (res.success === 1) {
+        const userData = {
+            isLogin: true,
+            accessToken: res.data.accessToken,
+            memberId: res.data.memberId,
+            firstName: res.data.firstName,
+            lastName: res.data.lastName,
+            referralPoints: res.data.refferalPoints || 0,
+            prefix: res.data.prefix,
+            profileImage: res.data.profileImage,
+            isProfileCreated: res.data.profileCreated,
+            isNotificationOn: res.data.notification || false,
+            currentChapter: res.data.currentChapter,
+        };
+        props.login(userData);
+        ToastsStore.Success(res.message);
+        if (res.data.profileCreated) {
+            props.history.push("/home");
+        } else {
+            props.history.push("/account");
+        }
+        } else {
+        props.resetForm();
+        ToastsStore.Error(res.message);
+        }
+    })
+    .catch((err) => {
+        ToastsStore.Error("Something went wrong!");
+    })
+    .finally(() => {
+        setLoading(false)
+    });
+  };
 
   const handleSignup = (e) => {
     e.preventDefault()
@@ -171,7 +302,7 @@ const SignUp = (props) => {
                   Create an Account
                 </h4>
                 <div className="d-flex justify-content-center">
-                  <a href="#">
+                  <a href="#" onClick={handleFacebookLogin}>
                     <img
                       src={FB}
                       alt="Create with Facebook"
@@ -179,7 +310,7 @@ const SignUp = (props) => {
                     />
                   </a>
                   <span>
-                    <a href="#">
+                    <a href="#" onClick={handleGoogleLogin}>
                       <img src={Google} alt="Create with Google" className="" />
                     </a>
                   </span>
