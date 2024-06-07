@@ -15,8 +15,8 @@ import {
   GOOGLE_MAP_KEY,
 } from '../../helper/constant'
 import { store } from '../../redux/store'
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
-import ContactUs from '../footer/ContactUs'
+import { GoogleApiWrapper } from 'google-maps-react'
+import Support from './Support'
 
 const containerStyle = { position: 'absolute', width: '100%', height: '70%' }
 
@@ -101,51 +101,10 @@ const LandingPage = (props) => {
               </div>
             </div>
           </section>
-          <section className="border-bottom home-footer">
-            <div className="row plr-0 site-spacing">
-              <div
-                className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
-                id="contact_us"
-              >
-                <ContactUs isFooter={1} />
-              </div>
-              <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div className="sub-text mt-30">
-                  Farmington Hills, Michigan 48331
-                </div>
-                {/* <div className="mt-50" id="mapBoxCont">
-                  <Map
-                    google={props.google}
-                    zoom={8}
-                    // style={{
-                    //   height: '70%',
-                    //   width: '80%',
-                    // }}
-                    containerStyle={containerStyle}
-                    initialCenter={{ lat: 47.444, lng: -122.176 }}
-                  >
-                    <Marker position={{ lat: 47.444, lng: -122.176 }} />
-                  </Map>
-                </div> */}
-                <div className="height-250">
-                  <Map
-                    google={props.google}
-                    zoom={8}
-                    style={{
-                      height: '70%',
-                      width: '92%',
-                      marginTop: '10px',
-                      marginRight: '7%',
-                    }}
-                    // containerStyle={containerStyle}
-                    initialCenter={{ lat: 47.444, lng: -122.176 }}
-                  >
-                    <Marker position={{ lat: 47.444, lng: -122.176 }} />
-                  </Map>
-                </div>
-              </div>
-            </div>
-          </section>
+
+          <Support {...props} />
+
+
         </React.Fragment>
       ) : (
         <React.Fragment>
@@ -228,48 +187,9 @@ const LandingPage = (props) => {
               </div>
             </div>
           </section>
-          <section className="border-bottom home-footer">
-            <div className="container plr-0 site-spacing">
-              <div
-                className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"
-                id="contact_us"
-              >
-                <ContactUs isFooter={1} />
-              </div>
-              <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <div className="sub-text mt-20">
-                  Farmington Hills, Michigan 48331
-                </div>
-                {/* <div className="mt-50" id="mapBoxCont">
-                  <Map
-                    google={props.google}
-                    zoom={8}
-                    style={{
-                      height: '70%',
-                      width: '80%',
-                    }}
-                    containerStyle={containerStyle}
-                    initialCenter={{ lat: 47.444, lng: -122.176 }}
-                  >
-                    <Marker position={{ lat: 47.444, lng: -122.176 }} />
-                  </Map>
-                </div> */}
-                <Map
-                  google={props.google}
-                  zoom={8}
-                  style={{
-                    height: '70%',
-                    width: '80%',
-                    marginTop: '50px',
-                  }}
-                  containerStyle={containerStyle}
-                  initialCenter={{ lat: 47.444, lng: -122.176 }}
-                >
-                  <Marker position={{ lat: 47.444, lng: -122.176 }} />
-                </Map>
-              </div>
-            </div>
-          </section>
+
+          <Support {...props} />
+
         </React.Fragment>
       )}
     </LandingWrapper>

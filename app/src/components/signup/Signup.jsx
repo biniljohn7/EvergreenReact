@@ -12,7 +12,6 @@ import {
   REGISTER_TYPE
 } from '../../helper/constant'
 import Logo from '../../assets/images/logo.png'
-import { ToastsStore } from 'react-toasts'
 import enhancer from './enhancer'
 import { Link } from 'react-router-dom'
 import FB from '../../assets/images/fb_icon_1x.png'
@@ -57,11 +56,17 @@ const initializeFacebookSDK = (appId) => {
     // };
     document.body.appendChild(script);
   };
+import { signUp as createAccount } from '../../api/commonAPI'
+
+import Toast from '../../UI/Toast/Toast';
+import Spinner from '../../UI/Spinner/Spinner';
 
 const SignUp = (props) => {
   const [signupState, setSignupState] = useState(true)
-  const [isLoading, setLoading] = useState(false)
   const [passwordType, setPasswordType] = useState('password')
+
+  const Tst = Toast();
+  const Spn = Spinner();
 
   const {
     values,
@@ -137,32 +142,36 @@ const SignUp = (props) => {
 
   const Login = () => {
     return (
-      <div className="flex-item">
-        <Link to="/">
-          <img
-            src={Logo}
-            alt={SITE_NAME}
-            className="image-size"
-            width="50px"
-            height="50px"
+      <>
+        {Tst.Obj}
+        {Spn.Obj}
+        <div className="flex-item">
+          <Link to="/">
+            <img
+              src={Logo}
+              alt={SITE_NAME}
+              className="image-size"
+              width="50px"
+              height="50px"
+            />
+            <div>
+              <label className="white--text text-bold fs-25 letter-spacing-2 title mt-3 mb-0">
+                {SITE_NAME}
+              </label>
+            </div>
+            <p className="white--text text-bold fs-7 short-desc">
+              {SITE_SHORT_DESC}
+            </p>
+          </Link>
+          <h4 className="text-bold mt-20">Welcome Back!</h4>
+          <p className="mt-10">Login to access your account</p>
+          <Button
+            className="border-radius-41 bg-white mt-20"
+            name="LOGIN"
+            clicked={() => props.history.push('/signin')}
           />
-          <div>
-            <label className="white--text text-bold fs-25 letter-spacing-2 title mt-3 mb-0">
-              {SITE_NAME}
-            </label>
-          </div>
-          <p className="white--text text-bold fs-7 short-desc">
-            {SITE_SHORT_DESC}
-          </p>
-        </Link>
-        <h4 className="text-bold mt-20">Welcome Back!</h4>
-        <p className="mt-10">Login to access your account</p>
-        <Button
-          className="border-radius-41 bg-white mt-20"
-          name="LOGIN"
-          clicked={() => props.history.push('/signin')}
-        />
-      </div>
+        </div>
+      </>
     )
   }
 
@@ -217,10 +226,9 @@ const SignUp = (props) => {
   };
 
   const handleSignup = (e) => {
-    e.preventDefault()
-    handleSubmit()
     if (isValid) {
-      setLoading(true)
+      Spn.Show();
+
       const body = {
         method: 'signup',
         firstName: values.firstName,
@@ -235,21 +243,18 @@ const SignUp = (props) => {
 
       createAccount(body)
         .then((res) => {
-          setLoading(false)
-          console.log(res.success);
-          ToastsStore.info('xxxxxxx');
           if (res.success === 1) {
-            ToastsStore.info(res.message)
+            props.history.push('/account-created')
           } else {
-            ToastsStore.error(res.message)
+            Tst.Error(res.message)
           }
-          alert(res.message);
-          props.history.push('/signin')
         })
         .catch((err) => {
-          setLoading(false)
-          ToastsStore.error('Something went wrong!')
+          Tst.Error('Something went wrong!')
         })
+        .finally(() => {
+          Spn.Hide();
+        });
     }
   }
 
@@ -473,7 +478,6 @@ const SignUp = (props) => {
                     className="button mt-20"
                     name="SIGN UP"
                     clicked={handleSignup}
-                    disabled={isLoading}
                   />
                 </div>
               </div>

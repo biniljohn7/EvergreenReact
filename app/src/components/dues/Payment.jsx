@@ -160,55 +160,47 @@ const PaymentSummary = (props) => {
                   <>
                     <p className="text-bold mt-7">{props.data.chargesTitle}</p>
                     <div className="pa-15 border rounded mt-15 text-secondary">
-                      <div className="ptb-7">
-                        National Dues:
-                        <span className="float-right text-dark">
-                          ${(props.data.nationalDues || 0).toFixed(2)}
-                        </span>
-                      </div>
-
-                      <div className="ptb-7">
-                        Section Dues:
-                        <span className="float-right text-dark">
-                          ${(props.data.localDues || 0).toFixed(2)}
-                        </span>
-                      </div>
-
-                      {/* <div className="ptb-7">
-                        National Per Capital Fee:
-                        <span className="float-right text-dark">
-                          ${(props.data.nationalPerCapitalFee || 0).toFixed(2)}
-                        </span>
-                      </div>
-
-                      <div className="ptb-7">
-                        Reinstatement Fee:
-                        <span className="float-right text-dark">
-                          $
-                          {(props.data.nationalReinstatementFee || 0).toFixed(
-                            2
-                          )}
-                        </span>
-                      </div> */}
-
-                      <div className="ptb-7">
-                        Payment Processing Fee:
-                        <span className="float-right text-dark">
-                          ${(props.data.nationalLateFee || 0).toFixed(2)}
-                        </span>
-                      </div>
-
-                      <div className="text-dark text-bold border-top ptb-7">
-                        Total
-                        <span className="float-right">
-                          ${(props.data.totalCharges || 0).toFixed(2)}
-                        </span>
-                      </div>
+                      <table width="100%">
+                        <tr>
+                          <td className="pb10">
+                            National Dues:
+                          </td>
+                          <td className="pb10 text-right bold-600">
+                            ${(props.data.nationalDues || 0).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pb10">
+                            Section Dues:
+                          </td>
+                          <td className="pb10 text-right bold-600">
+                            ${(props.data.localDues || 0).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="pb10">
+                            Payment Processing Fee:
+                          </td>
+                          <td className="pb10 text-right bold-600">
+                            ${(props.data.nationalLateFee || 0).toFixed(2)}
+                          </td>
+                        </tr>
+                        <tr className="text-black text-11">
+                          <td className="bold-500">
+                            Total
+                          </td>
+                          <td className="text-right bold-600">
+                            ${(props.data.totalCharges || 0).toFixed(2)}
+                          </td>
+                        </tr>
+                      </table>
                     </div>
                     <>
-                      <label className="text-bold mt-30">
-                        Optional Donation:
-                      </label>
+                      <div class="mb10">
+                        <label className="text-bold mt-30">
+                          Optional Donation:
+                        </label>
+                      </div>
                       <>
                         <Checkbox
                           id="isLocal"
@@ -346,39 +338,58 @@ const PaymentSummary = (props) => {
                   />
                 </>
                 <div className="border pa-20 mt-30 text-secondary">
-                  <div className="pb-7">
-                    Total Dues/Fees:
-                    <span className="float-right text-dark">
-                      ${props.data.totalCharges.toFixed(2)}
-                    </span>
-                  </div>
-                  {DonationInp.loc ? (
-                    <div className="pb-7">
-                      Section Donation:
-                      <span className="float-right text-dark">
-                        ${DonationInp.loc.toFixed(2)}
-                      </span>
-                    </div>
-                  ) : null}
-                  {DonationInp.nat ? (
-                    <div className="pb-7">
-                      National Donation:
-                      <span className="float-right text-dark">
-                        ${DonationInp.nat.toFixed(2)}
-                      </span>
-                    </div>
-                  ) : null}
-                  <div className="ptb-7">
-                    Discount:
-                    <span className="float-right red--text text-dark">
-                      - ${discount.toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="pt-10 mt-10 text-dark text-bold border-top">
-                    Grand Total:
-                    <GetCharge />
-                  </div>
+                  <table width="100%">
+                    <tr>
+                      <td className="pb10">
+                        Total Dues/Fees:
+                      </td>
+                      <td className="pb10 text-right bold-600">
+                        ${props.data.totalCharges.toFixed(2)}
+                      </td>
+                    </tr>
+
+                    {DonationInp.loc ? (
+                      <tr>
+                        <td className="pb10">
+                          Section Donation:
+                        </td>
+                        <td className="pb10 text-right bold-600">
+                          ${DonationInp.loc.toFixed(2)}
+                        </td>
+                      </tr>
+                    ) : null}
+
+                    {DonationInp.nat ? (
+                      <tr>
+                        <td className="pb10">
+                          National Donation:
+                        </td>
+                        <td className="pb10 text-right bold-600">
+                          ${DonationInp.nat.toFixed(2)}
+                        </td>
+                      </tr>
+                    ) : null}
+
+                    <tr>
+                      <td className="pb10">
+                        Discount:
+                      </td>
+                      <td className="pb10 text-right bold-600">
+                        - ${discount.toFixed(2)}
+                      </td>
+                    </tr>
+
+                    <tr className="text-12 text-black">
+                      <td>
+                        Grand Total:
+                      </td>
+                      <td className="text-right bold-600">
+                        <GetCharge />
+                      </td>
+                    </tr>
+                  </table>
                 </div>
+
                 <>
                   <label className="text-bold mt-30">Subscribe:</label>
                   <Checkbox
@@ -402,7 +413,7 @@ const PaymentSummary = (props) => {
               </>
             )}
 
-            <div className="flex-container">
+            <div className="flex-container pt15">
               <Button
                 className="button plr-50 ptb-10 mt-30"
                 name={step === 1 ? "NEXT" : "MAKE PAYMENT"}

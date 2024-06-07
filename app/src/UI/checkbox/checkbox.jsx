@@ -15,7 +15,7 @@ const checkbox = (props) => {
           name={props.name}
           className="custom-control-input"
           checked={props.checked}
-          style={{ height: "24px" }}
+          // style={{ height: "24px" }}
           onChange={props.onChange}
         />
         <label
