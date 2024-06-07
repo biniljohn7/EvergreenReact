@@ -77,7 +77,9 @@ const ForgotPassword = (props) => {
     }
   }
 
-  document.title = 'Forgot Password - ' + window.seoTagLine;
+  if(props.show){
+    document.title = 'Forgot Password - ' + window.seoTagLine;
+  }
 
   return (
     <>

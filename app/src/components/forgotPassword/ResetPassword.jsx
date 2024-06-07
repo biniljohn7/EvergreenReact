@@ -63,7 +63,9 @@ const ResetPassword = (props) => {
     }
   }
 
-  document.title = 'Password Reset - ' + window.seoTagLine;
+  if(props.show){
+    document.title = 'Password Reset - ' + window.seoTagLine;
+  }
 
   return (
     <Modal

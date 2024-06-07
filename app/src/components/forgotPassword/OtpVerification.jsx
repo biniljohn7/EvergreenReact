@@ -74,7 +74,9 @@ const OtpVerification = (props) => {
     }
   }
 
-  document.title = 'Verification - ' + window.seoTagLine;
+  if(props.show){
+    document.title = 'Verification - ' + window.seoTagLine;
+  }
 
   return (
     <>
