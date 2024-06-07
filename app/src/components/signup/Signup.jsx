@@ -18,6 +18,9 @@ import FB from '../../assets/images/fb_icon_1x.png'
 import Google from '../../assets/images/google_icon_1x.png'
 import { signUp as createAccount, logInViaSMedia } from '../../api/commonAPI'
 
+import Toast from '../../UI/Toast/Toast';
+import Spinner from '../../UI/Spinner/Spinner';
+
 
 
 const loadFacebookSDK = () => {
@@ -56,10 +59,6 @@ const initializeFacebookSDK = (appId) => {
     // };
     document.body.appendChild(script);
   };
-import { signUp as createAccount } from '../../api/commonAPI'
-
-import Toast from '../../UI/Toast/Toast';
-import Spinner from '../../UI/Spinner/Spinner';
 
 const SignUp = (props) => {
   const [signupState, setSignupState] = useState(true)
@@ -176,7 +175,7 @@ const SignUp = (props) => {
   }
 
   const handleSMediaSignIn = (userData) => {
-    setLoading(true)
+    Spn.Show();
     const body = {
     method: 'login-via-smedia',
     email: userData.email,
@@ -206,7 +205,7 @@ const SignUp = (props) => {
             currentChapter: res.data.currentChapter,
         };
         props.login(userData);
-        ToastsStore.Success(res.message);
+        Tst.Success(res.message);
         if (res.data.profileCreated) {
             props.history.push("/home");
         } else {
@@ -214,14 +213,14 @@ const SignUp = (props) => {
         }
         } else {
         props.resetForm();
-        ToastsStore.Error(res.message);
+        Tst.Error(res.message);
         }
     })
     .catch((err) => {
-        ToastsStore.Error("Something went wrong!");
+        Tst.Error("Something went wrong!");
     })
     .finally(() => {
-        setLoading(false)
+        Spn.Hide();
     });
   };
 
