@@ -109,17 +109,6 @@ export const getState = (countryId) => {
         });
 };
 
-export const getCity = (stateId) => {
-    setHeaders();
-    return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-city&stateId=${stateId}`
-        )
-        .then((response) => {
-            return response.data;
-        });
-};
-
 export const getChapter = (stateId) => {
     setHeaders();
     return axios

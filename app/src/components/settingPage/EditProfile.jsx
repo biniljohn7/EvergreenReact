@@ -12,7 +12,6 @@ import MultiSelect from "react-multi-select-component";
 import { FieldArray } from "formik";
 import {
   getDropdown,
-  getCity,
   getState,
   getChapter,
   createProfile,
