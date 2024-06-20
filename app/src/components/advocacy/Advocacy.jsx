@@ -68,9 +68,11 @@ const Advocacy = (props) => {
     setLoading(true)
     listAdvocacy(body)
       .then((res) => {
-        setAdvocacy(res.data.list)
-        setPage(res.data.currentPageNo)
-        setTotalPage(res.data.totalPages)
+        if (res.success) {
+          setAdvocacy(res.data.list)
+          setPage(res.data.currentPageNo)
+          setTotalPage(res.data.totalPages)
+        }
         setLoading(false)
       })
       .catch((err) => {
@@ -83,6 +85,8 @@ const Advocacy = (props) => {
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab)
   }
+
+  console.log(advocacy);
 
   const ListAdvocacy = () => {
     return isLoading ? (
@@ -111,11 +115,11 @@ const Advocacy = (props) => {
                       key={ev.advocacyId}
                     >
                       <div className="image-box">
-                        {ev.image?(<img
+                        {ev.image ? (<img
                           src={ev.image}
                           alt={ev.title.substr(0, 10) + '...'}
                           onClick={click}
-                        />):null}
+                        />) : null}
                       </div>
                       <h2>
                         {ev.title}
