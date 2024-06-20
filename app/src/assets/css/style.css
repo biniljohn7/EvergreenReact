@@ -1239,6 +1239,26 @@ a:focus {
     overflow-y: auto;
 }
 
+.verification-box {
+    text-align: center;
+    margin: 15px;
+}
+
+.verification-box .msg {
+    color: #5b2166;
+}
+
+.verification-box .login-lnk {
+    color: #fff;
+    background-color: #5b2166;
+    padding: 10px 25px;
+    border-radius: 20px;
+}
+
+.verification-box .login-lnk:hover {
+    background-color: #6e3b79;
+}
+
 @media only screen and (min-width:1560px) and (max-width:1660px) {
     .container {
         width: 1530px;
