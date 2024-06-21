@@ -18,7 +18,7 @@ export const SITE_NAME = "EVERGREEN";
 export const SITE_SHORT_DESC = "CULTIVATE MEMBERSHIP GROWTH";
 export const BUTTON_COLOR = "#E10001";
 // export const BUTTON_COLOR = '#34BEBF'
-export const WEBSITE_URL = 'http://localhost:3000/'
+export const WEBSITE_URL = process.env.REACT_APP_WEBSITE_URL;
 // export const WEBSITE_URL = process.env.REACT_APP_WEBSITE_URL;
 export const APP_STORE_LINK =
     "https://apps.apple.com/us/app/evergreen-member-management/id1532083835";

@@ -15,6 +15,8 @@ import {
     ToastsStore,
 } from 'react-toasts'
 
+const basename = process.env.REACT_APP_BASENAME || '/';
+
 window.seoTagLine = 'Evergreen';
 
 function App() {
@@ -23,7 +25,7 @@ function App() {
     return (
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
-                <Router>
+                <Router basename={basename}>
                     <div className="page-container">
                         <Routes />
                         <ToastsContainer
