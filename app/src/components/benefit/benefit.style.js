@@ -29,6 +29,12 @@ const Wrapper = styled.div`
     // object-fit: contain;
   }
 
+  .no-logo {
+    background-color: #e7e7e7;
+    padding: 15px;
+    color: #979797;
+  }
+
   .coupon {
     border: 1px dashed #343a40;
     border-radius: 5px;

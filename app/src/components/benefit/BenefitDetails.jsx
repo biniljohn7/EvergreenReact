@@ -131,10 +131,16 @@ const Benefit = (props) => {
                 </div> */}
                 <section className="row mt-30">
                   <div className="col-3 col-sm-3 col-md-1 col-lg-1 col-xl-1 pr-0">
-                    <img
-                      src={benefit.companyLogo}
-                      className="border rounded-circle company-logo"
-                    />
+                    {
+                      benefit.companyLogo ?
+                        <img
+                          src={benefit.companyLogo}
+                          className="border rounded-circle company-logo"
+                        />
+                        :
+                        <span className="material-symbols-outlined border rounded-circle no-logo">hide_image</span>
+                    }
+
                   </div>
                   <div
                     // className={
