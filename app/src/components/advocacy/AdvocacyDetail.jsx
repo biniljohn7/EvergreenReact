@@ -7,9 +7,9 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import { Link } from 'react-router-dom'
 import Button from '../../UI/button/button'
 import { Spinner } from 'reactstrap'
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-import ReactTimeAgo from 'react-time-ago'
+// import TimeAgo from 'javascript-time-ago'
+// import en from 'javascript-time-ago/locale/en'
+// import ReactTimeAgo from 'react-time-ago'
 import Modal from './TakeAction'
 
 const TEXT_LENGTH = window.innerWidth >= 768 ? 20 : 10
@@ -97,11 +97,11 @@ const AdvocacyDetails = (props) => {
             ) : (
               <React.Fragment>
                 <section>
-                  {advocacy.image?(<img
+                  {advocacy.image ? (<img
                     src={advocacy.image}
                     className="full-image"
                     alt={advocacy.title.substr(0, 10) + '...'}
-                  />):null}
+                  />) : null}
                 </section>
                 <section className="mt-30">
                   <label className="text-secondary">

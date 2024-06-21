@@ -19,16 +19,16 @@ const PaymentSummary = (props) => {
   const [ErrorList, setErrorList] = useState({});
   const [DonationInp, setDonationInp] = useState({})
 
-  const {
-    values,
-    errors,
-    touched,
-    submitCount,
-    handleSubmit,
-    handleBlur,
-    isValid,
-    handleChange,
-  } = props;
+  // const {
+  //   values,
+  //   errors,
+  //   touched,
+  //   submitCount,
+  //   handleSubmit,
+  //   handleBlur,
+  //   isValid,
+  //   handleChange,
+  // } = props;
 
   let Spn = Spinner();
 
@@ -307,7 +307,7 @@ const PaymentSummary = (props) => {
                     clicked={(e) => {
                       if (code && code.trim()) {
                         setLoading(true);
-                        if (code.length != 6) {
+                        if (code.length !== 6) {
                           ToastsStore.info(
                             "length must be exactly 6 characters"
                           );

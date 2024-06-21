@@ -19,7 +19,7 @@ import Toast from "../../UI/Toast/Toast";
 
 const { logout } = AuthActions;
 
-const list = [
+/* const list = [
   {
     label: "Not Applicable",
     value: "NotApplicable",
@@ -32,7 +32,7 @@ const list = [
     label: "50 Years",
     value: "FiftyYears",
   },
-];
+]; */
 
 const Membership = (props) => {
   const [dropdown, setDropdown] = useState(null);

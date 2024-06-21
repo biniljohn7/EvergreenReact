@@ -7,7 +7,7 @@ import {
   viewPaymentHistory,
 } from "../../api/duesAPI";
 import { ToastsStore } from "react-toasts";
-import { Modal, Spinner } from "reactstrap";
+import {/*  Modal, */ Spinner } from "reactstrap";
 import Pix from "../../helper/Pix";
 
 import Echeck from "../../assets/images/e_check.png";
@@ -20,10 +20,10 @@ const Dues = (props) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [historyData, setHistoryData] = useState(null);
-  const [chargesTitle, setChargesTitle] = useState(null);
-  const [isOpen, setOpen] = useState(false);
+  // const [chargesTitle, setChargesTitle] = useState(null);
+  // const [isOpen, setOpen] = useState(false);
 
-  const list = [
+  /* const list = [
     {
       title: "2019 Membership Dues",
       date: "13-11-2019",
@@ -49,7 +49,7 @@ const Dues = (props) => {
       date: "13-11-2019",
       fees: "$475.00",
     },
-  ];
+  ]; */
 
   useEffect(() => {
     setLoading(true);
