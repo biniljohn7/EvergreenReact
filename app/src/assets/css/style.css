@@ -776,6 +776,11 @@ a:focus {
     padding: 20px;
 }
 
+.due-box .due-right .due-item .due-content {
+    max-height: 530px;
+    overflow: auto;
+}
+
 .due-box .input-btn {
     text-align: center;
     margin-top: 18px;
