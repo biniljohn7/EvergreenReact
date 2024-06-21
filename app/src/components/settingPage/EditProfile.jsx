@@ -58,15 +58,9 @@ export const SELECT_CSS = {
 const EditProfile = (props) => {
   const {
     values,
-    handleChange,
-    handleBlur,
     errors,
     touched,
-    submitCount,
-    handleSubmit,
-    setFieldValue,
-    setFieldTouched,
-    isValid,
+    submitCount
   } = props;
 
   const isProfileCreated = store.getState().auth.isProfileCreated;

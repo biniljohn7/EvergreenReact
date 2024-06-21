@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { changePwd as enhancer } from './enhancer'
+import React, { useState } from 'react'
 import Input from '../../UI/input/input'
 import Wrapper from './common.style'
 import { changePassword } from '../../api/commonAPI'
@@ -13,14 +12,8 @@ const { login } = AuthActions;
 
 const ChangePassword = (props) => {
   const {
-    values,
     handleChange,
-    handleBlur,
-    errors,
-    touched,
-    submitCount,
-    handleSubmit,
-    isValid,
+    handleBlur
   } = props
   const [passwordType, setPasswordType] = useState('password')
   const [loading, setLoading] = useState(false)
