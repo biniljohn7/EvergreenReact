@@ -1,21 +1,21 @@
 import React from 'react'
 import FooterWrapper from './footer.style'
-import Logo from '../../assets/images/logo.png'
+// import Logo from '../../assets/images/logo.png'
 import Llogo from '../../assets/images/f-logo.png'
 import Rlogo from '../../assets/images/r-logo.png'
 
 import {
   SITE_NAME,
-  SITE_SHORT_DESC,
-  WEBSITE_URL,
+  // SITE_SHORT_DESC,
+  // WEBSITE_URL,
   // GOOGLE_MAP_KEY,
 } from '../../helper/constant'
-import { Link, useLocation } from 'react-router-dom'
+//import { Link, useLocation } from 'react-router-dom'
 // import ContactUs from './ContactUs'
 // import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
 
 const Footer = (props) => {
-  const location = useLocation()
+  //const location = useLocation()
 
   return (
     <FooterWrapper>

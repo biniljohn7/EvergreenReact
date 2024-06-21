@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import { Spinner } from "reactstrap";
 import { getHomeData } from "../../api/home";
-import { reactToNews } from "../../api/newsApi";
+// import { reactToNews } from "../../api/newsApi";
 import { ToastsStore } from "react-toasts";
 import Wrapper from "./home.style";
 import classnames from "classnames";
 import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import ReactTimeAgo from "react-time-ago";
-import LoadingOverlay from "react-loading-overlay";
+// import ReactTimeAgo from "react-time-ago";
+// import LoadingOverlay from "react-loading-overlay";
 import Banner from "../common/Banner";
 import HomeNational from "./HomeNational";
 TimeAgo.addLocale(en);
@@ -32,7 +32,7 @@ const RECORD_NO =
 const Home = (props) => {
   const [data, setData] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
   const [activeTab, setActiveTab] = useState("National");
 
   useEffect(() => {

@@ -41,7 +41,7 @@ const ContactUs = (props) => {
       })
   }, [])
 
-  if (props.isFooter != 1) {
+  if (props.isFooter !== 1) {
     document.title = 'Contact Us - ' + window.seoTagLine;
   }
 
@@ -168,7 +168,7 @@ const ContactUs = (props) => {
             </button>
           </form>
           {
-            props.isFooter != 1 && (
+            props.isFooter !== 1 && (
               <div
                 className="text-justify mt-20 "
                 dangerouslySetInnerHTML={{ __html: content }}

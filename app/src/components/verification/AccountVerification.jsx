@@ -35,7 +35,7 @@ const AccountVerification = () => {
     <div>
       <div class="verification-box">
         <div class="img-box">
-          <img src={verificationSts ? successImg : failedImg} alt='' />
+          <img src={verificationSts ? successImg : failedImg} alt='img' />
         </div>
         <h1>Account Verification</h1>
         {verificationResult && <p className='msg'>{verificationResult}</p>}
