@@ -223,13 +223,13 @@ const Payment = (props) => {
           },
         },
       };
-      const options = {
-        custom_style: customStyle,
-        show_labels: true,
-        show_placeholders: true,
-        show_error_messages: true,
-        show_error_messages_when_unfocused: true,
-      };
+      // const options = {
+      //   custom_style: customStyle,
+      //   show_labels: true,
+      //   show_placeholders: true,
+      //   show_error_messages: true,
+      //   show_error_messages_when_unfocused: true,
+      // };
       if (!isFailed) {
         // const creditCard = window.WePay.createCreditCardIframe(
         //   "credit_card_iframe",

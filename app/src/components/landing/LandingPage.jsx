@@ -18,8 +18,6 @@ import { store } from '../../redux/store'
 import { GoogleApiWrapper } from 'google-maps-react'
 import Support from './Support'
 
-const containerStyle = { position: 'absolute', width: '100%', height: '70%' }
-
 const LandingPage = (props) => {
   useEffect(() => {
     if (store.getState().auth.isLogin && store.getState().auth.accessToken) {
@@ -74,7 +72,7 @@ const LandingPage = (props) => {
                   Android or iOS mobile application.
                 </p>
                 <React.Fragment>
-                  <a href="#">
+                  <a href="/">
                     <img
                       src={GooglePlayStore}
                       alt="Google_Play_Store"
@@ -160,7 +158,7 @@ const LandingPage = (props) => {
                   Android or iOS mobile application.
                 </p>
                 <React.Fragment>
-                  <a href="#">
+                  <a href="/">
                     <img
                       src={GooglePlayStore}
                       alt="Google_Play_Store"

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
+import { TabContent, TabPane/*, Nav, NavItem, NavLink*/ } from "reactstrap";
 import Wrapper from "./event.style.js";
 import { listEvent, getDropdown } from "../../api/eventAPI";
 import { ToastsStore } from "react-toasts";
 import Pagination from "../../UI/pagination/pagination";
-import classnames from "classnames";
+// import classnames from "classnames";
 import Select from "react-select";
 import { Spinner } from "reactstrap";
-import ClampLines from "react-clamp-lines";
+// import ClampLines from "react-clamp-lines";
 
 import Banner from "../common/Banner.jsx";
 import EventBoxImg from '../../assets/images/event-box.jpg'
@@ -88,9 +88,11 @@ const Event = (props) => {
       });
   };
 
+  /* 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+  */
 
   const ListEvent = () => {
     return isLoading ? (

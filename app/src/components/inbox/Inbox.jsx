@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./inbox.style";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Spinner, Modal } from "reactstrap";
+import { TabContent, TabPane, Nav, NavItem, NavLink, Spinner } from "reactstrap";
 import { ToastsStore } from "react-toasts";
 import classnames from "classnames";
 // import Filter from "../../assets/images/filter.png";
@@ -29,11 +29,11 @@ const Inbox = (props) => {
   const [isLoading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("Messages");
   const [filter, setFilter] = useState("Nation");
-//   const [tempState, setState] = useState("Nation");
+  //   const [tempState, setState] = useState("Nation");
   const [search, setSearch] = useState("");
   const [currentPage, setPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
-//   const [isOpen, setOpen] = useState(false);
+  //   const [isOpen, setOpen] = useState(false);
   const [directory, setDirectory] = useState(null);
   const [modal, setModal] = useState(false);
 
@@ -106,25 +106,25 @@ const Inbox = (props) => {
       });
   };
 
-function ResponsiveChat() {
+  function ResponsiveChat() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 1024);
-        };
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 1024);
+      };
 
-        window.addEventListener('resize', handleResize);
+      window.addEventListener('resize', handleResize);
 
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }, []);
 
     return isMobile ? <MobileChat /> : <WebChat />;
-}
+  }
 
-document.title = 'Inbox - ' + window.seoTagLine;
+  document.title = 'Inbox - ' + window.seoTagLine;
 
   return (
     <Wrapper>
@@ -173,14 +173,14 @@ document.title = 'Inbox - ' + window.seoTagLine;
                 <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                   <div
                     className="position-relative "
-                    // {
-                    //   "position-relative " +
-                    //   (window.innerWidth >= 1024
-                    //     ? "wp-40"
-                    //     : window.innerWidth === 768
-                    //       ? "wp-50"
-                    //       : "wp-90")
-                    // }
+                  // {
+                  //   "position-relative " +
+                  //   (window.innerWidth >= 1024
+                  //     ? "wp-40"
+                  //     : window.innerWidth === 768
+                  //       ? "wp-50"
+                  //       : "wp-90")
+                  // }
                   >
                     <Input
                       type="text"

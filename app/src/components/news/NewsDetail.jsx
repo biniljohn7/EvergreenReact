@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Wrapper from "./news.style.js";
-import { ViewNews, reactToNews } from "../../api/newsApi";
-// import { reactToNews } from "../../api/newsApi";
-import { ToastsStore } from "react-toasts";
+// import { ViewNews, reactToNews } from "../../api/newsApi";
+import { ViewNews } from "../../api/newsApi";
+// import { ToastsStore } from "react-toasts";
 import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Spinner } from "reactstrap";
-// import TimeAgo from "javascript-time-ago";
-import en from "javascript-time-ago/locale/en";
-// import ReactTimeAgo from "react-time-ago";
-import LoadingOverlay from "react-loading-overlay";
 
 const TEXT_LENGTH = window.innerWidth >= 768 ? 20 : 10;
 // TimeAgo.addDefaultLocale(en)
@@ -18,11 +14,11 @@ const TEXT_LENGTH = window.innerWidth >= 768 ? 20 : 10;
 const NewsDetails = (props) => {
   const [news, setNews] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const [loader, setLoader] = useState(false);
-  const [likeState, setLiked] = useState({
-    liked: false,
-    likeCount: 0,
-  });
+  // const [loader, setLoader] = useState(false);
+  // const [likeState, setLiked] = useState({
+  //   liked: false,
+  //   likeCount: 0,
+  // });
 
   useEffect(() => {
     props &&
@@ -61,7 +57,7 @@ const NewsDetails = (props) => {
     }
   }, []);
 
-  const likeOrDislike = () => {
+  /* const likeOrDislike = () => {
     setLoader(true);
     reactToNews(props.match.params.newsfeedId)
       .then((res) => {
@@ -84,7 +80,7 @@ const NewsDetails = (props) => {
       .finally(() => {
         setLoader(false);
       });
-  };
+  }; */
 
   document.title = 'News | News Details - ' + window.seoTagLine;
 

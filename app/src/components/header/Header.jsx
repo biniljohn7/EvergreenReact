@@ -3,7 +3,7 @@ import HeaderWrapper from './header.style'
 import Logo from '../../assets/images/logo.png'
 import {
   SITE_NAME,
-  SITE_SHORT_DESC,
+  // SITE_SHORT_DESC,
   WEBSITE_URL,
   LOGIN_HEADER,
 } from '../../helper/constant'
@@ -249,11 +249,11 @@ const Header = (props) => {
 
             </div>
             <div className="mob-menu">
-              <a className="toggle mob-click-btn" onClick={function () {
-                setMobMenu(1);
+              <div className="toggle mob-click-btn" onClick={function () {
+                setMobMenu(MobMenu ? 0 : 1);
               }} >
                 <span></span>
-              </a>
+              </div>
             </div>
           </div>
         </div>

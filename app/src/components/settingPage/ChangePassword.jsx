@@ -60,7 +60,7 @@ const ChangePassword = (props) => {
     }
     if (!el('confirmPwd').value.trim()) {
       sErrs['confirmPwd'] = 'This field is required';
-    } else if (el('confirmPwd').value.trim() != el('newPassword').value.trim()) {
+    } else if (el('confirmPwd').value.trim() !== el('newPassword').value.trim()) {
       sErrs['confirmPwd'] = 'Password didn\'t match';
     }
 
