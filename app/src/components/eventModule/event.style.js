@@ -2,6 +2,7 @@ import styled from 'styled-components'
 // import { HEADER_COLOR } from '../../helper/constant'
 
 const Wrapper = styled.div`
+  
   .nav-tabs .nav-link {
     color: #637381;
     border-color: #fff #fff #dee2e6 #fff;
@@ -66,18 +67,42 @@ const Wrapper = styled.div`
     height: ${(props) => props.size || '158px'};
   }
 
-  .image-size {
-    width: 100%;
-    height: ${(props) => props.size || '158px'};
-    object-fit: fill;
+  .event-item {
+    display:flex;
+
+    @media screen and (max-width:424px){
+      display:block;
+    }
+
+    .ev-img-box {
+      margin-right:20px;
+      width:120px;
+
+      img {
+        border-radius:10px;
+      }
+
+      @media screen and (max-width:424px){
+        width:auto;
+        margin-bottom:20px;
+        margin-right:0;
+      }
+    }
+    .ev-content {
+      flex:1 1 0;
+    }
   }
 
-  .full-image {
-    width: 100%;
-    height: 300px;
-    object-fit: contain;
-    @media (max-width: 767px) {
-      height: 150px !important;
+  .ev-img-wrap {
+    float:left;
+    max-width:45%;
+    margin-right:20px;
+    margin-bottom:10px;
+
+    @media screen and (max-width:425px){
+      float:none;
+      max-width:none;
+      margin-right:0;
     }
   }
 

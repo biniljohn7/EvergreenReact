@@ -108,29 +108,37 @@ const Event = (props) => {
                   className="event-item"
                   key={ev.eventId}
                 >
-                  {/* <img
-                    src={ev.image}
-                    alt={ev.name.substr(0, 10) + "..."}
-                    className="image-size"
-                  /> */}
-                  <div className="e-date">
-                    {ev.date ? ev.date : ""}
-                  </div >
-                  <h2>
-                    {ev.name}
-                  </h2>
-                  <p>
-                    {ev.address || ""}
-                  </p>
-                  <div className="button-box">
-                    <span onClick={(e) =>
-                      props.history.push(
-                        `/events/${ev.name.replaceAll("/", " ")}`,
-                        {
-                          eventId: ev.eventId,
-                        }
-                      )
-                    }>READ MORE</span>
+                  {
+                    ev.image ?
+                      <div className="ev-img-box">
+                        <img
+                          src={ev.image}
+                          alt={ev.name.substr(0, 10) + "..."}
+                          className="image-size"
+                        />
+                      </div> :
+                      null
+                  }
+                  <div className="ev-content">
+                    <div className="e-date">
+                      {ev.date ? ev.date : ""}
+                    </div >
+                    <h2>
+                      {ev.name}
+                    </h2>
+                    <p>
+                      {ev.address || ""}
+                    </p>
+                    <div className="button-box">
+                      <span onClick={(e) =>
+                        props.history.push(
+                          `/events/${ev.name.replaceAll("/", " ")}`,
+                          {
+                            eventId: ev.eventId,
+                          }
+                        )
+                      }>READ MORE</span>
+                    </div>
                   </div>
                 </div >
               </>

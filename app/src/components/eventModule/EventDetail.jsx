@@ -71,17 +71,19 @@ const Event = (props) => {
               </div>
             ) : (
               <React.Fragment>
-                <section>
-                    {event.image ? (
-                        <img
-                        src={event.image}
-                        className="full-image"
-                        alt={event.title.substr(0, 10) + "..."}
-                        />
-                    ) : null}
-                </section>
                 <section className="row mt-30">
                   <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9">
+                    {
+                      event.image ?
+                        <div className="ev-img-wrap">
+                          <img
+                            src={event.image}
+                            className="full-image"
+                            alt={event.title.substr(0, 10) + "..."}
+                          />
+                        </div> :
+                        null
+                    }
                     <h5 className="text-bold">{event.title}</h5>
                     <div className="d-block d-sm-block d-md-none d-lg-none d-xl-none fs-14">
                       {event.date && <div className="mt-15">{event.date}</div>}
