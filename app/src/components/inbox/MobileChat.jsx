@@ -7,13 +7,13 @@ import { ToastsStore } from "react-toasts";
 import ChatProfile from "./ChatProfile";
 import Camera from "../../assets/images/camera_1x.png";
 import Send from "../../assets/images/send_1x.png";
-import { 
-    txtSendApi, 
-    msgLoadApi, 
-    imgSendApi, 
-    recentChatsApi, 
-    chatDeleteApi,
-    msgDeleteApi 
+import {
+  txtSendApi,
+  msgLoadApi,
+  imgSendApi,
+  recentChatsApi,
+  chatDeleteApi,
+  msgDeleteApi
 } from "../../api/inboxAPI";
 import {
   Dropdown,
@@ -96,22 +96,22 @@ const MobileChat = (props) => {
 
   useEffect(() => {
     if (selectedUser) {
-        setMessageArray([]);
-        setLoading(true);
-        msgLoadApi({
-            id: selectedUser.memberId,
-            pgn: 0
-        })
+      setMessageArray([]);
+      setLoading(true);
+      msgLoadApi({
+        id: selectedUser.memberId,
+        pgn: 0
+      })
         .then((res) => {
-            if(res.status=='ok'){
-                setLoading(false);
-                setMessageArray(res.data.messages);
-            }else{
-                this.error({message:res.message});
-            }
+          if (res.status === 'ok') {
+            setLoading(false);
+            setMessageArray(res.data.messages);
+          } else {
+            this.error({ message: res.message });
+          }
         })
         .catch((err) => {
-            showErr(err);
+          showErr(err);
         });
     }
   }, [selectedUser]);
@@ -119,20 +119,20 @@ const MobileChat = (props) => {
   const showErr = (err) => {
     console.error(err)
     if (err.response) {
-        if (err.response.status === 401) {
-            props.logout()
-            ToastsStore.error('Session Expire! Please login again.')
-            setTimeout(() => props.history.replace('/signin'), 800)
-        } else {
-            setLoading(false)
-            ToastsStore.error('Something went wrong!')
-        }
-    } else if (err.request) {
-        setLoading(false)
-        ToastsStore.error('Unable to connect to server!')
-    } else {
+      if (err.response.status === 401) {
+        props.logout()
+        ToastsStore.error('Session Expire! Please login again.')
+        setTimeout(() => props.history.replace('/signin'), 800)
+      } else {
         setLoading(false)
         ToastsStore.error('Something went wrong!')
+      }
+    } else if (err.request) {
+      setLoading(false)
+      ToastsStore.error('Unable to connect to server!')
+    } else {
+      setLoading(false)
+      ToastsStore.error('Something went wrong!')
     }
   }
 
@@ -152,30 +152,30 @@ const MobileChat = (props) => {
   const deleteRecentChat = (wasLastMessage = false) => {
     setLoader(true);
     chatDeleteApi(deleteChatId)
-    .then((res) => {
-        if(res.status=='ok'){
-            deleteChatId = null;
-            setLoader(false);
-            setRecentChat(recentChatArray.filter(chat => chat.memberId !== deleteChatId));
-            if(selectedUser.memberId==deleteChatId){
-                setSelectedUser(null);
-            }
-            if (!wasLastMessage) {
-              ToastsStore.info("Chat deleted successfully");
-              setOpen(!open);
-            }
-        }else{
-            this.error({message:res.message});
+      .then((res) => {
+        if (res.status === 'ok') {
+          deleteChatId = null;
+          setLoader(false);
+          setRecentChat(recentChatArray.filter(chat => chat.memberId !== deleteChatId));
+          if (selectedUser.memberId === deleteChatId) {
+            setSelectedUser(null);
+          }
+          if (!wasLastMessage) {
+            ToastsStore.info("Chat deleted successfully");
+            setOpen(!open);
+          }
+        } else {
+          this.error({ message: res.message });
         }
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         showErr(err);
         if (!wasLastMessage) {
           ToastsStore.error("Failed to delete chat");
           setLoader(false);
           setOpen(!open);
         }
-    });
+      });
   };
 
   const deleteUserMessage = () => {
@@ -185,17 +185,17 @@ const MobileChat = (props) => {
         partner: selectedUser.memberId,
         id: deleteArray
       })
-      .then((res) => {
-        if(res.status=='ok'){
-          setMessageArray(messageArray.filter(message => !deleteArray.includes(message.id)));
-        }else{
-            this.error({message:res.message});
-        }
-      })
-      .catch((err) => {
+        .then((res) => {
+          if (res.status === 'ok') {
+            setMessageArray(messageArray.filter(message => !deleteArray.includes(message.id)));
+          } else {
+            this.error({ message: res.message });
+          }
+        })
+        .catch((err) => {
           showErr(err);
-      });
-     
+        });
+
       setLoader(false);
       setDeleteMessage(!deleteMessage);
       setArray([]);
@@ -207,52 +207,52 @@ const MobileChat = (props) => {
     var msgArr;
     setLoader(true);
     txtSendApi({
-        message: message,
-        recipient: selectedUser.memberId
+      message: message,
+      recipient: selectedUser.memberId
+    })
+      .then((res) => {
+        if (res.status === 'ok') {
+          msgArr = messageArray;
+          msgArr.push(res.data);
+          setMessageArray(msgArr);
+          setMessage("");
+          setLoader(false);
+        } else {
+          this.error({ message: res.message });
+        }
       })
-        .then((res) => {
-            if(res.status=='ok'){
-                msgArr = messageArray;
-                msgArr.push(res.data);
-                setMessageArray(msgArr);
-                setMessage("");
-                setLoader(false);
-            }else{
-                this.error({message:res.message});
-            }
-        })
-        .catch((err) => {
-            showErr(err);
-        });
+      .catch((err) => {
+        showErr(err);
+      });
   };
 
   const uploadImage = (e) => {
-    var 
-        img,
-        msgArr;
+    var
+      img,
+      msgArr;
     if (e.target.files && e.target.files[0]) {
-        img = e.target.files[0];
-        if ((/\.(jpe*g|png|gif)$/).test(img.name)) {
-            setLoader(true);
-            const formData = new FormData();
-            formData.append("recipient", selectedUser.memberId);
-            formData.append("image", img);
-            imgSendApi(formData)
-                .then((res) => {
-                    if(res.status=='ok'){
-                        msgArr = messageArray;
-                        msgArr.push(res.data);
-                        setMessageArray(msgArr);
-                        setMessage("");
-                        setLoader(false);
-                    }else{
-                        this.error({message:res.message});
-                    }
-                })
-                .catch((err) => {
-                    showErr(err);
-                });
-        }
+      img = e.target.files[0];
+      if ((/\.(jpe*g|png|gif)$/).test(img.name)) {
+        setLoader(true);
+        const formData = new FormData();
+        formData.append("recipient", selectedUser.memberId);
+        formData.append("image", img);
+        imgSendApi(formData)
+          .then((res) => {
+            if (res.status === 'ok') {
+              msgArr = messageArray;
+              msgArr.push(res.data);
+              setMessageArray(msgArr);
+              setMessage("");
+              setLoader(false);
+            } else {
+              this.error({ message: res.message });
+            }
+          })
+          .catch((err) => {
+            showErr(err);
+          });
+      }
     }
   };
 

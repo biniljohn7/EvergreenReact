@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import moment from "moment";
 import html2canvas from "html2canvas";
 
 import Wrapper from "./wrapper.style";

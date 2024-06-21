@@ -53,13 +53,13 @@ const loadGoogleSDK = () => {
   script.src = 'https://apis.google.com/js/platform.js';
   script.async = true;
   script.defer = true;
-//   script.onload = () => {
-//     window.gapi.load('auth2', () => {
-//       window.gapi.auth2.init({
-//         client_id: '62789215844',
-//       });
-//     });
-//   };
+  //   script.onload = () => {
+  //     window.gapi.load('auth2', () => {
+  //       window.gapi.auth2.init({
+  //         client_id: '62789215844',
+  //       });
+  //     });
+  //   };
   document.body.appendChild(script);
 };
 
@@ -73,8 +73,8 @@ const SignIn = (props) => {
 
   useEffect(() => {
     loadFacebookSDK();
-    initializeFacebookSDK('370157155613997'); 
-    loadGoogleSDK(); 
+    initializeFacebookSDK('370157155613997');
+    loadGoogleSDK();
   }, []);
 
   const handleGoogleLogin = () => {
@@ -201,21 +201,21 @@ const SignIn = (props) => {
   const handleSMediaSignIn = (userData) => {
     Spn.Show();
     const body = {
-    method: 'login-via-smedia',
-    email: userData.email,
-    firstName: userData.firstName,
-    lastName: userData.lastName,
-    imageUrl: userData.imageUrl,
-    facebookId: userData.facebookId || null,
-    googleId: userData.googleId || null,
-    registerType: userData.googleId ? REGISTER_TYPE.google : (userData.facebookId ? REGISTER_TYPE.facebook : REGISTER_TYPE.normal),
-    deviceType: "web",
+      method: 'login-via-smedia',
+      email: userData.email,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      imageUrl: userData.imageUrl,
+      facebookId: userData.facebookId || null,
+      googleId: userData.googleId || null,
+      registerType: userData.googleId ? REGISTER_TYPE.google : (userData.facebookId ? REGISTER_TYPE.facebook : REGISTER_TYPE.normal),
+      deviceType: "web",
     };
 
     logInViaSMedia(body)
-    .then((res) => {
+      .then((res) => {
         if (res.success === 1) {
-        const userData = {
+          const userData = {
             isLogin: true,
             accessToken: res.data.accessToken,
             memberId: res.data.memberId,
@@ -227,25 +227,25 @@ const SignIn = (props) => {
             isProfileCreated: res.data.profileCreated,
             isNotificationOn: res.data.notification || false,
             currentChapter: res.data.currentChapter,
-        };
-        props.login(userData);
-        Tst.Success(res.message);
-        if (res.data.profileCreated) {
+          };
+          props.login(userData);
+          Tst.Success(res.message);
+          if (res.data.profileCreated) {
             props.history.push("/home");
-        } else {
+          } else {
             props.history.push("/account");
-        }
+          }
         } else {
-        props.resetForm();
-        Tst.Error(res.message);
+          props.resetForm();
+          Tst.Error(res.message);
         }
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         Tst.Error("Something went wrong!");
-    })
-    .finally(() => {
+      })
+      .finally(() => {
         Spn.Hide();
-    });
+      });
   };
 
   const handleSignIn = (e) => {
@@ -351,17 +351,17 @@ const SignIn = (props) => {
                     SITE_NAME.slice(1).toLowerCase()}
                 </h4>
                 <div className="d-flex justify-content-center">
-                  <a href="#" onClick={handleFacebookLogin}>
+                  <span onClick={handleFacebookLogin}>
                     <img
                       src={FB}
                       alt="Create with Facebook"
                       className="mr-20"
                     />
-                  </a>
+                  </span>
                   <span>
-                    <a href="#" onClick={handleGoogleLogin}>
+                    <span onClick={handleGoogleLogin}>
                       <img src={Google} alt="Create with Google" className="" />
-                    </a>
+                    </span>
                   </span>
                 </div>
                 <div className="justify-content-center row mtb-20">
