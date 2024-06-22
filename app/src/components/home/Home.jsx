@@ -62,7 +62,7 @@ const Home = (props) => {
       });
   }, [activeTab]);
 
-  document.title = window.seoTagLine;
+  document.title = 'Welcome to Evergreen';
 
   const toggle = (tab) => {
     if (activeTab !== tab) setActiveTab(tab);
