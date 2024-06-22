@@ -1,9 +1,9 @@
 export const pl = process.env.REACT_APP_ENV;
-// export const BASE_URL = process.env.REACT_APP_API_URL;
+export const BASE_URL = process.env.REACT_APP_API_URL;
 export const ISLOCAL = !!window.localStorage.isLocal;
-export const BASE_URL = 1 ?
-    'http://localhost/evergreenadmin/api' :
-    'https://memberapp-api.apps.openxcell.dev/api';
+// export const BASE_URL = 1 ?
+//     'http://localhost/evergreenadmin/api' :
+//     'https://memberapp-api.apps.openxcell.dev/api';
 
 
 export const SECONDARY_COLOR = "#C33FD9";
