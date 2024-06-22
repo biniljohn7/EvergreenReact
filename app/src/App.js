@@ -15,7 +15,8 @@ import {
     ToastsStore,
 } from 'react-toasts'
 
-const basename = process.env.REACT_APP_BASENAME || '/';
+
+const basename = process.env.REACT_APP_BASENAME || '/evergreen/';
 
 window.seoTagLine = 'Evergreen';
 
