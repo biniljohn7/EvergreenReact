@@ -72,14 +72,34 @@ const Wrapper = styled.div`
 
   .full-image {
     width: 100%;
-    height: 350px;
+    /*height: 350px;*/
     object-fit: contain;
     @media (max-width: 1440px) {
-      height: 300px !important;
+      /*height: 300px !important;*/
     }
     @media (max-width: 767px) {
-      height: 150px !important;
+      /*height: 150px !important;*/
     }
   }
+
+  .career-img {
+    float: left;
+    max-width: 45%;
+    margin-bottom: 15px;
+    margin-right: 20px;
+  }
+
+  .career-descr {
+    margin-top: 0px !important;
+    display: block !important;
+  }
+
+  @media screen and (max-width: 425px) {
+    .career-img  {
+      float: none;
+      max-width: none;
+      margin-right: 0;
+  }
+}
 `
 export default Wrapper

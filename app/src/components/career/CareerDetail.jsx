@@ -72,17 +72,17 @@ const Career = (props) => {
               </div>
             ) : (
               <React.Fragment>
-                <section>
-                  {career.image?(
+                <section className='career-img'>
+                  {career.image ? (
                     <img
-                        src={career.image}
-                        // src={CareerImage}
-                        className="full-image"
-                        alt={career.title.substr(0, 10) + '...'}
+                      src={career.image}
+                      // src={CareerImage}
+                      className="full-image"
+                      alt={career.title.substr(0, 10) + '...'}
                     />
-                  ):null}
+                  ) : null}
                 </section>
-                <section className="row mt-30">
+                <section className="row mt-30 career-descr">
                   <div className="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                     <h5 className="text-bold">{career.title}</h5>
 
