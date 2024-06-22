@@ -95,5 +95,19 @@ const Wrapper = styled.div`
     height: 100%;
     opacity: 0;
   }
+
+  .empty-img {
+    background-color: #ddd;
+    padding-top: 100%;
+    position: relative;
+  }
+  .empty-img .empty-icn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5em;
+  }
+
 `
 export default Wrapper

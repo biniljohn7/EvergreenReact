@@ -119,7 +119,13 @@ const Advocacy = (props) => {
                           src={ev.image}
                           alt={ev.title.substr(0, 10) + '...'}
                           onClick={click}
-                        />) : null}
+                        />) : (
+                          <div className='empty-img' onClick={click}>
+                            <span className="material-symbols-outlined empty-icn">
+                              hide_image
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <h2>
                         {ev.title}
