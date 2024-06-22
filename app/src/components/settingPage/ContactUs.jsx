@@ -4,12 +4,15 @@ import Input from '../../UI/input/input'
 import Textarea from '../../UI/textarea/textarea'
 import Select from 'react-select'
 import { getContactUsQue, contactUs as addQuery } from '../../api/memberAPI'
-import { Spinner } from 'reactstrap'
-import { ToastsStore } from 'react-toasts'
+// import { Spinner } from 'reactstrap'
+// import { ToastsStore } from 'react-toasts'
+import Toast from "../../UI/Toast/Toast";
+import Spinner from "../../UI/Spinner/Spinner";
 import { compose } from 'redux'
 import AuthActions from '../../redux/auth/actions'
 import { connect } from 'react-redux'
 const { logout } = AuthActions
+
 
 const ContactUs = (props) => {
   const {
@@ -27,20 +30,27 @@ const ContactUs = (props) => {
   const [processing, setProcessing] = useState(false)
   const [questions, setQuestions] = useState([])
 
+  let Tst = Toast();
+  let Spn = Spinner();
+
   useEffect(() => {
+    Spn.Show();
     getContactUsQue()
       .then((res) => {
         setQuestions(res.data || [])
-        setInitialLoading(false)
+        //setInitialLoading(false)
+        Spn.Hide();
       })
       .catch((err) => {
         console.error(err)
         if (err.response && err.response.status === 401) {
           props.logout()
-          ToastsStore.error('Session Expire! Please login again.')
+          //ToastsStore.error('Session Expire! Please login again.')
+          Tst.Error('Session Expire! Please login again.');
           setTimeout(() => props.history.push('/signin'), 800)
         } else {
-          ToastsStore.error('Something Went Wrong!')
+          //ToastsStore.error('Something Went Wrong!')
+          Tst.Error('Something Went Wrong!');
           // props.history.push('/home')
         }
       })
@@ -64,6 +74,7 @@ const ContactUs = (props) => {
     handleSubmit()
     if (isValid) {
       setProcessing(true)
+      Spn.Show();
       addQuery({
         contactUsQuestionId: values.question,
         name: values.name,
@@ -72,11 +83,14 @@ const ContactUs = (props) => {
       })
         .then((res) => {
           if (res.success === 0) {
-            ToastsStore.error(res.message)
+            //ToastsStore.error(res.message)
+            Tst.Error(res.message)
           } else {
-            ToastsStore.info(res.message)
+            //ToastsStore.info(res.message)
+            Tst.Success(res.message)
           }
           setProcessing(false)
+          Spn.Hide();
           props.resetForm()
         })
         .catch((err) => {
@@ -84,12 +98,14 @@ const ContactUs = (props) => {
 
           if (err.response && err.response.status === 401) {
             props.logout()
-            ToastsStore.error('Session Expire! Please login again.')
+            //ToastsStore.error('Session Expire! Please login again.')
+            Tst.Error('Session Expire! Please login again.');
             setTimeout(() => props.history.push('/signin'), 800)
           } else {
             setProcessing(false)
             props.resetForm()
-            ToastsStore.error('Something Went Wrong!')
+            //ToastsStore.error('Something Went Wrong!')
+            Tst.Error('Something Went Wrong!');
           }
         })
     }
@@ -97,100 +113,100 @@ const ContactUs = (props) => {
 
   document.title = 'Contact Us - ' + window.seoTagLine;
 
-  return initialLoading ? (
-    <div className="custom-spinner">
-      <Spinner color="danger" />
-    </div>
-  ) : (
-    <section className={props.isMobile ? ' border plr-15 ptb-30' : ''}>
-      <h3 className="text-bold">Contact Us</h3>
-      <form
-        className={'mt-20 ' + (window.innerWidth < 768 ? 'wp-100' : 'wp-70')}
-      >
-        <div className="mb-20">
-          <label className="fs-16 mb-10">How can we help you?</label>
-          <Select
-            id="question"
-            placeholder="Select One"
-            options={questions}
-            getOptionLabel={(op) => op.name}
-            getOptionValue={(op) => op.id}
-            styles={{
-              control: (value) => {
-                return {
-                  ...value,
-                  minHeight: '44px',
-                }
-              },
-              placeholder: (defaultStyles) => {
-                return {
-                  ...defaultStyles,
-                  paddingTop: '10px',
-                  paddingBottom: '10px',
-                  fontSize: '14px',
-                }
-              },
-            }}
-            onChange={(selectedOp) => {
-              props.setFieldValue('question', selectedOp.id) 
-            }}
-            value={questions.find(option => option.id === values.question) || null}
-            onBlur={handleBlur}
-          />
-          <Error field="question" />
-        </div>
-        <div className="mb-20">
-          <Input
-            label="Name"
-            type="text"
-            placeholder="Name"
-            id="name"
-            fontSize={'fs-16 text-dark'}
-            contentFontSize="fs-14"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.name || ''}
-          />
-          <Error field="name" />
-        </div>
-        <div className="mb-20">
-          <Input
-            label="Subject"
-            type="text"
-            placeholder="Subject"
-            id="subject"
-            fontSize={'fs-16 text-dark'}
-            contentFontSize="fs-14"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.subject || ''}
-          />
-          <Error field="subject" />
-        </div>
-        <div className="mb-20">
-          <Textarea
-            label="Message"
-            placeholder="Message"
-            id="message"
-            rows="4"
-            fontSize="fs-16 text-dark"
-            contentFontSize="fs-14 !important"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.message || ''}
-          />
-          <Error field="message" />
-        </div>
-        <button
-          type="button"
-          className="btn btn-rounded button plr-30 ptb-10"
-          onClick={handleContactUs}
-          disabled={processing}
+  return (
+    <>
+      {Tst.Obj}
+      {Spn.Obj}
+      <section className={props.isMobile ? ' border plr-15 ptb-30' : ''}>
+        <h3 className="text-bold">Contact Us</h3>
+        <form
+          className={'mt-20 ' + (window.innerWidth < 768 ? 'wp-100' : 'wp-70')}
         >
-          SAVE
-        </button>
-      </form>
-    </section>
+          <div className="mb-20">
+            <label className="fs-16 mb-10">How can we help you?</label>
+            <Select
+              id="question"
+              placeholder="Select One"
+              options={questions}
+              getOptionLabel={(op) => op.name}
+              getOptionValue={(op) => op.id}
+              styles={{
+                control: (value) => {
+                  return {
+                    ...value,
+                    minHeight: '44px',
+                  }
+                },
+                placeholder: (defaultStyles) => {
+                  return {
+                    ...defaultStyles,
+                    paddingTop: '10px',
+                    paddingBottom: '10px',
+                    fontSize: '14px',
+                  }
+                },
+              }}
+              onChange={(selectedOp) => {
+                props.setFieldValue('question', selectedOp.id)
+              }}
+              value={questions.find(option => option.id === values.question) || null}
+              onBlur={handleBlur}
+            />
+            <Error field="question" />
+          </div>
+          <div className="mb-20">
+            <Input
+              label="Name"
+              type="text"
+              placeholder="Name"
+              id="name"
+              fontSize={'fs-16 text-dark'}
+              contentFontSize="fs-14"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.name || ''}
+            />
+            <Error field="name" />
+          </div>
+          <div className="mb-20">
+            <Input
+              label="Subject"
+              type="text"
+              placeholder="Subject"
+              id="subject"
+              fontSize={'fs-16 text-dark'}
+              contentFontSize="fs-14"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.subject || ''}
+            />
+            <Error field="subject" />
+          </div>
+          <div className="mb-20">
+            <Textarea
+              label="Message"
+              placeholder="Message"
+              id="message"
+              rows="4"
+              fontSize="fs-16 text-dark"
+              contentFontSize="fs-14 !important"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.message || ''}
+            />
+            <Error field="message" />
+          </div>
+          <button
+            type="button"
+            className="btn btn-rounded button plr-30 ptb-10"
+            onClick={handleContactUs}
+            disabled={processing}
+          >
+            SAVE
+          </button>
+        </form>
+      </section>
+    </>
   )
 }
 
