@@ -142,322 +142,24 @@ const Setting = (props) => {
 
   return (
     <>
-    {Tst.Obj}
-    {Spn.Obj}
-    <Wrapper>      
-      {window.innerWidth > 800 ? (
-        loading ? (
-          <div className="custom-spinner">
-            {/* <Spinner color="danger" /> */}
-          </div>
-        ) : (
-          <div className="row site-spacing ptb-50">
-            <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-3">
-              <div className="flex-container align-items-center justify-content-center m-auto position-relative">
-                {/* {photo ? (
-                      <i
-                        className="fa fa-trash delete cursor-pointer fs-18"
-                        aria-hidden="true"
-                      ></i>
-                    ) : null} */}
-                <div className="flex-item">
-                  <div className="mamber-pic">
-                    <img
-                      src={
-                        photo
-                          ? typeof photo === "string"
-                            ? photo
-                            : URL.createObjectURL(photo)
-                          : UserPic
-                      }
-                      alt="profile_pic"
-                      className="profile_pic"
-                    />
-                    <label className="position-relative">
-                      {/* <img
-                        src={CameraIcon}
-                        alt="change"
-                        className="position-absolute camera cursor-pointer"
-                      /> */}                      
-                      <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
-                        <span className="material-symbols-outlined fs-22">star</span>
-                      </div>
-                      <input
-                        id="profileImageUpload"
-                        className="file-upload__input"
-                        name="file-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          Spn.Show();
-                          const formData = new FormData();
-                          formData.append("file", e.target.files[0]);
-                          uploadImage(formData)
-                            .then((res) => {
-                              setPhoto(res.data.profileImage);
-                              props.login({
-                                isLogin: true,
-                                profileImage: res.data.profileImage,
-                              });
-                              dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
-                              
-                              Tst.Success(res.message);
-                              Spn.Hide();
-                            })
-                            .catch((err) => {
-                              console.error(err);
-                              Spn.Hide();
-                              Tst.Error('Failed to upload the profile photo!');
-                            });
-                        }}
-                      />
-                    </label>
-                  </div>
-                  <div className="text-bold fs-20 pt-7">
-                    {(profile.profile.prefix
-                      ? profile.profile.prefix.name + " "
-                      : "") +
-                      profile.profile.firstName +
-                      " " +
-                      profile.profile.lastName}
-                  </div>
-                  <div className="fs-16 ptb-3">Expired on: 13-11-2020</div>
-                </div>
-              </div>
-              <div className="mt-30 position-relative">
-                <div className="d-flex content-padding">
-                  <img
-                    height="23px"
-                    width="23px"
-                    src={NotificationIcon}
-                    alt="notification"
-                  />
-                  <div className="ml-15 text-bold">Notification</div>
-                  <Switch
-                    onChange={(checked) => {
-                      Spn.Show();
-                      updateNotificationStatus(checked)
-                        .then((res) => {
-                          setNotification(checked);
-                          props.login({
-                            isLogin: true,
-                            isNotificationOn: checked,
-                          });
-                          Spn.Hide();
-                          Tst.Show(res.message);
-                        })
-                        .catch((err) => {
-                          console.error(err);
-                          Spn.Hide();
-                          Tst.Error('Failed to update the notification status!');
-                        });
-                    }}
-                    disabled={!store.getState().auth.isProfileCreated}
-                    checked={isNotificationOn}
-                    onColor="#EAEAEA"
-                    onHandleColor={HEADER_COLOR}
-                    handleDiameter={10}
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                    activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                    height={15}
-                    width={40}
-                    className="react-switch"
-                  />
-                </div>
-
-                {SIDE_MENU.map((el, i) => {
-                  return (
-                    <div
-                      className={
-                        "d-flex content-padding " +
-                        (activeState === el.state ? "active" : "")
-                      }
-                      key={i}
-                    >
-                      <img
-                        height="25px"
-                        width="25px"
-                        src={el.icon}
-                        alt={el.alt}
-                      />
-                      <label
-                        className="ml-15 text-bold cursor-pointer"
-                        onClick={(e) => {
-                          setStateActive(el.state);
-                        }}
-                      >
-                        {el.label}
-                      </label>
-                    </div>
-                  );
-                })}
-
-                <div className="d-flex content-padding">
-                  <img
-                    height="23px"
-                    width="23px"
-                    src={LogoutIcon}
-                    alt="logout"
-                  />
-                  <label
-                    className="ml-15 text-bold cursor-pointer"
-                    onClick={(e) => {
-                      Spn.Show();
-                      logoutAPI()
-                        .then((res) => {
-                          props.logout();
-                          Tst.Success('You are logged out successfully!');
-                          props.history.push("/");
-                        })
-                        .catch((err) => {
-                          console.error(err);
-                          props.logout();
-                          Tst.Success('You are logged out successfully!');
-                          props.history.push("/");
-                        });
-                    }}
-                  >
-                    Logout
-                  </label>
-                </div>
-              </div>
+      {Tst.Obj}
+      {Spn.Obj}
+      <Wrapper>
+        {window.innerWidth > 800 ? (
+          loading ? (
+            <div className="custom-spinner">
+              {/* <Spinner color="danger" /> */}
             </div>
-            <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9 border pa-30">
-              {renderComponent()}
-            </div>
-          </div>
-        )
-      ) : loading ? (
-        <div className="custom-spinner">
-          {/* <Spinner color="danger" /> */}
-        </div>
-      ) : (
-        <div className="site-spacing mtb-50">
-          <div onClick={() => openNav()} className="mtb-20 text-bold openBtn">
-            &#9776;
-          </div>
-          <div id="settingNavbar" className="sidenav">
-            <div className="closebtn navMenu" onClick={() => closeNav()}>
-              &times;
-            </div>
-            <div className="navMenu">
-              <div className="mt-30 position-relative">
-                <div className="d-flex content-padding">
-                  <img
-                    height="23px"
-                    width="23px"
-                    src={NotificationIcon}
-                    alt="notification"
-                  />
-                  <div className="ml-15 text-bold">Notification</div>
-                  <Switch
-                    onChange={(checked) => {
-                      Spn.Show();
-                      updateNotificationStatus(checked)
-                        .then((res) => {
-                          setNotification(checked);
-                          props.login({
-                            isLogin: true,
-                            isNotificationOn: checked,
-                          });
-                          Spn.Hide();
-                          Tst.Show('res.message');
-                        })
-                        .catch((err) => {
-                          console.error(err);
-                          Spn.Hide();
-                          Tst.Error('Failed to update the notification status!');
-                        });
-                    }}
-                    disabled={!store.getState().auth.isProfileCreated}
-                    checked={isNotificationOn}
-                    onColor="#EAEAEA"
-                    onHandleColor={HEADER_COLOR}
-                    handleDiameter={10}
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                    boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                    activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                    height={15}
-                    width={40}
-                    className="react-switch"
-                  />
-                </div>
-
-                {SIDE_MENU.map((el, i) => {
-                  return (
-                    <div
-                      className={
-                        "d-flex content-padding " +
-                        (activeState === el.state ? "active" : "")
-                      }
-                      key={i}
-                    >
-                      <img
-                        height="23px"
-                        width="23px"
-                        src={el.icon}
-                        alt={el.alt}
-                      />
-                      <label
-                        className="ml-15 text-bold cursor-pointer"
-                        onClick={(e) => {
-                          closeNav();
-                          setTimeout(() => {
-                            setStateActive(el.state);
-                          }, 800);
-                        }}
-                      >
-                        {el.label}
-                      </label>
-                    </div>
-                  );
-                })}
-
-                <div className="d-flex content-padding">
-                  <img
-                    height="23px"
-                    width="23px"
-                    src={LogoutIcon}
-                    alt="logout"
-                  />
-                  <label
-                    className="ml-15 text-bold cursor-pointer"
-                    onClick={(e) => {
-                      Spn.Show();
-                      logoutAPI()
-                        .then((res) => {
-                          props.logout();
-                          Tst.Success('You are logged out successfully!');
-                          props.history.push("/");
-                        })
-                        .catch((err) => {
-                          console.error(err);
-                          props.logout();
-                          Tst.Success('You are logged out successfully!');
-                          props.history.push("/");
-                        });
-                    }}
-                  >
-                    Logout
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* {photo ? (
-                      <i
-                        className="fa fa-trash delete cursor-pointer fs-18"
-                        aria-hidden="true"
-                      ></i>
-                    ) : null} */}
-
-          <div className="row mt-20">
-            <div className="col-12">
-              {activeState === CHILD_STATE.profile && (
+          ) : (
+            <div className="row site-spacing ptb-50">
+              <div className="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-3">
                 <div className="flex-container align-items-center justify-content-center m-auto position-relative">
+                  {/* {photo ? (
+                      <i
+                        className="fa fa-trash delete cursor-pointer fs-18"
+                        aria-hidden="true"
+                      ></i>
+                    ) : null} */}
                   <div className="flex-item">
                     <div className="mamber-pic">
                       <img
@@ -471,13 +173,12 @@ const Setting = (props) => {
                         alt="profile_pic"
                         className="profile_pic"
                       />
-                      <label className="position-relative"> 
+                      <label className="position-relative">
                         {/* <img
-                    src={CameraIcon}
-                    alt="change"
-                    className="position-absolute camera cursor-pointer"
-                  /> */}
-
+                        src={CameraIcon}
+                        alt="change"
+                        className="position-absolute camera cursor-pointer"
+                      /> */}
                         <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
                           <span className="material-symbols-outlined fs-22">star</span>
                         </div>
@@ -499,7 +200,7 @@ const Setting = (props) => {
                                   profileImage: res.data.profileImage,
                                 });
                                 dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
-                               
+
                                 Tst.Success(res.message);
                                 Spn.Hide();
                               })
@@ -520,16 +221,315 @@ const Setting = (props) => {
                         " " +
                         profile.profile.lastName}
                     </div>
-                    <div className="fs-16 ptb-3">Expired on: 13-11-2020</div>
+                    {/* <div className="fs-16 ptb-3">Expired on: 13-11-2020</div> */}
                   </div>
                 </div>
-              )}
-              {renderComponent(true)}
+                <div className="mt-30 position-relative">
+                  <div className="d-flex content-padding">
+                    <img
+                      height="23px"
+                      width="23px"
+                      src={NotificationIcon}
+                      alt="notification"
+                    />
+                    <div className="ml-15 text-bold">Notification</div>
+                    <Switch
+                      onChange={(checked) => {
+                        Spn.Show();
+                        updateNotificationStatus(checked)
+                          .then((res) => {
+                            setNotification(checked);
+                            props.login({
+                              isLogin: true,
+                              isNotificationOn: checked,
+                            });
+                            Spn.Hide();
+                            Tst.Show(res.message);
+                          })
+                          .catch((err) => {
+                            console.error(err);
+                            Spn.Hide();
+                            Tst.Error('Failed to update the notification status!');
+                          });
+                      }}
+                      disabled={!store.getState().auth.isProfileCreated}
+                      checked={isNotificationOn}
+                      onColor="#EAEAEA"
+                      onHandleColor={HEADER_COLOR}
+                      handleDiameter={10}
+                      uncheckedIcon={false}
+                      checkedIcon={false}
+                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                      height={15}
+                      width={40}
+                      className="react-switch"
+                    />
+                  </div>
+
+                  {SIDE_MENU.map((el, i) => {
+                    return (
+                      <div
+                        className={
+                          "d-flex content-padding " +
+                          (activeState === el.state ? "active" : "")
+                        }
+                        key={i}
+                      >
+                        <img
+                          height="25px"
+                          width="25px"
+                          src={el.icon}
+                          alt={el.alt}
+                        />
+                        <label
+                          className="ml-15 text-bold cursor-pointer"
+                          onClick={(e) => {
+                            setStateActive(el.state);
+                          }}
+                        >
+                          {el.label}
+                        </label>
+                      </div>
+                    );
+                  })}
+
+                  <div className="d-flex content-padding">
+                    <img
+                      height="23px"
+                      width="23px"
+                      src={LogoutIcon}
+                      alt="logout"
+                    />
+                    <label
+                      className="ml-15 text-bold cursor-pointer"
+                      onClick={(e) => {
+                        Spn.Show();
+                        logoutAPI()
+                          .then((res) => {
+                            props.logout();
+                            Tst.Success('You are logged out successfully!');
+                            props.history.push("/");
+                          })
+                          .catch((err) => {
+                            console.error(err);
+                            props.logout();
+                            Tst.Success('You are logged out successfully!');
+                            props.history.push("/");
+                          });
+                      }}
+                    >
+                      Logout
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9 border pa-30">
+                {renderComponent()}
+              </div>
+            </div>
+          )
+        ) : loading ? (
+          <div className="custom-spinner">
+            {/* <Spinner color="danger" /> */}
+          </div>
+        ) : (
+          <div className="site-spacing mtb-50">
+            <div onClick={() => openNav()} className="mtb-20 text-bold openBtn">
+              &#9776;
+            </div>
+            <div id="settingNavbar" className="sidenav">
+              <div className="closebtn navMenu" onClick={() => closeNav()}>
+                &times;
+              </div>
+              <div className="navMenu">
+                <div className="mt-30 position-relative">
+                  <div className="d-flex content-padding">
+                    <img
+                      height="23px"
+                      width="23px"
+                      src={NotificationIcon}
+                      alt="notification"
+                    />
+                    <div className="ml-15 text-bold">Notification</div>
+                    <Switch
+                      onChange={(checked) => {
+                        Spn.Show();
+                        updateNotificationStatus(checked)
+                          .then((res) => {
+                            setNotification(checked);
+                            props.login({
+                              isLogin: true,
+                              isNotificationOn: checked,
+                            });
+                            Spn.Hide();
+                            Tst.Show('res.message');
+                          })
+                          .catch((err) => {
+                            console.error(err);
+                            Spn.Hide();
+                            Tst.Error('Failed to update the notification status!');
+                          });
+                      }}
+                      disabled={!store.getState().auth.isProfileCreated}
+                      checked={isNotificationOn}
+                      onColor="#EAEAEA"
+                      onHandleColor={HEADER_COLOR}
+                      handleDiameter={10}
+                      uncheckedIcon={false}
+                      checkedIcon={false}
+                      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                      height={15}
+                      width={40}
+                      className="react-switch"
+                    />
+                  </div>
+
+                  {SIDE_MENU.map((el, i) => {
+                    return (
+                      <div
+                        className={
+                          "d-flex content-padding " +
+                          (activeState === el.state ? "active" : "")
+                        }
+                        key={i}
+                      >
+                        <img
+                          height="23px"
+                          width="23px"
+                          src={el.icon}
+                          alt={el.alt}
+                        />
+                        <label
+                          className="ml-15 text-bold cursor-pointer"
+                          onClick={(e) => {
+                            closeNav();
+                            setTimeout(() => {
+                              setStateActive(el.state);
+                            }, 800);
+                          }}
+                        >
+                          {el.label}
+                        </label>
+                      </div>
+                    );
+                  })}
+
+                  <div className="d-flex content-padding">
+                    <img
+                      height="23px"
+                      width="23px"
+                      src={LogoutIcon}
+                      alt="logout"
+                    />
+                    <label
+                      className="ml-15 text-bold cursor-pointer"
+                      onClick={(e) => {
+                        Spn.Show();
+                        logoutAPI()
+                          .then((res) => {
+                            props.logout();
+                            Tst.Success('You are logged out successfully!');
+                            props.history.push("/");
+                          })
+                          .catch((err) => {
+                            console.error(err);
+                            props.logout();
+                            Tst.Success('You are logged out successfully!');
+                            props.history.push("/");
+                          });
+                      }}
+                    >
+                      Logout
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* {photo ? (
+                      <i
+                        className="fa fa-trash delete cursor-pointer fs-18"
+                        aria-hidden="true"
+                      ></i>
+                    ) : null} */}
+
+            <div className="row mt-20">
+              <div className="col-12">
+                {activeState === CHILD_STATE.profile && (
+                  <div className="flex-container align-items-center justify-content-center m-auto position-relative">
+                    <div className="flex-item">
+                      <div className="mamber-pic">
+                        <img
+                          src={
+                            photo
+                              ? typeof photo === "string"
+                                ? photo
+                                : URL.createObjectURL(photo)
+                              : UserPic
+                          }
+                          alt="profile_pic"
+                          className="profile_pic"
+                        />
+                        <label className="position-relative">
+                          {/* <img
+                    src={CameraIcon}
+                    alt="change"
+                    className="position-absolute camera cursor-pointer"
+                  /> */}
+
+                          <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
+                            <span className="material-symbols-outlined fs-22">star</span>
+                          </div>
+                          <input
+                            id="profileImageUpload"
+                            className="file-upload__input"
+                            name="file-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              Spn.Show();
+                              const formData = new FormData();
+                              formData.append("file", e.target.files[0]);
+                              uploadImage(formData)
+                                .then((res) => {
+                                  setPhoto(res.data.profileImage);
+                                  props.login({
+                                    isLogin: true,
+                                    profileImage: res.data.profileImage,
+                                  });
+                                  dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
+
+                                  Tst.Success(res.message);
+                                  Spn.Hide();
+                                })
+                                .catch((err) => {
+                                  console.error(err);
+                                  Spn.Hide();
+                                  Tst.Error('Failed to upload the profile photo!');
+                                });
+                            }}
+                          />
+                        </label>
+                      </div>
+                      <div className="text-bold fs-20 pt-7">
+                        {(profile.profile.prefix
+                          ? profile.profile.prefix.name + " "
+                          : "") +
+                          profile.profile.firstName +
+                          " " +
+                          profile.profile.lastName}
+                      </div>
+                      <div className="fs-16 ptb-3">Expired on: 13-11-2020</div>
+                    </div>
+                  </div>
+                )}
+                {renderComponent(true)}
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </Wrapper>
+        )}
+      </Wrapper>
     </>
   );
 };
