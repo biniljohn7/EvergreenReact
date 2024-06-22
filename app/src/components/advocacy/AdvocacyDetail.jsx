@@ -119,7 +119,7 @@ const AdvocacyDetails = (props) => {
                 <section className="row mt-20">
                   <div className="col-12 col-sm-12 col-md-8 col-lg-8 col-xl-9">
                     <h5 className="text-bold mb-5">{advocacy.title}</h5>
-                    <div className="">
+                    {/* <div className="">
                       <img src={Pdf} alt="pdf" />
                       <span>
                         <a
@@ -131,7 +131,7 @@ const AdvocacyDetails = (props) => {
                           View Advocacy Letter
                         </a>
                       </span>
-                    </div>
+                    </div> */}
                     <p className="mt-25 text-secondary text-justify">
                       {advocacy.description}
                     </p>
