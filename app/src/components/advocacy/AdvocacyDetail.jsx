@@ -96,13 +96,6 @@ const AdvocacyDetails = (props) => {
               </div>
             ) : (
               <React.Fragment>
-                <section>
-                  {advocacy.image ? (<img
-                    src={advocacy.image}
-                    className="full-image"
-                    alt={advocacy.title.substr(0, 10) + '...'}
-                  />) : null}
-                </section>
                 <section className="mt-30">
                   <label className="text-secondary">
                     <span className="fa fa-circle mr-5"></span>
@@ -132,6 +125,11 @@ const AdvocacyDetails = (props) => {
                         </a>
                       </span>
                     </div> */}
+                  {advocacy.image ? (<img
+                    src={advocacy.image}
+                    className="full-image"
+                    alt={advocacy.title.substr(0, 10) + '...'}
+                  />) : null}
                     <p className="mt-25 text-secondary text-justify">
                       {advocacy.description}
                     </p>
