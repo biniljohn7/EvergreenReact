@@ -79,10 +79,10 @@ export const LOGIN_HEADER = [
         label: "Careers",
         path: "/careers",
     },
-    {
-        label: "Store",
-        path: "/store",
-    },
+    // {
+    //     label: "Store",
+    //     path: "/store",
+    // },
     // {
     //   label: 'About Us',
     //   path: '/about_us',
