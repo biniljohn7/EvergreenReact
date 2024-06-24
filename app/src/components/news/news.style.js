@@ -105,10 +105,5 @@ const Wrapper = styled.div`
     top: 0;
   }
 
-  .date {
-    position: absolute;
-    right: 10px;
-    top: 0;
-  }
 `;
 export default Wrapper;

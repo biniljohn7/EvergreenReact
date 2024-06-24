@@ -24,8 +24,8 @@ const IMAGE_SIZE =
   window.innerWidth < 768
     ? "100px"
     : window.innerWidth <= 1440
-    ? "150px"
-    : "200px";
+      ? "150px"
+      : "200px";
 
 const News = (props) => {
   const [news, setNews] = useState([]);
@@ -44,7 +44,7 @@ const News = (props) => {
     setLoading(true);
     listNews(pageId, type)
       .then((res) => {
-        setNews(res.data.list);
+        setNews(res.data);
         setPage(res.data.currentPageNo);
         setTotalPage(res.data.totalPages);
         setLoading(false);
@@ -69,39 +69,45 @@ const News = (props) => {
           {news.map((ev) => {
             // let isLiked = ev.isLikedByMe
             // let likedCount = ev.likesCount
-            console.log("ev", ev, "des", ev.description, "title", ev.title);
-            console.log("des", ev.description);
-            console.log("title", ev.title);
+            // console.log("ev", ev, "des", ev.description, "title", ev.title);
+            // console.log("des", ev.description);
+            // console.log("title", ev.title);
             return (
-              <div className="grid-item pb-20 shadow-sm" key={ev.newsfeedId}>
+              <div className="grid-item pb-20 shadow-sm" key={ev.slug}>
                 <div
                   className="cursor-pointer "
                   onClick={(e) =>
-                    props.history.push(`/news/${ev.newsfeedId}`, { news: ev })
+                    props.history.push(`/news/${ev.slug}`, { news: ev })
                   }
                 >
                   <div className="box">
-                    <img
-                      src={ev.media}
-                      alt={ev.title.substr(0, 10) + "..."}
-                      className="image-size"
-                    />
+                    {
+                      ev.imageUrl ?
+                        <img
+                          src={ev.imageUrl}
+                          alt={ev.title.substr(0, 10) + "..."}
+                          className="image-size"
+                        /> :
+                        null
+                    }
                   </div>
                   <div className="plr-10 mt-5 text-danger position-relative">
                     <i className="fa fa-globe mr-3" aria-hidden="true"></i>
-                    {ev.newsSource}
+                    {ev.provider}
                     <div className="date">
                       <i className="fa fa-clock-o mr-5" aria-hidden="true"></i>
-                      <ReactTimeAgo
+                      {new Date(ev.newsDate).toLocaleString().replace(':00 ', ' ')}
+                      {/* <ReactTimeAgo
                         date={new Date(ev.createdAt)}
                         locale="en-US"
-                      />
+                      /> */}
+                      { }
                     </div>
                   </div>
                   <div className="plr-10 mt-10">
                     <ClampLines
                       text={ev.title}
-                      id={"news_title_" + ev.newsfeedId}
+                      id={"news_title_" + ev.slug}
                       lines={2}
                       ellipsis="..."
                       buttons={false}
@@ -111,7 +117,7 @@ const News = (props) => {
                   <div className="plr-10 mt-5">
                     <ClampLines
                       text={ev.description}
-                      id={"news_desc" + ev.newsfeedId}
+                      id={"news_desc" + ev.slug}
                       lines={2}
                       ellipsis="..."
                       buttons={false}
