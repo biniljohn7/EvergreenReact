@@ -95,15 +95,15 @@ const Home = (props) => {
                   {data.news.slice(0, RECORD_NO).map((ev) => {
                     return (
                       <div onClick={(e) =>
-                        props.history.push(`/news/${ev.newsfeedId}`)
+                        props.history.push(`/news/${ev.slug}`)
                       }
                         className="news-item cursor-pointer"
-                        key={ev.newsfeedId}
+                        key={ev.slug}
                       >
                         <div className="image-box">
-                          {ev.media ?
+                          {ev.imageUrl ?
                             (<img
-                              src={ev.media}
+                              src={ev.imageUrl}
                               alt={ev.title.substr(0, 10) + "..."}
                               className="image-sizes"
                             />) : null}

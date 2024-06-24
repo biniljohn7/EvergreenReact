@@ -35,7 +35,7 @@ const NewsDetails = (props) => {
       });
 
     } else {
-      ViewNews(Number.parseInt(props.match.params.newsfeedId))
+      ViewNews(props.match.params.newsfeedId)
         .then((res) => {
           if (res.success === 1) {
             setNews(res.data);
@@ -115,21 +115,21 @@ const NewsDetails = (props) => {
               <React.Fragment>
                 <section>
                   {
-                    news.mediaType === "image" ?
+                    news.imageUrl ?
                       <img
-                        src={news.media}
+                        src={news.imageUrl}
                         className="full-image"
                         alt={news.title.substr(0, 10) + "..."}
                       /> :
                       null
                   }
                   {
-                    news.mediaType === "video" ?
+                    /* news.mediaType === "video" ?
                       <video className="full-image" controls>
                         <source src={news.media} type="video/mp4" />
                         Your browser does not support the video tag.
                       </video> :
-                      null
+                      null */
                   }
                 </section>
 
@@ -139,13 +139,10 @@ const NewsDetails = (props) => {
                   </h5>
                   <div className="mt-3 mb-10 text-danger position-relative">
                     <i className="fa fa-globe mr-3" aria-hidden="true"></i>
-                    {news.newsSource}
+                    {news.provider}
                     <div className="date">
                       <i className="fa fa-clock-o mr-5" aria-hidden="true"></i>
-                      {/* <ReactTimeAgo
-                        date={new Date(news.createdAt)}
-                        locale="en-US"
-                      /> */}
+                      {new Date(news.newsDate).toLocaleString().replace(':00 ', ' ')}
                     </div>
                   </div>
                   {/* <div className="text-danger">

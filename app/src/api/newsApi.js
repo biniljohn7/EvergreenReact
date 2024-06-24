@@ -23,7 +23,7 @@ export const ViewNews = (newsId) => {
 export const listNews = (id, type) => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/home/bingnews/${type}?pageId=${id}`)
+    .get(`${BASE_URL}/member/?method=news-list&scope=${type}`)
     .then((response) => {
       return response.data;
     });

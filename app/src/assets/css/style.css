@@ -493,10 +493,14 @@ a:focus {
 .news-box .news-item {
     width: calc(50% - 60px);
     color: #fff;
+    overflow: hidden;
 }
 
 .news-box .news-item .image-box {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    width: 100px;
+    float: left;
+    margin-right: 25px;
 }
 
 .news-box .news-item .image-box img {
@@ -507,7 +511,7 @@ a:focus {
     color: #fff;
     font-weight: 600;
     line-height: 34px;
-    font-size: 30px;
+    font-size: 22px;
 }
 
 .news-box .container::before,
@@ -1707,6 +1711,14 @@ a:focus {
     .event-box .image-box {
         margin-right: 0;
         margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width:424px) {
+    .news-box .news-item .image-box {
+        margin-bottom: 15px;
+        margin-right: 0;
+        float: none;
     }
 }
 
