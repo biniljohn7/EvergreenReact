@@ -48,21 +48,6 @@ const initializeFacebookSDK = (appId) => {
   };
 };
 
-const loadGoogleSDK = () => {
-  const script = document.createElement('script');
-  script.src = 'https://apis.google.com/js/platform.js';
-  script.async = true;
-  script.defer = true;
-    script.onload = () => {
-      window.gapi.load('auth2', () => {
-        window.gapi.auth2.init({
-          client_id: '374834160970-r11lok9u1jev7j8pid5fgn1qsenuhct5.apps.googleusercontent.com',
-        });
-      });
-    };
-  document.body.appendChild(script);
-};
-
 const SignIn = (props) => {
   const [signInState, setSignInState] = useState(true);
   const [passwordType, setPasswordType] = useState("password");
@@ -72,26 +57,63 @@ const SignIn = (props) => {
   const Spn = Spinner();
 
   useEffect(() => {
+    const loadGoogleSDK = () => {
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+        script.onload = () => {
+            if (window.google) {
+                window.google.accounts.id.initialize({
+                    client_id: '374834160970-r11lok9u1jev7j8pid5fgn1qsenuhct5.apps.googleusercontent.com',
+                    callback: handleCredentialResponse,
+                    cancel_on_tap_outside: false,
+                    ux_mode: 'popup',
+                });
+            } else {
+                console.error('Google SDK not loaded');
+            }
+        };
+        document.body.appendChild(script);
+    };
+
     loadFacebookSDK();
     initializeFacebookSDK('453770680596721');
     loadGoogleSDK();
   }, []);
 
-  const handleGoogleLogin = () => {
-    const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signIn().then(googleUser => {
-      const profile = googleUser.getBasicProfile();
+  const handleCredentialResponse = (response) => {
+      const credential = response.credential;
+      const payload = JSON.parse(atob(credential.split('.')[1]));
+  
       const userData = {
-        email: profile.getEmail(),
-        firstName: profile.getGivenName(),
-        lastName: profile.getFamilyName(),
-        imageUrl: profile.getImageUrl(),
-        googleId: profile.getId(),
+          email: payload.email,
+          firstName: payload.given_name,
+          lastName: payload.family_name,
+          imageUrl: payload.picture,
+          googleId: payload.sub,
       };
+  
       handleSMediaSignIn(userData);
-    }).catch(error => {
-      console.error('Google login error', error);
-    });
+  };
+
+  const handleSigninFailure = (error) => {
+      if (error.error === 'popup_closed_by_user') {
+        Tst.Error('Sign-in process was not completed. Please try again.');
+      } else {
+          console.error('Sign-in error: ', error);
+          Tst.Error('An error occurred during sign-in. Please try again later.');
+      }
+  };
+
+  const handleGoogleLogin = () => {
+      if (window.google) {
+          window.google.accounts.id.prompt((notification) => {
+              if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                  handleSigninFailure({ error: 'popup_closed_by_user' });
+              }
+          });
+      }
   };
 
   const handleFacebookLogin = () => {
