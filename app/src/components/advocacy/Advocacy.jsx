@@ -86,8 +86,6 @@ const Advocacy = (props) => {
     if (activeTab !== tab) setActiveTab(tab)
   }
 
-  console.log(advocacy);
-
   const ListAdvocacy = () => {
     return isLoading ? (
       <div className="text-center custom-spinner mtp-20">

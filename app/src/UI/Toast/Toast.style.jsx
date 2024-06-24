@@ -3,7 +3,7 @@ import styled from "styled-components";
 const style = styled.div`
 position: fixed;
 left: 50%;
-z-index: 100;
+z-index: 9999;
 top: -10px;
 background-color: #fff;
 transform: translateX(-50%);
