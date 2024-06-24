@@ -53,13 +53,13 @@ const loadGoogleSDK = () => {
   script.src = 'https://apis.google.com/js/platform.js';
   script.async = true;
   script.defer = true;
-    script.onload = () => {
-      window.gapi.load('auth2', () => {
-        window.gapi.auth2.init({
-          client_id: '374834160970-r11lok9u1jev7j8pid5fgn1qsenuhct5.apps.googleusercontent.com',
-        });
-      });
-    };
+  //   script.onload = () => {
+  //     window.gapi.load('auth2', () => {
+  //       window.gapi.auth2.init({
+  //         client_id: '62789215844',
+  //       });
+  //     });
+  //   };
   document.body.appendChild(script);
 };
 
@@ -73,7 +73,7 @@ const SignIn = (props) => {
 
   useEffect(() => {
     loadFacebookSDK();
-    initializeFacebookSDK('453770680596721');
+    initializeFacebookSDK('370157155613997');
     loadGoogleSDK();
   }, []);
 
