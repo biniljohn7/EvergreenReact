@@ -17,6 +17,8 @@ import Modal from "./Payment";
 import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
 
+import Checkbox from "../../UI/checkbox/checkbox";
+
 const { logout } = AuthActions;
 
 /* const list = [
@@ -46,7 +48,8 @@ const Membership = (props) => {
     values,
     errors,
     touched,
-    submitCount
+    submitCount,
+    handleChange
   } = props;
 
   let Spn = Spinner();
@@ -135,6 +138,29 @@ const Membership = (props) => {
       <div className="ptb-50">
         <h4 className="mb-15">Choose Membership</h4>
         <form>
+
+          <>
+            <Checkbox
+              id="isOwn"
+              name="isOwn"
+              checked={values.isOwn}
+              onChange={(e) => {
+                handleChange(e);
+              }}
+              label="Own Membership"
+            />
+            {values.isOwn && (
+              <>
+                {values.isOwn}
+                dfgdfgfgdf
+              </>
+            )}
+            <Error field="" />
+          </>
+
+
+
+
           <div className="mtb-20">
             <label className="fs-16">Membership Dues/Fees:</label>
             <Select
