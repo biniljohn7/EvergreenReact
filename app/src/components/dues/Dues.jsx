@@ -16,6 +16,8 @@ import Discover from "../../assets/images/discover.png";
 import Mastercard from "../../assets/images/mastercard.png";
 import Visa from "../../assets/images/visa.png";
 
+import GiftMembership from './GiftMembership';
+
 const Dues = (props) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -221,6 +223,8 @@ const Dues = (props) => {
                   </div> :
                   null
               }
+
+              <GiftMembership />
 
             </div>
             <div className="due-right">
