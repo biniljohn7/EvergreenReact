@@ -196,7 +196,7 @@ const PaymentSummary = (props) => {
                       </table>
                     </div>
                     <>
-                      <div class="mb10">
+                      <div className="mb10">
                         <label className="text-bold mt-30">
                           Optional Donation:
                         </label>
