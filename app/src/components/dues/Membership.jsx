@@ -5,6 +5,7 @@ import {
     getMembershipType,
     getAttachment,
     getMembership,
+    getAllMembers,
 } from "../../api/duesAPI";
 import { connect } from "react-redux";
 import AuthActions from "../../redux/auth/actions";
@@ -18,6 +19,9 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
 
 import Checkbox from "../../UI/checkbox/checkbox";
+import User from "../../assets/images/user_05x.png";
+import '../../assets/css/style2.css'
+import MemberModal from "./ChooseMember";
 
 const { logout } = AuthActions;
 
@@ -45,6 +49,9 @@ const Membership = (props) => {
     const [PkdSubPlan, setPkdSubPlan] = useState(false);
     const [isOwnChk, ownCheck] = useState(true);
     const [isGiftChk, giftCheck] = useState(false);
+
+    const [isMbrOpen, setMbrOpen] = useState(false);
+    const [mbrData, setMbrData] = useState(null);
 
     const {
         values,
@@ -116,6 +123,26 @@ const Membership = (props) => {
         }
 
         e.preventDefault();
+        return false;
+    };
+
+
+    const showMembers = (e) => {
+        Spn.Show();
+        getAllMembers({})
+            .then((res) => {
+
+                if (res.success === 1) {
+                    setMbrData(res.data);
+                    setMbrOpen(!isMbrOpen);
+                } else { }
+            })
+            .catch((err) => {
+                //
+            }).finally(() => {
+                Spn.Hide();
+            });
+
         return false;
     };
 
@@ -248,28 +275,40 @@ const Membership = (props) => {
                     </>
 
                     <>
-                        <Checkbox
-                            id="isGift"
-                            name="isGift"
-                            checked={isGiftChk}
-                            onChange={(e) => {
-                                giftCheck(!isGiftChk);
-                            }}
-                            label="Gift Membership To Others"
-                        />
-                        <div id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
+                        <div className="mb20">
+                            <Checkbox
+                                id="isGift"
+                                name="isGift"
+                                checked={isGiftChk}
+                                onChange={(e) => {
+                                    giftCheck(!isGiftChk);
+                                }}
+                                label="Gift Membership To Others"
+                            />
+                        </div>
+                        <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
                             <div id="selectedMembers">
                                 <div className="ech-mbr">
                                     <div className="avatar">
-                                        img
+                                        <img src={User} alt="User" className="" />
                                     </div>
                                     <div className="mbr-nam">
                                         John Dare
                                     </div>
                                     <div className="action">
-                                        <span className="material-symbols-outlined">star</span>
+                                        <span className="material-symbols-outlined">cancel</span>
                                     </div>
                                 </div>
+                            </div>
+                            <div className="add-btn-sec">
+                                <span className="btn" id="addBtn" onClick={(e) => showMembers()}>
+                                    <span class="material-symbols-outlined icn">
+                                        add_circle
+                                    </span>
+                                    <span className="btn-txt">
+                                        Add More
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </>
@@ -301,6 +340,18 @@ const Membership = (props) => {
                 isOpen={isOpen}
                 toggle={() => {
                     setOpen(!isOpen)
+                }}
+                data={data}
+                membershipValue={values}
+                changeURL={props.history.push}
+            />
+        )}
+
+        {isMbrOpen && (
+            <MemberModal
+                isOpen={isMbrOpen}
+                toggle={() => {
+                    setMbrOpen(!isMbrOpen)
                 }}
                 data={data}
                 membershipValue={values}

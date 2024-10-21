@@ -1,0 +1,22 @@
+.modal-backdrop {
+    opacity: 0.6 !important;
+}
+
+.gift-membership .ech-mbr {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gift-membership #selectedMembers {
+    margin-bottom: 30px;
+}
+
+.gift-membership .add-btn-sec .btn {
+    padding: 10px 20px;
+}
+
+.gift-membership .add-btn-sec .btn .icn {
+    vertical-align: -5px;
+    margin-right: 7px;
+    font-size: 20px;
+}

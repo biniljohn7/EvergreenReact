@@ -108,3 +108,12 @@ export const viewPaymentHistory = (id) => {
     return response.data;
   });
 };
+
+export const getAllMembers = (body) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?method=get-all-members`, body)
+    .then((response) => {
+      return response.data;
+    });
+};
