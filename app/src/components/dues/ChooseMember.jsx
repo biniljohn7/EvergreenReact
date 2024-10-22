@@ -10,9 +10,11 @@ const ChooseMember = (props) => {
                 isOpen={props.isOpen}
                 toggle={props.toggle}
                 centered
-                size="lg"
+                size="md"
                 className="signup"
             >
+
+                {console.log(props)}
                 <Wrapper>
                     <div
                         className={
@@ -24,7 +26,51 @@ const ChooseMember = (props) => {
                                     : " plr-40 ")
                         }
                     >
-                        fghfgh  fgh fghfg h fghfgh gfh fghg fhh fgh dffhdg dfgdfg dfg ddfg
+
+                        {props.data.list && props.data.list.length > 0 ? (
+                            <div className="container">
+                                <div className="mbr-srch">
+                                    <div className="srch-bar">
+                                        <input type="text" name="key" className="key-inp" />
+                                        <button className="srch-btn">
+                                            <span class="material-symbols-outlined">search</span>
+                                        </button>
+                                    </div>
+                                    {
+                                        props.data.list.map((mbr) => {
+                                            return (
+                                                <div className="each-mbr">
+                                                    <div className="avatar-sec">
+                                                        {mbr.avatar ? (
+                                                            <div className="mbr-img">
+                                                                <img src={mbr.avatar} alt="" />
+                                                            </div>
+                                                        ) : (
+                                                            <div className="no-img">
+                                                                <span class="material-symbols-outlined icn">
+                                                                    person
+                                                                </span>
+                                                            </div>
+                                                        )
+                                                        }
+                                                    </div>
+                                                    <div className="nam-sec">
+                                                        {mbr.name}
+                                                    </div>
+                                                    <div className="actn">
+                                                        <span className="btn add-btn">Add</span>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="text-center">
+                                No record found!
+                            </div>
+                        )}
                     </div>
                 </Wrapper>
             </Modal>

@@ -353,8 +353,7 @@ const Membership = (props) => {
                 toggle={() => {
                     setMbrOpen(!isMbrOpen)
                 }}
-                data={data}
-                membershipValue={values}
+                data={mbrData}
                 changeURL={props.history.push}
             />
         )}
