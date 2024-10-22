@@ -1270,6 +1270,7 @@ a:focus {
 .gift-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .gift-wrapper {
@@ -1279,7 +1280,7 @@ a:focus {
     display: flex;
     flex-direction: row;
     margin: 40px 15px 0 15px;
-    width: 50%;
+    width: calc(50% - 30px);
 }
 
 .gift-wrapper .gift-media {
@@ -1371,23 +1372,65 @@ a:focus {
     font-size: 12px;
 }
 
-.gift-wrapper .gift-content .btn-container button.gift-accept-btn {
+.gift-wrapper .gift-content .btn-container button.gift-accept-btn,
+.decline-modal .decline-options.submit .btn-submit {
     background-color: #500c68;
     color: #fff;
 }
 
-.gift-wrapper .gift-content .btn-container button.gift-decline-btn {
+.gift-wrapper .gift-content .btn-container button.gift-decline-btn,
+.decline-modal .decline-options.submit .btn-cancel {
     background-color: #d0b8d7;
     color: #500c68;
 }
 
-.gift-wrapper .gift-content .btn-container button.gift-accept-btn:hover {
+.gift-wrapper .gift-content .btn-container button.gift-accept-btn:hover,
+.decline-modal .decline-options.submit .btn-submit:hover {
     background-color: #6f0295;
 }
 
 .gift-wrapper .gift-content .btn-container button.gift-decline-btn:hover {
     background-color: #c00;
     color: #fff;
+}
+
+.decline-modal h5 {
+    font-size: 18px;
+}
+
+.decline-modal .decline-options {
+    padding: 10px 0 0 40px;
+    position: relative;
+}
+
+.decline-modal .decline-options input[type=radio] {
+    position: absolute;
+    left: 15px;
+    top: 15px;
+}
+
+.decline-modal .decline-options label {
+    color: #222;
+    cursor: pointer;
+}
+
+.decline-modal .decline-options.submit {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.decline-modal .decline-options.submit .btn-submit,
+.decline-modal .decline-options.submit .btn-cancel {
+    width: 100px;
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 40px;
+    padding: 0;
+    margin: 0 8px;
+}
+
+.decline-modal .decline-options.submit .btn-cancel:hover {
+    background-color: #b199b8;
 }
 
 /*Multiple transaction section ends*/
