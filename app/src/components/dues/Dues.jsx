@@ -224,7 +224,7 @@ const Dues = (props) => {
                   null
               }
 
-              <GiftMembership />
+              
 
             </div>
             <div className="due-right">
@@ -256,6 +256,9 @@ const Dues = (props) => {
                 </div>
               </div>
             </div>
+          </div>
+          <div className="container">
+          <GiftMembership />
           </div>
         </div>
       </div>
