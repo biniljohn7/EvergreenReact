@@ -1,9 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Wrapper from "./dues.style";
+import { getAllMembers } from "../../api/duesAPI";
 //import { payment as enhancer } from "./enhancer";
 
 const ChooseMember = (props) => {
+    const [mbrData, setMbrData] = useState(null);
+
+    useEffect(() => {
+        getAllMembers()
+            .then((res) => {
+                if (res.success === 1) {
+                    setMbrData(res.data);
+                } else { }
+            })
+            .catch((err) => { });
+
+    }, []);
+
+    const showMembers = (e) => {
+        //Spn.Show();
+        getAllMembers({
+            key: document.getElementById('srchKey').value
+        })
+            .then((res) => {
+
+                if (res.success === 1) {
+                    setMbrData(res.data);
+                } else { }
+            })
+            .catch((err) => {
+                //
+            }).finally(() => {
+                //Spn.Hide();
+            });
+
+        e.preventDefault();
+        return false;
+    };
     return (
         <div>
             <Modal
@@ -14,7 +48,6 @@ const ChooseMember = (props) => {
                 className="signup"
             >
 
-                {console.log(props)}
                 <Wrapper>
                     <div
                         className={
@@ -26,18 +59,23 @@ const ChooseMember = (props) => {
                                     : " plr-40 ")
                         }
                     >
-
-                        {props.data.list && props.data.list.length > 0 ? (
-                            <div className="container">
-                                <div className="mbr-srch">
-                                    <div className="srch-bar">
-                                        <input type="text" name="key" className="key-inp" />
-                                        <button className="srch-btn">
+                        <div className="container">
+                            <div className="mbr-srch">
+                                <div className="srch-bar">
+                                    <form onSubmit={(e) => showMembers(e)}>
+                                        <input type="text" name="key" className="key-inp" id="srchKey" />
+                                        <button
+                                            type="button"
+                                            className="srch-btn"
+                                            onClick={(e) => showMembers(e)}
+                                        >
                                             <span class="material-symbols-outlined">search</span>
                                         </button>
-                                    </div>
-                                    {
-                                        props.data.list.map((mbr) => {
+                                    </form>
+                                </div>
+                                {
+                                    mbrData && mbrData.list && mbrData.list.length > 0 ? (
+                                        mbrData.list.map((mbr) => {
                                             return (
                                                 <div className="each-mbr">
                                                     <div className="avatar-sec">
@@ -63,14 +101,15 @@ const ChooseMember = (props) => {
                                                 </div>
                                             )
                                         })
-                                    }
-                                </div>
+                                    ) : (
+                                        <div className="text-center">
+                                            No members found!
+                                        </div>
+                                    )
+                                }
                             </div>
-                        ) : (
-                            <div className="text-center">
-                                No record found!
-                            </div>
-                        )}
+                        </div>
+
                     </div>
                 </Wrapper>
             </Modal>

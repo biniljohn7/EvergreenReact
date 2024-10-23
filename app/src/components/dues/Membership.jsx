@@ -301,7 +301,7 @@ const Membership = (props) => {
                                 </div>
                             </div>
                             <div className="add-btn-sec">
-                                <span className="btn" id="addBtn" onClick={(e) => showMembers()}>
+                                <span className="btn" id="addBtn" onClick={(e) => setMbrOpen(true)}>
                                     <span class="material-symbols-outlined icn">
                                         add_circle
                                     </span>
@@ -353,7 +353,7 @@ const Membership = (props) => {
                 toggle={() => {
                     setMbrOpen(!isMbrOpen)
                 }}
-                data={mbrData}
+                //data={mbrData}
                 changeURL={props.history.push}
             />
         )}
