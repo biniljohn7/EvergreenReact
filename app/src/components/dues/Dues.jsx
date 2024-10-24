@@ -257,9 +257,7 @@ const Dues = (props) => {
               </div>
             </div>
           </div>
-          <div className="container">
           <GiftMembership />
-          </div>
         </div>
       </div>
 

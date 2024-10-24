@@ -1267,10 +1267,55 @@ a:focus {
 }
 
 /*Multiple transaction section starts*/
+.all-gifts {
+    flex-wrap: wrap;
+    gap: 0px !important;
+}
+
+.all-gifts .gift-tabs {
+    padding: 30px 15px 0 15px;
+    border-top: dashed 2px #d9c6dd;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.all-gifts .gift-tabs .gift-received,
+.all-gifts .gift-tabs .gift-sent {
+    border: 0;
+    font-size: 13px;
+    color: #5b2166;
+    background-color: #d0b8d7;
+    margin-right: 3px;
+    width: 100px;
+    padding: 15px 0;
+    border-radius: 20px 20px 0 0;
+}
+
+.all-gifts .gift-tabs .gift-received.active,
+.all-gifts .gift-tabs .gift-sent.active {
+    background-color: #500c68;
+    color: #fff;
+}
+
 .gift-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    border: #d0b8d7 1px solid;
+    border-radius: 15px;
+    padding-bottom: 20px;
+}
+
+.gift-sent-container,
+.gift-received-container {
+    width: 100%;
+}
+
+.gift-sent-container .no-content,
+.gift-received-container .no-content {
+    width: 100%;
+    text-align: center;
+    padding: 150px 0;
 }
 
 .gift-wrapper {
@@ -1419,9 +1464,8 @@ a:focus {
     text-align: center;
 }
 
-.decline-modal .decline-options.submit .btn-submit,
-.decline-modal .decline-options.submit .btn-cancel {
-    width: 100px;
+.decline-modal .decline-options.submit .btn-submit {
+    width: 200px;
     text-transform: uppercase;
     font-size: 13px;
     line-height: 40px;
@@ -1429,9 +1473,7 @@ a:focus {
     margin: 0 8px;
 }
 
-.decline-modal .decline-options.submit .btn-cancel:hover {
-    background-color: #b199b8;
-}
+
 
 /*Multiple transaction section ends*/
 @media only screen and (min-width:1560px) and (max-width:1660px) {

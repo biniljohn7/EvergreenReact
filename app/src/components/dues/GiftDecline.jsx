@@ -5,6 +5,7 @@ import Wrapper from "./dues.style";
 
 const GiftDecline = (props) => {
     const [isOthChk, othCheck] = useState(false);
+    console.log(props.dcl);
     return (
         <div>
             <Modal
@@ -14,6 +15,7 @@ const GiftDecline = (props) => {
                 size="md"
                 className="decline-modal"
             >
+                
                 <Wrapper>
                     <div
                         className={
@@ -32,10 +34,7 @@ const GiftDecline = (props) => {
                                 <label><input type="radio" name="decline-option"  onChange={(e) => { othCheck(false);  }} /> My membership plan doesn't expire soon.</label>
                             </div>
                             <div className="decline-options">
-                                <label><input type="radio"  name="decline-option"  onChange={(e) => { othCheck(false);  }} /> Option 2</label>
-                            </div>
-                            <div className="decline-options">
-                                <label><input type="radio" name="decline-option"  onChange={(e) => { othCheck(false);  }} /> Option 3</label>
+                                <label><input type="radio" name="decline-option"  onChange={(e) => { othCheck(false);  }} /> I prefer other options at this time.</label>
                             </div>
                             <div className="decline-options">
                                 <label><input type="radio" name="decline-option"  onChange={(e) => { othCheck(false);  }} /> Personal reasons, i dont want to disclose.</label>
@@ -51,13 +50,13 @@ const GiftDecline = (props) => {
                             </div>
                             <div className="decline-options submit">
                                 <button type="submit" className="btn btn-submit">Decline</button>
-                                <button type="button" className="btn btn-cancel">Cancel</button>
                             </div>
                         </form>
                     </div>
                 </Wrapper>
             </Modal>
         </div>
+        
     );
 };
 
