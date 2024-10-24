@@ -2,44 +2,71 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Wrapper from "./dues.style";
 import { getAllMembers } from "../../api/duesAPI";
+import Spinner from "../../UI/Spinner/Spinner";
 //import { payment as enhancer } from "./enhancer";
 
 const ChooseMember = (props) => {
     const [mbrData, setMbrData] = useState(null);
+    let Spn = Spinner();
+    let pgn = 1;
 
     useEffect(() => {
-        getAllMembers()
+        Spn.Show();
+        getAllMembers(
+            {
+                pgn: pgn
+            }
+        )
             .then((res) => {
                 if (res.success === 1) {
                     setMbrData(res.data);
                 } else { }
+                Spn.Hide();
             })
             .catch((err) => { });
 
     }, []);
 
-    const showMembers = (e) => {
-        //Spn.Show();
+    const showMembers = (e, flg = false) => {
+        Spn.Show();
         getAllMembers({
-            key: document.getElementById('srchKey').value
+            key: document.getElementById('srchKey').value,
+            pgn: pgn
         })
             .then((res) => {
 
                 if (res.success === 1) {
-                    setMbrData(res.data);
+
+                    if (flg == true) {
+                        setMbrData((prevData) => ({
+                            ...prevData,
+                            list: [...prevData.list, ...res.data.list],
+                            currentPageNo: res.data.currentPageNo,
+                            totalPages: res.data.totalPages
+                        }));
+                    } else {
+                        setMbrData(res.data);
+                    }
                 } else { }
             })
             .catch((err) => {
                 //
             }).finally(() => {
-                //Spn.Hide();
+                Spn.Hide();
             });
 
         e.preventDefault();
         return false;
     };
+
+    const showMore = (e, cp, apndFlg) => {
+        pgn = cp + 1;
+        showMembers(e, apndFlg);
+    }
+
     return (
         <div>
+            {Spn.Obj}
             <Modal
                 isOpen={props.isOpen}
                 toggle={props.toggle}
@@ -74,33 +101,44 @@ const ChooseMember = (props) => {
                                     </form>
                                 </div>
                                 {
-                                    mbrData && mbrData.list && mbrData.list.length > 0 ? (
-                                        mbrData.list.map((mbr) => {
-                                            return (
-                                                <div className="each-mbr">
-                                                    <div className="avatar-sec">
-                                                        {mbr.avatar ? (
-                                                            <div className="mbr-img">
-                                                                <img src={mbr.avatar} alt="" />
+                                    mbrData && mbrData.totalPages ? (
+                                        mbrData.list && mbrData.list.length > 0 ? (
+                                            <>
+                                                {mbrData.list.map((mbr) => {
+                                                    return (
+                                                        <div className="each-mbr">
+                                                            <div className="avatar-sec">
+                                                                {mbr.avatar ? (
+                                                                    <div className="mbr-img">
+                                                                        <img src={mbr.avatar} alt="" />
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="no-img">
+                                                                        <span class="material-symbols-outlined icn">
+                                                                            person
+                                                                        </span>
+                                                                    </div>
+                                                                )
+                                                                }
                                                             </div>
-                                                        ) : (
-                                                            <div className="no-img">
-                                                                <span class="material-symbols-outlined icn">
-                                                                    person
-                                                                </span>
+                                                            <div className="nam-sec">
+                                                                {mbr.name}
                                                             </div>
-                                                        )
-                                                        }
+                                                            <div className="actn">
+                                                                <span className="btn add-btn">Add</span>
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                })}
+                                                {mbrData.totalPages && mbrData.currentPageNo && (mbrData.totalPages > mbrData.currentPageNo) ? (
+                                                    <div className="show-more">
+                                                        <span className="btn" onClick={(e) => showMore(e, mbrData.currentPageNo, true)}>
+                                                            Show more
+                                                        </span>
                                                     </div>
-                                                    <div className="nam-sec">
-                                                        {mbr.name}
-                                                    </div>
-                                                    <div className="actn">
-                                                        <span className="btn add-btn">Add</span>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
+                                                ) : ''}
+                                            </>
+                                        ) : ('')
                                     ) : (
                                         <div className="text-center">
                                             No members found!

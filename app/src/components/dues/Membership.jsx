@@ -5,7 +5,6 @@ import {
     getMembershipType,
     getAttachment,
     getMembership,
-    getAllMembers,
 } from "../../api/duesAPI";
 import { connect } from "react-redux";
 import AuthActions from "../../redux/auth/actions";
@@ -51,7 +50,6 @@ const Membership = (props) => {
     const [isGiftChk, giftCheck] = useState(false);
 
     const [isMbrOpen, setMbrOpen] = useState(false);
-    const [mbrData, setMbrData] = useState(null);
 
     const {
         values,
@@ -123,26 +121,6 @@ const Membership = (props) => {
         }
 
         e.preventDefault();
-        return false;
-    };
-
-
-    const showMembers = (e) => {
-        Spn.Show();
-        getAllMembers({})
-            .then((res) => {
-
-                if (res.success === 1) {
-                    setMbrData(res.data);
-                    setMbrOpen(!isMbrOpen);
-                } else { }
-            })
-            .catch((err) => {
-                //
-            }).finally(() => {
-                Spn.Hide();
-            });
-
         return false;
     };
 
@@ -353,7 +331,6 @@ const Membership = (props) => {
                 toggle={() => {
                     setMbrOpen(!isMbrOpen)
                 }}
-                //data={mbrData}
                 changeURL={props.history.push}
             />
         )}

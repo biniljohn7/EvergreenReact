@@ -85,3 +85,11 @@
     top: 6px;
     right: 7px;
 }
+
+.mbr-srch .show-more {
+    text-align: center;
+}
+
+.mbr-srch .show-more .btn {
+    padding: 5px 10px;
+}
