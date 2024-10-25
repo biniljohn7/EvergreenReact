@@ -1287,7 +1287,7 @@ a:focus {
     background-color: #d0b8d7;
     margin-right: 3px;
     width: 100px;
-    padding: 15px 0;
+    padding: 15px 0 10px 0;
     border-radius: 20px 20px 0 0;
 }
 
@@ -1348,6 +1348,11 @@ a:focus {
     max-width: 300px;
     margin: 0 auto;
     margin-bottom: 20px;
+}
+
+.gift-wrapper .gifted-media img {
+    width: 50%;
+    margin-bottom: 30px;
 }
 
 .gift-wrapper .gift-media .gift-validity {
@@ -1415,6 +1420,10 @@ a:focus {
     width: 120px;
     text-transform: uppercase;
     font-size: 12px;
+}
+
+.gift-wrapper .gift-content .btn-container button.declined-btn {
+    width: 90%;
 }
 
 .gift-wrapper .gift-content .btn-container button.gift-accept-btn,

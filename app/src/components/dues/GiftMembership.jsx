@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Gift from "../../assets/images/gift-box.png";
+import Gifted from "../../assets/images/gifted.png";
 import DeclineModal from "./GiftDecline";
 
 const GiftMembership = () => {
@@ -88,18 +89,40 @@ const GiftMembership = () => {
             <div className="gift-sent-container" style={{ display: isGftdOpn ? 'block' : 'none' }}>
                 <div className="gift-container">
                     <div className="gift-wrapper">
+                        <div className="gift-media gifted-media">
+                            {<img src={Gifted} alt="gift" />}
+                            <span className="gift-validity">1 Year</span>
+                        </div>
                         <div className="gift-content">
-                            <p>Accepted</p>
-                            <p>The regular membership worth $600 that you gifted was accepted by John Doe on January 18, 2025.</p>
+                            <div className="gift-above-btn">
+                                <p>
+                                    <span className="gift-note">Accepted</span>
+                                </p>
+                                <p><strong>The regular membership</strong></p>
+                                <p className="gift-worth"><span >worth $600</span> that you gifted was accepted by <strong>John Doe</strong> on January 18, 2025 </p>
+                            </div>
+                            
                         </div>
                     </div>
                     <div className="gift-wrapper">
+                        <div className="gift-media gifted-media">
+                            {<img src={Gifted} alt="gift" />}
+                            <span className="gift-validity">1 Year</span>
+                        </div>
                         <div className="gift-content">
-                            <p>Declined</p>
-                            <p>The regular membership worth $600 that you gifted has been declined by John Doe on January 18, 2025</p>
-                            <p><button>Make it your's</button></p>
+                            <div className="gift-above-btn">
+                                <p>
+                                    <span className="gift-note">Declined</span>
+                                </p>
+                                <p><strong>The regular membership</strong></p>
+                                <p className="gift-worth"><span >worth $600</span> that you gifted has been declined by <strong>John Doe</strong> on January 18, 2025 </p>
+                            </div>
+                            <div className="btn-container">
+                                <button className="gift-accept-btn declined-btn">Make it your's</button>
+                            </div>
                         </div>
                     </div>
+                    
                     {/* <div className="no-content">No memberships gifted!</div> */}
                 </div>
             </div>
@@ -114,7 +137,7 @@ const GiftMembership = () => {
                 toggle={() => {
                     setDclnOpn(!isDclnOpn)
                 }}
-                dcl={setDclnOpn}
+            //dcl={setDclnOpn}
 
             //data={data}
             //membershipValue={values}

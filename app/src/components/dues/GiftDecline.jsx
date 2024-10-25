@@ -5,7 +5,6 @@ import Wrapper from "./dues.style";
 
 const GiftDecline = (props) => {
     const [isOthChk, othCheck] = useState(false);
-    console.log(props.dcl);
     return (
         <div>
             <Modal
