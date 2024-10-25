@@ -49,6 +49,7 @@ const GiftDecline = (props) => {
                             </div>
                             <div className="decline-options submit">
                                 <button type="submit" className="btn btn-submit">Decline</button>
+                                <button type="submit" className="btn btn-cancel"  onClick={props.closeDcln} >cancel</button>
                             </div>
                         </form>
                     </div>

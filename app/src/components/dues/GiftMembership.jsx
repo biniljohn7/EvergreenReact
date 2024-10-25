@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { Modal } from "reactstrap";
 import Gift from "../../assets/images/gift-box.png";
 import Gifted from "../../assets/images/gifted.png";
 import DeclineModal from "./GiftDecline";
+import AddModal from "./GiftAddSelf";
+import AcceptModal from "./GiftAcceptModal";
 
 const GiftMembership = () => {
-    const [isDclnOpn, setDclnOpn] = useState(false);
-    const [isRcvdOpn, setRcvdOpn] = useState(true);
-    const [isGftdOpn, setGftdOpn] = useState(false);
+    const [isDclnOpn, setDclnOpn]   = useState(false);
+    const [isRcvdOpn, setRcvdOpn]   = useState(true);
+    const [isGftdOpn, setGftdOpn]   = useState(false);
+    const [isCfmOpn, setCfmOpn]     = useState(false);
+    const closeModal = () => setCfmOpn(false);
+    const closeDcln = () => setDclnOpn(false);
     const handleClick = (e) => {
         let btn = e.target.getAttribute("data-id");
         if (btn == 'received') {
@@ -18,8 +24,20 @@ const GiftMembership = () => {
             setGftdOpn(true);
         }
     };
-
-    return <>
+    const[isGiftAccept,setGiftAccept]   =   useState(false);
+    const[isGiftData,setGiftData]       =   useState(null);
+    const openAcceptModal = (data) => {
+        setGiftAccept(true);
+        setGiftData(data);
+    }
+    const closeAcceptModal = () => {
+        setGiftAccept(false);
+        setGiftData(null);
+    }
+    return (
+    <>
+        
+        <div className="modal">Hello</div>
         <div className="container all-gifts">
             <div className="gift-tabs">
                 <button id="rcvd" className={isRcvdOpn ? 'gift-received active' : 'gift-received'} data-id="received" onClick={handleClick}>Recieved</button>
@@ -41,7 +59,7 @@ const GiftMembership = () => {
                                 <p className="gift-worth"><span >worth $600</span> on  December 12, 2024</p>
                             </div>
                             <div className="btn-container">
-                                <button className="gift-accept-btn">Accept</button>
+                                <button className="gift-accept-btn" onClick={()=>openAcceptModal({current:false,new:'Regular Membership',validity:'1 year',plan:false,gifted:"John Doe"})}>Accept</button>
                                 <button className="gift-decline-btn" onClick={(e) => setDclnOpn(true)}>Decline</button>
                             </div>
                         </div>
@@ -60,7 +78,7 @@ const GiftMembership = () => {
                                 <p className="gift-worth"><span >worth $600</span> on  December 12, 2024</p>
                             </div>
                             <div className="btn-container">
-                                <button className="gift-accept-btn">Accept</button>
+                                <button className="gift-accept-btn" onClick={()=>openAcceptModal({current:true,new:'Regular Membership',validity:'1 year',plan:'lower',gifted:"John Doe"})}>Accept</button>
                                 <button className="gift-decline-btn" onClick={(e) => setDclnOpn(true)}>Decline</button>
                             </div>
                         </div>
@@ -79,7 +97,7 @@ const GiftMembership = () => {
                                 <p className="gift-worth"><span >worth $600</span> on  December 12, 2024</p>
                             </div>
                             <div className="btn-container">
-                                <button className="gift-accept-btn">Accept</button>
+                                <button className="gift-accept-btn" onClick={()=>openAcceptModal({current:true,new:'Regular Membership',validity:'1 year',plan:'higher',gifted:"John Doe"})}>Accept</button>
                                 <button className="gift-decline-btn" onClick={(e) => setDclnOpn(true)}>Decline</button>
                             </div>
                         </div>
@@ -118,7 +136,8 @@ const GiftMembership = () => {
                                 <p className="gift-worth"><span >worth $600</span> that you gifted has been declined by <strong>John Doe</strong> on January 18, 2025 </p>
                             </div>
                             <div className="btn-container">
-                                <button className="gift-accept-btn declined-btn">Make it your's</button>
+                                <button type="button" className="gift-accept-btn"  onClick={(e) => setCfmOpn(true)}>Make it your's</button>
+                                <button type="button" className="gift-accept-btn">Gift to someone</button>
                             </div>
                         </div>
                     </div>
@@ -126,17 +145,25 @@ const GiftMembership = () => {
                     {/* <div className="no-content">No memberships gifted!</div> */}
                 </div>
             </div>
-
         </div>
-
-
-
+        
+        {isCfmOpn && (
+            <AddModal
+                isOpen={isCfmOpn}
+                toggle={() => {
+                    setCfmOpn(!isCfmOpn)
+                }}
+                closeModal={closeModal}
+            />
+        )}
+        
         {isDclnOpn && (
             <DeclineModal
                 isOpen={isDclnOpn}
                 toggle={() => {
                     setDclnOpn(!isDclnOpn)
                 }}
+                closeDcln={closeDcln}
             //dcl={setDclnOpn}
 
             //data={data}
@@ -144,9 +171,21 @@ const GiftMembership = () => {
             //changeURL={props.history.push}
             />
         )}
+        
+        {isGiftAccept && (
+            <AcceptModal
+                isOpen={isGiftAccept}
+                toggle={() => {
+                    setGiftAccept(!isGiftAccept)
+                }}
+                closeAccModal={closeAcceptModal}
+                data={isGiftData}
+            />
+           
+        )}
     </>
 
-
+    );
 }
 
 export default GiftMembership;

@@ -1411,29 +1411,34 @@ a:focus {
     padding-top: 20px;
 }
 
-.gift-wrapper .gift-content .btn-container button {
+.gift-wrapper .gift-content .btn-container button,
+.self-alert-modal button {
     margin: 0 5px;
     line-height: 30px;
     border: 0;
     border-radius: 25px;
     padding: 5px 0px;
-    width: 120px;
+    width: 150px;
     text-transform: uppercase;
     font-size: 12px;
 }
 
-.gift-wrapper .gift-content .btn-container button.declined-btn {
+/* .gift-wrapper .gift-content .btn-container button.declined-btn {
     width: 90%;
-}
+} */
 
 .gift-wrapper .gift-content .btn-container button.gift-accept-btn,
-.decline-modal .decline-options.submit .btn-submit {
+.decline-modal .decline-options.submit .btn-submit,
+.self-alert-modal button {
     background-color: #500c68;
     color: #fff;
 }
 
 .gift-wrapper .gift-content .btn-container button.gift-decline-btn,
-.decline-modal .decline-options.submit .btn-cancel {
+.gift-wrapper .gift-content .btn-container button.gift-accept-btn+.gift-accept-btn,
+.gift-wrapper .gift-content .btn-container button.gift-accept-btn+.gift-accept-btn:hover,
+.decline-modal .decline-options.submit .btn-cancel,
+.self-alert-modal button+button {
     background-color: #d0b8d7;
     color: #500c68;
 }
@@ -1473,7 +1478,8 @@ a:focus {
     text-align: center;
 }
 
-.decline-modal .decline-options.submit .btn-submit {
+.decline-modal .decline-options.submit .btn-submit,
+.decline-modal .decline-options.submit .btn-cancel {
     width: 200px;
     text-transform: uppercase;
     font-size: 13px;
@@ -1482,7 +1488,15 @@ a:focus {
     margin: 0 8px;
 }
 
+.self-alert-modal {
+    padding: 20px;
+    text-align: center;
+    font-size: 13px;
+}
 
+.self-alert-modal h5 {
+    font-size: 20px;
+}
 
 /*Multiple transaction section ends*/
 @media only screen and (min-width:1560px) and (max-width:1660px) {
