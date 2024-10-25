@@ -2,13 +2,13 @@
     opacity: 0.6 !important;
 }
 
-.gift-membership .ech-mbr {
-    display: flex;
-    flex-wrap: wrap;
-}
-
 .gift-membership #selectedMembers {
     margin-bottom: 30px;
+}
+
+.gift-membership #selectedMembers .ech-mbr {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .gift-membership .add-btn-sec .btn {

@@ -18,7 +18,6 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
 
 import Checkbox from "../../UI/checkbox/checkbox";
-import User from "../../assets/images/user_05x.png";
 import '../../assets/css/style2.css'
 import MemberModal from "./ChooseMember";
 
@@ -50,6 +49,7 @@ const Membership = (props) => {
     const [isGiftChk, giftCheck] = useState(false);
 
     const [isMbrOpen, setMbrOpen] = useState(false);
+    const [content, setContent] = useState('');
 
     const {
         values,
@@ -122,6 +122,27 @@ const Membership = (props) => {
 
         e.preventDefault();
         return false;
+    };
+
+    const handleAddContent = (person) => {
+        const newContent = `
+        <div className="ech-mbr" id="person-${person.id}">
+            <div className="avatar">
+                <img src="${person.avatarUrl}" alt="" className="" />
+            </div>
+            <div className="mbr-nam">
+                ${person.name}
+            </div>
+            <div className="action">
+                <span className="material-symbols-outlined">cancel</span>
+            </div>
+        </div>`;
+
+
+
+
+        setContent(prevContent => prevContent + newContent);
+        setMbrOpen(false);
     };
 
     return <Wrapper>
@@ -265,19 +286,9 @@ const Membership = (props) => {
                             />
                         </div>
                         <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
-                            <div id="selectedMembers">
-                                <div className="ech-mbr">
-                                    <div className="avatar">
-                                        <img src={User} alt="User" className="" />
-                                    </div>
-                                    <div className="mbr-nam">
-                                        John Dare
-                                    </div>
-                                    <div className="action">
-                                        <span className="material-symbols-outlined">cancel</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <div id="selectedMembers" dangerouslySetInnerHTML={{ __html: content }} />
+
+
                             <div className="add-btn-sec">
                                 <span className="btn" id="addBtn" onClick={(e) => setMbrOpen(true)}>
                                     <span class="material-symbols-outlined icn">
@@ -331,6 +342,7 @@ const Membership = (props) => {
                 toggle={() => {
                     setMbrOpen(!isMbrOpen)
                 }}
+                addContent={handleAddContent}
                 changeURL={props.history.push}
             />
         )}
