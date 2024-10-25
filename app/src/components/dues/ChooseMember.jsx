@@ -64,6 +64,15 @@ const ChooseMember = (props) => {
         showMembers(e, apndFlg);
     }
 
+    const handleClick = (event) => {
+        const personDetails = {
+            id: event.target.getAttribute('data-id'),
+            name: event.target.getAttribute('data-name'),
+            avatarUrl: event.target.getAttribute('data-avatar')
+        };
+        props.addContent(personDetails);
+    };
+
     return (
         <div>
             {Spn.Obj}
@@ -125,7 +134,13 @@ const ChooseMember = (props) => {
                                                                 {mbr.name}
                                                             </div>
                                                             <div className="actn">
-                                                                <span className="btn add-btn">Add</span>
+                                                                <span
+                                                                    className="btn add-btn"
+                                                                    onClick={handleClick}
+                                                                    data-id={mbr.id}
+                                                                    data-name={mbr.name}
+                                                                    data-avatar={mbr.avatar}
+                                                                >Add</span>
                                                             </div>
                                                         </div>
                                                     )
