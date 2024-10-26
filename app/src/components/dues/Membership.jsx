@@ -20,6 +20,7 @@ import Toast from "../../UI/Toast/Toast";
 import Checkbox from "../../UI/checkbox/checkbox";
 import '../../assets/css/style2.css'
 import MemberModal from "./ChooseMember";
+import { store } from "../../redux/store";
 
 const { logout } = AuthActions;
 
@@ -39,6 +40,9 @@ const { logout } = AuthActions;
 ]; */
 
 const Membership = (props) => {
+
+    //console.log(store.getState().auth.memberId);
+
     const [dropdown, setDropdown] = useState(null);
     const [subDropdown, setSubDropdown] = useState(null);
     const [isOpen, setOpen] = useState(false);
@@ -125,23 +129,31 @@ const Membership = (props) => {
     };
 
     const handleAddContent = (person) => {
-        const newContent = `
-        <div className="ech-mbr" id="person-${person.id}">
-            <div className="avatar">
-                <img src="${person.avatarUrl}" alt="" className="" />
+        setContent(prevContent => ([
+            ...prevContent,
+            <div className="ech-mbr" id={`person-${person.id}`} key={person.id}>
+                <div className="avatar-sec">
+                    {person.avatarUrl ? (
+                        <div className="mbr-img">
+                            <img src={person.avatarUrl} alt="" />
+                        </div>
+                    ) : (
+                        <div className="no-img">
+                            <span class="material-symbols-outlined icn">
+                                person
+                            </span>
+                        </div>
+                    )
+                    }
+                </div>
+                <div className="mbr-nam">
+                    {person.name}
+                </div>
+                <div className="action">
+                    <span className="material-symbols-outlined">cancel</span>
+                </div>
             </div>
-            <div className="mbr-nam">
-                ${person.name}
-            </div>
-            <div className="action">
-                <span className="material-symbols-outlined">cancel</span>
-            </div>
-        </div>`;
-
-
-
-
-        setContent(prevContent => prevContent + newContent);
+        ]));
         setMbrOpen(false);
     };
 
@@ -286,7 +298,10 @@ const Membership = (props) => {
                             />
                         </div>
                         <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
-                            <div id="selectedMembers" dangerouslySetInnerHTML={{ __html: content }} />
+
+                            <div id="selectedMembers">
+                                {content}
+                            </div>
 
 
                             <div className="add-btn-sec">
