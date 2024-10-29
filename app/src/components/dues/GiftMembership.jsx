@@ -34,10 +34,9 @@ const GiftMembership = () => {
         setGiftAccept(false);
         setGiftData(null);
     }
+    const [giftData, setAllGift] = useState([{"validity":"Lifelong","gifter":"binil","price":1000,"plans":"Legacy life membership","status":"high","date":"November 10, 2025"},{"validity":"6 Months","gifter":"hari","price":600,"plans":"Associate membership","status":"low","date":"May 19, 2025"},{"validity":"1 year","gifter":"basil","price":700,"plans":"Legacy life membership","status":"high","date":"November 5, 2024"},{"validity":"Lifelong","gifter":"binil","price":1000,"plans":"Legacy life membership","status":"no","date":"September 7, 2023"},{"validity":"6 Months","gifter":"hari","price":1000,"plans":"Life Membership","status":"no","date":"July 17, 2024"}]);
     return (
     <>
-        
-        <div className="modal">Hello</div>
         <div className="container all-gifts">
             <div className="gift-tabs">
                 <button id="rcvd" className={isRcvdOpn ? 'gift-received active' : 'gift-received'} data-id="received" onClick={handleClick}>Recieved</button>
