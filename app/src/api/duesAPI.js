@@ -117,13 +117,21 @@ export const getAllMembers = (body) => {
       return response.data;
     });
 };
-/** */
+/**_**/
+export const allGiftData = (data) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?dummy-url`, data)
+    .then((response) => {
+      return 1;
+    });
+};
+/**_**/
 export const declineGift = (data) => {
   setHeaders();
   return axios
-    .post(`${BASE_URL}/member/?method=get-all-members`, data)
+    .post(`${BASE_URL}/member/?dummy-url`, data)
     .then((response) => {
       return { "success": 1, "msg": "Gift Membership" };
     });
-
 };

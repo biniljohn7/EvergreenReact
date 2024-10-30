@@ -6,6 +6,7 @@ import DeclineModal from "./GiftDecline";
 import AddModal from "./GiftAddSelf";
 import AcceptModal from "./GiftAcceptModal";
 import Wrapper from "./dues.style";
+import { allGiftData } from "../../api/duesAPI";
 
 const GiftMembership = () => {
     const [isDclnOpn, setDclnOpn]   = useState(false);
@@ -17,11 +18,11 @@ const GiftMembership = () => {
     const closeDcln = () => setDclnOpn(false);
     const handleClick = (e) => {
         let btn = e.target.getAttribute("data-id");
-        if (btn == 'received') {
+        if (btn === 'received') {
             setRcvdOpn(true);
             setGftdOpn(false);
         }
-        if (btn == 'gifted') {
+        if (btn === 'gifted') {
             setRcvdOpn(false);
             setGftdOpn(true);
         }
@@ -41,6 +42,7 @@ const GiftMembership = () => {
         setDclnData(data);
     }
     const [giftData, setAllGift] = useState([{"id":0,"validity":"1 year","gifter":"Basil","price":1000,"plans":"Legacy life membership","status":"low","have":false,"date":"September 15, 2023"},{"id":1,"validity":"Lifelong","gifter":"Hari","price":600,"plans":"Life Membership","status":false,"have":false,"date":"August 4, 2023"},{"id":2,"validity":"6 Months","gifter":"Basil","price":1000,"plans":"Associate membership","status":false,"have":false,"date":"September 13, 2023"},{"id":3,"validity":"Lifelong","gifter":"Saji","price":600,"plans":"Associate membership","status":"low","have":true,"date":"July 13, 2023"},{"id":4,"validity":"1 year","gifter":"Hari","price":700,"plans":"Regular Membership","status":false,"have":true,"date":"September 1, 2024"}]);
+    const [pageData, setPageData] = useState('');
     return (
     <>
         <div className="container all-gifts">
