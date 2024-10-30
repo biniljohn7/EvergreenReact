@@ -118,12 +118,69 @@ export const getAllMembers = (body) => {
     });
 };
 /**_**/
-export const allGiftData = (data) => {
+export const FetchGiftList = (data) => {
   setHeaders();
+  console.log(data);
   return axios
     .post(`${BASE_URL}/member/?dummy-url`, data)
     .then((response) => {
-      return 1;
+
+
+
+
+
+
+      let
+        dummy = {
+          status: 'ok',
+          list: [],
+          pages: 10
+        },
+        i;
+
+      function getRandom(list) {
+        return list[
+          Math.floor(Math.random() * list.length)
+        ];
+      }
+      for (i = 0; i < 5; i++) {
+        // console.log(data.pgn);
+        dummy.list.push({
+          "id": i + (data.pgn * 1000),
+          "validity": getRandom([
+            '1 Year',
+            '6 Months',
+            '3 Months',
+            '1 Month',
+            '10 Days',
+          ]),
+          "gifter": getRandom([
+            'Ethan Hunt',
+            'Steve Rogers',
+            'Sunny Leone',
+            'Mia Khalifa',
+          ]),
+          "price": Math.random() * 5000,
+          "plans": getRandom([
+            "Legacy life membership",
+            'Regular',
+            'Medium'
+          ]),
+          "status": Math.random() > .5 ? 'high' : "low",
+          "have": Math.random() > .5,
+          "date": new Date(
+            new Date().getTime() -
+            Math.random() * 9999999999
+          ).toDateString()
+        });
+      }
+      response.data = dummy;
+
+
+
+
+
+      return response.data;
     });
 };
 /**_**/

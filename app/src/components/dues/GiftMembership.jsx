@@ -6,14 +6,27 @@ import DeclineModal from "./GiftDecline";
 import AddModal from "./GiftAddSelf";
 import AcceptModal from "./GiftAcceptModal";
 import Wrapper from "./dues.style";
-import { allGiftData } from "../../api/duesAPI";
+import { FetchGiftList } from "../../api/duesAPI";
 
 const GiftMembership = () => {
-    const [isDclnOpn, setDclnOpn]   = useState(false);
-    const [isDclnData, setDclnData]   = useState(null);
-    const [isRcvdOpn, setRcvdOpn]   = useState(true);
-    const [isGftdOpn, setGftdOpn]   = useState(false);
-    const [isCfmOpn, setCfmOpn]     = useState(false);
+
+    // console.clear();
+
+
+
+
+    const [ListError, setListError] = useState(false);
+    const [ListLoading, setListLoading] = useState(true);
+    const [ListPgn, setListPgn] = useState(0);
+    const [ListTotal, setListTotal] = useState(0);
+
+
+
+    const [isDclnOpn, setDclnOpn] = useState(false);
+    const [isDclnData, setDclnData] = useState(null);
+    const [isRcvdOpn, setRcvdOpn] = useState(true);
+    const [isGftdOpn, setGftdOpn] = useState(false);
+    const [isCfmOpn, setCfmOpn] = useState(false);
     const closeModal = () => setCfmOpn(false);
     const closeDcln = () => setDclnOpn(false);
     const handleClick = (e) => {
@@ -27,8 +40,8 @@ const GiftMembership = () => {
             setGftdOpn(true);
         }
     };
-    const[isGiftAccept,setGiftAccept]   =   useState(false);
-    const[isGiftData,setGiftData]       =   useState(null);
+    const [isGiftAccept, setGiftAccept] = useState(false);
+    const [isGiftData, setGiftData] = useState(null);
     const openAcceptModal = (data) => {
         setGiftAccept(true);
         setGiftData(data);
@@ -37,53 +50,138 @@ const GiftMembership = () => {
         setGiftAccept(false);
         setGiftData(null);
     }
-    const openDeclineModal = (data)=>{
+    const openDeclineModal = (data) => {
         setDclnOpn(true);
         setDclnData(data);
     }
-    const [giftData, setAllGift] = useState([{"id":0,"validity":"1 year","gifter":"Basil","price":1000,"plans":"Legacy life membership","status":"low","have":false,"date":"September 15, 2023"},{"id":1,"validity":"Lifelong","gifter":"Hari","price":600,"plans":"Life Membership","status":false,"have":false,"date":"August 4, 2023"},{"id":2,"validity":"6 Months","gifter":"Basil","price":1000,"plans":"Associate membership","status":false,"have":false,"date":"September 13, 2023"},{"id":3,"validity":"Lifelong","gifter":"Saji","price":600,"plans":"Associate membership","status":"low","have":true,"date":"July 13, 2023"},{"id":4,"validity":"1 year","gifter":"Hari","price":700,"plans":"Regular Membership","status":false,"have":true,"date":"September 1, 2024"}]);
-    const [pageData, setPageData] = useState('');
+
+    const [giftData, setgiftData] = useState([]);
+
+    function loadGiftList(pgn) {
+        pgn = pgn !== undefined ? pgn : ListPgn;
+
+        setListLoading(true);
+        setListError(false);
+        setListPgn(pgn);
+
+        FetchGiftList(
+            { pgn: pgn }
+        )
+            .then((data) => {
+                if (data.status === 'ok') {
+                    setgiftData(data.list);
+                    setListTotal(data.pages);
+
+                } else {
+                    setListError(true);
+                }
+
+                setListLoading(false);
+
+            })
+            .catch((err) => {
+                setListLoading(false);
+                setListError(true);
+            });
+
+    }
+
+    useEffect(() => {
+        loadGiftList();
+    }, []);
+
+
     return (
-    <>
-        <div className="container all-gifts">
-            <div className="gift-tabs">
-                <button id="rcvd" className={isRcvdOpn ? 'gift-received active' : 'gift-received'} data-id="received" onClick={handleClick}>Recieved</button>
-                <button id="gftd" className={isGftdOpn ? 'gift-sent active' : 'gift-sent'} data-id="gifted" onClick={handleClick}>Gifted</button>
-            </div>
-            <div className="gift-received-container" style={{ display: isRcvdOpn ? 'block' : 'none' }}>
-                <div className="gift-container">
-                {giftData && (
-                    giftData.map((data)=>{
-                        return(
-                            <>
-                                <div className="gift-wrapper">
-                                    <div className="gift-media">
-                                        {<img src={Gift} alt="gift" />}
-                                        <span className="gift-validity">{data.validity}</span>
-                                    </div>
-                                    <div className="gift-content">
-                                        <div className="gift-above-btn">
-                                            <p>
-                                                <span className="gift-note">New Gift received</span>
-                                            </p>
-                                            <p><strong>{data.gifter}</strong> has gifted you a <strong>{data.plans}</strong></p>
-                                            <p className="gift-worth"><span >worth ${data.price}</span> on  {data.date}
-                                            </p>
-                                        </div>
-                                        <div className="btn-container">
-                                            <button className="gift-accept-btn" onClick={()=>openAcceptModal({giftid:data.id,current:data.have,new:data.plans,validity:data.validity,plan:data.status,gifted:data.gifter})}>Accept</button>
-                                            <button className="gift-decline-btn" onClick={()=>openDeclineModal({id:data.id})}>Decline</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </>
-                        );
-                    })
-                    
-                )}
+        <>
+            <div className="container all-gifts">
+                <div className="gift-tabs">
+                    <button id="rcvd" className={isRcvdOpn ? 'gift-received active' : 'gift-received'} data-id="received" onClick={handleClick}>Recieved</button>
+                    <button id="gftd" className={isGftdOpn ? 'gift-sent active' : 'gift-sent'} data-id="gifted" onClick={handleClick}>Gifted</button>
                 </div>
-                {/* <div className="gift-container">
+                <div className="gift-received-container" style={{ display: isRcvdOpn ? 'block' : 'none' }}>
+                    <div className="gift-container">
+                        {
+                            ListPgn === 0 &&
+                                giftData.length === 0 &&
+                                !ListLoading ?
+                                <div class="text-center pt50 mb50">
+                                    No gift recieved
+                                </div> :
+                                null
+                        }
+                        {
+                            giftData.map((data) => {
+                                return (
+                                    <div className="gift-wrapper">
+                                        <div className="gift-media">
+                                            {<img src={Gift} alt="gift" />}
+                                            <span className="gift-validity">{data.validity}</span>
+                                        </div>
+                                        <div className="gift-content">
+                                            <div className="gift-above-btn">
+                                                <p>
+                                                    <span className="gift-note">New Gift received</span>
+                                                </p>
+                                                <div class="">
+                                                    {data.id}
+                                                </div>
+                                                <p><strong>{data.gifter}</strong> has gifted you a <strong>{data.plans}</strong></p>
+                                                <p className="gift-worth"><span >worth ${data.price}</span> on  {data.date}
+                                                </p>
+                                            </div>
+                                            <div className="btn-container">
+                                                <button className="gift-accept-btn" onClick={() => openAcceptModal({ giftid: data.id, current: data.have, new: data.plans, validity: data.validity, plan: data.status, gifted: data.gifter })}>Accept</button>
+                                                <button className="gift-decline-btn" onClick={() => openDeclineModal({ id: data.id })}>Decline</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            ListLoading ?
+                                <div class="gift-list-spn">
+                                    <div class="pix-spinner"></div>
+                                </div> :
+                                null
+                        }
+                        {
+                            ListError ?
+                                <div class="text-center ">
+                                    <div class="pt30 mb10">
+                                        List loading error
+                                    </div>
+                                    <div class="">
+                                        <span
+                                            class="btn btn-sm"
+                                            onClick={() => {
+                                                loadGiftList();
+                                            }}
+                                        >
+                                            retry
+                                        </span>
+                                    </div>
+                                </div> :
+                                null
+                        }
+                        {
+                            ListTotal &&
+                                !ListLoading &&
+                                !ListError &&
+                                ListTotal - 1 > ListPgn ?
+                                <div class="text-center pt20 mb10">
+                                    <span class="btn" onClick={() => {
+                                        loadGiftList(ListPgn + 1);
+                                    }}>
+                                        Show More
+                                    </span>
+                                </div> :
+                                null
+                        }
+                    </div>
+
+
+                    {/* <div className="gift-container">
                     <div className="gift-wrapper">
                         <div className="gift-media">
                             {<img src={Gift} alt="gift" />}
@@ -142,84 +240,84 @@ const GiftMembership = () => {
                         </div>
                     </div>
                 </div> */}
-            </div>
-            <div className="gift-sent-container" style={{ display: isGftdOpn ? 'block' : 'none' }}>
-                <div className="gift-container">
-                    <div className="gift-wrapper">
-                        <div className="gift-media gifted-media">
-                            {<img src={Gifted} alt="gift" />}
-                            <span className="gift-validity">1 Year</span>
-                        </div>
-                        <div className="gift-content">
-                            <div className="gift-above-btn">
-                                <p>
-                                    <span className="gift-note">Accepted</span>
-                                </p>
-                                <p><strong>The regular membership</strong></p>
-                                <p className="gift-worth"><span >worth $600</span> that you gifted was accepted by <strong>John Doe</strong> on January 18, 2025 </p>
+                </div>
+                <div className="gift-sent-container" style={{ display: isGftdOpn ? 'block' : 'none' }}>
+                    <div className="gift-container">
+                        <div className="gift-wrapper">
+                            <div className="gift-media gifted-media">
+                                {<img src={Gifted} alt="gift" />}
+                                <span className="gift-validity">1 Year</span>
                             </div>
-                            
+                            <div className="gift-content">
+                                <div className="gift-above-btn">
+                                    <p>
+                                        <span className="gift-note">Accepted</span>
+                                    </p>
+                                    <p><strong>The regular membership</strong></p>
+                                    <p className="gift-worth"><span >worth $600</span> that you gifted was accepted by <strong>John Doe</strong> on January 18, 2025 </p>
+                                </div>
+
+                            </div>
                         </div>
+                        <div className="gift-wrapper">
+                            <div className="gift-media gifted-media">
+                                {<img src={Gifted} alt="gift" />}
+                                <span className="gift-validity">1 Year</span>
+                            </div>
+                            <div className="gift-content">
+                                <div className="gift-above-btn">
+                                    <p>
+                                        <span className="gift-note">Declined</span>
+                                    </p>
+                                    <p><strong>The regular membership</strong></p>
+                                    <p className="gift-worth"><span >worth $600</span> that you gifted has been declined by <strong>John Doe</strong> on January 18, 2025 </p>
+                                </div>
+                                <div className="btn-container">
+                                    <button type="button" className="gift-accept-btn" onClick={(e) => setCfmOpn(true)}>Make it your's</button>
+                                    <button type="button" className="gift-accept-btn">Gift to someone</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* <div className="no-content">No memberships gifted!</div> */}
                     </div>
-                    <div className="gift-wrapper">
-                        <div className="gift-media gifted-media">
-                            {<img src={Gifted} alt="gift" />}
-                            <span className="gift-validity">1 Year</span>
-                        </div>
-                        <div className="gift-content">
-                            <div className="gift-above-btn">
-                                <p>
-                                    <span className="gift-note">Declined</span>
-                                </p>
-                                <p><strong>The regular membership</strong></p>
-                                <p className="gift-worth"><span >worth $600</span> that you gifted has been declined by <strong>John Doe</strong> on January 18, 2025 </p>
-                            </div>
-                            <div className="btn-container">
-                                <button type="button" className="gift-accept-btn"  onClick={(e) => setCfmOpn(true)}>Make it your's</button>
-                                <button type="button" className="gift-accept-btn">Gift to someone</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    {/* <div className="no-content">No memberships gifted!</div> */}
                 </div>
             </div>
-        </div>
-        
-        {isCfmOpn && (
-            <AddModal
-                isOpen={isCfmOpn}
-                toggle={() => {
-                    setCfmOpn(!isCfmOpn)
-                }}
-                closeModal={closeModal}
-            />
-        )}
-        
-        {isDclnOpn && (
-            <DeclineModal
-                isOpen={isDclnOpn}
-                toggle={() => {
-                    setDclnOpn(!isDclnOpn)
-                }}
-                closeDcln={closeDcln}
-                data={isDclnData}
-            
-            />
-        )}
-        
-        {isGiftAccept && (
-            <AcceptModal
-                isOpen={isGiftAccept}
-                toggle={() => {
-                    setGiftAccept(!isGiftAccept)
-                }}
-                closeAccModal={closeAcceptModal}
-                data={isGiftData}
-            />
-           
-        )}
-    </>
+
+            {isCfmOpn && (
+                <AddModal
+                    isOpen={isCfmOpn}
+                    toggle={() => {
+                        setCfmOpn(!isCfmOpn)
+                    }}
+                    closeModal={closeModal}
+                />
+            )}
+
+            {isDclnOpn && (
+                <DeclineModal
+                    isOpen={isDclnOpn}
+                    toggle={() => {
+                        setDclnOpn(!isDclnOpn)
+                    }}
+                    closeDcln={closeDcln}
+                    data={isDclnData}
+
+                />
+            )}
+
+            {isGiftAccept && (
+                <AcceptModal
+                    isOpen={isGiftAccept}
+                    toggle={() => {
+                        setGiftAccept(!isGiftAccept)
+                    }}
+                    closeAccModal={closeAcceptModal}
+                    data={isGiftData}
+                />
+
+            )}
+        </>
 
     );
 }

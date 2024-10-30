@@ -1224,6 +1224,33 @@ a:focus {
     padding-top: 50px;
 }
 
+/* spinner */
+
+.pix-spinner {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #000;
+    border-right-color: rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    animation: spinnerAnimation .7s infinite;
+}
+
+.pix-spinner.sm {
+    width: 20px;
+    height: 20px;
+}
+
+.pix-spinner.md {
+    width: 30px;
+    height: 30px;
+}
+
+@keyframes spinnerAnimation {
+    0% {
+        transform: rotate(-360deg)
+    }
+}
+
 .benefit-box .benefit-item .per.career-bg {
     background: #fff;
     padding: 0 15px;

@@ -20,5 +20,12 @@ const Wrapper = styled.div`
   .card-container {
     margin-left: -12px;
   }
+
+  .gift-list-spn {
+    flex: 1 1 0;
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+  }
 `
 export default Wrapper
