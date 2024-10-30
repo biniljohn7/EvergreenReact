@@ -55,6 +55,8 @@ const Membership = (props) => {
     const [isMbrOpen, setMbrOpen] = useState(false);
     const [content, setContent] = useState('');
 
+    const [members, setMembers] = useState({});
+
     const {
         values,
         errors,
@@ -87,6 +89,8 @@ const Membership = (props) => {
                     ToastsStore.error("Something went wrong!");
                 }
             });
+
+        addMbr(store.getState().auth.memberId);
     }, []);
 
     document.title = 'Membership - ' + window.seoTagLine;
@@ -128,6 +132,23 @@ const Membership = (props) => {
         return false;
     };
 
+    const addMbr = (mbrId) => {
+        setMembers(
+            prevItems => ({
+                ...prevItems,
+                [mbrId]: {
+                    id: mbrId,
+                    planId: null,
+                    subPlanId: null,
+                    secDonation: null,
+                    natnDonation: null
+                },
+            })
+        );
+    }
+
+    // addMbr(store.getState().auth.memberId);
+
     const handleAddContent = (person) => {
         setContent(prevContent => ([
             ...prevContent,
@@ -152,10 +173,110 @@ const Membership = (props) => {
                 <div className="action">
                     <span className="material-symbols-outlined">cancel</span>
                 </div>
+
+
+                <div className="mtb-20">
+                    <label className="fs-16">Membership Dues/Fees:</label>
+                    <Select
+                        id=""
+                        placeholder="Select membership type"
+                        options={dropdown || []}
+                        styles={{
+                            control: (value) => {
+                                return {
+                                    ...value,
+                                    minHeight: "44px",
+                                    width: window.innerWidth >= 768 ? "50%" : "100%",
+                                };
+                            },
+                            placeholder: (defaultStyles) => {
+                                return {
+                                    ...defaultStyles,
+                                    paddingTop: "10px",
+                                    paddingBottom: "10px",
+                                    fontSize: "14px",
+                                };
+                            },
+                            menu: (provided, state) => ({
+                                ...provided,
+                                width: window.innerWidth >= 768 ? "50%" : "100%",
+                            }),
+                        }}
+                        onChange={(selectedOp) => {
+                            if (
+                                selectedOp &&
+                                selectedOp.membershipTypeId
+                            ) {
+                                Spn.Show();
+
+                                setPkdPlan(selectedOp.membershipTypeId);   //  set plan and sub plan state here
+                                setPkdSubPlan(false);
+
+                                getAttachment(selectedOp.membershipTypeId)
+                                    .then((res) => {
+                                        setSubDropdown(res.data || []);
+                                    })
+                                    .catch((err) => {
+                                        //     console.error(err);
+                                        //     ToastsStore.info("Failed to retrive list");
+                                    })
+                                    .finally(() => {
+                                        Spn.Hide();
+                                    });
+                            }
+                        }}
+                        getOptionLabel={(op) => op.membershipTypeName}
+                        getOptionValue={(op) => op}
+                    />
+                    {/* <Error field="plan" /> */}
+                </div>
+                {subDropdown && (
+                    <div className="mt-10">
+                        <Select
+                            id="subPlan2"
+                            placeholder="Amount"
+                            options={subDropdown || []}
+                            styles={{
+                                control: (value) => {
+                                    return {
+                                        ...value,
+                                        minHeight: "44px",
+                                        width: window.innerWidth >= 768 ? "50%" : "100%",
+                                    };
+                                },
+                                placeholder: (defaultStyles) => {
+                                    return {
+                                        ...defaultStyles,
+                                        paddingTop: "10px",
+                                        paddingBottom: "10px",
+                                        fontSize: "14px",
+                                    };
+                                },
+                                menu: (provided, state) => ({
+                                    ...provided,
+                                    width: window.innerWidth >= 768 ? "50%" : "100%",
+                                }),
+                            }}
+                            onChange={(selectedOp) => {
+                                setPkdSubPlan(selectedOp);
+                            }}
+                            getOptionLabel={(op) => op.chargesTitle}
+                            getOptionValue={(op) => op}
+                            value={PkdSubPlan}
+                        />
+                        <Error field="subPlan" />
+                    </div>
+                )}
+
+
             </div>
         ]));
+
+        addMbr(person.id);
         setMbrOpen(false);
     };
+
+    console.log(members);
 
     return <Wrapper>
         {Spn.Obj}
@@ -186,6 +307,7 @@ const Membership = (props) => {
                             checked={isOwnChk}
                             onChange={(e) => {
                                 ownCheck(!isOwnChk);
+
                             }}
                             label="Own Membership"
                         />
