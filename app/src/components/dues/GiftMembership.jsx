@@ -5,9 +5,11 @@ import Gifted from "../../assets/images/gifted.png";
 import DeclineModal from "./GiftDecline";
 import AddModal from "./GiftAddSelf";
 import AcceptModal from "./GiftAcceptModal";
+import Wrapper from "./dues.style";
 
 const GiftMembership = () => {
     const [isDclnOpn, setDclnOpn]   = useState(false);
+    const [isDclnData, setDclnData]   = useState(null);
     const [isRcvdOpn, setRcvdOpn]   = useState(true);
     const [isGftdOpn, setGftdOpn]   = useState(false);
     const [isCfmOpn, setCfmOpn]     = useState(false);
@@ -34,7 +36,11 @@ const GiftMembership = () => {
         setGiftAccept(false);
         setGiftData(null);
     }
-    const [giftData, setAllGift] = useState([{"validity":"Lifelong","gifter":"binil","price":1000,"plans":"Legacy life membership","status":"high","date":"November 10, 2025"},{"validity":"6 Months","gifter":"hari","price":600,"plans":"Associate membership","status":"low","date":"May 19, 2025"},{"validity":"1 year","gifter":"basil","price":700,"plans":"Legacy life membership","status":"high","date":"November 5, 2024"},{"validity":"Lifelong","gifter":"binil","price":1000,"plans":"Legacy life membership","status":"no","date":"September 7, 2023"},{"validity":"6 Months","gifter":"hari","price":1000,"plans":"Life Membership","status":"no","date":"July 17, 2024"}]);
+    const openDeclineModal = (data)=>{
+        setDclnOpn(true);
+        setDclnData(data);
+    }
+    const [giftData, setAllGift] = useState([{"id":0,"validity":"1 year","gifter":"Basil","price":1000,"plans":"Legacy life membership","status":"low","have":false,"date":"September 15, 2023"},{"id":1,"validity":"Lifelong","gifter":"Hari","price":600,"plans":"Life Membership","status":false,"have":false,"date":"August 4, 2023"},{"id":2,"validity":"6 Months","gifter":"Basil","price":1000,"plans":"Associate membership","status":false,"have":false,"date":"September 13, 2023"},{"id":3,"validity":"Lifelong","gifter":"Saji","price":600,"plans":"Associate membership","status":"low","have":true,"date":"July 13, 2023"},{"id":4,"validity":"1 year","gifter":"Hari","price":700,"plans":"Regular Membership","status":false,"have":true,"date":"September 1, 2024"}]);
     return (
     <>
         <div className="container all-gifts">
@@ -44,6 +50,38 @@ const GiftMembership = () => {
             </div>
             <div className="gift-received-container" style={{ display: isRcvdOpn ? 'block' : 'none' }}>
                 <div className="gift-container">
+                {giftData && (
+                    giftData.map((data)=>{
+                        return(
+                            <>
+                                <div className="gift-wrapper">
+                                    <div className="gift-media">
+                                        {<img src={Gift} alt="gift" />}
+                                        <span className="gift-validity">{data.validity}</span>
+                                    </div>
+                                    <div className="gift-content">
+                                        <div className="gift-above-btn">
+                                            <p>
+                                                <span className="gift-note">New Gift received</span>
+                                            </p>
+                                            <p><strong>{data.gifter}</strong> has gifted you a <strong>{data.plans}</strong></p>
+                                            <p className="gift-worth"><span >worth ${data.price}</span> on  {data.date}
+                                            </p>
+                                        </div>
+                                        <div className="btn-container">
+                                            <button className="gift-accept-btn" onClick={()=>openAcceptModal({giftid:data.id,current:data.have,new:data.plans,validity:data.validity,plan:data.status,gifted:data.gifter})}>Accept</button>
+                                            <button className="gift-decline-btn" onClick={()=>openDeclineModal({id:data.id})}>Decline</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </>
+                        );
+                    })
+                    
+                )}
+                </div>
+                {/* <div className="gift-container">
                     <div className="gift-wrapper">
                         <div className="gift-media">
                             {<img src={Gift} alt="gift" />}
@@ -101,7 +139,7 @@ const GiftMembership = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="gift-sent-container" style={{ display: isGftdOpn ? 'block' : 'none' }}>
                 <div className="gift-container">
@@ -163,11 +201,8 @@ const GiftMembership = () => {
                     setDclnOpn(!isDclnOpn)
                 }}
                 closeDcln={closeDcln}
-            //dcl={setDclnOpn}
-
-            //data={data}
-            //membershipValue={values}
-            //changeURL={props.history.push}
+                data={isDclnData}
+            
             />
         )}
         
