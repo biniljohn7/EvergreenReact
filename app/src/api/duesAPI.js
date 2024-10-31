@@ -134,7 +134,7 @@ export const FetchGiftList = (data) => {
         dummy = {
           status: 'ok',
           list: [],
-          pages: 10
+          pages: 3
         },
         i;
 
@@ -143,8 +143,7 @@ export const FetchGiftList = (data) => {
           Math.floor(Math.random() * list.length)
         ];
       }
-      for (i = 0; i < 5; i++) {
-        // console.log(data.pgn);
+      for (i = 1; i <= 5; i++) {
         dummy.list.push({
           "id": i + (data.pgn * 1000),
           "validity": getRandom([
@@ -160,7 +159,7 @@ export const FetchGiftList = (data) => {
             'Sunny Leone',
             'Mia Khalifa',
           ]),
-          "price": Math.random() * 5000,
+          "price": (Math.random() * 5000).toFixed(2),
           "plans": getRandom([
             "Legacy life membership",
             'Regular',

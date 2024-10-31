@@ -1,19 +1,23 @@
+// libraries
 import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
-import Gift from "../../assets/images/gift-box.png";
-import Gifted from "../../assets/images/gifted.png";
+import Pix from "../../helper/Pix"
+
+// page libs
+import { FetchGiftList } from "../../api/duesAPI";
+import Wrapper from "./dues.style";
+
+// page components
 import DeclineModal from "./GiftDecline";
 import AddModal from "./GiftAddSelf";
 import AcceptModal from "./GiftAcceptModal";
-import Wrapper from "./dues.style";
-import { FetchGiftList } from "../../api/duesAPI";
+import GiftCard from "./Gifts/GiftCard";
+
+// loading images
+import Gift from "../../assets/images/gift-box.png";
+import Gifted from "../../assets/images/gifted.png";
 
 const GiftMembership = () => {
-
-    // console.clear();
-
-
-
 
     const [ListError, setListError] = useState(false);
     const [ListLoading, setListLoading] = useState(true);
@@ -69,19 +73,21 @@ const GiftMembership = () => {
         )
             .then((data) => {
                 if (data.status === 'ok') {
-                    setgiftData(data.list);
+                    setgiftData([
+                        ...giftData,
+                        ...data.list
+                    ]);
                     setListTotal(data.pages);
 
                 } else {
                     setListError(true);
                 }
-
-                setListLoading(false);
-
             })
             .catch((err) => {
-                setListLoading(false);
                 setListError(true);
+            })
+            .finally(() => {
+                setListLoading(false);
             });
 
     }
@@ -93,6 +99,10 @@ const GiftMembership = () => {
 
     return (
         <>
+            <GiftCard data={{
+                title: 'Text 1',
+                body: "Body Text 2"
+            }} />
             <div className="container all-gifts">
                 <div className="gift-tabs">
                     <button id="rcvd" className={isRcvdOpn ? 'gift-received active' : 'gift-received'} data-id="received" onClick={handleClick}>Recieved</button>
@@ -104,7 +114,7 @@ const GiftMembership = () => {
                             ListPgn === 0 &&
                                 giftData.length === 0 &&
                                 !ListLoading ?
-                                <div class="text-center pt50 mb50">
+                                <div className="text-center pt50 mb50">
                                     No gift recieved
                                 </div> :
                                 null
@@ -122,11 +132,20 @@ const GiftMembership = () => {
                                                 <p>
                                                     <span className="gift-note">New Gift received</span>
                                                 </p>
-                                                <div class="">
-                                                    {data.id}
-                                                </div>
-                                                <p><strong>{data.gifter}</strong> has gifted you a <strong>{data.plans}</strong></p>
-                                                <p className="gift-worth"><span >worth ${data.price}</span> on  {data.date}
+                                                <p>
+                                                    <strong>
+                                                        {data.gifter}
+                                                    </strong>
+                                                    {' has gifted you a '}
+                                                    <strong>
+                                                        {data.plans}
+                                                    </strong>
+                                                </p>
+                                                <p className="gift-worth">
+                                                    <span>
+                                                        {'worth ' + Pix.dollar(data.price)}
+                                                    </span>
+                                                    {' on ' + data.date}
                                                 </p>
                                             </div>
                                             <div className="btn-container">
@@ -140,20 +159,20 @@ const GiftMembership = () => {
                         }
                         {
                             ListLoading ?
-                                <div class="gift-list-spn">
-                                    <div class="pix-spinner"></div>
+                                <div className="gift-list-spn">
+                                    <div className="pix-spinner"></div>
                                 </div> :
                                 null
                         }
                         {
                             ListError ?
-                                <div class="text-center ">
-                                    <div class="pt30 mb10">
+                                <div className="text-center ">
+                                    <div className="pt30 mb10">
                                         List loading error
                                     </div>
-                                    <div class="">
+                                    <div className="">
                                         <span
-                                            class="btn btn-sm"
+                                            className="btn btn-sm"
                                             onClick={() => {
                                                 loadGiftList();
                                             }}
@@ -169,8 +188,8 @@ const GiftMembership = () => {
                                 !ListLoading &&
                                 !ListError &&
                                 ListTotal - 1 > ListPgn ?
-                                <div class="text-center pt20 mb10">
-                                    <span class="btn" onClick={() => {
+                                <div className="text-center pt20 mb10">
+                                    <span className="btn" onClick={() => {
                                         loadGiftList(ListPgn + 1);
                                     }}>
                                         Show More
