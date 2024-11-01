@@ -1324,14 +1324,6 @@ a:focus {
     color: #fff;
 }
 
-.gift-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    border: #d0b8d7 1px solid;
-    border-radius: 15px;
-    padding-bottom: 20px;
-}
 
 .gift-sent-container,
 .gift-received-container {
@@ -1345,62 +1337,14 @@ a:focus {
     padding: 150px 0;
 }
 
-.gift-wrapper {
-    border: #500c68 1px solid;
-    border-radius: 50px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: row;
-    margin: 40px 15px 0 15px;
-    width: calc(50% - 30px);
-}
 
 .gift-wrapper .gift-media {
-    width: 35%;
     background-image: url('../images/gift-net.png'), linear-gradient(to right, #94159c, #4d0a65);
-    border-radius: 48px;
-    position: relative;
-    background-size: 100%;
-    background-position: bottom, center;
-    background-repeat: repeat-x;
-    padding-bottom: 15px;
-    vertical-align: bottom;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
 }
 
-.gift-wrapper .gift-media img {
-    width: 80%;
-    max-width: 300px;
-    margin: 0 auto;
-    margin-bottom: 20px;
-}
 
-.gift-wrapper .gifted-media img {
-    width: 50%;
-    margin-bottom: 30px;
-}
 
-.gift-wrapper .gift-media .gift-validity {
-    display: inline-block;
-    background-color: #fff;
-    width: 100px;
-    margin: 0 auto;
-    margin-top: -20px;
-    line-height: 24px;
-    font-size: 12px;
-    text-transform: uppercase;
-    border-radius: 15px;
-    font-weight: bold;
-    text-align: center;
-}
 
-.gift-wrapper .gift-content {
-    width: 62%;
-    margin-left: 2%;
-    padding: 20px 0;
-}
 
 .gift-wrapper .gift-content .gift-above-btn {
     padding-left: 15px;
@@ -1904,10 +1848,6 @@ a:focus {
         justify-content: center;
     }
 
-    .gift-container {
-        flex-direction: column;
-    }
-
     .gift-wrapper {
         width: 100%;
         margin: 20px 0;
@@ -2012,12 +1952,6 @@ a:focus {
 
     /*Multiple transaction section starts*/
 
-    .gift-wrapper .gift-media {
-        width: 40%;
-        background-size: 100%;
-    }
-
-
     .gift-wrapper .gift-content {
         width: 58%;
         margin-left: 2%;
@@ -2035,15 +1969,7 @@ a:focus {
     }
 
     /*Multiple transaction section starts*/
-    .gift-wrapper {
-        flex-direction: column;
-    }
 
-    .gift-wrapper .gift-media {
-        width: 100%;
-        background-size: 100%;
-        padding-bottom: 10px;
-    }
 
     .gift-wrapper .gift-content {
         width: 100%;

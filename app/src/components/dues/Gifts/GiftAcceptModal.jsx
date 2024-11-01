@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "reactstrap";
-import Wrapper from "./dues.style";
+import Wrapper from "../dues.style";
 
 const GiftAcceptModal = (props) => {   
     return (

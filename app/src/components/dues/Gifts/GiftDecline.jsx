@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Modal } from "reactstrap";
-import Wrapper from "./dues.style";
-import Spinner from "../../UI/Spinner/Spinner";
-import { declineGift } from "../../api/duesAPI";
+import Wrapper from "../dues.style";
+import { declineGift } from "../../../api/duesAPI";
 //import { payment as enhancer } from "./enhancer";
 
 const GiftDecline = (props) => {
-    let Spn = Spinner();
+    //let Spn = Spinner();
     const [selectedReason, setSelectedReason] = useState('');
     const [additionalReason, setAdditionalReason] = useState('');
     const [giftID,setGiftId] = useState(props.data.id);

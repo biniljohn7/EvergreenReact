@@ -120,9 +120,75 @@ export const getAllMembers = (body) => {
 /**_**/
 export const FetchGiftList = (data) => {
   setHeaders();
-  console.log(data);
+  //console.log(data);
   return axios
-    .post(`${BASE_URL}/member/?dummy-url`, data)
+    .post(`${BASE_URL}/member/?dummy-url&gift-list`, data)
+    .then((response) => {
+
+
+
+
+
+
+      let
+        dummy = {
+          status: 'ok',
+          list: [],
+          pages: 3
+        },
+        i;
+
+      function getRandom(list) {
+        return list[
+          Math.floor(Math.random() * list.length)
+        ];
+      }
+      for (i = 1; i <= 5; i++) {
+        dummy.list.push({
+          "id": i + (data.pgn * 1000),
+          "validity": getRandom([
+            '1 Year',
+            '6 Months',
+            '3 Months',
+            '1 Month',
+            '10 Days',
+          ]),
+          "gifter": getRandom([
+            'Ethan Hunt',
+            'Steve Rogers',
+            'Sunny Leone',
+            'Mia Khalifa',
+          ]),
+          "price": (Math.random() * 5000).toFixed(2),
+          "plans": getRandom([
+            "Legacy life membership",
+            'Regular',
+            'Medium'
+          ]),
+          "status": Math.random() > .5 ? 'high' : "low",
+          "have": Math.random() > .5,
+          "date": new Date(
+            new Date().getTime() -
+            Math.random() * 9999999999
+          ).toDateString()
+        });
+      }
+      response.data = dummy;
+
+
+
+
+
+      return response.data;
+    });
+};
+
+
+export const FetchGiftedList = (data) => {
+  setHeaders();
+  //console.log(data);
+  return axios
+    .post(`${BASE_URL}/member/?dummy-url&gifted-list`, data)
     .then((response) => {
 
 

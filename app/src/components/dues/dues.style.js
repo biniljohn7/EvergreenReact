@@ -27,5 +27,27 @@ const Wrapper = styled.div`
     justify-content: center;
     padding: 60px 0;
   }
+  .gift-received-container{
+    border: #d0b8d7 1px solid;
+    border-radius: 15px;
+    padding: 15px;
+    
+    .received-gift-container{
+      background-color:#C00;
+      min-height:100px;
+    }
+  }
+  .gift-sent-container{
+    border: #d0b8d7 1px solid;
+    border-radius: 15px;
+    padding: 15px;
+    
+
+    .gifted-gift-container{
+      background-color:#FF9;
+      min-height:100px;
+    }
+  }
+  
 `
 export default Wrapper
