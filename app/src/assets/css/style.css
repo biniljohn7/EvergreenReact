@@ -1294,48 +1294,6 @@ a:focus {
 }
 
 /*Multiple transaction section starts*/
-.all-gifts {
-    flex-wrap: wrap;
-    gap: 0px !important;
-}
-
-.all-gifts .gift-tabs {
-    padding: 30px 15px 0 15px;
-    border-top: dashed 2px #d9c6dd;
-    width: 100%;
-    margin-top: 40px;
-}
-
-.all-gifts .gift-tabs .gift-received,
-.all-gifts .gift-tabs .gift-sent {
-    border: 0;
-    font-size: 13px;
-    color: #5b2166;
-    background-color: #d0b8d7;
-    margin-right: 3px;
-    width: 100px;
-    padding: 15px 0 10px 0;
-    border-radius: 20px 20px 0 0;
-}
-
-.all-gifts .gift-tabs .gift-received.active,
-.all-gifts .gift-tabs .gift-sent.active {
-    background-color: #500c68;
-    color: #fff;
-}
-
-
-.gift-sent-container,
-.gift-received-container {
-    width: 100%;
-}
-
-.gift-sent-container .no-content,
-.gift-received-container .no-content {
-    width: 100%;
-    text-align: center;
-    padding: 150px 0;
-}
 
 
 .gift-wrapper .gift-media {
@@ -1344,61 +1302,21 @@ a:focus {
 
 
 
-
-
-.gift-wrapper .gift-content .gift-above-btn {
-    padding-left: 15px;
-    color: #925da1;
-    font-size: 15px;
-}
-
-.gift-wrapper .gift-content .gift-above-btn p {
-    margin: 0;
-    padding: 5px;
-}
-
-.gift-wrapper .gift-content .gift-above-btn .gift-note {
-    text-transform: uppercase;
-    display: inline-block;
-    background-color: #f3e9f5;
-    color: #560c6e;
-    font-size: 12px;
-    padding: 5px 15px;
-    border-radius: 50px;
-
-}
-
-.gift-wrapper .gift-content .gift-above-btn .gift-worth {
-    color: #5b2166;
-}
-
-.gift-wrapper .gift-content .gift-above-btn .gift-worth span {
-    font-size: 24px;
-}
-
-.gift-wrapper .gift-content .btn-container {
-    text-align: center;
-    border-top: dashed 3px #d9c6dd;
-    padding-top: 20px;
-}
-
-.gift-wrapper .gift-content .btn-container button,
-.self-alert-modal button {
+/* .self-alert-modal button {
     margin: 0 5px;
     line-height: 30px;
     border: 0;
     border-radius: 25px;
-    padding: 5px 0px;
-    width: 150px;
+    padding: 5px 25px;
     text-transform: uppercase;
     font-size: 12px;
 }
 
 /* .gift-wrapper .gift-content .btn-container button.declined-btn {
     width: 90%;
-} */
+} *./
 
-.gift-wrapper .gift-content .btn-container button.gift-accept-btn,
+
 .decline-modal .decline-options.submit .btn-submit,
 .self-alert-modal button {
     background-color: #500c68;
@@ -1406,8 +1324,6 @@ a:focus {
 }
 
 .gift-wrapper .gift-content .btn-container button.gift-decline-btn,
-.gift-wrapper .gift-content .btn-container button.gift-accept-btn+.gift-accept-btn,
-.gift-wrapper .gift-content .btn-container button.gift-accept-btn+.gift-accept-btn:hover,
 .decline-modal .decline-options.submit .btn-cancel,
 .self-alert-modal button+button {
     background-color: #d0b8d7;
@@ -1424,6 +1340,7 @@ a:focus {
     color: #fff;
 }
 
+*/
 .decline-modal h5 {
     font-size: 18px;
 }
@@ -1449,7 +1366,7 @@ a:focus {
     text-align: center;
 }
 
-.decline-modal .decline-options.submit .btn-submit,
+/* .decline-modal .decline-options.submit .btn-submit,
 .decline-modal .decline-options.submit .btn-cancel {
     width: 200px;
     text-transform: uppercase;
@@ -1457,7 +1374,7 @@ a:focus {
     line-height: 40px;
     padding: 0;
     margin: 0 8px;
-}
+} */
 
 .self-alert-modal {
     padding: 20px;

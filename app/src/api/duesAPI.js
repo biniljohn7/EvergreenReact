@@ -143,7 +143,7 @@ export const FetchGiftList = (data) => {
           Math.floor(Math.random() * list.length)
         ];
       }
-      for (i = 1; i <= 5; i++) {
+      for (i = 1; i <= 4; i++) {
         dummy.list.push({
           "id": i + (data.pgn * 1000),
           "validity": getRandom([
@@ -170,7 +170,8 @@ export const FetchGiftList = (data) => {
           "date": new Date(
             new Date().getTime() -
             Math.random() * 9999999999
-          ).toDateString()
+          ).toDateString(),
+          "section": "received"
         });
       }
       response.data = dummy;
@@ -209,7 +210,7 @@ export const FetchGiftedList = (data) => {
           Math.floor(Math.random() * list.length)
         ];
       }
-      for (i = 1; i <= 5; i++) {
+      for (i = 1; i <= 4; i++) {
         dummy.list.push({
           "id": i + (data.pgn * 1000),
           "validity": getRandom([
@@ -236,7 +237,12 @@ export const FetchGiftedList = (data) => {
           "date": new Date(
             new Date().getTime() -
             Math.random() * 9999999999
-          ).toDateString()
+          ).toDateString(),
+          "section": "gifted",
+          "action": getRandom([
+            "accepted",
+            "declined"
+          ])
         });
       }
       response.data = dummy;

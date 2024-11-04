@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal } from "reactstrap";
-import Wrapper from "../dues.style";
+import { Wrapper } from './GiftsLists.style'
 import { declineGift } from "../../../api/duesAPI";
 //import { payment as enhancer } from "./enhancer";
 
@@ -98,7 +98,7 @@ const GiftDecline = (props) => {
                                 <div className="p-4 text-center">
                                     <p>You have declined the gift membership received!</p>
                                     <p className="decline-options submit text-center mb-0">
-                                        <button type="button" className="btn btn-submit"  onClick={props.closeDcln} >OK</button>
+                                        <button type="button" className="btn-main btn-purple btn-long"  onClick={props.closeDcln} >OK</button>
                                     </p>
                                 </div>
                                 
@@ -140,8 +140,8 @@ const GiftDecline = (props) => {
                                     )}
                                 
                                     <div className="decline-options submit">
-                                        <button type="submit" className="btn btn-submit" onClick={handleFormSubmit}>Decline</button>
-                                        <button type="button" className="btn btn-cancel"  onClick={props.closeDcln} >cancel</button>
+                                        <button type="submit" className="btn-main btn-purple" onClick={handleFormSubmit}>Decline</button>
+                                        <button type="button" className="btn-main btn-plain"  onClick={props.closeDcln} >cancel</button>
                                     </div>
                                 </form>
                             </>

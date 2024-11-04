@@ -3,8 +3,8 @@ import mediaBg from "../../../assets/images/gift-net.png";
 
 export const Wrapper = styled.div`
 
-    background-color:#ff9;
-
+    background-color:#fff;
+    
     .no-content{
         width: 100%;
         text-align: center;
@@ -15,6 +15,17 @@ export const Wrapper = styled.div`
         flex-direction:row;
         flex-wrap:wrap;
         margin: 0 -15px;
+
+
+        .no-content {
+            width: 100%;
+            text-align: center;
+            padding: 150px 0;
+            
+            &.show-more{
+                padding:30px 0;
+            }
+        }
 
         .gift-wrapper {
             border: #500c68 1px solid;
@@ -79,7 +90,71 @@ export const Wrapper = styled.div`
                 width: 62%;
                 margin-left: 2%;
                 padding: 20px 0;
+
+                .gift-above-btn {
+                    padding-left: 15px;
+                    color: #925da1;
+                    font-size: 15px;
+
+                    p {
+                        margin: 0;
+                        padding: 5px;
+                    }
+                    
+                    .gift-note {
+                        text-transform: uppercase;
+                        display: inline-block;
+                        background-color: #f3e9f5;
+                        color: #560c6e;
+                        font-size: 12px;
+                        padding: 5px 15px;
+                        border-radius: 50px;
+                    }
+                    .gift-worth {
+                        color: #5b2166;
+
+                        span {
+                            font-size: 24px;
+                        }
+                    }
+                }
+                
+                .btn-container {
+                    text-align: center;
+                    border-top: dashed 3px #d9c6dd;
+                    padding-top: 20px;
+                }
+
             }
         }
+    }
+    
+    .btn-main{
+        margin: 0 5px;
+        line-height: 30px;
+        border: 0;
+        border-radius: 25px;
+        padding: 5px 35px;
+        text-transform: uppercase;
+        font-size: 12px;
+    }
+
+    .btn-purple{
+        background-color: #500c68;
+        color: #fff;
+        &:hover{
+            background-color: #6f0295;
+        }
+    }
+    .btn-plain{
+        background-color: #d0b8d7;
+        color: #500c68;
+    }
+    .btn-del:hover{
+        background-color: #c00;
+        color: #fff;
+    }
+    .btn-long{
+        padding:7px 50px;
     }
 `
