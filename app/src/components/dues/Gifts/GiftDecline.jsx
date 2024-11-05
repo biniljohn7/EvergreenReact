@@ -5,12 +5,13 @@ import { declineGift } from "../../../api/duesAPI";
 //import { payment as enhancer } from "./enhancer";
 
 const GiftDecline = (props) => {
-    //let Spn = Spinner();
     const [selectedReason, setSelectedReason] = useState('');
     const [additionalReason, setAdditionalReason] = useState('');
     const [giftID,setGiftId] = useState(props.data.id);
     const [isDataOn,setDataOn] = useState(true);
     const [isSuccess, setSuccess] = useState(false);
+    const [isSpinner, setSpinner] = useState(false);
+    const [isNEroor, setNError] = useState(false);
     
     const reasons = [
         "My membership plan doesn't expire soon.",
@@ -35,13 +36,16 @@ const GiftDecline = (props) => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        setSpinner(true);
 
         if(selectedReason === ''){
             setDataOn(false);
+            setSpinner(false);
             return;
         }
         if(selectedReason === 'Other' && additionalReason === ''){
             setDataOn(false);
+            setSpinner(false);
             return;
         }
 
@@ -62,10 +66,19 @@ const GiftDecline = (props) => {
                     setSuccess(true);
                     setSelectedReason('');
                     setAdditionalReason('');
+                    //
+                    props.remove(giftID);
+                }else{
+                    setNError(true);
                 }
+                setSpinner(false);
+            })
+            .catch((err) => {
+                setNError(true);
+                setSpinner(false);
             })
             .finally(() => {
-                props.remove();
+                
                 //props.closeDcln();
             });
         }
@@ -92,6 +105,7 @@ const GiftDecline = (props) => {
                                     : " plr-20 ")
                         }
                     >
+                        
                         {isSuccess ? (
                             <>
                                 <div className="p-4 text-center">
@@ -110,6 +124,11 @@ const GiftDecline = (props) => {
                                     {!isDataOn &&(
                                         <div className="alert alert-danger mt-5 p-2"><small>Please specify your reason!</small></div>
                                     )}
+                                    {
+                                        isNEroor?
+                                                <div className="alert alert-danger mt-5 p-2"><small>Error! Please try again.</small></div>
+                                        :null
+                                    }
                                     {reasons.map((reason, index) => (
                                         <div className="decline-options" key={index}>
                                             <label>
@@ -137,11 +156,18 @@ const GiftDecline = (props) => {
                                             </textarea>
                                         </div>
                                     )}
-                                
-                                    <div className="decline-options submit">
-                                        <button type="button" className="btn-main btn-purple" onClick={handleFormSubmit}>Decline</button>
-                                        <button type="button" className="btn-main btn-plain"  onClick={props.closeDcln} >cancel</button>
-                                    </div>
+                                    {
+                                     !isSpinner?
+                                        <div className="decline-options submit">
+                                            <button type="button" className="btn-main btn-purple" onClick={handleFormSubmit}>Decline</button>
+                                            <button type="button" className="btn-main btn-plain"  onClick={props.closeDcln} >cancel</button>
+                                        </div>
+                                        :
+                                        <div className="decline-spinner-show">
+                                            <div className="pix-spinner"></div>
+                                        </div>
+                                    }
+                                    
                                 </form>
                             </>
                         )}

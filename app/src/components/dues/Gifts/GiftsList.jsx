@@ -87,10 +87,8 @@ function GiftsList({ ops }) {
         loadGiftList();
     }, []);
 
-    // console.log(giftData);
-    const removeData = ()=>{
-        setgiftData((prevData) => prevData.filter(item => item.id !== isDclnData));
-        setDclnData(null);
+    const removeData = (removeID)=>{
+        setgiftData((prevData) => prevData.filter(item => item.id !== removeID));
     }
 
     return (

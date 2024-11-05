@@ -232,7 +232,7 @@ export const FetchGiftedList = (data) => {
             'Regular',
             'Medium'
           ]),
-          "grade": Math.random() > .5 ? 'high' : "low",
+          "grade": Math.random() > .5 ? 'different' : "same",
           "currentplan": Math.random() > .5,
           "date": new Date(
             new Date().getTime() -
@@ -251,6 +251,7 @@ export const FetchGiftedList = (data) => {
 
 
 
+
       return response.data;
     });
 };
@@ -263,3 +264,12 @@ export const declineGift = (data) => {
       return { "success": 1, "msg": "Gift Membership" };
     });
 };
+
+export const acceptGift = (data) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?dummy-url`, data)
+    .then((response) => {
+      return { "success": 1, "msg": "Gift Membership" };
+    });
+}

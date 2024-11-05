@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Modal } from "reactstrap";
+
 import { Wrapper } from './GiftsLists.style'
+
+import { acceptGift } from "../../../api/duesAPI";
 
 const GiftAcceptModal = (props) => {   
     return (
@@ -17,18 +20,17 @@ const GiftAcceptModal = (props) => {
                         <div className="self-alert-modal">
                             <h5>ACCEPT YOUR GIFT.</h5>
                             <hr />
-                            {props.data.grade === 'high' && (
-                            <>
-                                <p>The <strong>{props.data.newplan}</strong> gifted to you by <strong>{props.data.giftedby}</strong> with a validity of <strong>{props.data.validity}</strong> has a higher value than your current membership plan.</p>
-                                <p>You can apply the membership now or after expiring the current plan.</p>
-                                <p>
-                                    <button type="button" className="btn-main btn-purple">Apply now</button>
-                                    <button type="button" className="btn-main btn-plain">apply after expiry</button>
-                                </p>
-                            </>
+                            {props.data.grade === 'different' ?
+                                <>
+                                    <p>The <strong>{props.data.newplan}</strong> gifted to you by <strong>{props.data.giftedby}</strong> with a validity of <strong>{props.data.validity}</strong> is different from your current membership plan.</p>
+                                    <p>You can apply the membership now or after expiring the current plan.</p>
+                                    <p>
+                                        <button type="button" className="btn-main btn-purple">Apply now</button>
+                                        <button type="button" className="btn-main btn-plain">apply after expiry</button>
+                                    </p>
+                                </>
                             
-                            )}
-                            { props.data.grade === 'low' && (
+                            :
                                 <>
                                     <p>The <strong>{props.data.newplan}</strong> gifted to you by <strong>{props.data.giftedby}</strong> with a validity of <strong>{props.data.validity}</strong> has a lower value than your current membership plan.</p>
                                     <p>You can apply the membership now or after expiring the current plan.</p>
@@ -37,9 +39,7 @@ const GiftAcceptModal = (props) => {
                                         <button type="button" className="btn-main btn-plain">apply after expiry</button>
                                     </p>
                                 </>
-                            )}
-
-                            
+                            }
                         </div>
                     ):(
                         <div className="self-alert-modal">

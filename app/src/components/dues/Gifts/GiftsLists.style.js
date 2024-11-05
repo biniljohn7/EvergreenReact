@@ -87,9 +87,18 @@ export const Wrapper = styled.div`
                 }
             }
             .gift-content {
-                width: 62%;
-                margin-left: 2%;
+                width: calc(100% - 38%);
+                margin-left: 3%;
                 padding: 20px 0;
+
+                @media only screen and (max-width:640px){
+                    width: calc(100% - 42%);
+                    margin-left: 2%;
+                }
+                @media only screen and (max-width:480px){
+                    width: 100%;
+                    margin-left: 0;
+                }
 
                 .gift-above-btn {
                     padding-left: 15px;
@@ -180,6 +189,12 @@ export const Wrapper = styled.div`
         .decline-options.submit {
             padding: 20px 0;
             text-align: center;
+        }
+        .decline-spinner-show{
+            text-align:center;
+            width: 42px;
+            height:42px;
+            margin: 20px auto;
         }
     }
 `
