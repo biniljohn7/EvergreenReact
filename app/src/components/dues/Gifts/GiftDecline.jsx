@@ -65,7 +65,7 @@ const GiftDecline = (props) => {
                 }
             })
             .finally(() => {
-                
+                props.remove();
                 //props.closeDcln();
             });
         }
@@ -79,13 +79,12 @@ const GiftDecline = (props) => {
                 toggle={props.toggle}
                 centered
                 size="md"
-                className="decline-modal"
             >
                 
                 <Wrapper>
                     <div
                         className={
-                            "ptb-20 m-auto" +
+                            "ptb-20 m-auto decline-modal" +
                             (window.innerWidth < 768
                                 ? " plr-10 "
                                 : window.innerWidth === 768
@@ -140,7 +139,7 @@ const GiftDecline = (props) => {
                                     )}
                                 
                                     <div className="decline-options submit">
-                                        <button type="submit" className="btn-main btn-purple" onClick={handleFormSubmit}>Decline</button>
+                                        <button type="button" className="btn-main btn-purple" onClick={handleFormSubmit}>Decline</button>
                                         <button type="button" className="btn-main btn-plain"  onClick={props.closeDcln} >cancel</button>
                                     </div>
                                 </form>

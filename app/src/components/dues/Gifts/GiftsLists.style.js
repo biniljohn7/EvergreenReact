@@ -157,4 +157,29 @@ export const Wrapper = styled.div`
     .btn-long{
         padding:7px 50px;
     }
+
+    .decline-modal{
+        h5 {
+            font-size: 18px;
+        }
+        .decline-options {
+            padding: 10px 0 0 40px;
+            position: relative;
+        
+            input[type=radio] {
+                position: absolute;
+                left: 15px;
+                top: 15px;
+            }
+             label {
+                color: #222;
+                cursor: pointer;
+            }
+        }
+
+        .decline-options.submit {
+            padding: 20px 0;
+            text-align: center;
+        }
+    }
 `

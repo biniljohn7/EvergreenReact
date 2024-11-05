@@ -1341,30 +1341,14 @@ a:focus {
 }
 
 */
-.decline-modal h5 {
-    font-size: 18px;
-}
 
-.decline-modal .decline-options {
-    padding: 10px 0 0 40px;
-    position: relative;
-}
 
-.decline-modal .decline-options input[type=radio] {
-    position: absolute;
-    left: 15px;
-    top: 15px;
-}
 
-.decline-modal .decline-options label {
-    color: #222;
-    cursor: pointer;
-}
 
-.decline-modal .decline-options.submit {
-    padding: 20px 0;
-    text-align: center;
-}
+
+
+
+
 
 /* .decline-modal .decline-options.submit .btn-submit,
 .decline-modal .decline-options.submit .btn-cancel {

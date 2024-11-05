@@ -165,8 +165,8 @@ export const FetchGiftList = (data) => {
             'Regular',
             'Medium'
           ]),
-          "status": Math.random() > .5 ? 'high' : "low",
-          "have": Math.random() > .5,
+          "grade": Math.random() > .5 ? 'high' : "low",
+          "currentplan": Math.random() > .5,
           "date": new Date(
             new Date().getTime() -
             Math.random() * 9999999999
@@ -220,7 +220,7 @@ export const FetchGiftedList = (data) => {
             '1 Month',
             '10 Days',
           ]),
-          "gifter": getRandom([
+          "receiver": getRandom([
             'Ethan Hunt',
             'Steve Rogers',
             'Sunny Leone',
@@ -232,8 +232,8 @@ export const FetchGiftedList = (data) => {
             'Regular',
             'Medium'
           ]),
-          "status": Math.random() > .5 ? 'high' : "low",
-          "have": Math.random() > .5,
+          "grade": Math.random() > .5 ? 'high' : "low",
+          "currentplan": Math.random() > .5,
           "date": new Date(
             new Date().getTime() -
             Math.random() * 9999999999

@@ -8,6 +8,7 @@ import { Wrapper } from './GiftsLists.style'
 
 //Modals
 import DeclineModal from "./GiftDecline";
+import AcceptModal from "./GiftAcceptModal";
 
 // loading images
 import Gift from "../../../assets/images/gift-box.png";
@@ -23,8 +24,17 @@ function GiftsList({ ops }) {
     const [isDclnData, setDclnData] = useState(null);
     const closeDcln = () => setDclnData(null);
     const openDeclineModal = (data) => {
-        // setDclnOpn(true);
         setDclnData(data);
+    }
+    
+
+
+    const [isAcptData, setAcptData] = useState(null);
+    const openAcceptModal = (data) => {
+        setAcptData(data);
+    }
+    const closeAcceptModal = () => {
+        setAcptData(null);
     }
 
     //const [isGiftData, setGiftData] = useState(null);../../assets/images/gift-box.png
@@ -77,6 +87,12 @@ function GiftsList({ ops }) {
         loadGiftList();
     }, []);
 
+    // console.log(giftData);
+    const removeData = ()=>{
+        setgiftData((prevData) => prevData.filter(item => item.id !== isDclnData));
+        setDclnData(null);
+    }
+
     return (
         <Wrapper>
             <div className="gift-container">
@@ -110,29 +126,68 @@ function GiftsList({ ops }) {
                                     <div className="gift-above-btn">
                                         <p>
                                             <span className="gift-note">
-                                                New Gift received
+                                                {
+                                                    data.action?
+                                                    <p>{data.action}</p>
+                                                    :
+                                                    <p>New Gift received</p>
+                                                }
                                             </span>
                                         </p>
-                                        <p>
-                                            <strong>
-                                                {data.gifter}
-                                            </strong>
-                                            {' has gifted you a '}
-                                            <strong>
-                                                {data.plans}
-                                            </strong>
-                                        </p>
-                                        <p className="gift-worth">
-                                            <span>
-                                                {'worth ' + Pix.dollar(data.price)}
-                                            </span>
-                                            {' on ' + data.date}
-                                        </p>
+                                        {
+                                            data.section === 'received'?
+                                                <>
+                                                    <p>
+                                                        <strong>
+                                                            {data.gifter}
+                                                        </strong>
+                                                        {' has gifted you a '}
+                                                        <strong>
+                                                            {data.plans}
+                                                        </strong>
+                                                    </p>
+                                                    <p className="gift-worth">
+                                                        <span>
+                                                            {'worth ' + Pix.dollar(data.price)}
+                                                        </span>
+                                                        {' on ' + data.date}
+                                                    </p>
+                                                </>
+                                            :null    
+                                        }
+                                        {
+                                            data.section === 'gifted'?
+                                                <>
+                                                    <p>
+                                                        <strong>{data.plans}</strong>
+                                                    </p>
+                                                    <p className="gift-worth">
+                                                        <span >{' worth ' + Pix.dollar(data.price)}</span> 
+                                                        {' that you gifted has been declined by '}  
+                                                        <strong>{data.receiver}</strong> 
+                                                        {' on '+data.date}
+                                                    </p>
+                                                </>
+                                            :null    
+                                        }
+                                        
                                     </div>
-                                    <div className="btn-container">
-                                        <button type='button' className="btn-main btn-purple" /* onClick={() => openAcceptModal({ giftid: data.id, current: data.have, new: data.plans, validity: data.validity, plan: data.status, gifted: data.gifter })} */>Accept</button>
-                                        <button type='button' className="btn-main btn-plain btn-del" onClick={() => openDeclineModal({ id: data.id })}>Decline</button>
-                                    </div>
+                                    {
+                                        data.section === 'received'?
+                                            <div className="btn-container">
+                                                <button type='button' className="btn-main btn-purple" onClick={() => openAcceptModal({ giftId:data.id, currentplan:data.currentplan,newplan:data.plans,grade:data.grade,giftedby:data.gifter, validity:data.validity })}>Accept</button>
+                                                <button type='button' className="btn-main btn-plain btn-del" onClick={() => openDeclineModal({id:data.id})}>Decline</button>
+                                            </div>
+                                        :null    
+                                    }
+                                    {
+                                        data.section === 'gifted'?
+                                            <div className="btn-container">
+                                                <button type="button" className="btn-main btn-purple" /* onClick={(e) => setCfmOpn(true)} */>Make it your's</button>
+                                                <button type="button" className="btn-main btn-plain">Gift to someone</button>
+                                            </div>
+                                        :null    
+                                    }
                                 </div>
                             </div>
                         )
@@ -179,8 +234,20 @@ function GiftsList({ ops }) {
                     }}
                     closeDcln={closeDcln}
                     data={isDclnData}
+                    remove={removeData}
 
                 />
+            )}
+            {isAcptData && (
+                <AcceptModal
+                    isOpen={isAcptData}
+                    toggle={() => {
+                        setAcptData(!isAcptData)
+                    }}
+                    closeAccModal={closeAcceptModal}
+                    data={isAcptData}
+                />
+
             )}
         </Wrapper>
     )
