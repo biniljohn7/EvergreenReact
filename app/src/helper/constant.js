@@ -1,5 +1,14 @@
 export const pl = process.env.REACT_APP_ENV;
-export const BASE_URL = process.env.REACT_APP_API_URL;
+
+let ApiURL = process.env.REACT_APP_API_URL;
+
+if ((/^192\.168\./).test(window.location.host)) {
+    ApiURL = 'http://' +
+        window.location.host.replace(/\:.*$/, '') +
+        '/evergreenadmin/api';
+}
+
+export const BASE_URL = ApiURL;
 export const ISLOCAL = !!window.localStorage.isLocal;
 // export const BASE_URL = 1 ?
 //     'http://localhost/evergreenadmin/api' :
