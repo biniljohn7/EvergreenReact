@@ -41,8 +41,6 @@ const { logout } = AuthActions;
 
 const Membership = (props) => {
 
-    //console.log(store.getState().auth.memberId);
-
     const [dropdown, setDropdown] = useState(null);
     const [subDropdown, setSubDropdown] = useState(null);
     const [isOpen, setOpen] = useState(false);
@@ -53,9 +51,10 @@ const Membership = (props) => {
     const [isGiftChk, giftCheck] = useState(false);
 
     const [isMbrOpen, setMbrOpen] = useState(false);
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState([]);
 
-    const [members, setMembers] = useState({});
+    const [members, setMembers] = useState([]);
+    const [subDropItems, setSubDrop] = useState({});
 
     const {
         values,
@@ -64,6 +63,9 @@ const Membership = (props) => {
         submitCount,
         handleChange
     } = props;
+
+    const lgMbr = store.getState().auth.memberId;
+    let mbrExist = false;
 
     let Spn = Spinner();
     let Tst = Toast();
@@ -133,150 +135,47 @@ const Membership = (props) => {
     };
 
     const addMbr = (mbrId) => {
-        setMembers(
-            prevItems => ({
-                ...prevItems,
-                [mbrId]: {
-                    id: mbrId,
-                    planId: null,
-                    subPlanId: null,
-                    secDonation: null,
-                    natnDonation: null
-                },
-            })
-        );
+        setMembers(prevMembers => {
+            const exstMbrIndx = prevMembers.findIndex(member => member.id === mbrId);
+
+            if (exstMbrIndx !== -1) {
+                // If the member exists, update the specific property for that member
+                /*return prevMembers.map((member, index) =>
+                    index === exstMbrIndx ? { ...member, planId: selectedOp.membershipTypeId } : member
+                );*/
+                mbrExist = true;
+                return prevMembers;
+            } else {
+                return [
+                    ...prevMembers,
+                    {
+                        id: mbrId,
+                        planId: null,
+                        subPlanId: null,
+                        secDonation: null,
+                        natnDonation: null,
+                    }
+                ];
+            }
+        });
     }
 
-    // addMbr(store.getState().auth.memberId);
-
     const handleAddContent = (person) => {
-        setContent(prevContent => ([
-            ...prevContent,
-            <div className="ech-mbr" id={`person-${person.id}`} key={person.id}>
-                <div className="avatar-sec">
-                    {person.avatarUrl ? (
-                        <div className="mbr-img">
-                            <img src={person.avatarUrl} alt="" />
-                        </div>
-                    ) : (
-                        <div className="no-img">
-                            <span class="material-symbols-outlined icn">
-                                person
-                            </span>
-                        </div>
-                    )
-                    }
-                </div>
-                <div className="mbr-nam">
-                    {person.name}
-                </div>
-                <div className="action">
-                    <span className="material-symbols-outlined">cancel</span>
-                </div>
-
-
-                <div className="mtb-20">
-                    <label className="fs-16">Membership Dues/Fees:</label>
-                    <Select
-                        id=""
-                        placeholder="Select membership type"
-                        options={dropdown || []}
-                        styles={{
-                            control: (value) => {
-                                return {
-                                    ...value,
-                                    minHeight: "44px",
-                                    width: window.innerWidth >= 768 ? "50%" : "100%",
-                                };
-                            },
-                            placeholder: (defaultStyles) => {
-                                return {
-                                    ...defaultStyles,
-                                    paddingTop: "10px",
-                                    paddingBottom: "10px",
-                                    fontSize: "14px",
-                                };
-                            },
-                            menu: (provided, state) => ({
-                                ...provided,
-                                width: window.innerWidth >= 768 ? "50%" : "100%",
-                            }),
-                        }}
-                        onChange={(selectedOp) => {
-                            if (
-                                selectedOp &&
-                                selectedOp.membershipTypeId
-                            ) {
-                                Spn.Show();
-
-                                setPkdPlan(selectedOp.membershipTypeId);   //  set plan and sub plan state here
-                                setPkdSubPlan(false);
-
-                                getAttachment(selectedOp.membershipTypeId)
-                                    .then((res) => {
-                                        setSubDropdown(res.data || []);
-                                    })
-                                    .catch((err) => {
-                                        //     console.error(err);
-                                        //     ToastsStore.info("Failed to retrive list");
-                                    })
-                                    .finally(() => {
-                                        Spn.Hide();
-                                    });
-                            }
-                        }}
-                        getOptionLabel={(op) => op.membershipTypeName}
-                        getOptionValue={(op) => op}
-                    />
-                    {/* <Error field="plan" /> */}
-                </div>
-                {subDropdown && (
-                    <div className="mt-10">
-                        <Select
-                            id="subPlan2"
-                            placeholder="Amount"
-                            options={subDropdown || []}
-                            styles={{
-                                control: (value) => {
-                                    return {
-                                        ...value,
-                                        minHeight: "44px",
-                                        width: window.innerWidth >= 768 ? "50%" : "100%",
-                                    };
-                                },
-                                placeholder: (defaultStyles) => {
-                                    return {
-                                        ...defaultStyles,
-                                        paddingTop: "10px",
-                                        paddingBottom: "10px",
-                                        fontSize: "14px",
-                                    };
-                                },
-                                menu: (provided, state) => ({
-                                    ...provided,
-                                    width: window.innerWidth >= 768 ? "50%" : "100%",
-                                }),
-                            }}
-                            onChange={(selectedOp) => {
-                                setPkdSubPlan(selectedOp);
-                            }}
-                            getOptionLabel={(op) => op.chargesTitle}
-                            getOptionValue={(op) => op}
-                            value={PkdSubPlan}
-                        />
-                        <Error field="subPlan" />
-                    </div>
-                )}
-
-
-            </div>
-        ]));
 
         addMbr(person.id);
+        if (!mbrExist) {
+            setContent(
+                [
+                    ...content,
+                    person
+                ]
+            );
+        } else {
+            console.log('member exist');
+        }
         setMbrOpen(false);
     };
 
-    console.log(members);
 
     return <Wrapper>
         {Spn.Obj}
@@ -346,12 +245,25 @@ const Membership = (props) => {
                                         ) {
                                             Spn.Show();
 
-                                            setPkdPlan(selectedOp.membershipTypeId);
-                                            setPkdSubPlan(false);
+                                            // setPkdPlan(selectedOp.membershipTypeId);
+                                            // setPkdSubPlan(false);
+                                            setMembers(prevItems =>
+                                                prevItems.map((mbr) =>
+                                                    mbr.id === lgMbr ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
+                                                )
+                                            );
 
                                             getAttachment(selectedOp.membershipTypeId)
                                                 .then((res) => {
-                                                    setSubDropdown(res.data || []);
+                                                    // setSubDropdown(res.data || []);
+                                                    setSubDrop(prevDrpItems =>
+                                                    ({
+                                                        ...prevDrpItems,
+                                                        [lgMbr]: {
+                                                            items: res.data || []
+                                                        },
+                                                    })
+                                                    );
                                                 })
                                                 .catch((err) => {
                                                     //     console.error(err);
@@ -367,12 +279,12 @@ const Membership = (props) => {
                                 />
                                 <Error field="plan" />
                             </div>
-                            {subDropdown && (
+                            {subDropItems && subDropItems[lgMbr] && subDropItems[lgMbr].items && (
                                 <div className="mt-10">
                                     <Select
                                         id="subPlan"
                                         placeholder="Amount"
-                                        options={subDropdown || []}
+                                        options={subDropItems[lgMbr].items || []}
                                         styles={{
                                             control: (value) => {
                                                 return {
@@ -395,11 +307,16 @@ const Membership = (props) => {
                                             }),
                                         }}
                                         onChange={(selectedOp) => {
-                                            setPkdSubPlan(selectedOp);
+                                            //setPkdSubPlan(selectedOp);
+                                            setMembers(prevItems =>
+                                                prevItems.map((mbr) =>
+                                                    mbr.id === lgMbr ? { ...mbr, subPlanId: selectedOp } : mbr
+                                                )
+                                            );
                                         }}
                                         getOptionLabel={(op) => op.chargesTitle}
                                         getOptionValue={(op) => op}
-                                        value={PkdSubPlan}
+                                        value={members.find(m => m.id === lgMbr)?.subPlanId || null}
                                     />
                                     <Error field="subPlan" />
                                 </div>
@@ -422,7 +339,142 @@ const Membership = (props) => {
                         <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
 
                             <div id="selectedMembers">
-                                {content}
+                                {
+                                    content && content.length > 0 ? (
+                                        content.map(item => (
+                                            <div className="ech-mbr" id={`person-${item.id}`} key={item.id}>
+                                                <div className="avatar-sec">
+                                                    {item.avatarUrl ? (
+                                                        <div className="mbr-img">
+                                                            <img src={item.avatarUrl} alt="" />
+                                                        </div>
+                                                    ) : (
+                                                        <div className="no-img">
+                                                            <span class="material-symbols-outlined icn">
+                                                                person
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                    }
+                                                </div>
+                                                <div className="mbr-nam">
+                                                    {item.name}
+                                                </div>
+                                                <div className="action">
+                                                    <span className="material-symbols-outlined">cancel</span>
+                                                </div>
+
+                                                <div className="" style={{ width: '450px' }}>
+                                                    <label className="fs-16">Membership Dues/Fees:</label>
+                                                    <Select
+                                                        id=""
+                                                        placeholder="Select membership type"
+                                                        options={dropdown || []}
+                                                        styles={{
+                                                            control: (value) => {
+                                                                return {
+                                                                    ...value,
+                                                                    minHeight: "44px",
+                                                                    width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                                };
+                                                            },
+                                                            placeholder: (defaultStyles) => {
+                                                                return {
+                                                                    ...defaultStyles,
+                                                                    paddingTop: "10px",
+                                                                    paddingBottom: "10px",
+                                                                    fontSize: "14px",
+                                                                };
+                                                            },
+                                                            menu: (provided, state) => ({
+                                                                ...provided,
+                                                                width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                            }),
+                                                        }}
+                                                        onChange={(selectedOp) => {
+                                                            if (
+                                                                selectedOp &&
+                                                                selectedOp.membershipTypeId
+                                                            ) {
+                                                                Spn.Show();
+
+                                                                setMembers(prevItems =>
+                                                                    prevItems.map((mbr) =>
+                                                                        mbr.id === item.id ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
+                                                                    )
+                                                                );
+
+                                                                getAttachment(selectedOp.membershipTypeId)
+                                                                    .then((res) => {
+
+                                                                        setSubDrop(prevDrpItems =>
+                                                                        ({
+                                                                            ...prevDrpItems,
+                                                                            [item.id]: {
+                                                                                items: res.data || []
+                                                                            },
+                                                                        })
+                                                                        );
+                                                                    })
+                                                                    .catch((err) => {
+                                                                        //     console.error(err);
+                                                                    })
+                                                                    .finally(() => {
+                                                                        Spn.Hide();
+                                                                    });
+                                                            }
+                                                        }}
+                                                        getOptionLabel={(op) => op.membershipTypeName}
+                                                        getOptionValue={(op) => op}
+                                                    />
+                                                    {/* <Error field="plan" /> */}
+                                                </div>
+
+                                                {subDropItems && subDropItems[item.id] && subDropItems[item.id].items && (
+                                                    <div className="" style={{ width: '450px' }}>
+                                                        <Select
+                                                            id="subPlan2"
+                                                            placeholder="Amount"
+                                                            options={subDropItems[item.id].items || []}
+                                                            styles={{
+                                                                control: (value) => {
+                                                                    return {
+                                                                        ...value,
+                                                                        minHeight: "44px",
+                                                                        width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                                    };
+                                                                },
+                                                                placeholder: (defaultStyles) => {
+                                                                    return {
+                                                                        ...defaultStyles,
+                                                                        paddingTop: "10px",
+                                                                        paddingBottom: "10px",
+                                                                        fontSize: "14px",
+                                                                    };
+                                                                },
+                                                                menu: (provided, state) => ({
+                                                                    ...provided,
+                                                                    width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                                }),
+                                                            }}
+                                                            onChange={(selectedOp) => {
+                                                                setMembers(prevItems =>
+                                                                    prevItems.map((mbr) =>
+                                                                        mbr.id === item.id ? { ...mbr, subPlanId: selectedOp } : mbr
+                                                                    )
+                                                                );
+                                                            }}
+                                                            getOptionLabel={(op) => op.chargesTitle}
+                                                            getOptionValue={(op) => op}
+                                                            value={members.find(m => m.id === item.id)?.subPlanId || null}
+                                                        />
+                                                        <Error field="subPlan" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))
+                                    ) : ('')
+                                }
                             </div>
 
 
@@ -438,11 +490,6 @@ const Membership = (props) => {
                             </div>
                         </div>
                     </>
-
-
-
-
-
 
                     {
                         PkdPlan && PkdSubPlan ?
@@ -461,28 +508,32 @@ const Membership = (props) => {
             </div>
         </div>
 
-        {data && isOpen && (
-            <Modal
-                isOpen={isOpen}
-                toggle={() => {
-                    setOpen(!isOpen)
-                }}
-                data={data}
-                membershipValue={values}
-                changeURL={props.history.push}
-            />
-        )}
+        {
+            data && isOpen && (
+                <Modal
+                    isOpen={isOpen}
+                    toggle={() => {
+                        setOpen(!isOpen)
+                    }}
+                    data={data}
+                    membershipValue={values}
+                    changeURL={props.history.push}
+                />
+            )
+        }
 
-        {isMbrOpen && (
-            <MemberModal
-                isOpen={isMbrOpen}
-                toggle={() => {
-                    setMbrOpen(!isMbrOpen)
-                }}
-                addContent={handleAddContent}
-                changeURL={props.history.push}
-            />
-        )}
+        {
+            isMbrOpen && (
+                <MemberModal
+                    isOpen={isMbrOpen}
+                    toggle={() => {
+                        setMbrOpen(!isMbrOpen)
+                    }}
+                    addContent={handleAddContent}
+                    changeURL={props.history.push}
+                />
+            )
+        }
     </Wrapper >
 };
 
