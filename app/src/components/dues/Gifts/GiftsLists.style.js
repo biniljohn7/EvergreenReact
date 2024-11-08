@@ -137,7 +137,16 @@ export const Wrapper = styled.div`
             }
         }
     }
-    
+    .self-alert-modal {
+        padding: 20px;
+        text-align: center;
+        font-size: 13px;
+
+        h5 {
+            font-size: 20px;
+        }
+    }
+
     .btn-main{
         margin: 0 5px;
         line-height: 30px;

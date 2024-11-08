@@ -179,9 +179,9 @@ function GiftsList({ ops }) {
                                         :null    
                                     }
                                     {
-                                        data.section === 'gifted'?
+                                        data.section === 'gifted' && data.action === 'declined'?
                                             <div className="btn-container">
-                                                <button type="button" className="btn-main btn-purple" /* onClick={(e) => setCfmOpn(true)} */>Make it your's</button>
+                                                <button type="button" className="btn-main btn-purple" onClick={(e) => setCfmOpn(true)}>Make it your's</button>
                                                 <button type="button" className="btn-main btn-plain">Gift to someone</button>
                                             </div>
                                         :null    
@@ -244,6 +244,7 @@ function GiftsList({ ops }) {
                     }}
                     closeAccModal={closeAcceptModal}
                     data={isAcptData}
+                    remove={removeData}
                 />
 
             )}
