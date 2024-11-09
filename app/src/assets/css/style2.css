@@ -9,8 +9,26 @@
 .gift-membership #selectedMembers .ech-mbr {
     display: flex;
     flex-wrap: wrap;
+    align-items: baseline;
+    margin-bottom: 30px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.gift-membership #selectedMembers .ech-mbr .info-sec {
+    width: calc(100% - 40px);
+}
+
+.gift-membership #selectedMembers .ech-mbr .info-sec .person-info {
+    display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.gift-membership #selectedMembers .ech-mbr .action {
+    width: 25px;
+    cursor: pointer;
 }
 
 .gift-membership #selectedMembers .ech-mbr .avatar-sec {
@@ -51,7 +69,24 @@
     font-size: 20px;
 }
 
-/*  choosw member popup  */
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-row+.form-row {
+    margin-top: 15px;
+}
+
+.form-row .form-col {
+    width: calc(50% - 10px);
+}
+
+.form-row .form-col+.form-col {
+    margin-left: 20px;
+}
+
+/*  choose member popup  */
 .mbr-srch .each-mbr {
     display: flex;
     flex-wrap: wrap;
