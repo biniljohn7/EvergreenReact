@@ -2,6 +2,42 @@
     opacity: 0.6 !important;
 }
 
+.mbrshp-sec {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mbrshp-sec .mbrs-col {
+    width: calc(60% - 20px);
+}
+
+.mbrshp-sec .amt-prvw-col {
+    width: calc(40% - 20px);
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry {
+    border: 1px solid #dedede;
+    padding: 20px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .sec-head {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .list-sec {
+    margin-bottom: 20px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .ttl-amt-sec {
+    border-top: 1px solid #ededed;
+    padding-top: 15px;
+}
+
+
+
 .gift-membership #selectedMembers {
     margin-bottom: 30px;
 }

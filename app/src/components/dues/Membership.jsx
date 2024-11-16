@@ -197,6 +197,9 @@ const Membership = (props) => {
         }
     };
 
+    //console.log(content);
+    console.log(members);
+
 
     return <Wrapper>
         {Spn.Obj}
@@ -219,331 +222,353 @@ const Membership = (props) => {
             <div className="ptb-50">
                 <h4 className="mb-15">Choose Membership</h4>
                 <form>
+                    <div className="mbrshp-sec">
 
-                    <>
-                        <Checkbox
-                            id="isOwn"
-                            name="isOwn"
-                            checked={isOwnChk}
-                            onChange={(e) => {
-                                ownCheck(!isOwnChk);
+                        <div className="mbrs-col">
+                            <>
+                                <Checkbox
+                                    id="isOwn"
+                                    name="isOwn"
+                                    checked={isOwnChk}
+                                    onChange={(e) => {
+                                        ownCheck(!isOwnChk);
 
-                                if (e.target.checked) {
-                                    addMbr(lgMbr);
-                                } else {
-                                    removeMbr(lgMbr, true);
-                                }
-                            }}
-                            label="Own Membership"
-                        />
-                        <div id="ownMembership" style={{ display: isOwnChk ? 'block' : 'none' }}>
-                            <div className="form-row">
-                                <div className="form-col">
-                                    <label className="fs-16">Membership Dues/Fees:</label>
-                                    <Select
-                                        id="plan"
-                                        placeholder="Select membership type"
-                                        options={dropdown || []}
-                                        /*styles={{
-                                            control: (value) => {
-                                                return {
-                                                    ...value,
-                                                    minHeight: "44px",
-                                                    width: window.innerWidth >= 768 ? "50%" : "100%",
-                                                };
-                                            },
-                                            placeholder: (defaultStyles) => {
-                                                return {
-                                                    ...defaultStyles,
-                                                    paddingTop: "10px",
-                                                    paddingBottom: "10px",
-                                                    fontSize: "14px",
-                                                };
-                                            },
-                                            menu: (provided, state) => ({
-                                                ...provided,
-                                                width: window.innerWidth >= 768 ? "50%" : "100%",
-                                            }),
-                                        }}*/
-                                        onChange={(selectedOp) => {
-                                            if (
-                                                selectedOp &&
-                                                selectedOp.membershipTypeId
-                                            ) {
-                                                Spn.Show();
-                                                setMembers(prevItems =>
-                                                    prevItems.map((mbr) =>
-                                                        mbr.id === lgMbr ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
-                                                    )
-                                                );
-
-                                                getAttachment(selectedOp.membershipTypeId)
-                                                    .then((res) => {
-                                                        setSubDrop(prevDrpItems =>
-                                                        ({
-                                                            ...prevDrpItems,
-                                                            [lgMbr]: {
-                                                                items: res.data || []
-                                                            },
-                                                        })
-                                                        );
-                                                    })
-                                                    .catch((err) => {
-                                                        //     console.error(err);
-                                                        //     ToastsStore.info("Failed to retrive list");
-                                                    })
-                                                    .finally(() => {
-                                                        Spn.Hide();
-                                                    });
-                                            }
-                                        }}
-                                        getOptionLabel={(op) => op.membershipTypeName}
-                                        getOptionValue={(op) => op}
-                                    />
-                                    <Error field="plan" />
-                                </div>
-                                {subDropItems && subDropItems[lgMbr] && subDropItems[lgMbr].items && (
-                                    <div className="form-col">
-                                        <label className="fs-16">Amount:</label>
-                                        <Select
-                                            id="subPlan"
-                                            placeholder="Amount"
-                                            options={subDropItems[lgMbr].items || []}
-                                            // styles={{
-                                            //     control: (value) => {
-                                            //         return {
-                                            //             ...value,
-                                            //             minHeight: "44px",
-                                            //             width: window.innerWidth >= 768 ? "50%" : "100%",
-                                            //         };
-                                            //     },
-                                            //     placeholder: (defaultStyles) => {
-                                            //         return {
-                                            //             ...defaultStyles,
-                                            //             paddingTop: "10px",
-                                            //             paddingBottom: "10px",
-                                            //             fontSize: "14px",
-                                            //         };
-                                            //     },
-                                            //     menu: (provided, state) => ({
-                                            //         ...provided,
-                                            //         width: window.innerWidth >= 768 ? "50%" : "100%",
-                                            //     }),
-                                            // }}
-                                            onChange={(selectedOp) => {
-                                                setMembers(prevItems =>
-                                                    prevItems.map((mbr) =>
-                                                        mbr.id === lgMbr ? { ...mbr, subPlanId: selectedOp } : mbr
-                                                    )
-                                                );
-                                            }}
-                                            getOptionLabel={(op) => op.chargesTitle}
-                                            getOptionValue={(op) => op}
-                                            value={members.find(m => m.id === lgMbr)?.subPlanId || null}
-                                        />
-                                        <Error field="subPlan" />
-                                    </div>
-                                )}
-                            </div>
-                            <div className="form-row">
-                                <div className="form-col">
-                                    <label className="fs-16">Section Donation:</label>
-                                    <input
-                                        type="text"
-                                        name={`sec-donation-${lgMbr}`}
-                                        className="sec-donation"
-                                        onBlur={(e) => handleBlur(e, lgMbr, 'sec')}
-                                    />
-                                </div>
-                                <div className="form-col">
-                                    <label className="fs-16">Nation Donation:</label>
-                                    <input
-                                        type="text"
-                                        name={`natn-donation-${lgMbr}`}
-                                        className="natn-donation"
-                                        onBlur={(e) => handleBlur(e, lgMbr, 'natn')}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    </>
-
-                    <>
-                        <div className="mb20">
-                            <Checkbox
-                                id="isGift"
-                                name="isGift"
-                                checked={isGiftChk}
-                                onChange={(e) => {
-                                    giftCheck(!isGiftChk);
-                                }}
-                                label="Gift Membership To Others"
-                            />
-                        </div>
-                        <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
-
-                            <div id="selectedMembers">
-                                {
-                                    content && content.length > 0 ? (
-                                        content.map(item => (
-
-
-
-
-
-                                            <div className="ech-mbr" id={`person-${item.id}`} key={item.id}>
-                                                <div className="info-sec">
-                                                    <div className="person-info">
-                                                        <div className="avatar-sec">
-                                                            {item.avatarUrl ? (
-                                                                <div className="mbr-img">
-                                                                    <img src={item.avatarUrl} alt="" />
-                                                                </div>
-                                                            ) : (
-                                                                <div className="no-img">
-                                                                    <span class="material-symbols-outlined icn">
-                                                                        person
-                                                                    </span>
-                                                                </div>
+                                        if (e.target.checked) {
+                                            addMbr(lgMbr);
+                                        } else {
+                                            removeMbr(lgMbr, true);
+                                        }
+                                    }}
+                                    label="Own Membership"
+                                />
+                                <div id="ownMembership" style={{ display: isOwnChk ? 'block' : 'none' }}>
+                                    <div className="form-row">
+                                        <div className="form-col">
+                                            <label className="fs-16">Membership Dues/Fees:</label>
+                                            <Select
+                                                id="plan"
+                                                placeholder="Select membership type"
+                                                options={dropdown || []}
+                                                /*styles={{
+                                                    control: (value) => {
+                                                        return {
+                                                            ...value,
+                                                            minHeight: "44px",
+                                                            width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                        };
+                                                    },
+                                                    placeholder: (defaultStyles) => {
+                                                        return {
+                                                            ...defaultStyles,
+                                                            paddingTop: "10px",
+                                                            paddingBottom: "10px",
+                                                            fontSize: "14px",
+                                                        };
+                                                    },
+                                                    menu: (provided, state) => ({
+                                                        ...provided,
+                                                        width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                    }),
+                                                }}*/
+                                                onChange={(selectedOp) => {
+                                                    if (
+                                                        selectedOp &&
+                                                        selectedOp.membershipTypeId
+                                                    ) {
+                                                        Spn.Show();
+                                                        setMembers(prevItems =>
+                                                            prevItems.map((mbr) =>
+                                                                mbr.id === lgMbr ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
                                                             )
-                                                            }
-                                                        </div>
-                                                        <div className="mbr-nam">
-                                                            {item.name}
-                                                        </div>
-                                                    </div>
+                                                        );
 
-                                                    <div className="form-row">
-                                                        <div className="form-col">
-                                                            <label className="fs-16">Membership Dues/Fees:</label>
-                                                            <Select
-                                                                id=""
-                                                                placeholder="Select membership type"
-                                                                options={dropdown || []}
-                                                                onChange={(selectedOp) => {
-                                                                    if (
-                                                                        selectedOp &&
-                                                                        selectedOp.membershipTypeId
-                                                                    ) {
-                                                                        Spn.Show();
-
-                                                                        setMembers(prevItems =>
-                                                                            prevItems.map((mbr) =>
-                                                                                mbr.id === item.id ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
-                                                                            )
-                                                                        );
-
-                                                                        getAttachment(selectedOp.membershipTypeId)
-                                                                            .then((res) => {
-
-                                                                                setSubDrop(prevDrpItems =>
-                                                                                ({
-                                                                                    ...prevDrpItems,
-                                                                                    [item.id]: {
-                                                                                        items: res.data || []
-                                                                                    },
-                                                                                })
-                                                                                );
-                                                                            })
-                                                                            .catch((err) => {
-                                                                                //     console.error(err);
-                                                                            })
-                                                                            .finally(() => {
-                                                                                Spn.Hide();
-                                                                            });
-                                                                    }
-                                                                }}
-                                                                getOptionLabel={(op) => op.membershipTypeName}
-                                                                getOptionValue={(op) => op}
-                                                            />
-                                                            {/* <Error field="plan" /> */}
-                                                        </div>
-
-                                                        {subDropItems && subDropItems[item.id] && subDropItems[item.id].items && (
-                                                            <div className="form-col">
-                                                                <label className="fs-16">Amount:</label>
-                                                                <Select
-                                                                    id="subPlan2"
-                                                                    placeholder="Amount"
-                                                                    options={subDropItems[item.id].items || []}
-                                                                    onChange={(selectedOp) => {
-                                                                        setMembers(prevItems =>
-                                                                            prevItems.map((mbr) =>
-                                                                                mbr.id === item.id ? { ...mbr, subPlanId: selectedOp } : mbr
-                                                                            )
-                                                                        );
-                                                                    }}
-                                                                    getOptionLabel={(op) => op.chargesTitle}
-                                                                    getOptionValue={(op) => op}
-                                                                    value={members.find(m => m.id === item.id)?.subPlanId || null}
-                                                                />
-                                                                <Error field="subPlan" />
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                    <div className="form-row">
-                                                        <div className="form-col">
-                                                            <label className="fs-16">Section Donation:</label>
-                                                            <input
-                                                                type="text"
-                                                                name={`sec-donation-${item.id}`}
-                                                                className="sec-donation"
-                                                                onBlur={(e) => handleBlur(e, item.id, 'sec')}
-                                                            />
-                                                        </div>
-                                                        <div className="form-col">
-                                                            <label className="fs-16">Nation Donation:</label>
-                                                            <input
-                                                                type="text"
-                                                                name={`natn-donation-${item.id}`}
-                                                                className="natn-donation"
-                                                                onBlur={(e) => handleBlur(e, item.id, 'natn')}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <div className="action">
-                                                    <span
-                                                        className="material-symbols-outlined"
-                                                        onClick={(e) => removeMbr(item.id, false)}
-                                                    >cancel</span>
-                                                </div>
-
-
-
+                                                        getAttachment(selectedOp.membershipTypeId)
+                                                            .then((res) => {
+                                                                setSubDrop(prevDrpItems =>
+                                                                ({
+                                                                    ...prevDrpItems,
+                                                                    [lgMbr]: {
+                                                                        items: res.data || []
+                                                                    },
+                                                                })
+                                                                );
+                                                            })
+                                                            .catch((err) => {
+                                                                //     console.error(err);
+                                                                //     ToastsStore.info("Failed to retrive list");
+                                                            })
+                                                            .finally(() => {
+                                                                Spn.Hide();
+                                                            });
+                                                    }
+                                                }}
+                                                getOptionLabel={(op) => op.membershipTypeName}
+                                                getOptionValue={(op) => op}
+                                            />
+                                            <Error field="plan" />
+                                        </div>
+                                        {subDropItems && subDropItems[lgMbr] && subDropItems[lgMbr].items && (
+                                            <div className="form-col">
+                                                <label className="fs-16">Amount:</label>
+                                                <Select
+                                                    id="subPlan"
+                                                    placeholder="Amount"
+                                                    options={subDropItems[lgMbr].items || []}
+                                                    // styles={{
+                                                    //     control: (value) => {
+                                                    //         return {
+                                                    //             ...value,
+                                                    //             minHeight: "44px",
+                                                    //             width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                    //         };
+                                                    //     },
+                                                    //     placeholder: (defaultStyles) => {
+                                                    //         return {
+                                                    //             ...defaultStyles,
+                                                    //             paddingTop: "10px",
+                                                    //             paddingBottom: "10px",
+                                                    //             fontSize: "14px",
+                                                    //         };
+                                                    //     },
+                                                    //     menu: (provided, state) => ({
+                                                    //         ...provided,
+                                                    //         width: window.innerWidth >= 768 ? "50%" : "100%",
+                                                    //     }),
+                                                    // }}
+                                                    onChange={(selectedOp) => {
+                                                        setMembers(prevItems =>
+                                                            prevItems.map((mbr) =>
+                                                                mbr.id === lgMbr ? { ...mbr, subPlanId: selectedOp } : mbr
+                                                            )
+                                                        );
+                                                    }}
+                                                    getOptionLabel={(op) => op.chargesTitle}
+                                                    getOptionValue={(op) => op}
+                                                    value={members.find(m => m.id === lgMbr)?.subPlanId || null}
+                                                />
+                                                <Error field="subPlan" />
                                             </div>
+                                        )}
+                                    </div>
+                                    <div className="form-row">
+                                        <div className="form-col">
+                                            <label className="fs-16">Section Donation:</label>
+                                            <input
+                                                type="text"
+                                                name={`sec-donation-${lgMbr}`}
+                                                className="sec-donation"
+                                                onBlur={(e) => handleBlur(e, lgMbr, 'sec')}
+                                            />
+                                        </div>
+                                        <div className="form-col">
+                                            <label className="fs-16">Nation Donation:</label>
+                                            <input
+                                                type="text"
+                                                name={`natn-donation-${lgMbr}`}
+                                                className="natn-donation"
+                                                onBlur={(e) => handleBlur(e, lgMbr, 'natn')}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+
+                            <>
+                                <div className="mb20">
+                                    <Checkbox
+                                        id="isGift"
+                                        name="isGift"
+                                        checked={isGiftChk}
+                                        onChange={(e) => {
+                                            giftCheck(!isGiftChk);
+                                        }}
+                                        label="Gift Membership To Others"
+                                    />
+                                </div>
+                                <div className="gift-membership" id="giftMembership" style={{ display: isGiftChk ? 'block' : 'none' }}>
+
+                                    <div id="selectedMembers">
+                                        {
+                                            content && content.length > 0 ? (
+                                                content.map(item => (
 
 
 
 
 
+                                                    <div className="ech-mbr" id={`person-${item.id}`} key={item.id}>
+                                                        <div className="info-sec">
+                                                            <div className="person-info">
+                                                                <div className="avatar-sec">
+                                                                    {item.avatarUrl ? (
+                                                                        <div className="mbr-img">
+                                                                            <img src={item.avatarUrl} alt="" />
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className="no-img">
+                                                                            <span class="material-symbols-outlined icn">
+                                                                                person
+                                                                            </span>
+                                                                        </div>
+                                                                    )
+                                                                    }
+                                                                </div>
+                                                                <div className="mbr-nam">
+                                                                    {item.name}
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="form-row">
+                                                                <div className="form-col">
+                                                                    <label className="fs-16">Membership Dues/Fees:</label>
+                                                                    <Select
+                                                                        id=""
+                                                                        placeholder="Select membership type"
+                                                                        options={dropdown || []}
+                                                                        onChange={(selectedOp) => {
+                                                                            if (
+                                                                                selectedOp &&
+                                                                                selectedOp.membershipTypeId
+                                                                            ) {
+                                                                                Spn.Show();
+
+                                                                                setMembers(prevItems =>
+                                                                                    prevItems.map((mbr) =>
+                                                                                        mbr.id === item.id ? { ...mbr, planId: selectedOp.membershipTypeId, subPlanId: null } : mbr
+                                                                                    )
+                                                                                );
+
+                                                                                getAttachment(selectedOp.membershipTypeId)
+                                                                                    .then((res) => {
+
+                                                                                        setSubDrop(prevDrpItems =>
+                                                                                        ({
+                                                                                            ...prevDrpItems,
+                                                                                            [item.id]: {
+                                                                                                items: res.data || []
+                                                                                            },
+                                                                                        })
+                                                                                        );
+                                                                                    })
+                                                                                    .catch((err) => {
+                                                                                        //     console.error(err);
+                                                                                    })
+                                                                                    .finally(() => {
+                                                                                        Spn.Hide();
+                                                                                    });
+                                                                            }
+                                                                        }}
+                                                                        getOptionLabel={(op) => op.membershipTypeName}
+                                                                        getOptionValue={(op) => op}
+                                                                    />
+                                                                    {/* <Error field="plan" /> */}
+                                                                </div>
+
+                                                                {subDropItems && subDropItems[item.id] && subDropItems[item.id].items && (
+                                                                    <div className="form-col">
+                                                                        <label className="fs-16">Amount:</label>
+                                                                        <Select
+                                                                            id="subPlan2"
+                                                                            placeholder="Amount"
+                                                                            options={subDropItems[item.id].items || []}
+                                                                            onChange={(selectedOp) => {
+                                                                                setMembers(prevItems =>
+                                                                                    prevItems.map((mbr) =>
+                                                                                        mbr.id === item.id ? { ...mbr, subPlanId: selectedOp } : mbr
+                                                                                    )
+                                                                                );
+                                                                            }}
+                                                                            getOptionLabel={(op) => op.chargesTitle}
+                                                                            getOptionValue={(op) => op}
+                                                                            value={members.find(m => m.id === item.id)?.subPlanId || null}
+                                                                        />
+                                                                        <Error field="subPlan" />
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="form-row">
+                                                                <div className="form-col">
+                                                                    <label className="fs-16">Section Donation:</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        name={`sec-donation-${item.id}`}
+                                                                        className="sec-donation"
+                                                                        onBlur={(e) => handleBlur(e, item.id, 'sec')}
+                                                                    />
+                                                                </div>
+                                                                <div className="form-col">
+                                                                    <label className="fs-16">Nation Donation:</label>
+                                                                    <input
+                                                                        type="text"
+                                                                        name={`natn-donation-${item.id}`}
+                                                                        className="natn-donation"
+                                                                        onBlur={(e) => handleBlur(e, item.id, 'natn')}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div className="action">
+                                                            <span
+                                                                className="material-symbols-outlined"
+                                                                onClick={(e) => removeMbr(item.id, false)}
+                                                            >cancel</span>
+                                                        </div>
+
+
+
+                                                    </div>
 
 
 
 
-                                        ))
-                                    ) : ('')
-                                }
-                            </div>
+                                                ))
+                                            ) : ('')
+                                        }
+                                    </div>
 
 
-                            <div className="add-btn-sec">
-                                <span className="btn" id="addBtn" onClick={(e) => setMbrOpen(true)}>
-                                    <span class="material-symbols-outlined icn">
-                                        add_circle
-                                    </span>
-                                    <span className="btn-txt">
-                                        Add More
-                                    </span>
-                                </span>
-                            </div>
+                                    <div className="add-btn-sec">
+                                        <span className="btn" id="addBtn" onClick={(e) => setMbrOpen(true)}>
+                                            <span class="material-symbols-outlined icn">
+                                                add_circle
+                                            </span>
+                                            <span className="btn-txt">
+                                                Add More
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </>
                         </div>
-                    </>
 
+                        <div className="amt-prvw-col">
 
+                            <div className="order-smry">
+                                <div className="ord-itms">
+                                    <div className="sec-head">
+                                        Order Summery
+                                    </div>
+                                    <div className="list-sec">
+                                        <div className="lst-row">
+                                            asdasd   $50
+                                        </div>
+                                        <div className="lst-row">
+                                            ASasA    $65
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="ttl-amt-sec">
+                                    Total $5896
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
 
 
 
