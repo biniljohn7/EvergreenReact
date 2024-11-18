@@ -155,6 +155,7 @@ export const Wrapper = styled.div`
         padding: 5px 35px;
         text-transform: uppercase;
         font-size: 12px;
+        margin-bottom:8px;
     }
 
     .btn-purple{
@@ -205,5 +206,36 @@ export const Wrapper = styled.div`
             height:42px;
             margin: 20px auto;
         }
+    }
+    .serach-feild-container{
+        padding: 10px;
+        position: relative;
+        text-align:left;
+        label {
+            color: #222;
+            font-size:12px;
+            color: #927A94;
+        }
+        input[type=text] {
+            padding-top:5px;
+            color:#500c68;
+            max-width:100%
+        }
+        .btn-search{
+            background-color:transparent;
+            border:0;
+            position:absolute;
+            right: 10px;
+            bottom: 7px;
+            color: #6f0295;
+            padding:3px 10px;
+            
+        }
+    }
+    .spinner-show{
+        text-align:center;
+        width: 42px;
+        height:42px;
+        margin: 20px auto;
     }
 `

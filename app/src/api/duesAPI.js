@@ -255,7 +255,7 @@ export const FetchGiftedList = (data) => {
       return response.data;
     });
 };
-/**_**/
+/****/
 export const declineGift = (data) => {
   setHeaders();
   return axios
@@ -266,6 +266,15 @@ export const declineGift = (data) => {
 };
 
 export const acceptGift = (data) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?dummy-url`, data)
+    .then((response) => {
+      return { "success": 1, "msg": "Gift Membership" };
+    });
+}
+
+export const selfAccept = (data) => {
   setHeaders();
   return axios
     .post(`${BASE_URL}/member/?dummy-url`, data)

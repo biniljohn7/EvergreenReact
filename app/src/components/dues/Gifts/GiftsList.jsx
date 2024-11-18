@@ -9,6 +9,8 @@ import { Wrapper } from './GiftsLists.style'
 //Modals
 import DeclineModal from "./GiftDecline";
 import AcceptModal from "./GiftAcceptModal";
+import SelfModal from "./SelfAcceptModal";
+import GiftSomeone from "./SomeoneModal";
 
 // loading images
 import Gift from "../../../assets/images/gift-box.png";
@@ -26,7 +28,7 @@ function GiftsList({ ops }) {
     const openDeclineModal = (data) => {
         setDclnData(data);
     }
-    
+
 
 
     const [isAcptData, setAcptData] = useState(null);
@@ -35,6 +37,22 @@ function GiftsList({ ops }) {
     }
     const closeAcceptModal = () => {
         setAcptData(null);
+    }
+
+    const [isSelfData, setSelfData] = useState(null);
+    const selfAcceptModal = (data) => {
+        setSelfData(data);
+    }
+    const closeSelfAcceptModal = () => {
+        setSelfData(null);
+    }
+
+    const [isElseData, setElseData] = useState(null);
+    const giftSomeoneModal = (data) => {
+        setElseData(data);
+    }
+    const closegiftSomeoneModal = () => {
+        setElseData(null);
     }
 
     //const [isGiftData, setGiftData] = useState(null);../../assets/images/gift-box.png
@@ -87,7 +105,7 @@ function GiftsList({ ops }) {
         loadGiftList();
     }, []);
 
-    const removeData = (removeID)=>{
+    const removeData = (removeID) => {
         setgiftData((prevData) => prevData.filter(item => item.id !== removeID));
     }
 
@@ -105,9 +123,9 @@ function GiftsList({ ops }) {
                     ListPgn === 0 &&
                         giftData.length === 0 &&
                         !ListLoading ?
-                            <div className="no-content">
-                                No memberships recieved
-                            </div> :
+                        <div className="no-content">
+                            No memberships recieved
+                        </div> :
                         null
                 }
                 {
@@ -125,15 +143,15 @@ function GiftsList({ ops }) {
                                         <p>
                                             <span className="gift-note">
                                                 {
-                                                    data.action?
-                                                    <p>{data.action}</p>
-                                                    :
-                                                    <p>New Gift received</p>
+                                                    data.action ?
+                                                        <p>{data.action}</p>
+                                                        :
+                                                        <p>New Gift received</p>
                                                 }
                                             </span>
                                         </p>
                                         {
-                                            data.section === 'received'?
+                                            data.section === 'received' ?
                                                 <>
                                                     <p>
                                                         <strong>
@@ -151,40 +169,40 @@ function GiftsList({ ops }) {
                                                         {' on ' + data.date}
                                                     </p>
                                                 </>
-                                            :null    
+                                                : null
                                         }
                                         {
-                                            data.section === 'gifted'?
+                                            data.section === 'gifted' ?
                                                 <>
                                                     <p>
                                                         <strong>{data.plans}</strong>
                                                     </p>
                                                     <p className="gift-worth">
-                                                        <span >{' worth ' + Pix.dollar(data.price)}</span> 
-                                                        {' that you gifted has been declined by '}  
-                                                        <strong>{data.receiver}</strong> 
-                                                        {' on '+data.date}
+                                                        <span >{' worth ' + Pix.dollar(data.price)}</span>
+                                                        {' that you gifted has been declined by '}
+                                                        <strong>{data.receiver}</strong>
+                                                        {' on ' + data.date}
                                                     </p>
                                                 </>
-                                            :null    
+                                                : null
                                         }
-                                        
+
                                     </div>
                                     {
-                                        data.section === 'received'?
+                                        data.section === 'received' ?
                                             <div className="btn-container">
-                                                <button type='button' className="btn-main btn-purple" onClick={() => openAcceptModal({ giftId:data.id, currentplan:data.currentplan,newplan:data.plans,grade:data.grade,giftedby:data.gifter, validity:data.validity })}>Accept</button>
-                                                <button type='button' className="btn-main btn-plain btn-del" onClick={() => openDeclineModal({id:data.id})}>Decline</button>
+                                                <button type='button' className="btn-main btn-purple" onClick={() => openAcceptModal({ giftId: data.id, currentplan: data.currentplan, newplan: data.plans, grade: data.grade, giftedby: data.gifter, validity: data.validity })}>Accept</button>
+                                                <button type='button' className="btn-main btn-plain btn-del" onClick={() => openDeclineModal({ id: data.id })}>Decline</button>
                                             </div>
-                                        :null    
+                                            : null
                                     }
                                     {
-                                        data.section === 'gifted' && data.action === 'declined'?
+                                        data.section === 'gifted' && data.action === 'declined' ?
                                             <div className="btn-container">
-                                                <button type="button" className="btn-main btn-purple" onClick={(e) => setCfmOpn(true)}>Make it your's</button>
-                                                <button type="button" className="btn-main btn-plain">Gift to someone</button>
+                                                <button type="button" className="btn-main btn-purple" onClick={(e) => selfAcceptModal({ giftId: data.id, newplan: data.plans, validity: data.validity })}>Make it your's</button>
+                                                <button type="button" className="btn-main btn-plain" onClick={(e) => giftSomeoneModal({ giftId: data.id })}>Gift to someone</button>
                                             </div>
-                                        :null    
+                                            : null
                                     }
                                 </div>
                             </div>
@@ -193,19 +211,19 @@ function GiftsList({ ops }) {
                 }
                 {
                     ListError &&
-                        giftData.length !== 0?
-                            <div className="no-content show-more">
-                                <p>List loading error</p>
-                                <button
-                                    type='buttons'
-                                    className="btn-main btn-purple"
-                                    onClick={() => {
-                                        loadGiftList();
-                                    }}
-                                >
-                                    retry
-                                </button>
-                            </div> :
+                        giftData.length !== 0 ?
+                        <div className="no-content show-more">
+                            <p>List loading error</p>
+                            <button
+                                type='buttons'
+                                className="btn-main btn-purple"
+                                onClick={() => {
+                                    loadGiftList();
+                                }}
+                            >
+                                retry
+                            </button>
+                        </div> :
                         null
                 }
                 {
@@ -244,6 +262,30 @@ function GiftsList({ ops }) {
                     }}
                     closeAccModal={closeAcceptModal}
                     data={isAcptData}
+                    remove={removeData}
+                />
+
+            )}
+            {isSelfData && (
+                <SelfModal
+                    isOpen={isSelfData}
+                    toggle={() => {
+                        setSelfData(!isSelfData)
+                    }}
+                    closeAccModal={closeSelfAcceptModal}
+                    data={isSelfData}
+                    remove={removeData}
+                />
+
+            )}
+            {isElseData && (
+                <GiftSomeone
+                    isOpen={isElseData}
+                    toggle={() => {
+                        setElseData(!isElseData)
+                    }}
+                    closeAccModal={closegiftSomeoneModal}
+                    data={isElseData}
                     remove={removeData}
                 />
 
