@@ -66,6 +66,7 @@ const Membership = (props) => {
 
     const lgMbr = store.getState().auth.memberId;
     let mbrExist = false;
+    let ttlAmt = 0;
 
     let Spn = Spinner();
     let Tst = Toast();
@@ -92,7 +93,7 @@ const Membership = (props) => {
                 }
             });
 
-        addMbr(store.getState().auth.memberId);
+        addMbr(store.getState().auth.memberId, 'Own Membership');
     }, []);
 
     document.title = 'Membership - ' + window.seoTagLine;
@@ -134,7 +135,7 @@ const Membership = (props) => {
         return false;
     };
 
-    const addMbr = (mbrId) => {
+    const addMbr = (mbrId, mbrNam) => {
         setMembers(prevMembers => {
             const exstMbrIndx = prevMembers.findIndex(member => member.id === mbrId);
 
@@ -154,6 +155,7 @@ const Membership = (props) => {
                         subPlanId: null,
                         secDonation: null,
                         natnDonation: null,
+                        mbrName: mbrNam
                     }
                 ];
             }
@@ -169,7 +171,7 @@ const Membership = (props) => {
 
     const handleAddContent = (person) => {
 
-        addMbr(person.id);
+        addMbr(person.id, person.name);
         if (!mbrExist) {
             setContent(
                 [
@@ -196,10 +198,6 @@ const Membership = (props) => {
             Tst.Error('Invalid Amount!');
         }
     };
-
-    //console.log(content);
-    console.log(members);
-
 
     return <Wrapper>
         {Spn.Obj}
@@ -234,7 +232,7 @@ const Membership = (props) => {
                                         ownCheck(!isOwnChk);
 
                                         if (e.target.checked) {
-                                            addMbr(lgMbr);
+                                            addMbr(lgMbr, 'Own Membership');
                                         } else {
                                             removeMbr(lgMbr, true);
                                         }
@@ -552,17 +550,31 @@ const Membership = (props) => {
                                         Order Summery
                                     </div>
                                     <div className="list-sec">
-                                        <div className="lst-row">
-                                            asdasd   $50
-                                        </div>
-                                        <div className="lst-row">
-                                            ASasA    $65
-                                        </div>
+                                        {
+                                            members && members.length > 0 ? (
+                                                members.map(mbr => {
+                                                    let subttl = 0;
+                                                    subttl = parseFloat(mbr.secDonation || 0) +
+                                                        parseFloat(mbr.natnDonation || 0) +
+                                                        (mbr.subPlanId ? parseFloat(mbr.subPlanId.totalCharges || 0) : 0);
+
+                                                    ttlAmt += subttl;
+
+                                                    return (
+                                                        <div className="lst-row" id={`ordrow-${mbr.id}`} key={mbr.id}>
+                                                            <span className="mshp-itm">{mbr.mbrName}</span>
+                                                            <span className="amt">${subttl.toFixed(2)}</span>
+                                                        </div>
+                                                    );
+                                                })
+                                            ) : ('')
+                                        }
                                     </div>
                                 </div>
 
                                 <div className="ttl-amt-sec">
-                                    Total $5896
+                                    <span className="mshp-itm">Total</span>
+                                    <span className="amt">${ttlAmt.toFixed(2)}</span>
                                 </div>
                             </div>
 

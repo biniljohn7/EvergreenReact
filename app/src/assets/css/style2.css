@@ -34,6 +34,17 @@
 .mbrshp-sec .amt-prvw-col .order-smry .ttl-amt-sec {
     border-top: 1px solid #ededed;
     padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .lst-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 
