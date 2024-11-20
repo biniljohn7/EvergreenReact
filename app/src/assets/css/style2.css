@@ -40,11 +40,37 @@
     font-weight: 600;
 }
 
+.mbrshp-sec .amt-prvw-col .order-smry .ech-mbr-amt{
+    margin-bottom: 20px;
+}
+
 .mbrshp-sec .amt-prvw-col .order-smry .lst-row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 10px;
+    justify-content: space-between;    
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .subttl-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;   
+    font-size: 14px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .subttl-row .sub-ttl-amt {
+    width: 150px;
+    border-top: 1px solid #ededed;
+    text-align: right;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .donation-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;   
+    font-size: 12px;
+    margin: 0px 0px 4px 15px;
 }
 
 

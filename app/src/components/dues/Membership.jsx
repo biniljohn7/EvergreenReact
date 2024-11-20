@@ -16,6 +16,7 @@ import { chooseMembership as enhancer } from "./enhancer";
 import Modal from "./Payment";
 import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
+import Pix from "../../helper/Pix";
 
 import Checkbox from "../../UI/checkbox/checkbox";
 import '../../assets/css/style2.css'
@@ -140,10 +141,6 @@ const Membership = (props) => {
             const exstMbrIndx = prevMembers.findIndex(member => member.id === mbrId);
 
             if (exstMbrIndx !== -1) {
-                // If the member exists, update the specific property for that member
-                /*return prevMembers.map((member, index) =>
-                    index === exstMbrIndx ? { ...member, planId: selectedOp.membershipTypeId } : member
-                );*/
                 mbrExist = true;
                 return prevMembers;
             } else {
@@ -247,27 +244,6 @@ const Membership = (props) => {
                                                 id="plan"
                                                 placeholder="Select membership type"
                                                 options={dropdown || []}
-                                                /*styles={{
-                                                    control: (value) => {
-                                                        return {
-                                                            ...value,
-                                                            minHeight: "44px",
-                                                            width: window.innerWidth >= 768 ? "50%" : "100%",
-                                                        };
-                                                    },
-                                                    placeholder: (defaultStyles) => {
-                                                        return {
-                                                            ...defaultStyles,
-                                                            paddingTop: "10px",
-                                                            paddingBottom: "10px",
-                                                            fontSize: "14px",
-                                                        };
-                                                    },
-                                                    menu: (provided, state) => ({
-                                                        ...provided,
-                                                        width: window.innerWidth >= 768 ? "50%" : "100%",
-                                                    }),
-                                                }}*/
                                                 onChange={(selectedOp) => {
                                                     if (
                                                         selectedOp &&
@@ -312,27 +288,6 @@ const Membership = (props) => {
                                                     id="subPlan"
                                                     placeholder="Amount"
                                                     options={subDropItems[lgMbr].items || []}
-                                                    // styles={{
-                                                    //     control: (value) => {
-                                                    //         return {
-                                                    //             ...value,
-                                                    //             minHeight: "44px",
-                                                    //             width: window.innerWidth >= 768 ? "50%" : "100%",
-                                                    //         };
-                                                    //     },
-                                                    //     placeholder: (defaultStyles) => {
-                                                    //         return {
-                                                    //             ...defaultStyles,
-                                                    //             paddingTop: "10px",
-                                                    //             paddingBottom: "10px",
-                                                    //             fontSize: "14px",
-                                                    //         };
-                                                    //     },
-                                                    //     menu: (provided, state) => ({
-                                                    //         ...provided,
-                                                    //         width: window.innerWidth >= 768 ? "50%" : "100%",
-                                                    //     }),
-                                                    // }}
                                                     onChange={(selectedOp) => {
                                                         setMembers(prevItems =>
                                                             prevItems.map((mbr) =>
@@ -389,11 +344,6 @@ const Membership = (props) => {
                                         {
                                             content && content.length > 0 ? (
                                                 content.map(item => (
-
-
-
-
-
                                                     <div className="ech-mbr" id={`person-${item.id}`} key={item.id}>
                                                         <div className="info-sec">
                                                             <div className="person-info">
@@ -506,22 +456,18 @@ const Membership = (props) => {
                                                             </div>
                                                         </div>
 
-
-
                                                         <div className="action">
                                                             <span
                                                                 className="material-symbols-outlined"
-                                                                onClick={(e) => removeMbr(item.id, false)}
+                                                                //onClick={(e) => removeMbr(item.id, false)}
+                                                                onClick={(e) => {
+                                                                    if (window.confirm("Are you sure you want to remove this item?")) {
+                                                                        removeMbr(item.id, false);
+                                                                    }
+                                                                }}
                                                             >cancel</span>
                                                         </div>
-
-
-
                                                     </div>
-
-
-
-
                                                 ))
                                             ) : ('')
                                         }
@@ -544,39 +490,76 @@ const Membership = (props) => {
 
                         <div className="amt-prvw-col">
 
-                            <div className="order-smry">
-                                <div className="ord-itms">
-                                    <div className="sec-head">
-                                        Order Summery
+                            {
+                                members && members.length > 0 ? (
+                                    <div className="order-smry">
+                                        <div className="ord-itms">
+                                            <div className="sec-head">
+                                                Order Summery
+                                            </div>
+                                            <div className="list-sec">
+                                                {
+                                                    members.map(mbr => {
+                                                        let subttl = 0;
+                                                        subttl = parseFloat(mbr.secDonation || 0) +
+                                                            parseFloat(mbr.natnDonation || 0) +
+                                                            (mbr.subPlanId ? parseFloat(mbr.subPlanId.totalCharges || 0) : 0);
+
+                                                        ttlAmt += subttl;
+
+                                                        return (
+                                                            <div className="ech-mbr-amt" id={`ordrow-${mbr.id}`} key={mbr.id}>
+                                                                <div className="lst-row">
+                                                                    <span className="mshp-itm">{mbr.mbrName}</span>
+                                                                    <span className="amt"></span>
+                                                                </div>
+                                                                <div className="donation-row">
+                                                                    <span className="dotn-itm">Membership Dues/Fees</span>
+                                                                    <span className="dotn-amt">{Pix.dollar((mbr.subPlanId && mbr.subPlanId.totalCharges ? mbr.subPlanId.totalCharges : 0), 1)}</span>
+                                                                </div>
+                                                                {
+                                                                    mbr.secDonation ? (
+                                                                        <div className="donation-row">
+                                                                            <span className="dotn-itm">Section Donation</span>
+                                                                            <span className="dotn-amt">{Pix.dollar((mbr.secDonation || 0), 1)}</span>
+                                                                        </div>
+                                                                    ) : ('')
+                                                                }
+                                                                {
+                                                                    mbr.natnDonation ? (
+                                                                        <div className="donation-row">
+                                                                            <span className="dotn-itm">Nation Donation</span>
+                                                                            <span className="dotn-amt">{Pix.dollar((mbr.natnDonation || 0), 1)}</span>
+                                                                        </div>
+                                                                    ) : ('')
+                                                                }
+                                                                <div className="subttl-row">
+                                                                    <span className=""></span>
+                                                                    <span className="sub-ttl-amt">{Pix.dollar(subttl, 1)}</span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div className="ttl-amt-sec mb20">
+                                            <span className="mshp-itm">Total</span>
+                                            <span className="amt">{Pix.dollar(ttlAmt, 1)}</span>
+                                        </div>
+
+                                        <div className="text-right">
+                                            <button
+                                                type="button"
+                                                className="btn btn-rounded button plr-20 ptb-10"
+                                            >
+                                                NEXT
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div className="list-sec">
-                                        {
-                                            members && members.length > 0 ? (
-                                                members.map(mbr => {
-                                                    let subttl = 0;
-                                                    subttl = parseFloat(mbr.secDonation || 0) +
-                                                        parseFloat(mbr.natnDonation || 0) +
-                                                        (mbr.subPlanId ? parseFloat(mbr.subPlanId.totalCharges || 0) : 0);
-
-                                                    ttlAmt += subttl;
-
-                                                    return (
-                                                        <div className="lst-row" id={`ordrow-${mbr.id}`} key={mbr.id}>
-                                                            <span className="mshp-itm">{mbr.mbrName}</span>
-                                                            <span className="amt">${subttl.toFixed(2)}</span>
-                                                        </div>
-                                                    );
-                                                })
-                                            ) : ('')
-                                        }
-                                    </div>
-                                </div>
-
-                                <div className="ttl-amt-sec">
-                                    <span className="mshp-itm">Total</span>
-                                    <span className="amt">${ttlAmt.toFixed(2)}</span>
-                                </div>
-                            </div>
+                                ) : ('')
+                            }
 
                         </div>
 
