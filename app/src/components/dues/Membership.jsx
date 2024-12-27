@@ -461,7 +461,7 @@ const Membership = (props) => {
                                                                 className="material-symbols-outlined"
                                                                 //onClick={(e) => removeMbr(item.id, false)}
                                                                 onClick={(e) => {
-                                                                    if (window.confirm("Are you sure you want to remove this item?")) {
+                                                                    if (window.confirm("Are you sure you want to remove this member?")) {
                                                                         removeMbr(item.id, false);
                                                                     }
                                                                 }}
