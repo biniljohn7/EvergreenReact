@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import FB from '../../assets/images/fb_icon_1x.png'
 import Google from '../../assets/images/google_icon_1x.png'
 import ForgotPassword from "../forgotPassword/ForgotPassword";
-import { login as logIn, emailLoginReq } from "../../api/commonAPI";
+import { login as logIn } from "../../api/commonAPI";
 
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
@@ -52,10 +52,6 @@ const SignIn = (props) => {
   const [signInState, setSignInState] = useState(true);
   const [passwordType, setPasswordType] = useState("password");
   const [setForgotPassword, setForgotPasswordState] = useState(false);
-  const [step, setStep] = useState(1);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [emailValid, setEmailValid] = useState(false);
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -274,80 +270,56 @@ const SignIn = (props) => {
       });
   };
 
-
-  const validateEmail = (e) => {
-    Spn.Show();
-
-    const body = {
-      method: 'email-login-request',
-      email: email
-    };
-
-    emailLoginReq(body)
-      .then((res) => {
-        if (res.success === 1) {
-          setEmailValid(true);
-          setStep(2);
-        } else {
-          props.resetForm();
-          Tst.Error(res.message);
-        }
-      })
-      .catch((err) => {
-        Tst.Error("Something went wrong!");
-      })
-      .finally(() => {
-        Spn.Hide();
-      });
-  };
-
   const handleSignIn = (e) => {
-    Spn.Show();
 
-    const body = {
-      method: 'login',
-      email: email,
-      password: password,
-      facebookId: null,
-      googleId: null,
-      registerType: REGISTER_TYPE.normal,
-      deviceType: "web",
-    };
+    if (isValid) {
+      Spn.Show();
 
-    logIn(body)
-      .then((res) => {
-        if (res.success === 1) {
-          const userData = {
-            isLogin: true,
-            accessToken: res.data.accessToken,
-            memberId: res.data.memberId,
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            referralPoints: res.data.refferalPoints || 0,
-            prefix: res.data.prefix,
-            profileImage: res.data.profileImage,
-            isProfileCreated: res.data.profileCreated,
-            isNotificationOn: res.data.notification || false,
-            currentChapter: res.data.currentChapter,
-          };
-          props.login(userData);
-          Tst.Success(res.message);
-          if (res.data.profileCreated) {
-            props.history.push("/home");
+      const body = {
+        method: 'login',
+        email: values.email,
+        password: values.password,
+        facebookId: null,
+        googleId: null,
+        registerType: REGISTER_TYPE.normal,
+        deviceType: "web",
+      };
+
+      logIn(body)
+        .then((res) => {
+          if (res.success === 1) {
+            const userData = {
+              isLogin: true,
+              accessToken: res.data.accessToken,
+              memberId: res.data.memberId,
+              firstName: res.data.firstName,
+              lastName: res.data.lastName,
+              referralPoints: res.data.refferalPoints || 0,
+              prefix: res.data.prefix,
+              profileImage: res.data.profileImage,
+              isProfileCreated: res.data.profileCreated,
+              isNotificationOn: res.data.notification || false,
+              currentChapter: res.data.currentChapter,
+            };
+            props.login(userData);
+            Tst.Success(res.message);
+            if (res.data.profileCreated) {
+              props.history.push("/home");
+            } else {
+              props.history.push("/account");
+            }
           } else {
-            props.history.push("/account");
+            props.resetForm();
+            Tst.Error(res.message);
           }
-        } else {
-          props.resetForm();
-          Tst.Error(res.message);
-        }
-      })
-      .catch((err) => {
-        Tst.Error("Something went wrong!");
-      })
-      .finally(() => {
-        Spn.Hide();
-      });
+        })
+        .catch((err) => {
+          Tst.Error("Something went wrong!");
+        })
+        .finally(() => {
+          Spn.Hide();
+        });
+    }
   };
 
   return (
@@ -367,7 +339,11 @@ const SignIn = (props) => {
         backdrop="static"
         keyboard={false}
       >
-        <SignInWrapper onSubmit={(e) => e.preventDefault()}>
+        <SignInWrapper onSubmit={function (e) {
+          handleSignIn();
+          e.preventDefault();
+          return false;
+        }}>
           {signInState ? (
             <section className="row login mlr-0">
               <div
@@ -411,53 +387,51 @@ const SignIn = (props) => {
                   </span>
                 </div>
                 <div className="justify-content-center row mtb-20">
-                  {step === 1 && (
-                    <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
+                  <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
+                    <Input
+                      label="Email"
+                      type="text"
+                      placeholder="Email"
+                      id="email"
+                      fontSize={"fs-16 text-dark"}
+                      contentFontSize={"fs-14"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.email || ""}
+                    />
+                    <Error field="email" />
+                  </div>
+                  <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
+                    <div className="position-relative">
                       <Input
-                        label="Email"
-                        type="text"
-                        placeholder="Email"
-                        id="email"
+                        label="Password"
+                        type={passwordType}
+                        placeholder="Password"
+                        id="password"
                         fontSize={"fs-16 text-dark"}
                         contentFontSize={"fs-14"}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password || ""}
                       />
-                      <Error field="email" />
+                      {passwordType === "password" ? (
+                        <i
+                          className="fa fa-eye eye pwd cursor-pointer"
+                          onClick={() => {
+                            setPasswordType("text");
+                          }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="fa fa-eye-slash eye pwd cursor-pointer"
+                          onClick={() => {
+                            setPasswordType("password");
+                          }}
+                        ></i>
+                      )}
                     </div>
-                  )}
-                  {step === 2 && emailValid && (
-                    <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
-                      <div className="position-relative">
-                        <Input
-                          label="Password"
-                          type={passwordType}
-                          placeholder="Password"
-                          id="password"
-                          fontSize={"fs-16 text-dark"}
-                          contentFontSize={"fs-14"}
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                        />
-                        {passwordType === "password" ? (
-                          <i
-                            className="fa fa-eye eye pwd cursor-pointer"
-                            onClick={() => {
-                              setPasswordType("text");
-                            }}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa fa-eye-slash eye pwd cursor-pointer"
-                            onClick={() => {
-                              setPasswordType("password");
-                            }}
-                          ></i>
-                        )}
-                      </div>
-                      <Error field="password" />
-                    </div>
-                  )}
+                    <Error field="password" />
+                  </div>
                 </div>
                 <p className="flex-container">
                   <span>
@@ -475,8 +449,8 @@ const SignIn = (props) => {
                 <div className="flex-container">
                   <Button
                     className="button mt-20"
-                    name={ step===1 ? 'CONTINUE' : 'LOGIN' }
-                    clicked={ step===1 ? validateEmail : handleSignIn }
+                    name="LOGIN"
+                    type="submit"
                   />
                 </div>
               </div>

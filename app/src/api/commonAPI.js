@@ -35,6 +35,15 @@ export const login = (body) => {
     })
 }
 
+export const emailLoginReq = (body) => {
+    return axios.post(
+        BASE_URL + '/public/?method=email-login-request',
+        body
+    ).then((response) => {
+        return response.data
+    })
+}
+
 export const logout = () => {
     setHeaders()
     return axios.get(`${BASE_URL}/member/logout`).then((response) => {
