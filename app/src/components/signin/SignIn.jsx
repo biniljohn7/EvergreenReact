@@ -373,8 +373,8 @@ const SignIn = (props) => {
               <div
                 className={
                   "flex-container align-items-center justify-content-center m-auto white--text plr-50 d-sm-none d-none d-lg-block d-xl-block col-md-5 col-lg-5 col-xl-5" +
-                  (window.innerWidth === 768 ? "d-md-none" : "d-md-block") +
-                  (window.innerWidth < 768 ? "" : " d-flex ")
+                  (window.innerWidth === 991 ? "d-md-none" : "d-md-block") +
+                  (window.innerWidth < 991 ? "" : " d-flex ")
                 }
               >
                 <SignUp />
@@ -382,7 +382,7 @@ const SignIn = (props) => {
               <div
                 className={
                   "col-12 col-sm-12 col-lg-7 col-xl-7 ptb-50 plr-30 position-relative bg-white " +
-                  (window.innerWidth === 768 ? "col-md-12" : "col-md-7")
+                  (window.innerWidth === 991 ? "col-md-12" : "col-md-7")
                 }
               >
                 <div
@@ -484,7 +484,7 @@ const SignIn = (props) => {
               <div
                 className={
                   "d-flex flex-container ptb-50 m-auto white--text plr-50 d-sm-block d-block d-lg-none d-xl-none col-12 col-sm-12 " +
-                  (window.innerWidth === 768
+                  (window.innerWidth === 991
                     ? "d-md-block col-md-12"
                     : "d-md-none")
                 }
