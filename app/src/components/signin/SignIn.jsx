@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import FB from '../../assets/images/fb_icon_1x.png'
 import Google from '../../assets/images/google_icon_1x.png'
 import ForgotPassword from "../forgotPassword/ForgotPassword";
+import ResetPassword from '../forgotPassword/ResetPassword';
 import { login as logIn, emailLoginReq } from "../../api/commonAPI";
 
 import Toast from "../../UI/Toast/Toast";
@@ -56,6 +57,7 @@ const SignIn = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailValid, setEmailValid] = useState(false);
+  const [resetPassword, setResetPassword] = useState(false);
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -85,6 +87,11 @@ const SignIn = (props) => {
     initializeFacebookSDK('453770680596721');
     loadGoogleSDK();
   }, []);
+
+
+  const toggleResetPassword = () => {
+    setResetPassword(!resetPassword)
+  }
 
   const handleCredentialResponse = (response) => {
       const credential = response.credential;
@@ -152,19 +159,16 @@ const SignIn = (props) => {
 
   function reset() {
     setForgotPasswordState(false);
+    setResetPassword(false)
     if (signInState === false) {
       setSignInState(true);
     }
   }
 
   const {
-    values,
-    handleChange,
-    handleBlur,
     errors,
     touched,
-    submitCount,
-    isValid,
+    submitCount
   } = props;
 
   const Error = (props) => {
@@ -317,26 +321,31 @@ const SignIn = (props) => {
     logIn(body)
       .then((res) => {
         if (res.success === 1) {
-          const userData = {
-            isLogin: true,
-            accessToken: res.data.accessToken,
-            memberId: res.data.memberId,
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            referralPoints: res.data.refferalPoints || 0,
-            prefix: res.data.prefix,
-            profileImage: res.data.profileImage,
-            isProfileCreated: res.data.profileCreated,
-            isNotificationOn: res.data.notification || false,
-            currentChapter: res.data.currentChapter,
-          };
-          props.login(userData);
-          Tst.Success(res.message);
-          if (res.data.profileCreated) {
-            props.history.push("/home");
-          } else {
-            props.history.push("/account");
-          }
+            if(res.lgWithOtp){
+              setResetPassword(true);
+              setStep(1);
+            }else{
+                const userData = {
+                    isLogin: true,
+                    accessToken: res.data.accessToken,
+                    memberId: res.data.memberId,
+                    firstName: res.data.firstName,
+                    lastName: res.data.lastName,
+                    referralPoints: res.data.refferalPoints || 0,
+                    prefix: res.data.prefix,
+                    profileImage: res.data.profileImage,
+                    isProfileCreated: res.data.profileCreated,
+                    isNotificationOn: res.data.notification || false,
+                    currentChapter: res.data.currentChapter,
+                };
+                props.login(userData);
+                Tst.Success(res.message);
+                if (res.data.profileCreated) {
+                    props.history.push("/home");
+                } else {
+                    props.history.push("/account");
+                }
+            }
         } else {
           props.resetForm();
           Tst.Error(res.message);
@@ -499,6 +508,13 @@ const SignIn = (props) => {
         show={setForgotPassword}
         clicked={toggleForgotPassword}
         reset={reset}
+      />
+      <ResetPassword
+        show={resetPassword}
+        clicked={toggleResetPassword}
+        reset={reset}
+        memberEmail={email}
+        otp={password}
       />
     </div>
   );
