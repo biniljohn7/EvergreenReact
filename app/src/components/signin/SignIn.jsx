@@ -56,8 +56,10 @@ const SignIn = (props) => {
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
   const [emailValid, setEmailValid] = useState(false);
   const [resetPassword, setResetPassword] = useState(false);
+  const [lgWithOtp, setLgWithOtp] = useState(false);
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -160,6 +162,7 @@ const SignIn = (props) => {
   function reset() {
     setForgotPasswordState(false);
     setResetPassword(false)
+    setLgWithOtp(false);
     if (signInState === false) {
       setSignInState(true);
     }
@@ -292,6 +295,9 @@ const SignIn = (props) => {
         if (res.success === 1) {
           setEmailValid(true);
           setStep(2);
+          if(res.lgWithOtp){
+            setLgWithOtp(true);
+          }
         } else {
           props.resetForm();
           Tst.Error(res.message);
@@ -322,8 +328,12 @@ const SignIn = (props) => {
       .then((res) => {
         if (res.success === 1) {
             if(res.lgWithOtp){
+              setSignInState(false);
               setResetPassword(true);
               setStep(1);
+              setOtp(password);
+              setPassword("");
+              setLgWithOtp(false);
             }else{
                 const userData = {
                     isLogin: true,
@@ -368,6 +378,7 @@ const SignIn = (props) => {
       <Modal
         isOpen={signInState}
         toggle={toggelModal}
+        reset={reset}
         centered
         // size="lg"
         // className="signin"
@@ -439,7 +450,7 @@ const SignIn = (props) => {
                     <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
                       <div className="position-relative">
                         <Input
-                          label="Password"
+                          label={lgWithOtp?"The OTP has been sent to your email. Please enter it below.":"Password"}
                           type={passwordType}
                           placeholder="Password"
                           id="password"
@@ -514,7 +525,7 @@ const SignIn = (props) => {
         clicked={toggleResetPassword}
         reset={reset}
         memberEmail={email}
-        otp={password}
+        otp={otp}
       />
     </div>
   );
