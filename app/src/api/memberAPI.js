@@ -15,7 +15,7 @@ export const updateNotificationStatus = (status) => {
     setHeaders();
     return axios
         .get(
-            `${BASE_URL}/member/updatenotificationstatus?sendNotification=${status}`
+            `${BASE_URL}/member/?method=update-notification-status&status=${status}`
         )
         .then((response) => {
             return response.data;

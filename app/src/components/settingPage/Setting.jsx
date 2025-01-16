@@ -244,7 +244,7 @@ const Setting = (props) => {
                               isNotificationOn: checked,
                             });
                             Spn.Hide();
-                            Tst.Show(res.message);
+                            Tst.Show(res.message, 1);
                           })
                           .catch((err) => {
                             console.error(err);
