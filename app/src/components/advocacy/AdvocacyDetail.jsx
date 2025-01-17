@@ -125,10 +125,10 @@ const AdvocacyDetails = (props) => {
                         </a>
                       </span>
                     </div> */}
-                  {advocacy.image ? (<img
-                    src={advocacy.image}
-                    alt={advocacy.title.substr(0, 10) + '...'}
-                  />) : null}
+                    {advocacy.image ? (<img
+                      src={advocacy.image}
+                      alt={advocacy.title.substr(0, 10) + '...'}
+                    />) : null}
                     <p className="mt-25 text-secondary text-justify">
                       {advocacy.description}
                     </p>
@@ -143,7 +143,8 @@ const AdvocacyDetails = (props) => {
                       name="TAKE ACTION"
                       className="wp-100"
                       disabled={
-                        props.location.state.advocacyType === 'Submitted'
+                        false
+                        // props.location.state.advocacyType === 'Submitted'
                       }
                       clicked={() => setOpen(!isOpen)}
                     />
