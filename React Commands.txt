@@ -26,6 +26,7 @@ yarn add html2canvas
 yarn add sass-loader
 yarn add google-maps-react
 yarn add resolve-url-loader
+yarn add react-signature-canvas
 
 
 yarn start

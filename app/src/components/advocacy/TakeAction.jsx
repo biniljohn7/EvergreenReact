@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from 'reactstrap'
+import SignatureCanvas from 'react-signature-canvas'
+
 import { takeAction } from '../../api/advocacyApi'
 import Button from '../../UI/button/button'
 import Toast from "../../UI/Toast/Toast";
@@ -7,11 +9,17 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Wrapper from './advocacy.style'
 
 const TakeAction = (props) => {
-    const [isLoading, setLoading] = useState(false)
-    const [data, setData] = useState(null)
+    const [isLoading, setLoading] = useState(false);
+    const [EnSign, setEnSign] = useState(false);
+    const [data, setData] = useState(null);
 
     let Tst = Toast();
     let Spn = Spinner();
+    let sigCanvas;
+
+    function toggleSignForm() {
+        setEnSign(!EnSign);
+    }
 
     const uploadSignature = () => {
         setLoading(true)
@@ -79,7 +87,7 @@ const TakeAction = (props) => {
                                 {data && (
                                     <div>
                                         <img
-                                            src={URL.createObjectURL(data)}
+                                            src={data}
                                             alt="signature"
                                             height="70px"
                                             width="100px"
@@ -87,20 +95,11 @@ const TakeAction = (props) => {
                                         />
                                     </div>
                                 )}
-                                <label className="cursor-pointer text-bold position-relative">
+                                <label
+                                    className="cursor-pointer text-bold position-relative"
+                                    onClick={toggleSignForm}
+                                >
                                     Sign Here
-                                    <input
-                                        id="advocacyUpload"
-                                        className="file-upload__input"
-                                        name="file-upload"
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(e) => {
-                                            if (e.target.files[0]) {
-                                                setData(e.target.files[0])
-                                            }
-                                        }}
-                                    />
                                 </label>
                             </div>
                             <div className="text-center mt-15">
@@ -116,8 +115,8 @@ const TakeAction = (props) => {
                 </Modal>
 
                 <Modal
-                    isOpen={true}
-                    toggle={function () { }}
+                    isOpen={EnSign}
+                    toggle={toggleSignForm}
                     centered
                     size="lg"
                     className="signin"
@@ -128,13 +127,55 @@ const TakeAction = (props) => {
                         <section className="pa-30">
                             <label
                                 className="cursor-pointer text-secondary"
-                            // onClick={}
+                                onClick={toggleSignForm}
                             >
                                 {'< Back'}
                             </label>
                             <h4 className="text-bold">
                                 Add Your Signature
                             </h4>
+                            <span style={{
+                                display: 'inline-block',
+                                border: '3px solid #555',
+                                borderRadius: '5px',
+                                marginBottom: '25px'
+                            }}>
+                                <SignatureCanvas
+                                    penColor='black'
+                                    canvasProps={{
+                                        dotSize: () => (this.minWidth + this.maxWidth) / .5,
+                                        minWidth: 2,
+                                        className: 'sigCanvas'
+                                    }}
+                                    ref={(ref) => { sigCanvas = ref }}
+                                />
+                            </span>
+
+                            <div>
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <span
+                                            className="btn"
+                                            onClick={function () {
+                                                setData(sigCanvas.toDataURL())
+                                                toggleSignForm();
+                                            }}
+                                        >
+                                            Submit
+                                        </span>
+                                    </div>
+                                    <div className="col-sm-6 text-right">
+                                        <span
+                                            className="btn default btn-warning"
+                                            onClick={function () {
+                                                sigCanvas.clear();
+                                            }}
+                                        >
+                                            Reset
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
                         </section>
                     </Wrapper>
                 </Modal>

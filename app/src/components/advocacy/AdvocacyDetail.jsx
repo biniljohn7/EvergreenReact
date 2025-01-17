@@ -143,8 +143,7 @@ const AdvocacyDetails = (props) => {
                       name="TAKE ACTION"
                       className="wp-100"
                       disabled={
-                        false
-                        // props.location.state.advocacyType === 'Submitted'
+                        props.location.state.advocacyType === 'Submitted'
                       }
                       clicked={() => setOpen(!isOpen)}
                     />
