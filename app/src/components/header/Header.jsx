@@ -111,7 +111,7 @@ const Header = (props) => {
                 Log In
               </Link>
             </li>
-            <li>
+            {/* <li>
               <a
                 href={
                   location.pathname === '/'
@@ -129,7 +129,7 @@ const Header = (props) => {
               >
                 Download Now
               </a>
-            </li>
+            </li> */}
           </ul>
 
         )}
@@ -224,7 +224,7 @@ const Header = (props) => {
                       Log In
                     </Link>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       href={
                         location.pathname === '/'
@@ -242,7 +242,7 @@ const Header = (props) => {
                     >
                       Download Now
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
 
               )}

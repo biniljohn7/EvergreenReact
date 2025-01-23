@@ -56,10 +56,10 @@ export const LOGIN_HEADER = [
         label: "Dues",
         path: "/dues",
     },
-    {
-        label: "Referrals",
-        path: "/referrals",
-    },
+    // {
+    //     label: "Referrals",
+    //     path: "/referrals",
+    // },
     {
         label: "Resources",
         path: "/resources",

@@ -99,6 +99,7 @@ const editProfile = withFormik({
     nationSwitch: Yup.bool().notRequired().default(true),
     regionSwitch: Yup.bool().notRequired().default(true),
     organizationalStateSwich: Yup.bool().notRequired().default(true),
+    affilateOrgznSwitch: Yup.bool().notRequired().default(true),
   }),
 
   mapPropsToValues: (props) => ({
@@ -157,6 +158,7 @@ const editProfile = withFormik({
     //   }
     //   : "",
     phoneNumber: props.profile.profile.phoneNumber || "",
+    affilateOrgzn: props.profile.profile.affilateOrgzn || "",
     biography: props.profile.profile.biography || "",
     occupation: props.profile.profile.occupation
       ? {
@@ -229,6 +231,9 @@ const editProfile = withFormik({
       : false,
     phoneNumberSwitch: props.profile.visible
       ? props.profile.visible.phoneNumber || false
+      : false,
+    affilateOrgznSwitch: props.profile.visible
+      ? props.profile.visible.affilateOrgzn || false
       : false,
     biographySwitch: props.profile.visible
       ? props.profile.visible.biography || false

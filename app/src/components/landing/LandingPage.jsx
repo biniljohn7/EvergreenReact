@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom/cjs/react-router-dom'
 import LandingWrapper from './landing.style'
 
-import Landing from '../../assets/images/landing.png'
-import Landing75 from '../../assets/images/landing_0.75x.png'
-import Landing05 from '../../assets/images/landing_0.5x.png'
+import Landing from '../../assets/images/landing_new.png'
+import Landing75 from '../../assets/images/landing_new_0.75x.png'
+import Landing05 from '../../assets/images/landing_new_0.5x.png'
 import ScreenShot15x from '../../assets/images/screenshot_1.5x.png'
 import ScreenShot75x from '../../assets/images/screenshot_0.75x.png'
 import AppleStore from '../../assets/images/Apple_Store_1.5x.png'
@@ -46,7 +46,7 @@ const LandingPage = (props) => {
                   resources, such as news, messaging, event calendars,
                   membership benefits, job postings, advocacy, and much more.
                   Otherwise, you can download the app and access your account on
-                  your phone, tablet, or other mobile device.2222
+                  your phone, tablet, or other mobile device.
                 </p>
                 <Link
                   to="/signup/"
@@ -57,7 +57,7 @@ const LandingPage = (props) => {
               </div>
             </div>
           </section>
-          <section className="bg-white pt-50">
+          {/* <section className="bg-white pt-50">
             <div
               className="row align-middle site-spacing overflow-hide"
               id="downloadApp"
@@ -98,7 +98,7 @@ const LandingPage = (props) => {
                 ></img>
               </div>
             </div>
-          </section>
+          </section> */}
 
           <Support {...props} />
 
@@ -141,7 +141,7 @@ const LandingPage = (props) => {
               </div>
             </div>
           </section>
-          <section className="bg-white overflow-hide" id="downloadApp">
+          {/* <section className="bg-white overflow-hide" id="downloadApp">
             <div className="container align-middle site-spacing">
               <div
                 className={
@@ -184,7 +184,7 @@ const LandingPage = (props) => {
                 />
               </div>
             </div>
-          </section>
+          </section> */}
 
           <Support {...props} />
 

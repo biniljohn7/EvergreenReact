@@ -53,10 +53,10 @@ const protectedRoutes = [
     path: '/careers/:title',
     component: CareerDetail,
   },
-  {
-    path: '/referrals',
-    component: Referral,
-  },
+  // {
+  //   path: '/referrals',
+  //   component: Referral,
+  // },
   {
     path: '/resources',
     component: Resource,

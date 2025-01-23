@@ -119,7 +119,8 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
+                <label className="fs-18 medium-text">Affiliate Organization&nbsp;:&nbsp;</label>
+                {profile.profile.affilateOrgzn ?? "-"}
               </div>
             </div>
 

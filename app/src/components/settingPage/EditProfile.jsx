@@ -378,6 +378,7 @@ const EditProfile = (props) => {
         householdId: formValues.household.value,
         salaryRangeId: formValues.salaryRange.value,
         expertiseIds: formValues.expertise.map((ex) => ex.value),
+        affilateOrgzn: el('affilateOrgzn').value.trim(),
       };
       const YOI = el('yearOfIni').value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
@@ -416,6 +417,7 @@ const EditProfile = (props) => {
             yearOfInitiation: formValues.yearOfIniSwitch || false,
             nation: formValues.nationSwitch || false,
             region: formValues.regionSwitch || false,
+            affilateOrgzn: formValues.affilateOrgznSwitch || false,
           },
           ...body,
         };
@@ -1231,6 +1233,27 @@ const EditProfile = (props) => {
                     />
                     <Error field="expertise" />
                   </div>
+
+                  <div className="mb-15 position-relative">
+                    <Input
+                      id="affilateOrgzn"
+                      label="Affiliate Organization"
+                      placeholder="Affiliate Organization"
+                      type="text"
+                      fontSize={"fs-16 text-dark"}
+                      className={WIDTH_CLASS}
+                      contentFontSize="fs-14"
+                      switchPresent={isProfileCreated}
+                      switchChange={(checked) => {
+                        let ndata = { ...formValues };
+                        ndata.affilateOrgznSwitch = checked;
+                        setFormValues(ndata);
+                      }}
+                      checked={formValues.affilateOrgznSwitch || false}
+                      defaultValue={formValues.affilateOrgzn || ""}
+                    />
+                  </div>
+
                   <div className="row mb-20 mt-30 text-bold">
                     <div className={LEFT_CLASS}>Organizational Data</div>
                     <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
