@@ -1542,7 +1542,7 @@ const EditProfile = (props) => {
                           className="profile-switch"
                         />
                       )}
-                    </div>
+                    </div>                
                     <Select
                       id="currentChapter"
                       placeholder="Select Current Section"
@@ -1555,7 +1555,7 @@ const EditProfile = (props) => {
                         ndata.currentChapter = selectedOp;
                         setFormValues(ndata);
                       }}
-                      value={formValues.currentChapter || "National Member"}
+                      value={formValues.currentChapter || ""}
                       noOptionsMessage={() => (
                         <>
                           {!formValues.organizationalStateSwich

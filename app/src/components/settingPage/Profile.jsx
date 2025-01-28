@@ -181,8 +181,9 @@ const Profile = (props) => {
                   Current Section&nbsp;:&nbsp;
                 </label>
                 {(profile.profile.currentChapter &&
-                  profile.profile.currentChapter.name) ??
-                  "National Member"}
+                  profile.profile.currentChapter.name !='') ?
+                  profile.profile.currentChapter.name
+                  :"National Member"}
               </div>
             </div>
           </div>
