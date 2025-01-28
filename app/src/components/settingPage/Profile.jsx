@@ -137,7 +137,7 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Nation&nbsp;:&nbsp;</label>
+                <label className="fs-18 medium-text">Country&nbsp;:&nbsp;</label>
                 {(profile.profile.nation && profile.profile.nation.name) ?? "-"}
               </div>
             </div>

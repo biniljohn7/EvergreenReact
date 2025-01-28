@@ -1262,7 +1262,7 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Nation</label>
+                      <label className="fs-16 mb-5 text-dark">Country</label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -1286,7 +1286,7 @@ const EditProfile = (props) => {
                     </div>
                     <Select
                       id="nation"
-                      placeholder="Select Nation"
+                      placeholder="Select Country"
                       options={nationList}
                       getOptionLabel={(op) => op.nationName}
                       getOptionValue={(op) => op.nationId}
@@ -1306,7 +1306,7 @@ const EditProfile = (props) => {
                             setRegionList([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive Nation list. Please try again later!');
+                            Tst.Error('Failed to retrieve the country list. Please try again later!');
                           });
                       }}
                       value={formValues.nation || ""}
