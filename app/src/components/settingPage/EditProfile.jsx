@@ -163,7 +163,7 @@ const EditProfile = (props) => {
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
-                setChapter([{ chapterId: '', chapterName: "National Member" },...res.data]);
+                setChapter([{ chapterId: 0, chapterName: "National Member" },...res.data]);
             })
             .catch((err) => {
               Tst.Error('Failed to retrive Section list. Please try again later!');
