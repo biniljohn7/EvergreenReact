@@ -1414,7 +1414,7 @@ const EditProfile = (props) => {
                             setChapter([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive chapter list. Please try again later!');
+                            Tst.Error('Failed to retrive section list. Please try again later!');
                           });
                       }}
                       value={formValues.organizationalState || ""}
