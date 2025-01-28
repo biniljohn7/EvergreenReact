@@ -163,7 +163,7 @@ const EditProfile = (props) => {
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
-              setChapter(res.data);
+                setChapter([{ chapterId: '', chapterName: "National Member" },...res.data]);
             })
             .catch((err) => {
               Tst.Error('Failed to retrive Section list. Please try again later!');
@@ -292,7 +292,9 @@ const EditProfile = (props) => {
     }
     if (!el('zip').value.trim()) {
       sErrs['zip'] = 'This field is required';
-    }
+    }else if(!(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(el('zip').value.trim()))){
+            sErrs['zip'] = 'Not a valid zip code';
+    } 
     if (!el('phoneNumber').value) {
       sErrs['phoneNumber'] = 'Pnone number is required';
     } else if (!phoneRegex.test(el('phoneNumber').value.trim())) {
@@ -1553,7 +1555,7 @@ const EditProfile = (props) => {
                         ndata.currentChapter = selectedOp;
                         setFormValues(ndata);
                       }}
-                      value={formValues.currentChapter || ""}
+                      value={formValues.currentChapter || "National Member"}
                       noOptionsMessage={() => (
                         <>
                           {!formValues.organizationalStateSwich
