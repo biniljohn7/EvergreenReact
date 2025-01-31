@@ -297,7 +297,10 @@ a:focus {
     align-items: center;
 }
 
-.top-header .nav-box ul li {}
+.top-header .nav-box ul li {
+    color: #fff;
+    cursor: pointer;
+}
 
 .top-header .nav-box ul li a {
     display: block;
@@ -322,6 +325,14 @@ a:focus {
     transition: all linear .2s;
 }
 
+.top-header .nav-box ul li.inbox-menu a {
+    padding-top: 17px;
+}
+
+.top-header .nav-box ul li.inbox-menu a::before {
+    background: transparent;
+}
+
 .top-header .nav-box ul li:hover>a::before,
 .top-header .nav-box ul li a.active::before {
     width: 100%;
@@ -333,6 +344,31 @@ a:focus {
     letter-spacing: normal;
     font-weight: 400;
     padding: 10px 35px;
+}
+
+.top-header .nav-box ul li.my-acc {
+    padding: 3px 5px;
+}
+
+.top-header .nav-box ul li.my-acc ul {
+    position: absolute;
+    background-color: #5b2166;
+    border: 1px solid #fff;
+    display: none;
+    z-index: 10;
+}
+
+.top-header .nav-box ul li.my-acc:hover>ul {
+    display: block;
+}
+
+.top-header .nav-box ul li.my-acc ul li {
+    display: block;
+}
+
+.top-header .nav-box ul li.my-acc ul li span {
+    padding-bottom: 10px;
+    font-weight: 400;
 }
 
 .top-header .nav-box .mob-menu {
@@ -1040,6 +1076,7 @@ a:focus {
     padding-left: 12px;
     padding-top: 12px;
     padding-bottom: 12px;
+
 }
 
 .mobile-menu ul li a {

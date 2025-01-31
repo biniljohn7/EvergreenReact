@@ -64,10 +64,10 @@ export const LOGIN_HEADER = [
         label: "Resources",
         path: "/resources",
     },
-    {
-        label: "Inbox",
-        path: "/inbox",
-    },
+    // {
+    //     label: "Inbox",
+    //     path: "/inbox",
+    // },
     {
         label: "Advocacy",
         path: "/advocacy",

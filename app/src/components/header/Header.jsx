@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import HeaderWrapper from './header.style'
 import Logo from '../../assets/images/logo.png'
+import { logout as logoutAPI } from "../../api/commonAPI";
+import Spinner from "../../UI/Spinner/Spinner";
 import {
   SITE_NAME,
   // SITE_SHORT_DESC,
@@ -13,14 +15,15 @@ import { Link, useLocation } from 'react-router-dom'
 import icon from '../../assets/images/man_icon1x.png'
 import { store } from '../../redux/store'
 import { useSelector } from 'react-redux';
-
+import Toast from "../../UI/Toast/Toast";
 const Header = (props) => {
 
   const [MobMenu, setMobMenu] = useState(0)
 
   const location = useLocation()
   const profileImage = useSelector((state) => state.auth.profileImage)
-
+   let Spn = Spinner();
+   let Tst = Toast();
   return (
     <HeaderWrapper>
 
@@ -60,9 +63,14 @@ const Header = (props) => {
                     {ele.label}
                   </Link>
                 </li>
+                
               )
             })}
-
+            <li className='inbox-menu'>
+              <Link to="/inbox">
+                Inbox
+              </Link>
+            </li>
             <li className="my-acc">
               <img
                 src={profileImage || icon}
@@ -175,7 +183,11 @@ const Header = (props) => {
                       </li>
                     )
                   })}
-
+                  <li className='inbox-menu'>
+                    <Link to="/inbox">
+                      <span class="material-symbols-outlined">mail</span>
+                    </Link>
+                  </li>
                   <li className="my-acc">
                     <img
                       src={profileImage || icon}
@@ -183,6 +195,37 @@ const Header = (props) => {
                       className="profile-image-size cursor-pointer"
                       onClick={(e) => props.history.push('/account')}
                     />
+                    &nbsp;
+                    Profile
+                    <ul>
+                      <li>
+                        <Link to="/account">
+                          Settings
+                        </Link>
+                      </li>
+                      <li>
+                        <label
+                            className="ml-15 pb-15 text-center cursor-pointer"
+                            onClick={(e) => {
+                              Spn.Show();
+                              logoutAPI()
+                                .then((res) => {
+                                  props.logout();
+                                  Tst.Success('You are logged out successfully!');
+                                  props.history.push("/");
+                                })
+                                .catch((err) => {
+                                  console.error(err);
+                                  props.logout();
+                                  Tst.Success('You are logged out successfully!');
+                                  props.history.push("/");
+                                });
+                            }}
+                          >
+                            LOGOUT
+                          </label>
+                      </li>
+                    </ul>
                   </li>
                 </ul>
 
