@@ -48,7 +48,7 @@ const EventBox = (events)=> {
                         </>
                     ):(
                         <>
-                            <div className='text-center'>There are no events at the moment. Please check back later.{eventData.length}</div>
+                            <div className='text-center'>There are no events at the moment. Please check back later.</div>
                         </>
                     )
                     }

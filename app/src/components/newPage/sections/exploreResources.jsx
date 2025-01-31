@@ -12,7 +12,7 @@ const backgroundStyle = {
     backgroundRepeat: "no-repeat",
   };
 
-function ExploreResources() {
+  const ExploreResources = () => {
     return (
         <Wrapper>
             <div className='explore-resources' style={backgroundStyle}>

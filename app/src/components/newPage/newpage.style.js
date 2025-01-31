@@ -400,7 +400,69 @@ const Warpper = styled.div`
   .ful-row-sec .ech-itm .lnk-itm .content-part .icn {
     font-size: 2.8em;
   }
- 
+ .news-box{
+    background-image: url(${BannerImg});
+    background-repeat: no-repeat;
+    background-size: cover;
+    .container{
+      display:flex;
+      gap:60px;
+      @media (max-width: 1280px) {
+            gap:30px;
+      }
+      .text-center{
+        color:#fff;
+        width:100%;
+      }
+      .news-content{
+          width:calc(100% - 53%);
+          color:#fff;
+          @media (max-width: 1280px) {
+            width:calc(100% - 52%);
+          }
+          @media (max-width: 780px) {
+            width:calc(100% - 55%);
+          }
+          @media (max-width: 600px) {
+            width:100%;
+          }
+          .image-box{
+            height:340px;
+            overflow:hidden;
+            margin-bottom:15px;
+            img{
+              width:100%;
+            }
+          }
+          h2{
+            color:#fff;
+            font-size:30px;
+            text-transform:uppercase;
+            font-weight:700;
+            line-height:35px;
+            @media (max-width: 600px) {
+              font-size:24px;
+              line-height:28px
+            }
+          }
+          .button-box{
+            margin-top:25px;
+            span{
+              background: #FFFFFF;
+              color: #A47200;
+              padding: 10px 25px;
+              min-width: 190px;
+            }
+          }
+        }
+    }
+  .text-center{
+    text-align:center;
+  }
+  .home-tab .nav-tabs .nav-link{
+    color:#A47200 !important;
+  }
+ }
 `;
 
 export default Warpper;

@@ -14,6 +14,7 @@ import HomeNational from "./HomeNational";
 /**By Hari */
 import ExploreResources from "./sections/exploreResources";
 import EventBox from "./sections/eventBox";
+import NewsBox from "./sections/newsBox";
 /**By Hari */
 TimeAgo.addLocale(en);
 
@@ -71,69 +72,16 @@ const NewPage = (props) => {
     const List = () => {
         return (
             <>
-
-
                 <div className="news-section">
                     <div className="head-box">
                         <div className="container">
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
                         </div>
                     </div>
-                    <div className="news-box">
-                        <div className="container">
-                            {data.news && data.news.length > 0 ? (
-                                <React.Fragment>
-                                    {data.news.slice(0, RECORD_NO).map((ev) => {
-                                        return (
-                                            <div onClick={(e) =>
-                                                props.history.push(`/news/${ev.slug}`)
-                                            }
-                                                className="news-item cursor-pointer"
-                                                key={ev.slug}
-                                            >
-                                                <div className="image-box">
-                                                    {ev.imageUrl ?
-                                                        (<img
-                                                            src={ev.imageUrl}
-                                                            alt={ev.title.substr(0, 10) + "..."}
-                                                            className="image-sizes"
-                                                        />) : null}
-                                                </div>
-
-                                                <h2>
-                                                    <ClampLines
-                                                        text={ev.title}
-                                                        id={"news_title_" + ev.newsfeedId}
-                                                        lines={2}
-                                                        ellipsis="..."
-                                                        buttons={false}
-                                                        className=""
-                                                    />
-                                                </h2>
-                                                <p className="">
-                                                    <ClampLines
-                                                        text={ev.description}
-                                                        id={"news_desc" + ev.newsfeedId}
-                                                        lines={2}
-                                                        ellipsis="..."
-                                                        buttons={false}
-                                                        className=""
-                                                    />
-                                                </p>
-                                                <div className="button-box white">
-                                                    <span>READ MORE</span>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </React.Fragment>
-                            ) : (
-                                <div className="text-center ">
-                                    No Record Found!
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                    <NewsBox news={{
+                        ev : data.news,
+                        prs : props
+                    }}/>
                 </div>
 
                 <div className="event-section">
