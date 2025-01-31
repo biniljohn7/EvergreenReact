@@ -160,7 +160,7 @@ const NewPage = (props) => {
         <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
             {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
             <div className="site-spacing- ptb-50-">
-                {/* <Banner /> */}
+                {<Banner />}
 
                 <WhatYouCanDo />
 
