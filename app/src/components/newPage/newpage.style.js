@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import BannerImg from '../../assets/images/banner-bg.png'
-
+import Bg from '../../assets/images/new-page-resources.png'
 
 
 const Warpper = styled.div`
@@ -304,6 +304,7 @@ const Warpper = styled.div`
     background-color: #fff;
     display: inline-block;
     padding-right: 30px;
+    margin-bottom: 50px;
     @media (max-width: 991px) {
       font-size: 45px;
     }
@@ -315,6 +316,90 @@ const Warpper = styled.div`
     }
   }
 
+  .what-do .three-cl-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .what-do .three-cl-row .col-3 {
+    background-image: url(${Bg});
+    width: 30%;
+    text-align: center;
+    border: 1px solid #5B2166;
+    border-radius: 25px;
+    padding: 30px;   
+    @media (max-width: 767px) {
+      width: calc(50% - 30px);
+      margin: 15px;
+    } 
+    @media (max-width: 500px) {
+      width: calc(100% - 30px);
+    }
+  }
+
+  .what-do .three-cl-row .col-3 img {
+    margin-bottom: 10px;
+  }
+  .what-do .three-cl-row .col-3 .lnk-three {
+    color: #fff;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+    @media (max-width: 1260px) {
+      font-size: 25px;
+    }
+    @media (max-width: 991px) {
+      font-size: 21px;
+    }
+    @media (max-width: 767px) {
+      font-size: 25px;
+    }
+  }
+
+  .ful-row-sec {
+    padding: 20px 0px;
+  }
+  .ful-row-sec .ech-itm {
+    background-image: url(${BannerImg});
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 1px solid #5B2166;
+    border-radius: 25px;
+    padding: 20px 40px;
+    margin-bottom: 20px;
+  }
+
+  .ful-row-sec .ech-itm .lnk-itm {
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+  }
+  .ful-row-sec .ech-itm .lnk-itm .content-part {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width: 650px) {
+      display: block;
+      text-align: center;
+    }
+  }
+  .ful-row-sec .ech-itm .lnk-itm .content-part .main-h {
+    font-size: 30px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .ful-row-sec .ech-itm .lnk-itm .content-part .sub-h {
+    font-size: 16px;
+    font-weight: 400;
+    @media (max-width: 650px) {
+      margin-bottom: 15px;
+    }
+  }
+  .ful-row-sec .ech-itm .lnk-itm .content-part .icn {
+    font-size: 2.8em;
+  }
  
 `;
 
