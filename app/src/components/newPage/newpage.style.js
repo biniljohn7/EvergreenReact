@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import BannerImg from '../../assets/images/banner-bg.png'
 
+
 const Warpper = styled.div`
   .nav-tabs .nav-link {
     color: #637381;
@@ -84,6 +85,14 @@ const Warpper = styled.div`
       background-image: url(${BannerImg});
   }
 
+  .explore-resources{
+    text-align: center;
+    color: #fff;
+    font-size: 96px;
+    line-height: 96px;
+    padding: 40px 0;
+    font-family:
+  }
 `;
 
 export default Warpper;

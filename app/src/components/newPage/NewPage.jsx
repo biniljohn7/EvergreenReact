@@ -10,7 +10,10 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import Banner from "../common/NewBanner";
 import HomeNational from "./HomeNational";
-TimeAgo.addLocale(en);
+/**By Hari */
+import ExploreResources from "./sections/exploreResources";
+/**By Hari */
+//TimeAgo.addLocale(en);
 
 const COL_NO = window.innerWidth < 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
 const COL_WIDTH =
@@ -279,7 +282,9 @@ const NewPage = (props) => {
                 </div>
 
                 <HomeNational />
-                <div className="advo-section home">
+
+                <ExploreResources />
+                {/*<div className="advo-section home">
                     <div className="head-box right">
                         <div className="container">
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/advocacy")}>advocacy</h2>
@@ -314,7 +319,7 @@ const NewPage = (props) => {
                                                             />) : null}
                                                     </div>
                                                     <h2 className="">
-                                                        {/* <h6 className="text-bold">{ev.title}</h6> */}
+                                                        
                                                         <ClampLines
                                                             text={ev.title}
                                                             id={"advocacy_title" + ev.advocacyId}
@@ -345,7 +350,7 @@ const NewPage = (props) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/}
 
             </>
         );
