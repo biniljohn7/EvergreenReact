@@ -203,7 +203,7 @@ const Header = (props) => {
                           Settings
                         </Link>
                       </li>
-                      <li>
+                      {/* <li>
                         <label
                             className="ml-15 pb-15 text-center cursor-pointer"
                             onClick={(e) => {
@@ -224,7 +224,7 @@ const Header = (props) => {
                           >
                             LOGOUT
                           </label>
-                      </li>
+                      </li> */}
                     </ul>
                   </li>
                 </ul>
