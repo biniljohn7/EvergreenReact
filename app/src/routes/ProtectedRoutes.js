@@ -75,6 +75,10 @@ const protectedRoutes = [
     component: EventDetail,
   },
   {
+    path: '/events/:name',
+    component: EventDetail,
+  },
+  {
     path: '/advocacy',
     component: Advocacy,
   },

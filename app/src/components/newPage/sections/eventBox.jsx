@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import Wrapper from "../newpage.style";
-const EventBox = (events,props)=> {
-    let eventData = events.events;
+const EventBox = (events)=> {
+    let eventData = events.events.ev;
+    let props = events.events.prs
+    //console.log()
     return (
         <Wrapper>
             <div className='event-box'>
@@ -18,8 +20,15 @@ const EventBox = (events,props)=> {
                                                 <div className='event-date'>{ev.date}</div>
                                                 <div className='event-head'><h2>{ev.name}</h2></div>
                                                 <div className='event-address'>{ev.descrptn || ""}</div>
-                                                <div className="button-box">
-                                                    <Link to={`/events/${ev.name.replaceAll("/", " ")}`} state={{ eventId: ev.eventId }}> RSVP</Link>
+                                                <div className="button-box" onClick={(e) =>
+                                                        props.history.push(
+                                                            `/events/${ev.name.replaceAll("/", " ")}`,
+                                                            {
+                                                                eventId: ev.eventId,
+                                                            }
+                                                        )
+                                                    }>
+                                                    <span>RSVP</span>
                                                 </div>
                                             </div>
                                             <div className='event-image'>
@@ -29,7 +38,6 @@ const EventBox = (events,props)=> {
                                                         src={ev.image2}
                                                         alt={ev.name.substr(0, 10) + "..."}
                                                         className="image-sizes"
-                                                        
                                                     />) : null
                                                 }
                                             </div>                                            

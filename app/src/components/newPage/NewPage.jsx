@@ -8,7 +8,6 @@ import classnames from "classnames";
 import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-//import Banner from "../common/NewBanner";
 import Banner from "../common/NewBanner";
 import WhatYouCanDo from "./WhatYouCanDo";
 import HomeNational from "./HomeNational";
@@ -78,7 +77,6 @@ const NewPage = (props) => {
                     <div className="head-box">
                         <div className="container">
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
-
                         </div>
                     </div>
                     <div className="news-box">
@@ -144,7 +142,10 @@ const NewPage = (props) => {
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
                         </div>
                     </div>
-                    <EventBox events={data.events}/>
+                    <EventBox events={{
+                        ev : data.events,
+                        prs : props
+                    }}/>
                 </div>
                 <ExploreResources />
             </>
