@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import Wrapper from "../newpage.style";
-function EventBox(events) {
+const EventBox = (events,props)=> {
     let eventData = events.events;
-    console.log(eventData);
     return (
         <Wrapper>
             <div className='event-box'>
@@ -11,15 +11,20 @@ function EventBox(events) {
                     eventData && eventData.length > 0 ? (
                         <>
                             {
-                                eventData.map((ev)=>{
+                                eventData.slice(0, 2).map((ev)=>{
                                     return(
                                         <div className='event-content-box'>
                                             <div className='event-contents'>
-                                                hello
+                                                <div className='event-date'>{ev.date}</div>
+                                                <div className='event-head'><h2>{ev.name}</h2></div>
+                                                <div className='event-address'>{ev.descrptn || ""}</div>
+                                                <div className="button-box">
+                                                    <Link to={`/events/${ev.name.replaceAll("/", " ")}`} state={{ eventId: ev.eventId }}> RSVP</Link>
+                                                </div>
                                             </div>
                                             <div className='event-image'>
                                                 {
-                                                    ev.image ?
+                                                    ev.image2 ?
                                                     (<img
                                                         src={ev.image2}
                                                         alt={ev.name.substr(0, 10) + "..."}
@@ -27,8 +32,7 @@ function EventBox(events) {
                                                         
                                                     />) : null
                                                 }
-                                            </div>
-                                            
+                                            </div>                                            
                                         </div>
                                     );
                                 })

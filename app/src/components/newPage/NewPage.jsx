@@ -144,8 +144,7 @@ const NewPage = (props) => {
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
                         </div>
                     </div>
-                    <EventBox events={data.events} />
-                    {console.log(data)}
+                    <EventBox events={data.events}/>
                 </div>
                 <ExploreResources />
             </>

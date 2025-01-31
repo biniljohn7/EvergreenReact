@@ -218,11 +218,59 @@ const Warpper = styled.div`
     background-color:#A47200;
   }
   .event-box{
+    .container{
+      display:block;
+    }
     .event-content-box{
       border:1px solid #A47200;
       display:flex;
       flex-direction:row;
       width:100%;
+      overflow:hidden;
+      border-radius:45px;
+      align-items: center;
+      margin-bottom:20px;
+      @media only screen and (max-width:600px) {
+        flex-direction:column-reverse;
+      }
+      
+      .event-contents{
+        width:calc(100% - 260px);
+        padding:40px;
+        @media only screen and (max-width:600px) {
+          width:100%;
+        }
+        .event-date{
+          font-family: "Open Sans", serif;
+          font-size:24px;
+        }
+        .event-head h2{
+          font-size:30px;
+          font-weight:700;
+          text-transform: uppercase;
+          margin-bottom:5px;
+        }
+        .button-box{
+          margin-top:15px;
+          @media only screen and (max-width:600px) {
+              margin-top:15px;
+          }
+          a{
+            padding: 8px 35px;            
+          }
+        }
+      }
+      .event-image{
+        width:260px;
+        border-radius:45px;
+        overflow:hidden;
+        @media only screen and (max-width:480px) {
+          width:100%;
+        }
+        img{
+          width:100%;
+        }
+      }
     }
   }
   .what-do {

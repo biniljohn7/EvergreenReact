@@ -27,13 +27,3 @@ function ExploreResources() {
     )
 }
 export default ExploreResources
-
-/* const [resources, setResources] = useState([])
-
-    useEffect(() => {
-        fetch("https://pix.eadbox.com/api/v1/resources")
-            .then(res => res.json())
-            .then(data => {
-                setResources(data)
-            })
-    }, []) */
