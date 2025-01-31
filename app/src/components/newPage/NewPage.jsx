@@ -9,6 +9,8 @@ import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 //import Banner from "../common/NewBanner";
+import Banner from "../common/NewBanner";
+import WhatYouCanDo from "./WhatYouCanDo";
 import HomeNational from "./HomeNational";
 /**By Hari */
 import ExploreResources from "./sections/exploreResources";
@@ -159,6 +161,8 @@ const NewPage = (props) => {
             {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
             <div className="site-spacing- ptb-50-">
                 {/* <Banner /> */}
+
+                <WhatYouCanDo />
 
                 <TabContent activeTab={activeTab}>
                     <div className="home-tab">

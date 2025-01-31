@@ -84,6 +84,103 @@ const Warpper = styled.div`
   /* new landing page banner  */
   .new-banner {
       background-image: url(${BannerImg});
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      color: #fff;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: -26px;
+      @media (max-width: 767px) {
+        display: block;
+        text-align: center;
+      }
+  }
+  .cnt-sec {
+    margin-left: 100px;
+    @media (max-width: 991px) {
+      margin-left: 30px;
+    }
+    @media (max-width: 767px) {
+      margin-left: 0px;
+      text-align: center;
+    }
+  }
+  .cnt-sec .welcom {
+    font-size: 90px;
+    font-weight: 400;
+    font-family: "Open Sans", serif;
+    line-height: 100px;
+    margin-bottom: 13px;
+    @media (max-width: 1450px) {
+      font-size: 50px;
+       line-height: 60px;
+    }
+    @media (max-width: 991px) {
+       font-size: 35px;
+       line-height: 45px;
+    }
+    @media (max-width: 767px) {
+        padding-top: 20px;
+        font-size: 60px;
+        line-height: 75px;
+    }
+    @media (max-width: 550px) {
+      font-size: 36px;
+      line-height: 47px;
+    }
+  }
+  .cnt-sec .mbr-nam {
+    font-family: "Open Sans", serif;
+    font-size: 90px;
+    font-weight: 700;
+    line-height: 100px;
+    margin-bottom: 35px;
+    @media (max-width: 1450px) {
+      font-size: 50px;
+       line-height: 60px;
+    }
+    @media (max-width: 991px) {
+       font-size: 35px;
+       line-height: 45px;
+    }
+    @media (max-width: 767px) {
+        font-size: 60px;
+        line-height: 75px;
+    }
+    @media (max-width: 550px) {
+      font-size: 36px;
+      line-height: 47px;
+    }
+  }
+  .cnt-sec .msg {
+    font-family: "Poppins", sans-serif;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    @media (max-width: 1450px) {
+      font-size: 26px;
+    }
+    @media (max-width: 991px) {
+       font-size: 25px;
+    }
+    @media (max-width: 767px) {
+      font-size: 30px;
+    }
+    @media (max-width: 550px) {
+      font-size: 25px;
+    }
+  }
+  
+  .img-sec {
+    @media (max-width: 1450px) {
+      width: 45%;
+      margin: 0 auto;
+    }
+    @media (max-width: 991px) {
+      width: 50%;
+      margin: 0 auto;
+    }
   }
 
   .explore-resources{
@@ -128,6 +225,49 @@ const Warpper = styled.div`
       width:100%;
     }
   }
+  .what-do {
+    padding: 60px 0px;
+    position: relative;
+  }
+  .what-do::after{
+    position: absolute;
+    content: "";
+    width: 80%;
+    background: #A47200;
+    height: 1px;
+    top: 110px;
+    z-index: -2;
+    right: 0;
+    @media (max-width: 991px) {
+      top: 96px;
+    }
+    @media (max-width: 650px) {
+      top: 83px;
+    }
+    @media (max-width: 420px) {
+      top: 77px;
+    }
+  }
+  .what-do .do-head {
+    font-family: "Open Sans", serif;
+    font-size: 64px;
+    font-weight: 400;
+    color: #5B2166;    
+    background-color: #fff;
+    display: inline-block;
+    padding-right: 30px;
+    @media (max-width: 991px) {
+      font-size: 45px;
+    }
+    @media (max-width: 650px) {
+      font-size: 30px;
+    }
+    @media (max-width: 420px) {
+      font-size: 22px;
+    }
+  }
+
+ 
 `;
 
 export default Warpper;

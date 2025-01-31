@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import SiteLogo from '../../assets/images/site-logo.png'
 import BannerImg from '../../assets/images/new-hero.png'
 import { store } from '../../redux/store'
 
@@ -34,10 +33,10 @@ export default function NewBanner() {
         <div className="new-banner">
             <div className="cnt-sec">
                 <div className="welcom">Welcome,</div>
-                <div className="mbr-nam">Member NAme!,</div>
+                <div className="mbr-nam">{store.getState().auth.firstName} {store.getState().auth.lastName}!</div>
                 <div className="msg">We’re glad you’re here!</div>
             </div>
-            <div className="img">
+            <div className="img-sec">
                 <img src={BannerImg} alt='' />
             </div>
         </div>
