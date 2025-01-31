@@ -91,8 +91,42 @@ const Warpper = styled.div`
     color: #fff;
     font-size: 96px;
     line-height: 96px;
-    padding: 40px 0;
-    font-family:
+    padding: 60px 0;
+    font-family: "Open Sans", serif;
+    @media only screen and (max-width:991px) {
+        font-size: 60px;
+        line-height: 70px;
+    }
+    @media only screen and (max-width:480px) {
+        font-size: 30px;
+        line-height: 40px;
+    }
+    .explore-resources-btn a{
+      color:#A47200;
+      font-size:16px;
+      font-family: "Poppins", serif;
+      background-color: #fff;
+      padding:12px 30px;
+      line-height: 20px;
+      border-radius: 25px;
+      text-transform: uppercase;
+      @media only screen and (max-width:480px) {
+          padding:10px 20px;
+          font-size:14px;
+
+      }
+    }
+  }
+  .head-box::before{
+    background-color:#A47200;
+  }
+  .event-box{
+    .event-content-box{
+      border:1px solid #A47200;
+      display:flex;
+      flex-direction:row;
+      width:100%;
+    }
   }
 `;
 

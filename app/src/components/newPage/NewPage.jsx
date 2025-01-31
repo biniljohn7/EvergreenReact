@@ -8,12 +8,13 @@ import classnames from "classnames";
 import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import Banner from "../common/NewBanner";
+//import Banner from "../common/NewBanner";
 import HomeNational from "./HomeNational";
 /**By Hari */
 import ExploreResources from "./sections/exploreResources";
+import EventBox from "./sections/eventBox";
 /**By Hari */
-//TimeAgo.addLocale(en);
+TimeAgo.addLocale(en);
 
 const COL_NO = window.innerWidth < 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
 const COL_WIDTH =
@@ -141,217 +142,10 @@ const NewPage = (props) => {
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
                         </div>
                     </div>
-                    <div className="event-box">
-                        <div className="container">
-                            <div className="image-box">
-                                {data.events && data.events.length > 0 ? (
-                                    <>
-                                        {data.events.slice(0, 1).map((ev) => {
-                                            return (
-                                                <div
-                                                    className="cursor-pointer"
-                                                    key={ev.eventId}
-                                                    onClick={(e) =>
-                                                        props.history.push(
-                                                            `/events/${ev.name.replaceAll("/", " ")}`,
-                                                            {
-                                                                eventId: ev.eventId,
-                                                            }
-                                                        )
-                                                    }
-                                                >
-                                                    {ev.image ?
-                                                        (<img
-                                                            src={ev.image}
-                                                            alt={ev.name.substr(0, 10) + "..."}
-                                                            className="image-sizes"
-                                                        />) : null}
-
-
-
-                                                </div>
-                                            );
-                                        })}
-                                    </>
-                                ) : (
-                                    <>
-                                        No Image Found!
-                                    </>
-                                )}
-                            </div>
-                            <div className="content-box">
-                                {data.events && data.events.length > 0 ? (
-                                    <>
-                                        {data.events.slice(0, RECORD_NO).map((ev) => {
-                                            return (
-                                                <div
-                                                    className="event-item cursor-pointer"
-                                                    key={ev.eventId}
-                                                    onClick={(e) =>
-                                                        props.history.push(
-                                                            `/events/${ev.name.replaceAll("/", " ")}`,
-                                                            {
-                                                                eventId: ev.eventId,
-                                                            }
-                                                        )
-                                                    }
-                                                >
-                                                    <div className="e-date">{ev.date}</div>
-                                                    <h2>
-                                                        <ClampLines
-                                                            text={ev.name}
-                                                            id={"event_name_" + ev.eventId}
-                                                            lines={2}
-                                                            ellipsis="..."
-                                                            buttons={false}
-                                                            className="text-bold"
-                                                        />
-                                                    </h2>
-                                                    <p>{ev.address || ""}</p>
-                                                    <div className="button-box">
-                                                        <span>READ MORE</span>
-                                                    </div>
-
-
-
-                                                </div>
-                                            );
-                                        })}
-                                    </>
-                                ) : (
-                                    <div className="text-center">
-                                        No Record Found!
-                                    </div>
-                                )}
-
-                            </div>
-                        </div>
-                    </div>
+                    <EventBox events={data.events} />
+                    {console.log(data)}
                 </div>
-
-                <div className="benefits-section">
-                    <div className="head-box">
-                        <div className="container">
-                            <h2 className="cursor-pointer" onClick={(e) => props.history.push("/benefits")}>benefits</h2>
-                        </div>
-                    </div>
-                    <div className="benefit-box">
-                        <div className="container">
-                            {data.benefits && data.benefits.length > 0 ? (
-                                <>
-                                    {data.benefits.slice(0, RECORD_NO).map((ev) => {
-                                        return (
-                                            <div
-                                                className="benefit-item cursor-pointer"
-                                                key={ev.benefitId}
-                                                onClick={(e) =>
-                                                    props.history.push(
-                                                        `/benefits/${ev.categoryName.replaceAll("/", "")}/${ev.categoryId
-                                                        }/${ev.benefitId}`
-                                                    )
-                                                }
-                                            >
-                                                <div className="per">
-                                                    {ev.discount} OFF
-                                                </div>
-                                                <ClampLines
-                                                    text={ev.shortDetails}
-                                                    id={"benefit_shortDetails_" + ev.benefitId}
-                                                    lines={2}
-                                                    ellipsis="..."
-                                                    buttons={false}
-                                                    className="title"
-                                                />
-                                                <div className="cat">
-                                                    {ev.categoryName}
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </>
-                            ) : (
-                                <div className="text-center">
-                                    No Record Found!
-                                </div>
-                            )}
-
-
-
-                        </div>
-                    </div>
-                </div>
-
-                <HomeNational />
-
                 <ExploreResources />
-                {/*<div className="advo-section home">
-                    <div className="head-box right">
-                        <div className="container">
-                            <h2 className="cursor-pointer" onClick={(e) => props.history.push("/advocacy")}>advocacy</h2>
-                        </div>
-                    </div>
-                    <div className="advo-box">
-                        <div className="container">
-                            <div className="ad-left">
-                                {data.advocacies && data.advocacies.length > 0 ? (
-                                    <>
-                                        {data.advocacies.slice(0, RECORD_NO).map((ev) => {
-                                            return (
-                                                <div
-                                                    className="adv-item cursor-pointer"
-                                                    key={ev.advocacyId}
-                                                    onClick={(e) =>
-                                                        props.history.push(
-                                                            `/advocacy/Issues/${ev.title.replaceAll("/", " ")}`,
-                                                            {
-                                                                advocacyId: ev.advocacyId,
-                                                                advocacyType: "Issues",
-                                                            }
-                                                        )
-                                                    }
-                                                >
-                                                    <div className="image-box">
-                                                        {ev.image ?
-                                                            (<img
-                                                                src={ev.image}
-                                                                alt={ev.title.substr(0, 10) + "..."}
-                                                                className="image-sizes"
-                                                            />) : null}
-                                                    </div>
-                                                    <h2 className="">
-                                                        
-                                                        <ClampLines
-                                                            text={ev.title}
-                                                            id={"advocacy_title" + ev.advocacyId}
-                                                            lines={2}
-                                                            ellipsis="..."
-                                                            buttons={false}
-                                                            className="text-bold"
-                                                        />
-
-                                                    </h2>
-                                                    <div className="button-box">
-                                                        <span>READ MORE</span>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </>
-                                ) : (
-                                    <div className="text-center">
-                                        No Record Found!
-                                    </div>
-                                )}
-
-
-                            </div>
-                            <div className="ad-right">
-                                What do you want to advocate for? There are many options to choose from. Passionate about Social Justice? Join us now!
-                            </div>
-                        </div>
-                    </div>
-                </div>*/}
-
             </>
         );
     };
@@ -364,7 +158,7 @@ const NewPage = (props) => {
         <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
             {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
             <div className="site-spacing- ptb-50-">
-                <Banner />
+                {/* <Banner /> */}
 
                 <TabContent activeTab={activeTab}>
                     <div className="home-tab">
