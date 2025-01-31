@@ -18,6 +18,7 @@ import Membership from '../components/dues/Membership'
 import News from '../components/news/News'
 import NewsDetails from '../components/news/NewsDetail'
 import Inbox from '../components/inbox/Inbox'
+import NewPage from '../components/newPage/NewPage'
 
 const protectedRoutes = [
   {
@@ -100,6 +101,10 @@ const protectedRoutes = [
   {
     path: '/inbox',
     component: Inbox,
+  },
+  {
+    path: '/newLanding',
+    component: NewPage,
   },
 ]
 
