@@ -203,8 +203,8 @@ const Header = (props) => {
                           Settings
                         </Link>
                       </li>
-                      {/* <li>
-                        <label
+                      <li>
+                        {/* <label
                             className="ml-15 pb-15 text-center cursor-pointer"
                             onClick={(e) => {
                               Spn.Show();
@@ -222,9 +222,10 @@ const Header = (props) => {
                                 });
                             }}
                           >
-                            LOGOUT
-                          </label>
-                      </li> */}
+                            
+                          </label> */}
+                          <a href="#">LOGOUT</a>
+                      </li>
                     </ul>
                   </li>
                 </ul>
