@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import BannerImg from '../../assets/images/banner-bg.png'
 
 const Warpper = styled.div`
   .nav-tabs .nav-link {
@@ -77,6 +78,12 @@ const Warpper = styled.div`
     align-items: center;
     justify-content: center;
   }
+
+  /* new landing page banner  */
+  .new-banner {
+      background-image: url(${BannerImg});
+  }
+
 `;
 
 export default Warpper;

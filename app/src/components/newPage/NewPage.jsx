@@ -8,7 +8,7 @@ import classnames from "classnames";
 import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import Banner from "../common/Banner";
+import Banner from "../common/NewBanner";
 import HomeNational from "./HomeNational";
 TimeAgo.addLocale(en);
 
