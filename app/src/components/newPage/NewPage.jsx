@@ -72,17 +72,17 @@ const NewPage = (props) => {
     const List = () => {
         return (
             <>
-                {/* <div className="news-section">
+                <div className="news-section">
                     <div className="head-box">
                         <div className="container">
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
                         </div>
                     </div>
                     <NewsBox news={{
-                        ev : data.news,
-                        prs : props
-                    }}/>
-                </div> */}
+                        ev: data.news,
+                        prs: props
+                    }} />
+                </div>
 
                 <div className="event-section">
                     <div className="head-box right">
@@ -91,9 +91,9 @@ const NewPage = (props) => {
                         </div>
                     </div>
                     <EventBox events={{
-                        ev : data.events,
-                        prs : props
-                    }}/>
+                        ev: data.events,
+                        prs: props
+                    }} />
                 </div>
                 <ExploreResources />
             </>
