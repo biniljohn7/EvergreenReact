@@ -211,13 +211,13 @@ const Header = (props) => {
                               Spn.Show();
                               logoutAPI()
                                 .then((res) => {
-                                  //props.logout();
+                                  props.logout();
                                   Tst.Success('You are logged out successfully!');
                                   props.history.push("/");
                                 })
                                 .catch((err) => {
                                   console.error(err);
-                                  //props.logout();
+                                  props.logout();
                                   Tst.Success('You are logged out successfully!');
                                   props.history.push("/");
                                 });
