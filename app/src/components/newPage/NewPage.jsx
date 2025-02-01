@@ -67,12 +67,12 @@ const NewPage = (props) => {
     document.title = 'Welcome to Evergreen';
 
     const toggle = (tab) => {
-        if (activeTab !== tab) setActiveTab(tab);
+        if (activeTab !== tab) setActiveTab();
     };
     const List = () => {
         return (
             <>
-                <div className="news-section">
+                {/* <div className="news-section">
                     <div className="head-box">
                         <div className="container">
                             <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
@@ -82,7 +82,7 @@ const NewPage = (props) => {
                         ev : data.news,
                         prs : props
                     }}/>
-                </div>
+                </div> */}
 
                 <div className="event-section">
                     <div className="head-box right">
@@ -115,7 +115,7 @@ const NewPage = (props) => {
                 <TabContent activeTab={activeTab}>
                     <div className="home-tab">
                         <div className="container">
-                            <Nav tabs>
+                            {/* <Nav tabs>
                                 <NavItem>
                                     <NavLink
                                         className={
@@ -164,7 +164,7 @@ const NewPage = (props) => {
                                         Section
                                     </NavLink>
                                 </NavItem>
-                            </Nav>
+                            </Nav> */}
                         </div>
                     </div>
 

@@ -16,10 +16,11 @@ import icon from '../../assets/images/man_icon1x.png'
 import { store } from '../../redux/store'
 import { useSelector } from 'react-redux';
 import Toast from "../../UI/Toast/Toast";
+import AuthActions from "../../redux/auth/actions";
+
 const Header = (props) => {
-
   const [MobMenu, setMobMenu] = useState(0)
-
+  const { logout, login } = AuthActions;
   const location = useLocation()
   const profileImage = useSelector((state) => state.auth.profileImage)
    let Spn = Spinner();
@@ -188,6 +189,7 @@ const Header = (props) => {
                       <span class="material-symbols-outlined">mail</span>
                     </Link>
                   </li>
+                  {console.log(logout())}
                   <li className="my-acc">
                     <img
                       src={profileImage || icon}
@@ -204,26 +206,25 @@ const Header = (props) => {
                         </Link>
                       </li>
                       <li>
-                        <label
-                            className="ml-15 pb-15 text-center cursor-pointer"
+                        <a
                             onClick={(e) => {
                               Spn.Show();
                               logoutAPI()
                                 .then((res) => {
-                                  props.logout();
+                                  //props.logout();
                                   Tst.Success('You are logged out successfully!');
                                   props.history.push("/");
                                 })
                                 .catch((err) => {
                                   console.error(err);
-                                  props.logout();
+                                  //props.logout();
                                   Tst.Success('You are logged out successfully!');
                                   props.history.push("/");
                                 });
                             }}
                           >
                             LOGOUT
-                          </label>
+                          </a>
                       </li>
                     </ul>
                   </li>
