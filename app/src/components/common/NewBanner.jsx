@@ -5,6 +5,10 @@ import BannerImg from '../../assets/images/new-hero.png'
 import { store } from '../../redux/store'
 
 export default function NewBanner() {
+    const decodeHTML = (html) => {
+        const doc = new DOMParser().parseFromString(html, "text/html");
+        return doc.documentElement.textContent;
+    };
     return (
         // <div className="banner-section">
         //     <div className="container">
@@ -33,7 +37,9 @@ export default function NewBanner() {
         <div className="new-banner">
             <div className="cnt-sec">
                 <div className="welcom">Welcome,</div>
-                <div className="mbr-nam">{store.getState().auth.firstName} {store.getState().auth.lastName}!</div>
+                <div className="mbr-nam">
+                    {decodeHTML(store.getState().auth.firstName)} {decodeHTML(store.getState().auth.lastName)}!
+                </div>
                 <div className="msg">We’re glad you’re here!</div>
             </div>
             <div className="img-sec">

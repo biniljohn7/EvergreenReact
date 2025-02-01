@@ -17,14 +17,16 @@ import { store } from '../../redux/store'
 import { useSelector } from 'react-redux';
 import Toast from "../../UI/Toast/Toast";
 import AuthActions from "../../redux/auth/actions";
+import { connect } from "react-redux";
+const { logout, login } = AuthActions;
 
 const Header = (props) => {
   const [MobMenu, setMobMenu] = useState(0)
-  const { logout, login } = AuthActions;
+  //const { logout, login } = AuthActions;
   const location = useLocation()
   const profileImage = useSelector((state) => state.auth.profileImage)
-   let Spn = Spinner();
-   let Tst = Toast();
+  let Spn = Spinner();
+  let Tst = Toast();
   return (
     <HeaderWrapper>
 
@@ -64,7 +66,7 @@ const Header = (props) => {
                     {ele.label}
                   </Link>
                 </li>
-                
+
               )
             })}
             <li className='inbox-menu'>
@@ -189,7 +191,7 @@ const Header = (props) => {
                       <span class="material-symbols-outlined">mail</span>
                     </Link>
                   </li>
-                  {console.log(logout())}
+                  {/* {console.log(logout())} */}
                   <li className="my-acc">
                     <img
                       src={profileImage || icon}
@@ -207,24 +209,24 @@ const Header = (props) => {
                       </li>
                       <li>
                         <a
-                            onClick={(e) => {
-                              Spn.Show();
-                              logoutAPI()
-                                .then((res) => {
-                                  props.logout();
-                                  Tst.Success('You are logged out successfully!');
-                                  props.history.push("/");
-                                })
-                                .catch((err) => {
-                                  console.error(err);
-                                  props.logout();
-                                  Tst.Success('You are logged out successfully!');
-                                  props.history.push("/");
-                                });
-                            }}
-                          >
-                            LOGOUT
-                          </a>
+                          onClick={(e) => {
+                            Spn.Show();
+                            logoutAPI()
+                              .then((res) => {
+                                props.logout();
+                                Tst.Success('You are logged out successfully!');
+                                props.history.push("/");
+                              })
+                              .catch((err) => {
+                                console.error(err);
+                                props.logout();
+                                Tst.Success('You are logged out successfully!');
+                                props.history.push("/");
+                              });
+                          }}
+                        >
+                          LOGOUT
+                        </a>
                       </li>
                     </ul>
                   </li>
@@ -307,4 +309,5 @@ const Header = (props) => {
 }
 
 
-export default Header
+//export default Header
+export default connect(null, { login, logout })(Header);
