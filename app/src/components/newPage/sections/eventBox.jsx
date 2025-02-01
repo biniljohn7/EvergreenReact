@@ -18,7 +18,7 @@ const EventBox = (events)=> {
                                         <div className='event-content-box'>
                                             <div className='event-contents'>
                                                 <div className='event-date'>{ev.date}</div>
-                                                <div className='event-head'><h2>{ev.name}</h2></div>
+                                                <div className='event-head'><h2>{ev.name.substr(0, 30) + ".."}</h2></div>
                                                 <div className='event-address'>{ev.descrptn || ""}</div>
                                                 <div className="button-box" onClick={(e) =>
                                                         props.history.push(
