@@ -111,6 +111,22 @@ export const PROFILE_OPTIONS = {
         { label: "Mrs.", value: 2934 },
         { label: "Dr.", value: 2935 },
         { label: "Ms.", value: 2936 },
+        { label: "Ambassador", value: 3475 },
+        { label: "Atty.", value: 3476 },
+        { label: "Bishop", value: 3477 },
+        { label: "Commissioner", value: 3478 },
+        { label: "Elder", value: 3479 },
+        { label: "Judge", value: 3480 },
+        { label: "Mayor", value: 3481 },
+        { label: "Min.", value: 3482 },
+        { label: "Miss", value: 3483 },
+        { label: "Pastor", value: 3484 },
+        { label: "President", value: 3485 },
+        { label: "Representative", value: 3486 },
+        { label: "Rev.", value: 3487 },
+        { label: "Rev. Dr.", value: 3488 },
+        { label: "Senator", value: 3489 },
+        { label: "The Honorable", value: 3490 }
     ],
     suffix: [
         { label: "Jr.", value: 2937 },
@@ -124,7 +140,10 @@ export const PROFILE_OPTIONS = {
         { label: "Bachelor's degree", value: 2942 },
         { label: "Master's degree", value: 2943 },
         { label: "Doctoral Degree", value: 2944 },
-        { label: "Profesional degree", value: 2945 },
+        { label: "Professional degree", value: 2945 },
+        { label: "Less than high school", value: 3492 },
+        { label: "High school diploma or equivalent", value: 3493 },
+        { label: "Some college", value: 3494 }
     ],
     expertise: [
         { label: "Analytical", value: 2959 },
@@ -152,7 +171,33 @@ export const PROFILE_OPTIONS = {
         { label: "Married with children", value: 2974 },
         { label: "Widowed", value: 3469 },
         { label: "Widowed with children", value: 3470 },
+        { label: "Never Married", value: 3495 },
+        { label: "Separated", value: 3496 },
+        { label: "Divorced", value: 3497 }
     ],
+    racialIdentity: [
+        { label: "American Indian or Alaska Native", value: 3498 },
+        { label: "Asian", value: 3499 },
+        { label: "Black or African American", value: 3500 },
+        { label: "Hispanic, Latino, or Spanish Origin", value: 3501 },
+        { label: "Middle Eastern or North African", value: 3502 },
+        { label: "Native Hawaiian or Other Pacific Islander", value: 3503 },
+        { label: "White", value: 3504 },
+        { label: "Other (please specify)", value: null }
+    ],
+    employmentStatus: [
+        { label: "Employed full-time", value: 3506 },
+        { label: "Employed part-time", value: 3507 },
+        { label: "Self-employed", value: 3508 },
+        { label: "Unemployed", value: 3509 }
+    ],
+    volunteerInterest: [
+        { label: "Health Equity", value: 3510 },
+        { label: "Education", value: 3511 },
+        { label: "Social Justice", value: 3512 },
+        { label: "Economic Empowerment", value: 3513 },
+        { label: "Mentorship", value: 3514 }
+    ]
 };
 
 export const MONTH = [
