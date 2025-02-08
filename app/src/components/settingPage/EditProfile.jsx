@@ -952,7 +952,7 @@ const EditProfile = (props) => {
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
-                            ndata.employmentStatus = checked;
+                            ndata.employmentStatusSwitch = checked;
                             setFormValues(ndata);
                           }}
                           checked={formValues.employmentStatusSwitch}
@@ -990,7 +990,7 @@ const EditProfile = (props) => {
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
-                            ndata.volunteerInterest = checked;
+                            ndata.volunteerInterestSwitch = checked;
                             setFormValues(ndata);
                           }}
                           checked={formValues.volunteerInterestSwitch}
@@ -1008,7 +1008,7 @@ const EditProfile = (props) => {
                       )}
                     </div>
                     <Select
-                      id="household"
+                      id="volunteerInterest"
                       placeholder="Select"
                       options={PROFILE_OPTIONS.volunteerInterest}
                       styles={SELECT_CSS}
