@@ -325,6 +325,16 @@ a:focus {
     transition: all linear .2s;
 }
 
+.top-header .nav-box ul li a.hv-icon {
+    padding-left: 51px;
+}
+
+.top-header .nav-box ul li a.hv-icon .icon {
+    position: absolute;
+    top: 8px;
+    left: 7px;
+}
+
 .top-header .nav-box ul li.inbox-menu a {
     padding-top: 17px;
 }
@@ -347,7 +357,13 @@ a:focus {
 }
 
 .top-header .nav-box ul li.my-acc {
-    padding: 3px 5px;
+    padding: 3px 14px;
+    position: relative;
+}
+
+.top-header .nav-box ul li.my-acc .mnu-label {
+    z-index: 11;
+    position: relative;
 }
 
 .top-header .nav-box ul li.my-acc ul {
@@ -356,6 +372,10 @@ a:focus {
     border: 1px solid #fff;
     display: none;
     z-index: 10;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    padding-top: 60px;
 }
 
 .top-header .nav-box ul li.my-acc:hover>ul {
@@ -369,6 +389,24 @@ a:focus {
 .top-header .nav-box ul li.my-acc ul li span {
     padding-bottom: 10px;
     font-weight: 400;
+}
+
+.top-header .nav-box ul li.my-acc ul li a {
+    padding: 0 28px;
+    font-size: 13px;
+    line-height: 2em;
+}
+
+.top-header .nav-box ul li.my-acc ul li:last-child a {
+    padding-bottom: 22px;
+}
+
+.top-header .nav-box ul li.my-acc ul li a::before {
+    content: unset;
+}
+
+.top-header .nav-box ul li.my-acc ul li a:hover {
+    font-weight: 900;
 }
 
 .top-header .nav-box .mob-menu {
