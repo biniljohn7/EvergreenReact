@@ -11,7 +11,7 @@ export default function WhatYouCanDo() {
     return (
         <div className="what-do">
             <div className="container">
-                <div className="do-head">Here's What You Can Do:</div>
+                <div className="do-head">here's what you can do:</div>
 
                 <div className="three-cl-row">
                     <div className="col-3">

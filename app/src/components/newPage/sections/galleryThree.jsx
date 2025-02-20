@@ -9,16 +9,16 @@ const GalleryThree = () => {
             <dir className="container">
                 <div className="gallery-three">
                     <div className="gallery-box">
-                        <div className="image-box">
+                        <div className="image-box box-odd">
                             <img src={img1} alt="gallery" />
                         </div>
-                        <div className="image-box">
+                        <div className="image-box box-even">
                             <img src={img2} alt="gallery" />
                         </div>
-                        <div className="image-box">
+                        <div className="image-box box-even">
                             <img src={img3} alt="gallery" />
                         </div>
-                        <div className="image-box">
+                        <div className="image-box box-odd">
                             <img src={img4} alt="gallery" />
                         </div>
                     </div>

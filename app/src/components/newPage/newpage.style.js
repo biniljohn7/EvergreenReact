@@ -467,7 +467,7 @@ const Warpper = styled.div`
   }
  }
   .gallery-one,.gallery-two{
-    padding: 0px 30px 60px;
+    padding: 0px 0px 60px;
     @media (max-width: 1024px) {
       padding: 0px 15px 20px;
     }
@@ -494,7 +494,7 @@ const Warpper = styled.div`
     padding: 80px 0 0;
   }
   .gallery-three{
-    padding: 30px 0 60px;
+    padding: 0px 0px 60px;
     .gallery-box{
       display:flex;
       flex-wrap:wrap;
@@ -504,16 +504,25 @@ const Warpper = styled.div`
         flex-direction: column;
       }
       .image-box{
-        flex: 1 1 50%;
         display: flex;
         margin: 20px 0;
-        &:last-child{
+        &:nth-child(even){
           justify-content: flex-end; 
         }
         @media (max-width: 1024px) {
           margin: 10px 0;
           padding:10px;
         }
+        img{
+          width:100%;
+        }
+      }
+      .image-box.box-odd{
+        width:calc(50% - 15px);
+      }
+
+      .image-box.box-even{
+        width:calc(48% - 15px);
       }
     }
   }
