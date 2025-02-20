@@ -473,10 +473,25 @@ const Warpper = styled.div`
     }
     .gallery-box{
       display:flex;
-      flex-wrap:nowrap;
-      gap:30px;
+      flex-wrap:wrap;
       flex-direction:row;
-      justify-content:center;
+      justify-content:space-between;
+      .image-box{
+        padding:0px;
+        &:nth-child(1){
+          width:30%;
+        }
+        &:nth-child(2){
+          width:36%;
+        }
+        &:nth-child(3){
+          width:28.5%;
+        }
+        img{
+          width:100%;
+          border-radius:40px;
+        }
+      }
       @media (max-width: 1024px) {
         flex-wrap:nowrap;
         gap:10px;
@@ -486,6 +501,15 @@ const Warpper = styled.div`
         flex-direction:coloumn;
         .image-box{
           margin-bottom:20px;
+          &:nth-child(1){
+            width:100%;
+          }
+          &:nth-child(2){
+            width:100%;
+          }
+          &:nth-child(3){
+            width:100%;
+          }
         }
       }
     } 
@@ -515,6 +539,7 @@ const Warpper = styled.div`
         }
         img{
           width:100%;
+          border-radius:40px;
         }
       }
       .image-box.box-odd{
