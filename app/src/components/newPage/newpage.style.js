@@ -518,7 +518,7 @@ const Warpper = styled.div`
         }
       }
       .image-box.box-odd{
-        width:calc(50% - 15px);
+        width:calc(52% - 15px);
         @media (max-width: 1024px) {
           width:100%;
         }
