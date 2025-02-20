@@ -348,24 +348,11 @@ const SignIn = (props) => {
                                     login to access your account
                                 </div>
 
-                                <div className="form-sec">
-                                    <div className="main-head mb-30">
+                                <div className="form-sec mb-40">
+                                    <div className="main-head mb-40">
                                         LOG IN
                                     </div>
-                                    <div className="d-flex justify-content-center">
-                                        <span onClick={handleFacebookLogin}>
-                                            <img
-                                                src={FB}
-                                                alt="Create with Facebook"
-                                                className="mr-20"
-                                            />
-                                        </span>
-                                        <span>
-                                            <span onClick={handleGoogleLogin}>
-                                                <img src={Google} alt="Create with Google" className="" />
-                                            </span>
-                                        </span>
-                                    </div>
+
                                     <div className="inp-row mtb-20">
                                         {step === 1 && (
                                             <div className="col-11">
@@ -441,6 +428,24 @@ const SignIn = (props) => {
                                         />
                                     </div>
                                 </div>
+
+                                <div className="d-flex justify-content-center">
+                                    <span onClick={handleFacebookLogin}>
+                                        <img
+                                            src={FB}
+                                            alt="Create with Facebook"
+                                            className="mr-20"
+                                        />
+                                    </span>
+                                    <span>
+                                        <span onClick={handleGoogleLogin}>
+                                            <img src={Google} alt="Create with Google" className="" />
+                                        </span>
+                                    </span>
+                                </div>
+
+
+
                             </div>
                         </div>
                     </section>
