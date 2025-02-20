@@ -86,11 +86,14 @@ const Warpper = styled.div`
       background-image: url(${BannerImg});
       background-repeat: no-repeat;
       background-size: cover;
+      margin-top: -26px;
+  }
+
+  .new-banner .cnt-wrap {
       display: flex;
       color: #fff;
       align-items: center;
       justify-content: space-between;
-      margin-top: -26px;
       @media (max-width: 767px) {
         display: block;
         text-align: center;
