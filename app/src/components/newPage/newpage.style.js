@@ -519,10 +519,17 @@ const Warpper = styled.div`
       }
       .image-box.box-odd{
         width:calc(50% - 15px);
+        @media (max-width: 1024px) {
+          width:100%;
+        }
       }
 
       .image-box.box-even{
         width:calc(48% - 15px);
+        
+        @media (max-width: 1024px) {
+          width:100%;
+        }
       }
     }
   }
