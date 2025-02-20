@@ -26,9 +26,9 @@ const SigninWrapper = styled.form`
     flex: 50%;
   }
 
-  .login {
-    background-color: ${HEADER_COLOR};
-  }
+  // .login {
+  //   background-color: ${HEADER_COLOR};
+  // }
 
   row {
     margin-right: 0px;
@@ -39,6 +39,65 @@ const SigninWrapper = styled.form`
     position: absolute;
     right: 15px;
     top: 56%;
+  }
+
+  .inp-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-sec {
+    margin: 0 auto;    
+    padding: 40px 0px;
+  }
+  .login-sec .top-head {
+    text-align: center;
+    color: #5B2166;
+    text-transform: uppercase;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 400;
+  }
+  .login-sec .form-sec {
+    border: 1px solid #5B2166;
+    border-radius: 50px;
+    padding-bottom: 30px;
+  }
+  .login-sec .main-head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #5B2166;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 48px;
+    line-height: 72px;
+    font-weight: 700;
+    height: 110px;
+  }
+  .login-sec .inputmain {
+    color: #5B2166;
+    border: 1px solid #5B2166;
+    border-radius: 100px;
+    font-size: 16px;
+    padding: 20px 25px !important;
+    outline: none;
+  }
+  .login-sec .inputmain::placeholder {
+    color: #5B2166;
+    opacity: 1;
+  }
+  .login-sec .red--text {
+    color: #5B216680 !important;
+    opacity: 75%;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  .login-sec .button {
+    width: 170px;
+    max-width: 100%;
   }
 `
 
