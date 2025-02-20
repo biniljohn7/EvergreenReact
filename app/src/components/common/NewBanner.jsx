@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import BannerImg from '../../assets/images/new-hero.png'
+import BannerImg from '../../assets/images/new-hero-banner.png'
 import { store } from '../../redux/store'
 
 export default function NewBanner() {
@@ -35,15 +35,17 @@ export default function NewBanner() {
         // </div>
 
         <div className="new-banner">
-            <div className="cnt-sec">
-                <div className="welcom">Welcome,</div>
-                <div className="mbr-nam">
-                    {decodeHTML(store.getState().auth.firstName)} {decodeHTML(store.getState().auth.lastName)}!
+            <div className="container cnt-wrap">
+                <div className="cnt-sec">
+                    <div className="welcom">Welcome,</div>
+                    <div className="mbr-nam">
+                        {decodeHTML(store.getState().auth.firstName)} {decodeHTML(store.getState().auth.lastName)}!
+                    </div>
+                    <div className="msg">WE’RE GLAD YOU’RE HERE!</div>
                 </div>
-                <div className="msg">We’re glad you’re here!</div>
-            </div>
-            <div className="img-sec">
-                <img src={BannerImg} alt='' />
+                <div className="img-sec">
+                    <img src={BannerImg} alt='' />
+                </div>
             </div>
         </div>
     )

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import HeaderWrapper from './header.style'
 import Logo from '../../assets/images/logo.png'
+import ProfileIcon from '../../assets/images/man.svg'
 import { logout as logoutAPI } from "../../api/commonAPI";
 import Spinner from "../../UI/Spinner/Spinner";
 import {
@@ -193,14 +194,16 @@ const Header = (props) => {
                   </li>
                   {/* {console.log(logout())} */}
                   <li className="my-acc">
-                    <img
-                      src={profileImage || icon}
-                      alt={'profile_image'}
-                      className="profile-image-size cursor-pointer"
-                      onClick={(e) => props.history.push('/account')}
-                    />
-                    &nbsp;
-                    Profile
+                    <span className="mnu-label">
+                      <img
+                        src={ProfileIcon}
+                        alt={''}
+                        className="profile-image-size cursor-pointer"
+                        onClick={(e) => props.history.push('/account')}
+                      />
+                      &nbsp;
+                      PROFILE
+                    </span>
                     <ul>
                       <li>
                         <Link to="/account">
@@ -264,9 +267,12 @@ const Header = (props) => {
                   </li>
                   <li>
                     <Link
-                      className="nav-link white--text header-link"
+                      className="nav-link white--text header-link hv-icon"
                       to="/signin"
                     >
+                      <span className="icon">
+                        <img src={ProfileIcon} alt='' />
+                      </span>
                       Log In
                     </Link>
                   </li>
