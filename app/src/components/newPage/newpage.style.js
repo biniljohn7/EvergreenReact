@@ -463,6 +463,57 @@ const Warpper = styled.div`
     color:#A47200 !important;
   }
  }
+  .gallery-one,.gallery-two{
+    padding: 0px 30px 60px;
+    @media (max-width: 1024px) {
+      padding: 0px 15px 20px;
+    }
+    .gallery-box{
+      display:flex;
+      flex-wrap:nowrap;
+      gap:30px;
+      flex-direction:row;
+      justify-content:center;
+      @media (max-width: 1024px) {
+        flex-wrap:nowrap;
+        gap:10px;
+      }
+      @media (max-width: 600px) {
+        flex-wrap:wrap;
+        flex-direction:coloumn;
+        .image-box{
+          margin-bottom:20px;
+        }
+      }
+    } 
+  }
+  .gallery-two{
+    padding: 80px 0 0;
+  }
+  .gallery-three{
+    padding: 30px 0 60px;
+    .gallery-box{
+      display:flex;
+      flex-wrap:wrap;
+      align-items: stretch;
+      justify-content: space-between;
+      @media (max-width: 600px) {
+        flex-direction: column;
+      }
+      .image-box{
+        flex: 1 1 50%;
+        display: flex;
+        margin: 20px 0;
+        &:last-child{
+          justify-content: flex-end; 
+        }
+        @media (max-width: 1024px) {
+          margin: 10px 0;
+          padding:10px;
+        }
+      }
+    }
+  }
 `;
 
 export default Warpper;

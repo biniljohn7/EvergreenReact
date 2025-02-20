@@ -10,11 +10,14 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import Banner from "../common/NewBanner";
 import WhatYouCanDo from "./WhatYouCanDo";
-import HomeNational from "./HomeNational";
+//import HomeNational from "./HomeNational";
 /**By Hari */
 import ExploreResources from "./sections/exploreResources";
 import EventBox from "./sections/eventBox";
 import NewsBox from "./sections/newsBox";
+import GalleryOne from "./sections/galleryOne";
+import GalleryTwo from "./sections/galleryTwo";
+import GalleryThree from "./sections/galleryThree";
 /**By Hari */
 TimeAgo.addLocale(en);
 
@@ -67,35 +70,16 @@ const NewPage = (props) => {
     document.title = 'Welcome to Evergreen';
 
     const toggle = (tab) => {
-        if (activeTab !== tab) setActiveTab();
+        if (activeTab !== tab) setActiveTab(tab);
     };
     const List = () => {
         return (
             <>
-                <div className="news-section">
-                    <div className="head-box">
-                        <div className="container">
-                            <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
-                        </div>
-                    </div>
-                    <NewsBox news={{
+                <NewsBox news={{
                         ev: data.news,
                         prs: props
-                    }} />
-                </div>
-
-                <div className="event-section">
-                    <div className="head-box right">
-                        <div className="container">
-                            <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
-                        </div>
-                    </div>
-                    <EventBox events={{
-                        ev: data.events,
-                        prs: props
-                    }} />
-                </div>
-                <ExploreResources />
+                }} />
+                
             </>
         );
     };
@@ -111,11 +95,13 @@ const NewPage = (props) => {
                 {<Banner />}
 
                 <WhatYouCanDo />
+                
+                <GalleryOne/> 
 
                 <TabContent activeTab={activeTab}>
                     <div className="home-tab">
                         <div className="container">
-                            {/* <Nav tabs>
+                            <Nav tabs>
                                 <NavItem>
                                     <NavLink
                                         className={
@@ -164,25 +150,70 @@ const NewPage = (props) => {
                                         Section
                                     </NavLink>
                                 </NavItem>
-                            </Nav> */}
+                            </Nav>
                         </div>
                     </div>
 
                     <TabPane tabId="National" className="mt-20">
-                        <List />
+                        <div className="news-section">
+                            <div className="head-box">
+                                <div className="container">
+                                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
+                                </div>
+                            </div>
+                            <List />
+                        </div>
+                        
                     </TabPane>
                     <TabPane tabId="Regional" className="mt-20">
-                        <List />
+                        <div className="news-section">
+                            <div className="head-box">
+                                <div className="container">
+                                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
+                                </div>
+                            </div>
+                            <List />
+                        </div>
                     </TabPane>
                     <TabPane tabId="State" className="mt-20">
-                        <List />
+                        <div className="news-section">
+                            <div className="head-box">
+                                <div className="container">
+                                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
+                                </div>
+                            </div>
+                            <List />
+                        </div>
                     </TabPane>
                     <TabPane tabId="Chapter" className="mt-20">
-                        <List />
+                        <div className="news-section">
+                            <div className="head-box">
+                                <div className="container">
+                                    <h2 className="cursor-pointer" onClick={(e) => props.history.push("/news")}>news</h2>
+                                </div>
+                            </div>
+                            <List />
+                        </div>
                     </TabPane>
                 </TabContent>
             </div>
             {/* </LoadingOverlay> */}
+
+            <GalleryTwo/>  
+
+            <div className="event-section">
+                    <div className="head-box right">
+                        <div className="container">
+                            <h2 className="cursor-pointer" onClick={(e) => props.history.push("/events")}>events</h2>
+                        </div>
+                    </div>
+                    <EventBox events={{
+                        ev: data.events,
+                        prs: props
+                    }} />
+                </div>
+                <GalleryThree/>  
+                <ExploreResources />
         </Wrapper>
     ) : (
         <div className="border text-center text-bold mt-20 ptb-50 plr-20">
