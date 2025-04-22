@@ -23,7 +23,7 @@ import NewPage from '../components/newPage/NewPage'
 const protectedRoutes = [
   {
     path: '/home',
-    component: Home,
+    component: NewPage,
   },
   // Do not include it in ProtectedLayout to avoid infinite loop
   // {

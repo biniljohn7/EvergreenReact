@@ -49,7 +49,7 @@ const LandingPage = (props) => {
                   your phone, tablet, or other mobile device.
                 </p>
                 <Link
-                  to="/signup/"
+                  to="/"
                   className="btn btn-md btn-rounded button plr-25 ptb-7 text-bold"
                 >
                   SIGN UP
@@ -119,7 +119,7 @@ const LandingPage = (props) => {
                   your phone, tablet, or other mobile device.
                 </p>
                 <Link
-                  to="/signup/"
+                  to="/"
                   className="btn btn-md btn-rounded button plr-25 ptb-7 text-bold"
                 >
                   SIGN UP

@@ -17,12 +17,12 @@ import {
 
 
 // staging access
-if (!window.location.hostname.includes('localhost')) {
-    const stagingAccess = document.cookie.split('; ').find(row => row.startsWith('stagingaccess='));
-    if (!stagingAccess) {
-        window.location.href = process.env.REACT_APP_API_URL + '/../stglogin/';
-    }
-}
+// if (!window.location.hostname.includes('localhost')) {
+//     const stagingAccess = document.cookie.split('; ').find(row => row.startsWith('stagingaccess='));
+//     if (!stagingAccess) {
+//         window.location.href = process.env.REACT_APP_API_URL + '/../stglogin/';
+//     }
+// }
 
 
 const basename = process.env.REACT_APP_BASENAME || '/evergreen/';

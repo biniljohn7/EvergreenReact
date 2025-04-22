@@ -87,7 +87,7 @@ const Header = (props) => {
 
         ) : (
           <ul>
-            <li>
+            {/* <li>
               <Link
                 to={
                   location.pathname === '/' ? '/#home' : '/'
@@ -96,8 +96,8 @@ const Header = (props) => {
               >
                 Home
               </Link>
-            </li>
-            <li>
+            </li> */}
+            {/* <li>
               <a
                 className="nav-link white--text cursor-pointer header-link"
                 href={
@@ -114,7 +114,7 @@ const Header = (props) => {
               >
                 Contact Us
               </a>
-            </li>
+            </li> */}
             <li>
               <Link
                 className="nav-link white--text header-link"
@@ -149,7 +149,7 @@ const Header = (props) => {
       <div className="top-header">
         <div className="container">
           <div className="logo-box">
-            <Link to="/" className="main_logo">
+            <Link to="/home" className="main_logo">
               <img src={Logo} alt={SITE_NAME} className="image-sizes" />
             </Link>
           </div>
@@ -237,7 +237,7 @@ const Header = (props) => {
 
               ) : (
                 <ul >
-                  <li>
+                  {/* <li>
                     <Link
                       to={
                         location.pathname === '/' ? '/#home' : '/'
@@ -264,7 +264,7 @@ const Header = (props) => {
                     >
                       Contact Us
                     </a>
-                  </li>
+                  </li> */}
                   <li>
                     <Link
                       className="nav-link white--text header-link hv-icon"

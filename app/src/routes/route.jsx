@@ -28,7 +28,7 @@ function Routes() {
     <Switch>
       <Route
         exact
-        path="/"
+        path="/home1"
         render={(props) => (
           <PageContainer>
             <LandingPage {...props} />
@@ -46,7 +46,7 @@ function Routes() {
       />
       <Route
         exact
-        path="/signup"
+        path="/"
         render={(props) => (
           <PageContainer>
             <SignUp {...props} />
