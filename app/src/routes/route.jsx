@@ -21,6 +21,7 @@ import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
+import {store} from '../redux/store'
 
 
 function Routes() {
@@ -49,7 +50,12 @@ function Routes() {
         path="/"
         render={(props) => (
           <PageContainer>
-            <SignUp {...props} />
+            {store.getState().auth.isLogin &&
+            store.getState().auth.accessToken ? (
+              <LandingPage {...props} />
+            ) : (
+              <SignUp {...props} />
+            )}
           </PageContainer>
         )}
       />
