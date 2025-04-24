@@ -8,7 +8,6 @@ import classnames from "classnames";
 import ClampLines from "react-clamp-lines";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
-import Banner from "../common/NewBanner";
 import WhatYouCanDo from "./WhatYouCanDo";
 //import HomeNational from "./HomeNational";
 /**By Hari */
@@ -92,7 +91,6 @@ const NewPage = (props) => {
         <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
             {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
             <div className="site-spacing- ptb-50-">
-                {<Banner />}
 
                 <WhatYouCanDo />
                 
