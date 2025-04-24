@@ -314,10 +314,11 @@ const Header = (props) => {
           </div>
         </div>
       </HeaderWrapper>
-      <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
-        {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
-        <div className="site-spacing- ptb-50-">{<Banner />}</div>
-      </Wrapper>
+      {store.getState().auth.isLogin && store.getState().auth.accessToken && (
+        <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
+          <div className="site-spacing- ptb-50-">{<Banner />}</div>
+        </Wrapper>
+      )}
     </>
   );
 };
