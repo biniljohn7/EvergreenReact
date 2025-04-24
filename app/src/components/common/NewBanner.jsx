@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import BannerImg from '../../assets/images/new-hero-banner.png'
 import { store } from '../../redux/store'
+import whiteLogo from '../../assets/images/ncnw.png'
 
 export default function NewBanner() {
     const decodeHTML = (html) => {
@@ -37,6 +38,8 @@ export default function NewBanner() {
         <div className="new-banner">
             <div className="container cnt-wrap">
                 <div className="cnt-sec">
+
+                <div className="b-logo"><img height="60px" src={whiteLogo} alt='logo' /></div>
                     <div className="welcom">Welcome,</div>
                     <div className="mbr-nam">
                         {decodeHTML(store.getState().auth.firstName)} {decodeHTML(store.getState().auth.lastName)}!
