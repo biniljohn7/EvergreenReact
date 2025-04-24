@@ -22,7 +22,7 @@ export default function WhatYouCanDo() {
                     </div>
 
                     <div className="col-3">
-                        <Link to={'/'} className={'lnk-three'}>
+                        <Link to={'/home'} className={'lnk-three'}>
                             <img src={Dots} alt='' />
                             <div className="">Latest<br></br> News</div>
                         </Link>
