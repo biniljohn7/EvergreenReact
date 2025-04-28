@@ -61,7 +61,6 @@ const loadGoogleSDK = () => {
 };
 
 const SignUp = (props) => {
-  const [signupState, setSignupState] = useState(true)
   const [passwordType, setPasswordType] = useState('password')
 
   const Tst = Toast();
@@ -88,10 +87,6 @@ const SignUp = (props) => {
     } else {
       return <span />
     }
-  }
-
-  const toggelModal = () => {
-    setSignupState(!signupState)
   }
 
   document.title = 'Sign Up - ' + window.seoTagLine;
@@ -257,244 +252,146 @@ const SignUp = (props) => {
   }
 
   return (
-    <div>
-      <div
-        className="bg-light"
-        style={{ height: window.innerHeight + 'px' }}
-      ></div>
-      <Modal
-        isOpen={signupState}
-        toggle={toggelModal}
-        centered
-        size="xl"
-        className="signup"
-        backdrop="static"
-        keyboard={false}
-      >
-        <SignUpWrapper>
-          {signupState ? (
-            <section className="row login mlr-0">
-              <div
-                className={
-                  'flex-container align-items-center justify-content-center m-auto white--text plr-50 d-sm-none d-none d-lg-block d-xl-block col-md-5 col-xl-4' +
-                  (window.innerWidth <= 1024 && window.innerWidth > 768
-                    ? ' col-lg-5 '
-                    : ' col-lg-4 ') +
-                  (window.innerWidth === 768 ? 'd-md-none' : 'd-md-block') +
-                  (window.innerWidth < 768 ? '' : ' d-flex ')
-                }
-              >
-                <Login />
-              </div>
-              <div
-                className={
-                  'col-12 col-sm-12 col-xl-8 ptb-50 plr-30 position-relative bg-white ' +
-                  (window.innerWidth <= 1024 && window.innerWidth > 768
-                    ? ' col-lg-7 '
-                    : ' col-lg-8 ') +
-                  (window.innerWidth === 768 ? 'col-md-12' : 'col-md-7')
-                }
-              >
-                <div
-                  className="cancelmain text-bold cursor-pointer"
-                  onClick={() => props.history.push('/')}
-                >
-                  X
-                </div>
-                <h4 className="flex-container text-bold mt-30 mb-10 flex-item">
-                  Create an Account
-                </h4>
-                <div className="d-flex justify-content-center">
-                  <span onClick={handleFacebookLogin}>
-                    <img
-                      src={FB}
-                      alt="Create with Facebook"
-                      className="mr-20"
-                    />
-                  </span>
-                  <span>
-                    <span onClick={handleGoogleLogin}>
-                      <img src={Google} alt="Create with Google" className="" />
-                    </span>
-                  </span>
-                </div>
-                <div className="row mtb-20">
-                  <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <div className="mb-20">
-                      <Input
-                        label="First Name"
-                        type="text"
-                        placeholder="First Name"
-                        id="firstName"
-                        fontSize={'fs-16 text-dark'}
-                        contentFontSize={'fs-14'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.firstName || ''}
-                      />
-                      <Error field="firstName" />
-                    </div>
-                    <div className="mb-20">
-                      <Input
-                        label="Last Name"
-                        type="text"
-                        placeholder="Last Name"
-                        id="lastName"
-                        fontSize={'fs-16 text-dark'}
-                        contentFontSize={'fs-14'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.lastName || ''}
-                      />
-                      <Error field="lastName" />
-                    </div>
-                    <div className="mb-20">
-                      <Input
-                        label="Email"
-                        type="text"
-                        placeholder="Email"
-                        id="email"
-                        fontSize={'fs-16 text-dark'}
-                        contentFontSize={'fs-14'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.email || ''}
-                      />
-                      <Error field="email" />
-                    </div>
-                  </div>
-                  <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                    <div className="mb-20">
-                      <Input
-                        label="Member ID"
-                        type="text"
-                        placeholder="Member ID"
-                        id="memberId"
-                        fontSize={'fs-16 text-dark'}
-                        contentFontSize={'fs-14'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.memberId || ''}
-                      />
-                      <Error field="memberId" />
-                    </div>
-                    <div className="mb-20">
-                      <div className="position-relative">
-                        <Input
-                          label="Password"
-                          type={passwordType}
-                          placeholder="Password"
-                          id="password"
-                          fontSize={'fs-16 text-dark'}
-                          contentFontSize={'fs-14'}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.password || ''}
-                        />
-                        {passwordType === 'password' ? (
-                          <i
-                            className="fa fa-eye eye pwd cursor-pointer"
-                            onClick={() => {
-                              setPasswordType('text')
-                            }}
-                          ></i>
-                        ) : (
-                          <i
-                            className="fa fa-eye-slash eye pwd cursor-pointer"
-                            onClick={() => {
-                              setPasswordType('password')
-                            }}
-                          ></i>
-                        )}
-                      </div>
-                      <Error field="password" />
-                    </div>
+    <SignUpWrapper>
+      <div className="sgp-container">
+        <div className="ttl-1">
+          DON'T HAVE AN ACCOUNT?
+        </div>
+        <div className="ttl-2">
+          CREATE AN ACCOUNT
+        </div>
 
-                    <div className="mb-20">
-                      <Input
-                        label="Confirm Password"
-                        type="password"
-                        placeholder="Password"
-                        id="confirmPwd"
-                        fontSize={'fs-16 text-dark'}
-                        contentFontSize={'fs-14'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.confirmPwd || ''}
-                      />
-                      <Error field="confirmPwd" />
-                    </div>
-                  </div>
-                </div>
-                {/* <p className="flex-container">
-                  By creating an account you agree to our{' '}
-                  <span>
-                    <a href={WEBSITE_URL + 'terms_of_service'}>
-                      Terms of Service
-                    </a>
-                  </span>{' '}
-                  &
-                  <span>
-                    <a href={WEBSITE_URL + 'privacy_policy'}> Privacy Policy</a>
-                  </span>
-                </p> */}
-                {window.innerWidth > 1024 ? (
-                  <p className="text-center">
-                    By creating an account you agree to our{' '}
-                    <a
-                      href={WEBSITE_URL + 'terms_of_service'}
-                      className="red--text"
-                    >
-                      Terms of Service
-                    </a>{' '}
-                    &
-                    <a
-                      href={WEBSITE_URL + 'privacy_policy'}
-                      className="red--text"
-                    >
-                      {' '}
-                      Privacy Policy
-                    </a>
-                  </p>
+        <div className="form-area">
+          <div className="form-col">
+            <div className="fm-row">
+              <Input
+                label="FIRST NAME"
+                type="text"
+                placeholder="FIRST NAME"
+                id="firstName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.firstName || ''}
+              />
+              <Error field="firstName" />
+            </div>
+            <div className="fm-row">
+              <Input
+                label="LAST NAME"
+                type="text"
+                placeholder="LAST NAME"
+                id="lastName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.lastName || ''}
+              />
+              <Error field="lastName" />
+            </div>
+            <div className="fm-row">
+              <Input
+                label="EMAIL"
+                type="text"
+                placeholder="EMAIL"
+                id="email"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.email || ''}
+              />
+              <Error field="email" />
+            </div>
+          </div>
+          <div className="form-col">
+            <div className="fm-row">
+              <Input
+                label="MEMBER ID"
+                type="text"
+                placeholder="MEMBER ID"
+                id="memberId"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.memberId || ''}
+              />
+              <Error field="memberId" />
+            </div>
+            <div className="fm-row">
+              <div className="position-relative">
+                <Input
+                  label="PASSWORD"
+                  type={passwordType}
+                  placeholder="PASSWORD"
+                  id="password"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password || ''}
+                />
+                {passwordType === 'password' ? (
+                  <i
+                    className="fa fa-eye eye pwd cursor-pointer"
+                    onClick={() => {
+                      setPasswordType('text')
+                    }}
+                  ></i>
                 ) : (
-                  <p className="text-center">
-                    By creating an account you agree to our{' '}
-                    <div>
-                      <a href={WEBSITE_URL + 'terms_of_service'}>
-                        Terms of Service
-                      </a>{' '}
-                      &
-                      <a href={WEBSITE_URL + 'privacy_policy'}>
-                        {' '}
-                        Privacy Policy
-                      </a>
-                    </div>
-                  </p>
+                  <i
+                    className="fa fa-eye-slash eye pwd cursor-pointer"
+                    onClick={() => {
+                      setPasswordType('password')
+                    }}
+                  ></i>
                 )}
-                <div className="flex-container">
-                  <Button
-                    className="button mt-20"
-                    name="SIGN UP"
-                    clicked={handleSignup}
-                  />
-                </div>
               </div>
+              <Error field="password" />
+            </div>
+            <div className="fm-row">
+              <Input
+                label="CONFIRM PASSWORD"
+                type="password"
+                placeholder="PASSWORD"
+                id="confirmPwd"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirmPwd || ''}
+              />
+              <Error field="confirmPwd" />
+            </div>
+          </div>
+        </div>
 
-              <div
-                className={
-                  'd-flex flex-container ptb-50 m-auto white--text plr-50 d-sm-block d-block d-lg-none d-xl-none col-12 col-sm-12 ' +
-                  (window.innerWidth === 768
-                    ? 'd-md-block col-md-12'
-                    : 'd-md-none')
-                }
-              >
-                <Login />
-              </div>
-            </section>
-          ) : null}
-        </SignUpWrapper>
-      </Modal>
-    </div>
+        <div className="sgp-agree">
+          BY CREATING AN ACCOUNT YOU AGREE TO OUR
+          {' '}
+          <Link to="/terms_of_service/">TERMS OF SERVICE</Link>
+          {' AND '}
+          <Link to="/privacy_policy/">PRIVACY POLICY</Link>
+        </div>
+
+        <div className='submit-area'>
+          <Button
+            className="button mt-20"
+            name="SIGN UP"
+            clicked={handleSignup}
+          />
+        </div>
+
+        {/* <div className="sgp-agree">
+          OR SIGNUP WITH
+        </div>
+        <div className="d-flex justify-content-center">
+            <span onClick={handleFacebookLogin}>
+              <img
+                src={FB}
+                alt="Create with Facebook"
+                className="mr-20"
+              />
+            </span>
+            <span>
+              <span onClick={handleGoogleLogin}>
+                <img src={Google} alt="Create with Google" className="" />
+              </span>
+            </span>
+          </div> */}
+      </div>
+    </SignUpWrapper>
   )
 }
 

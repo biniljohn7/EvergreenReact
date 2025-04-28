@@ -51,5 +51,61 @@ const HeaderWrapper = styled.div`
     background-color: #ffffff;
     margin-top: 2px;
   }
+  .footer-section{
+    .container{
+      justify-content: normal;
+      @media (max-width: 768px) {
+            flex-direction:column;
+        }
+      .l-logo{
+        width: 50%;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        @media (max-width: 1280px) {
+            display:block;
+        }
+        @media (max-width: 991px) {
+            width: 65%;
+        }
+        @media (max-width: 768px) {
+            text-align:center;
+            width: 100%;
+            margin-bottom:20px;
+        }
+        .f-nav{
+          a{
+            color:#fff;
+          }
+        }
+      }
+      .r-logo {
+        width: 50%;
+        display: flex;
+        align-items: center;
+        text-align: right;
+        @media (max-width: 991px) {
+            width: 35%;
+        }
+        @media (max-width: 768px) {
+            display:block;
+            width: 100%;
+            text-align:center;
+        }
+        .f-social {
+            width: calc(100% - 82px);
+            margin-right: 10px;
+            img{
+              margin:0 5px;
+            }
+            @media (max-width: 768px) {
+                text-align:center;
+                width: 100%;
+            }
+        }
+      }
+    }
+  }
 `
 export default HeaderWrapper

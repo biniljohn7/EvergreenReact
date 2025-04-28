@@ -4,7 +4,6 @@ import Input from '../../UI/input/input'
 import { getBenefitCategory } from '../../api/benefit'
 import { ToastsStore } from 'react-toasts'
 import AuthActions from '../../redux/auth/actions'
-import Banner from "../common/Banner";
 import { connect } from 'react-redux'
 import { Spinner } from 'reactstrap'
 
@@ -67,7 +66,6 @@ const Benefit = (props) => {
         </div>
       ) : (
         <React.Fragment>
-          <Banner />
           <div className="benefits-section inner-benefits">
             <div className="head-box">
               <div className="container">

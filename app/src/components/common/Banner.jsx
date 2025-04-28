@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 import SiteLogo from '../../assets/images/site-logo.png'
 import BannerImg from '../../assets/images/banner.jpg'
+import { store } from '../../redux/store'
 
 export default function Banner() {
     return (
@@ -15,9 +16,16 @@ export default function Banner() {
                     <div className="b-logo"><img src={SiteLogo} alt='logo' /></div>
                     <p>The National Council of Negro Women (NCNW) is presents of our highest award at the Biennial Uncommon Height Awards Gala, in honor of our iconic leader, Dr. Dorothy Irene Height. </p>
                     <div className="button-box">
+                    {store.getState().auth.isLogin &&
+                        store.getState().auth.accessToken ? (
+                        <Link to="/account">
+                            GET STARTED
+                        </Link>
+                    ):(
                         <Link to="/signup">
                             GET STARTED
                         </Link>
+                    )}
                     </div>
                 </div>
             </div>

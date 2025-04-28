@@ -11,7 +11,6 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 // import ReactTimeAgo from "react-time-ago";
 // import LoadingOverlay from "react-loading-overlay";
-import Banner from "../common/Banner";
 import HomeNational from "./HomeNational";
 TimeAgo.addLocale(en);
 
@@ -701,7 +700,6 @@ const Home = (props) => {
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
       {/* <LoadingOverlay active={loader} spinner={<Spinner />}> */}
       <div className="site-spacing- ptb-50-">
-        <Banner />
 
         <TabContent activeTab={activeTab}>
           <div className="home-tab">

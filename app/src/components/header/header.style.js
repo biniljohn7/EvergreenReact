@@ -121,7 +121,13 @@ const HeaderWrapper = styled.div`
     margin-left: 50px;
     cursor: pointer;
   }
-
+  .inbox-menu{
+    a{
+      &::before{
+        background:transparent;
+      }
+      }
+  }
   // .sticky-header{
   //   position:fixed;
   //   left:0;

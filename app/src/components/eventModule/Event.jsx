@@ -9,7 +9,6 @@ import Select from "react-select";
 import { Spinner } from "reactstrap";
 // import ClampLines from "react-clamp-lines";
 
-import Banner from "../common/Banner.jsx";
 import EventBoxImg from '../../assets/images/event-box.jpg'
 
 const COL_NO = window.innerWidth < 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
@@ -175,7 +174,6 @@ const Event = (props) => {
 
   return (
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
-      <Banner />
 
       <div className="event-section">
         <div className="head-box ">

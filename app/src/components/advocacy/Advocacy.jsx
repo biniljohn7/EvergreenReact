@@ -12,8 +12,6 @@ import Input from '../../UI/input/input'
 import { ADVOCACY_LOCATION } from '../../helper/constant'
 import ClampLines from 'react-clamp-lines'
 
-import Banner from '../common/Banner.jsx'
-
 const COL_NO = window.innerWidth < 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4
 const COL_WIDTH =
   window.innerWidth < 768 ? '50%' : window.innerWidth <= 1024 ? '33%' : '25%'
@@ -168,8 +166,6 @@ const Advocacy = (props) => {
 
   return (
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
-
-      <Banner />
 
       <div className="advo-section inner-advo">
         <div className="head-box">

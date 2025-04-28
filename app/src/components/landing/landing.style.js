@@ -15,7 +15,7 @@ const LandingWrapper = styled.div`
   }
 
   .home-footer {
-    background: ${FOOTER_COLOR};
+    background: #5b2166;
     padding-top: 60px;
     padding-bottom: 60px;
   }

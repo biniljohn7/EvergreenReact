@@ -1,5 +1,6 @@
 import React from 'react'
 import Wrapper from './accountCreated.style';
+import { Link, useLocation } from 'react-router-dom'
 
 export default function AccountCreated() {
 
@@ -9,7 +10,12 @@ export default function AccountCreated() {
         <Wrapper>
             <div className='heading'>Your Account Created!</div>
             <div className="body-txt">
-                Account created successfully! We have sent you an email on registered email address, please verify your account first!
+                Account created successfully! &nbsp;
+                <Link
+                    to="/signin"
+                >
+                    Log In
+                </Link>
             </div>
         </Wrapper>
     )

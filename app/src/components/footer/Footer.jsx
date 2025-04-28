@@ -1,8 +1,14 @@
-import React from 'react'
-import FooterWrapper from './footer.style'
+import React from 'react';
+import FooterWrapper from './footer.style';
+import { Link } from "react-router-dom";
 // import Logo from '../../assets/images/logo.png'
-import Llogo from '../../assets/images/f-logo.png'
-import Rlogo from '../../assets/images/r-logo.png'
+import Llogo from '../../assets/images/f-logo.png';
+import Rlogo from '../../assets/images/r-logo.png';
+
+import fb from '../../assets/images/facebook.png';
+import lin from '../../assets/images/linkedin.png';
+import insta from '../../assets/images/instagram.png';
+import tw from '../../assets/images/twitter.png';
 
 import {
   SITE_NAME,
@@ -21,8 +27,29 @@ const Footer = (props) => {
     <FooterWrapper>
       <div className="footer-section">
         <div className="container">
-          <div className="l-logo"><img src={Llogo} alt={SITE_NAME} /></div>
-          <div className="r-logo"><img src={Rlogo} alt={SITE_NAME} /></div>
+          <div className="l-logo">
+            <img src={Llogo} alt={SITE_NAME} />
+            <div className='f-nav'>
+              <Link to="#">Contact Support</Link> |
+              <Link to="#">Privacy Policy</Link> |
+              <Link to="#">Terms & Conditions</Link>
+            </div>
+          </div>
+          
+          
+          <div className="r-logo">
+            <div className='f-social'>
+              <Link to="#"><img src={fb} alt="fb" /></Link>
+              
+              <Link to="#"><img src={lin} alt="in" /></Link>
+              
+              <Link to="#"><img src={tw} alt="fb" /></Link>
+              
+              <Link to="#"><img src={insta} alt="in" /></Link>
+              
+            </div>
+            <img src={Rlogo} alt={SITE_NAME} />
+          </div>
         </div>
       </div>
       {/*

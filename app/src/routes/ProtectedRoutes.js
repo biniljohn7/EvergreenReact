@@ -18,11 +18,12 @@ import Membership from '../components/dues/Membership'
 import News from '../components/news/News'
 import NewsDetails from '../components/news/NewsDetail'
 import Inbox from '../components/inbox/Inbox'
+import NewPage from '../components/newPage/NewPage'
 
 const protectedRoutes = [
   {
     path: '/home',
-    component: Home,
+    component: NewPage,
   },
   // Do not include it in ProtectedLayout to avoid infinite loop
   // {
@@ -53,10 +54,10 @@ const protectedRoutes = [
     path: '/careers/:title',
     component: CareerDetail,
   },
-  {
-    path: '/referrals',
-    component: Referral,
-  },
+  // {
+  //   path: '/referrals',
+  //   component: Referral,
+  // },
   {
     path: '/resources',
     component: Resource,
@@ -71,6 +72,10 @@ const protectedRoutes = [
   },
   {
     path: '/events/:eventId',
+    component: EventDetail,
+  },
+  {
+    path: '/events/:name',
     component: EventDetail,
   },
   {
@@ -100,6 +105,10 @@ const protectedRoutes = [
   {
     path: '/inbox',
     component: Inbox,
+  },
+  {
+    path: '/newLanding',
+    component: NewPage,
   },
 ]
 

@@ -171,7 +171,7 @@ input[type="button"],
 input[type="submit"],
 input[type="reset"],
 .primary-button,
-.btn {
+.btn:not(.default) {
     font-family: "Poppins", sans-serif;
     background: #5b2166 none repeat scroll 0 0;
     border: 0px;
@@ -195,9 +195,9 @@ input[type=button]:hover,
 input[type=submit]:hover,
 input[type=reset]:hover,
 .primary-button:hover,
-.btn:hover,
+.btn:not(.default):hover,
 .primary-button:focus,
-.btn:focus {
+.btn:not(.default):focus {
     background-color: #3c0f44;
     color: #fff;
 }
@@ -297,7 +297,10 @@ a:focus {
     align-items: center;
 }
 
-.top-header .nav-box ul li {}
+.top-header .nav-box ul li {
+    color: #fff;
+    cursor: pointer;
+}
 
 .top-header .nav-box ul li a {
     display: block;
@@ -322,6 +325,24 @@ a:focus {
     transition: all linear .2s;
 }
 
+.top-header .nav-box ul li a.hv-icon {
+    padding-left: 51px;
+}
+
+.top-header .nav-box ul li a.hv-icon .icon {
+    position: absolute;
+    top: 8px;
+    left: 7px;
+}
+
+.top-header .nav-box ul li.inbox-menu a {
+    padding-top: 17px;
+}
+
+.top-header .nav-box ul li.inbox-menu a::before {
+    background: transparent;
+}
+
 .top-header .nav-box ul li:hover>a::before,
 .top-header .nav-box ul li a.active::before {
     width: 100%;
@@ -333,6 +354,59 @@ a:focus {
     letter-spacing: normal;
     font-weight: 400;
     padding: 10px 35px;
+}
+
+.top-header .nav-box ul li.my-acc {
+    padding: 3px 14px;
+    position: relative;
+}
+
+.top-header .nav-box ul li.my-acc .mnu-label {
+    z-index: 11;
+    position: relative;
+}
+
+.top-header .nav-box ul li.my-acc ul {
+    position: absolute;
+    background-color: #5b2166;
+    border: 1px solid #fff;
+    display: none;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    padding-top: 60px;
+}
+
+.top-header .nav-box ul li.my-acc:hover>ul {
+    display: block;
+}
+
+.top-header .nav-box ul li.my-acc ul li {
+    display: block;
+}
+
+.top-header .nav-box ul li.my-acc ul li span {
+    padding-bottom: 10px;
+    font-weight: 400;
+}
+
+.top-header .nav-box ul li.my-acc ul li a {
+    padding: 0 28px;
+    font-size: 13px;
+    line-height: 2em;
+}
+
+.top-header .nav-box ul li.my-acc ul li:last-child a {
+    padding-bottom: 22px;
+}
+
+.top-header .nav-box ul li.my-acc ul li a::before {
+    content: unset;
+}
+
+.top-header .nav-box ul li.my-acc ul li a:hover {
+    font-weight: 900;
 }
 
 .top-header .nav-box .mob-menu {
@@ -878,7 +952,7 @@ a:focus {
     font-weight: 400;
     border: 0;
     font-size: 18px !important;
-    color: #5b2166 !important;
+    color: #A47200 !important;
     background: none !important;
     text-transform: uppercase;
     position: relative;
@@ -1040,6 +1114,7 @@ a:focus {
     padding-left: 12px;
     padding-top: 12px;
     padding-bottom: 12px;
+
 }
 
 .mobile-menu ul li a {
