@@ -99,6 +99,27 @@ const SigninWrapper = styled.form`
     width: 170px;
     max-width: 100%;
   }
+  .sgp-area {
+    text-align: center;
+    border-top: 1px solid #ccc;
+    margin-top: 30px;
+    padding-top: 30px;
+    
+    .sgp-ttl {
+      color: #333;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+  
+    .sgp-btn-bx a {
+      text-decoration: underline;
+    }
+  
+    .sgp-btn-bx a:hover {
+      text-decoration: none;
+    }
+  }
+
 `
 
 export default SigninWrapper

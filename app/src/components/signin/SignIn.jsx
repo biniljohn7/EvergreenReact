@@ -444,7 +444,14 @@ const SignIn = (props) => {
                                     </span>
                                 </div>
 
-
+                                <div className="sgp-area">
+                                    <div class="sgp-ttl">
+                                        Don't have an account?
+                                    </div>
+                                    <div class="sgp-btn-bx">
+                                        <Link to="signup">Signup Now</Link>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>

@@ -47,7 +47,7 @@ function Routes() {
       />
       <Route
         exact
-        path="/"
+        path={["/", "/signup"]}
         render={(props) => (
           <PageContainer>
             {store.getState().auth.isLogin &&
