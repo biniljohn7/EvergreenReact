@@ -20,14 +20,14 @@ import officeDutyUrl from "../../assets/docs/Officer-Duties-List.pdf";
 import communityUrl from "../../assets/docs/permission-to-organize-a-community-based-section.pdf";
 import toolkitUrl from "../../assets/docs/Strategy-Toolkit.pdf";
 
-const cooFile = "certification-of-organization.pdf";
+const cooFile = "Certification-of-organization.pdf";
 const ncnwFinalResolutionFile = "NCNW-2024-Final-Resolutions.pdf";
 const bylaw2024UFile = "NCNW-Bylaws-October-2024.pdf";
 const handbookFile = "NCNW-Handbook.pdf";
 const checklistFile = "NCNW-Section-Bylaws-Checklist.pdf";
 const bylawTemplateFile = "NCNW-Section-Bylaws-Template.docx";
 const officeDutyFile = "Officer-Duties-List.pdf";
-const communityFile = "permission-to-organize-a-community-based-section.pdf";
+const communityFile = "Permission-to-organize-a-community-based-section.pdf";
 const toolkitFile = "Strategy-Toolkit.pdf";
 
 const PADDING =
