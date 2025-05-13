@@ -20,9 +20,9 @@ import Setting from "../components/settingPage/Setting";
 import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
+import Donate from "../components/donate/Donate";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
-import {store} from '../redux/store'
-
+import { store } from "../redux/store";
 
 function Routes() {
   return (
@@ -187,6 +187,16 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             <AccountVerification {...props} />
+          </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
+        path="/donate"
+        render={(props) => (
+          <PageContainer>
+            <Donate {...props} fromRoute={true} />
           </PageContainer>
         )}
       />
