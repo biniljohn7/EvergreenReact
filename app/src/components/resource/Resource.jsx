@@ -264,6 +264,96 @@ const Resource = (props) => {
                                     </a>
                                     Recommendation Letter
                                 </div>
+
+                                <div className="mb30"></div>
+                                <div className="head-box">
+                                    <div className="container">
+                                        <h2>Documents:</h2>
+                                    </div>
+                                </div>
+                                <div className="container">
+                                    <div className="mb15">
+                                        <a
+                                            href={cooUrl}
+                                            download={cooFile}
+                                            className=""
+                                        >
+                                            Certification of Organization
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={ncnwFinalResolutionU}
+                                            download={ncnwFinalResolutionFile}
+                                            className=""
+                                        >
+                                            NCNW 2024 Final Resolutions
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={bylaw2024U}
+                                            download={bylaw2024UFile}
+                                            className=""
+                                        >
+                                            NCNW National Bylaws
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={handbookUrl}
+                                            download={handbookFile}
+                                            className=""
+                                        >
+                                            NCNW Member Handbook
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={checklistUrl}
+                                            download={checklistFile}
+                                            className=""
+                                        >
+                                            Section Bylaws Compliance Checklist
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={bylawTemplateUrl}
+                                            download={bylawTemplateFile}
+                                            className=""
+                                        >
+                                            Section Bylaws Template
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={officeDutyUrl}
+                                            download={officeDutyFile}
+                                            className=""
+                                        >
+                                            Officer Duties and Responsibilities
+                                        </a>
+                                    </div>
+                                    <div className="mb15">
+                                        <a
+                                            href={communityUrl}
+                                            download={communityFile}
+                                            className=""
+                                        >
+                                            Permission to Organize a Community-Based Section
+                                        </a>
+                                    </div>
+                                    <div className="mb40">
+                                        <a
+                                            href={toolkitUrl}
+                                            download={toolkitFile}
+                                            className=""
+                                        >
+                                            NCNW Strategy Toolkit
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <>
@@ -315,7 +405,7 @@ const Resource = (props) => {
 
                                 <div className="head-box">
                                     <div className="container">
-                                        <h2>Member Resources:</h2>
+                                        <h2>Documents:</h2>
                                     </div>
                                 </div>
 
@@ -326,7 +416,7 @@ const Resource = (props) => {
                                             download={cooFile}
                                             className=""
                                         >
-                                            {cooFile}
+                                            Certification of Organization
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -335,7 +425,7 @@ const Resource = (props) => {
                                             download={ncnwFinalResolutionFile}
                                             className=""
                                         >
-                                            {ncnwFinalResolutionFile}
+                                            NCNW 2024 Final Resolutions
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -344,7 +434,7 @@ const Resource = (props) => {
                                             download={bylaw2024UFile}
                                             className=""
                                         >
-                                            {bylaw2024UFile}
+                                            NCNW National Bylaws
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -353,7 +443,7 @@ const Resource = (props) => {
                                             download={handbookFile}
                                             className=""
                                         >
-                                            {handbookFile}
+                                            NCNW Member Handbook
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -362,7 +452,7 @@ const Resource = (props) => {
                                             download={checklistFile}
                                             className=""
                                         >
-                                            {checklistFile}
+                                            Section Bylaws Compliance Checklist
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -371,7 +461,7 @@ const Resource = (props) => {
                                             download={bylawTemplateFile}
                                             className=""
                                         >
-                                            {bylawTemplateFile}
+                                            Section Bylaws Template
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -380,7 +470,7 @@ const Resource = (props) => {
                                             download={officeDutyFile}
                                             className=""
                                         >
-                                            {officeDutyFile}
+                                            Officer Duties and Responsibilities
                                         </a>
                                     </div>
                                     <div className="mb15">
@@ -389,7 +479,7 @@ const Resource = (props) => {
                                             download={communityFile}
                                             className=""
                                         >
-                                            {communityFile}
+                                            Permission to Organize a Community-Based Section
                                         </a>
                                     </div>
                                     <div className="mb40">
@@ -398,7 +488,7 @@ const Resource = (props) => {
                                             download={toolkitFile}
                                             className=""
                                         >
-                                            {toolkitFile}
+                                            NCNW Strategy Toolkit
                                         </a>
                                     </div>
                                 </div>
