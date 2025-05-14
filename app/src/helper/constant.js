@@ -303,16 +303,16 @@ export const NEWS_LOCATION = [
   },
 ];
 
-export const DONATE_SPACIFICATIONS = [
-  {
-    label: "In Honor Of",
-    value: "in-honor-of",
-  },
-  {
-    label: "In Memory Of",
-    value: "in-memory-of",
-  },
-];
+// export const DONATE_SPACIFICATIONS = [
+//   {
+//     label: "In Honor Of",
+//     value: "in-honor-of",
+//   },
+//   {
+//     label: "In Memory Of",
+//     value: "in-memory-of",
+//   },
+// ];
 
 export const RECOMMENDATION_LETTER =
   BASE_URL + "/member/?method=recommendation-letter";
