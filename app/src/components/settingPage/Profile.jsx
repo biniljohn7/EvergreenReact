@@ -119,7 +119,8 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
+                <label className="fs-18 medium-text">Affiliate Organization&nbsp;:&nbsp;</label>
+                {profile.profile.affilateOrgzn ?? "-"}
               </div>
             </div>
 
@@ -136,7 +137,7 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Nation&nbsp;:&nbsp;</label>
+                <label className="fs-18 medium-text">Country&nbsp;:&nbsp;</label>
                 {(profile.profile.nation && profile.profile.nation.name) ?? "-"}
               </div>
             </div>
@@ -180,8 +181,9 @@ const Profile = (props) => {
                   Current Section&nbsp;:&nbsp;
                 </label>
                 {(profile.profile.currentChapter &&
-                  profile.profile.currentChapter.name) ??
-                  "-"}
+                  profile.profile.currentChapter.name !='') ?
+                  profile.profile.currentChapter.name
+                  :"National Member"}
               </div>
             </div>
           </div>

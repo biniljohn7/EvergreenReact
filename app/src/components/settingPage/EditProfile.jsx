@@ -71,7 +71,7 @@ const EditProfile = (props) => {
   const RIGHT_CLASS =
     "col-4 col-sm-2 col-md-3 col-lg-3 col-xl-3" +
     (isProfileCreated ? "" : " d-none");
-
+    
   const [dropdown, setDropdown] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(false);
@@ -132,6 +132,11 @@ const EditProfile = (props) => {
 
           ndata.yearOfIni = YOI[2] + "-" + YOI[1] + "-" + YOI[0];
         }
+        if (props.profile.profile.dob) {
+          const DOB = props.profile.profile.dob.split("/");
+
+          ndata.dob = DOB[2] + "-" + DOB[1] + "-" + DOB[0];
+        }
         if (props.profile.profile.country) {
           getState(props.profile.profile.country.id)
             .then((res) => {
@@ -163,7 +168,7 @@ const EditProfile = (props) => {
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
-              setChapter(res.data);
+                setChapter([{ chapterId: 0, chapterName: "National Member" },...res.data]);
             })
             .catch((err) => {
               Tst.Error('Failed to retrive Section list. Please try again later!');
@@ -292,7 +297,9 @@ const EditProfile = (props) => {
     }
     if (!el('zip').value.trim()) {
       sErrs['zip'] = 'This field is required';
-    }
+    }else if(!(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(el('zip').value.trim()))){
+            sErrs['zip'] = 'Not a valid zip code';
+    } 
     if (!el('phoneNumber').value) {
       sErrs['phoneNumber'] = 'Pnone number is required';
     } else if (!phoneRegex.test(el('phoneNumber').value.trim())) {
@@ -300,6 +307,9 @@ const EditProfile = (props) => {
     }
     if (!formValues.occupation.profileOptionsId) {
       sErrs['occupation'] = 'This field is required';
+    }
+    if (!formValues.employmentStatus.value) {
+      sErrs['employmentStatus'] = 'This field is required';
     }
     if (!formValues.industry.profileOptionsId) {
       sErrs['industry'] = 'This field is required';
@@ -309,6 +319,12 @@ const EditProfile = (props) => {
     }
     if (!formValues.household.value) {
       sErrs['household'] = 'This field is required';
+    }
+    if (!formValues.volunteerInterest.value) {
+      sErrs['volunteerInterest'] = 'This field is required';
+    }
+    if (!formValues.racialIdentity.value) {
+      sErrs['racialIdentity'] = 'This field is required';
     }
     if (!formValues.salaryRange.value) {
       sErrs['salaryRange'] = 'This field is required';
@@ -330,6 +346,9 @@ const EditProfile = (props) => {
     }
     if (!el('yearOfIni').value.trim()) {
       sErrs['yearOfIni'] = 'This field is required';
+    }
+    if (!el('dob').value.trim()) {
+      sErrs['dob'] = 'This field is required';
     }
     if (!formValues.currentChapter.chapterId) {
       sErrs['currentChapter'] = 'This field is required';
@@ -358,10 +377,12 @@ const EditProfile = (props) => {
         nationId: formValues.nation.nationId,
         cityId: el('city').value.trim(),
         address: el('address').value.trim(),
+        address2: el('address2').value.trim(),
         zipcode: el('zip').value.trim(),
         phoneNumber: el('phoneNumber').value.trim(),
         biography: el('biography').value.trim() || null,
         occupationId: formValues.occupation.profileOptionsId,
+        employmentStatusId: formValues.employmentStatus.value,
         industryId: formValues.industry.profileOptionsId,
         educations: formValues.education.map((edu) => {
           return {
@@ -376,11 +397,16 @@ const EditProfile = (props) => {
         currentChapter: formValues.currentChapter.chapterId,
         leadershipRole: el('leadershipRole').value.trim(),
         householdId: formValues.household.value,
+        volunteerInterestId: formValues.volunteerInterest.value,
+        racialIdentityId: formValues.racialIdentity.value,
         salaryRangeId: formValues.salaryRange.value,
         expertiseIds: formValues.expertise.map((ex) => ex.value),
+        affilateOrgzn: el('affilateOrgzn').value.trim(),
       };
       const YOI = el('yearOfIni').value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
+      const DOB = el('dob').value.trim().split("-");
+      body.dob = DOB[2] + "/" + DOB[1] + "/" + DOB[0];
       if (isProfileCreated) {
         const totalBody = {
           profileVisibility: {
@@ -399,6 +425,7 @@ const EditProfile = (props) => {
             organizationalState: formValues.organizationalStateSwich || false,
             city: formValues.citySwitch || false,
             address: formValues.addressSwitch || false,
+            address2: formValues.address2Switch || false,
             zipcode: formValues.zipSwitch || false,
             biography: formValues.biographySwitch || false,
             certification: formValues.certificationSwitch || false,
@@ -407,15 +434,20 @@ const EditProfile = (props) => {
             educations: formValues.educationSwitch || false,
             expertise: formValues.expertiseSwitch || false,
             household: formValues.householdSwitch || false,
+            volunteerInterest: formValues.volunteerInterestSwitch || false,
+            racialIdentity: formValues.racialIdentitySwitch || false,
             industry: formValues.industrySwitch || false,
             leadershipRole: formValues.roleSwitch || false,
             occupation: formValues.occupationSwitch || false,
+            employmentStatus: formValues.employmentStatusSwitch || false,
             //phoneCode: formValues.phoneNumberSwitch || false,
             phoneNumber: formValues.phoneNumberSwitch || false,
             salaryRange: formValues.salarySwitch || false,
             yearOfInitiation: formValues.yearOfIniSwitch || false,
+            dob: formValues.dobSwitch || false,
             nation: formValues.nationSwitch || false,
             region: formValues.regionSwitch || false,
+            affilateOrgzn: formValues.affilateOrgznSwitch || false,
           },
           ...body,
         };
@@ -738,8 +770,8 @@ const EditProfile = (props) => {
                   <div className="mb-15">
                     <Input
                       id="address"
-                      label="Street Address"
-                      placeholder="Street Address"
+                      label="Address 1"
+                      placeholder="Address 1"
                       type="text"
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
@@ -754,6 +786,25 @@ const EditProfile = (props) => {
                       defaultValue={formValues.address || ""}
                     />
                     <Error field="address" />
+                  </div><div className="mb-15">
+                    <Input
+                      id="address2"
+                      label="Address 2"
+                      placeholder="Address 2"
+                      type="text"
+                      fontSize={"fs-16 text-dark"}
+                      className={WIDTH_CLASS}
+                      contentFontSize="fs-14"
+                      switchPresent={isProfileCreated}
+                      switchChange={(checked) => {
+                        let ndata = { ...formValues };
+                        ndata.address2Switch = checked;
+                        setFormValues(ndata);
+                      }}
+                      checked={formValues.address2Switch || false}
+                      defaultValue={formValues.address2 || ""}
+                    />
+                    <Error field="address2" />
                   </div>
                   <div className="mb-15 position-relative">
                     <Input
@@ -893,6 +944,82 @@ const EditProfile = (props) => {
                       value={formValues.occupation || ""}
                     />
                     <Error field="occupation" />
+                  </div>
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">Employment Status</label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.employmentStatusSwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.employmentStatusSwitch}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <Select
+                      id="employmentStatus"
+                      placeholder="Select Employment Status"
+                      options={PROFILE_OPTIONS.employmentStatus}
+                      styles={SELECT_CSS}
+                      onChange={(selectedOp) => {
+                        let ndata = { ...formValues };
+                        ndata.employmentStatus = selectedOp;
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.employmentStatus || ""}
+                    />
+                    <Error field="employmentStatus" />
+                  </div>
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">Volunteer/My Interest</label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.volunteerInterestSwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.volunteerInterestSwitch}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <Select
+                      id="volunteerInterest"
+                      placeholder="Select"
+                      options={PROFILE_OPTIONS.volunteerInterest}
+                      styles={SELECT_CSS}
+                      onChange={(selectedOp) => {
+                        let ndata = { ...formValues };
+                        ndata.volunteerInterest = selectedOp;
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.volunteerInterest || ""}
+                    />
+                    <Error field="volunteerInterest" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -1231,13 +1358,34 @@ const EditProfile = (props) => {
                     />
                     <Error field="expertise" />
                   </div>
+
+                  <div className="mb-15 position-relative">
+                    <Input
+                      id="affilateOrgzn"
+                      label="Affiliate Organization"
+                      placeholder="Affiliate Organization"
+                      type="text"
+                      fontSize={"fs-16 text-dark"}
+                      className={WIDTH_CLASS}
+                      contentFontSize="fs-14"
+                      switchPresent={isProfileCreated}
+                      switchChange={(checked) => {
+                        let ndata = { ...formValues };
+                        ndata.affilateOrgznSwitch = checked;
+                        setFormValues(ndata);
+                      }}
+                      checked={formValues.affilateOrgznSwitch || false}
+                      defaultValue={formValues.affilateOrgzn || ""}
+                    />
+                  </div>
+
                   <div className="row mb-20 mt-30 text-bold">
                     <div className={LEFT_CLASS}>Organizational Data</div>
                     <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Nation</label>
+                      <label className="fs-16 mb-5 text-dark">Country</label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -1261,7 +1409,7 @@ const EditProfile = (props) => {
                     </div>
                     <Select
                       id="nation"
-                      placeholder="Select Nation"
+                      placeholder="Select Country"
                       options={nationList}
                       getOptionLabel={(op) => op.nationName}
                       getOptionValue={(op) => op.nationId}
@@ -1281,7 +1429,7 @@ const EditProfile = (props) => {
                             setRegionList([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive Nation list. Please try again later!');
+                            Tst.Error('Failed to retrieve the country list. Please try again later!');
                           });
                       }}
                       value={formValues.nation || ""}
@@ -1389,7 +1537,7 @@ const EditProfile = (props) => {
                             setChapter([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive chapter list. Please try again later!');
+                            Tst.Error('Failed to retrive section list. Please try again later!');
                           });
                       }}
                       value={formValues.organizationalState || ""}
@@ -1517,7 +1665,7 @@ const EditProfile = (props) => {
                           className="profile-switch"
                         />
                       )}
-                    </div>
+                    </div>                
                     <Select
                       id="currentChapter"
                       placeholder="Select Current Section"
@@ -1541,7 +1689,86 @@ const EditProfile = (props) => {
                     />
                     <Error field="currentChapter" />
                   </div>
-
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">
+                        Date Of Birth
+                      </label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.dobSwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.dob}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <input
+                      type="date"
+                      id="dob"
+                      className={
+                        WIDTH_CLASS + " date-picker text-dark pa-10 fs-14"
+                      }
+                      onChange={(e) => {
+                        let ndata = { ...formValues };
+                        ndata.dob = e.target.value;
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.dob || ""}
+                      max={new Date().toISOString().split("T")[0]}
+                    />
+                    <Error field="dob" />
+                  </div>
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">Racial Identity</label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.racialIdentitySwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.racialIdentitySwitch}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <Select
+                      id="racialIdentity"
+                      placeholder="Select Racial Identity"
+                      options={PROFILE_OPTIONS.racialIdentity}
+                      styles={SELECT_CSS}
+                      onChange={(selectedOp) => {
+                        let ndata = { ...formValues };
+                        ndata.racialIdentity = selectedOp;
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.racialIdentity || ""}
+                    />
+                    <Error field="racialIdentity" />
+                  </div>
                   <div className="text-center">
                     <button
                       type="button"

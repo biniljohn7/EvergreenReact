@@ -1,3 +1,4 @@
+npm install --global yarn
 yarn create react-app .
 
 yarn add react-router-dom@5.2.0
@@ -26,6 +27,7 @@ yarn add html2canvas
 yarn add sass-loader
 yarn add google-maps-react
 yarn add resolve-url-loader
+yarn add react-signature-canvas
 
 
 yarn start
