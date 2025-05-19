@@ -136,6 +136,24 @@ const Membership = (props) => {
         return false;
     };
 
+    const handleNext = (e) => {
+        let err = [];
+        Spn.Show();
+        members.forEach(mbr => {
+            if (mbr.id && mbr.mbrName) {
+                if (!mbr.planId || !mbr.subPlanId) {
+                    err.push(mbr.mbrName)
+                }
+            }
+        });
+        if (!err.length) {
+            // go to next step
+        } else {
+            Spn.Hide();
+            Tst.Error('Choose plan for the member(s) - ' + err.join(", "));
+        }
+    };
+
     const addMbr = (mbrId, mbrNam) => {
         setMembers(prevMembers => {
             const exstMbrIndx = prevMembers.findIndex(member => member.id === mbrId);
@@ -334,6 +352,11 @@ const Membership = (props) => {
                                         checked={isGiftChk}
                                         onChange={(e) => {
                                             giftCheck(!isGiftChk);
+
+                                            if (!e.target.checked) {
+                                                setMembers(members.filter(mbr => mbr.id === lgMbr));
+                                                setContent([]);
+                                            }
                                         }}
                                         label="Gift Membership To Others"
                                     />
@@ -553,6 +576,7 @@ const Membership = (props) => {
                                             <button
                                                 type="button"
                                                 className="btn btn-rounded button plr-20 ptb-10"
+                                                onClick={(e) => handleNext(e)}
                                             >
                                                 NEXT
                                             </button>
