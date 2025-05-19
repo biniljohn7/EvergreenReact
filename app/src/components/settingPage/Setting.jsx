@@ -29,7 +29,7 @@ import { HEADER_COLOR } from "../../helper/constant";
 import Profile from "./Profile";
 import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
@@ -103,11 +103,11 @@ const Setting = (props) => {
           if (err.response && err.response.status === 401) {
             props.logout();
             // ToastsStore.error("Session Expire! Please login again.");
-            Tst.Error('Session Expire! Please login again.');
+            Tst.Error("Session Expire! Please login again.");
             setTimeout(() => props.history.push("/signin"), 800);
           } else {
             // ToastsStore.error("Something Went Wrong!");
-            Tst.Error('Something Went Wrong!');
+            Tst.Error("Something Went Wrong!");
             props.history.push("/home");
           }
         });
@@ -138,7 +138,7 @@ const Setting = (props) => {
     document.getElementById("settingNavbar").style.width = "0";
   };
 
-  document.title = 'Settings - ' + window.seoTagLine;
+  document.title = "Settings - " + window.seoTagLine;
 
   return (
     <>
@@ -180,7 +180,9 @@ const Setting = (props) => {
                         className="position-absolute camera cursor-pointer"
                       /> */}
                         <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
-                          <span className="material-symbols-outlined fs-22">star</span>
+                          <span className="material-symbols-outlined fs-22">
+                            star
+                          </span>
                         </div>
                         <input
                           id="profileImageUpload"
@@ -199,7 +201,10 @@ const Setting = (props) => {
                                   isLogin: true,
                                   profileImage: res.data.profileImage,
                                 });
-                                dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
+                                dispatch({
+                                  type: "UPDATE_PROFILE_IMAGE",
+                                  payload: res.data.profileImage,
+                                });
 
                                 Tst.Success(res.message);
                                 Spn.Hide();
@@ -207,7 +212,9 @@ const Setting = (props) => {
                               .catch((err) => {
                                 console.error(err);
                                 Spn.Hide();
-                                Tst.Error('Failed to upload the profile photo!');
+                                Tst.Error(
+                                  "Failed to upload the profile photo!"
+                                );
                               });
                           }}
                         />
@@ -249,7 +256,9 @@ const Setting = (props) => {
                           .catch((err) => {
                             console.error(err);
                             Spn.Hide();
-                            Tst.Error('Failed to update the notification status!');
+                            Tst.Error(
+                              "Failed to update the notification status!"
+                            );
                           });
                       }}
                       disabled={!store.getState().auth.isProfileCreated}
@@ -308,13 +317,13 @@ const Setting = (props) => {
                         logoutAPI()
                           .then((res) => {
                             props.logout();
-                            Tst.Success('You are logged out successfully!');
+                            Tst.Success("You are logged out successfully!");
                             props.history.push("/");
                           })
                           .catch((err) => {
                             console.error(err);
                             props.logout();
-                            Tst.Success('You are logged out successfully!');
+                            Tst.Success("You are logged out successfully!");
                             props.history.push("/");
                           });
                       }}
@@ -363,12 +372,14 @@ const Setting = (props) => {
                               isNotificationOn: checked,
                             });
                             Spn.Hide();
-                            Tst.Show('res.message');
+                            Tst.Show("res.message");
                           })
                           .catch((err) => {
                             console.error(err);
                             Spn.Hide();
-                            Tst.Error('Failed to update the notification status!');
+                            Tst.Error(
+                              "Failed to update the notification status!"
+                            );
                           });
                       }}
                       disabled={!store.getState().auth.isProfileCreated}
@@ -430,13 +441,13 @@ const Setting = (props) => {
                         logoutAPI()
                           .then((res) => {
                             props.logout();
-                            Tst.Success('You are logged out successfully!');
+                            Tst.Success("You are logged out successfully!");
                             props.history.push("/");
                           })
                           .catch((err) => {
                             console.error(err);
                             props.logout();
-                            Tst.Success('You are logged out successfully!');
+                            Tst.Success("You are logged out successfully!");
                             props.history.push("/");
                           });
                       }}
@@ -479,7 +490,9 @@ const Setting = (props) => {
                   /> */}
 
                           <div className="bg-white rounded-circle position-absolute cursor-pointer pb-1 pt-3 height-25 width-25 camera">
-                            <span className="material-symbols-outlined fs-22">star</span>
+                            <span className="material-symbols-outlined fs-22">
+                              star
+                            </span>
                           </div>
                           <input
                             id="profileImageUpload"
@@ -498,7 +511,10 @@ const Setting = (props) => {
                                     isLogin: true,
                                     profileImage: res.data.profileImage,
                                   });
-                                  dispatch({ type: 'UPDATE_PROFILE_IMAGE', payload: res.data.profileImage });
+                                  dispatch({
+                                    type: "UPDATE_PROFILE_IMAGE",
+                                    payload: res.data.profileImage,
+                                  });
 
                                   Tst.Success(res.message);
                                   Spn.Hide();
@@ -506,7 +522,9 @@ const Setting = (props) => {
                                 .catch((err) => {
                                   console.error(err);
                                   Spn.Hide();
-                                  Tst.Error('Failed to upload the profile photo!');
+                                  Tst.Error(
+                                    "Failed to upload the profile photo!"
+                                  );
                                 });
                             }}
                           />
