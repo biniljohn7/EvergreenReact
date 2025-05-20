@@ -148,6 +148,9 @@ const Membership = (props) => {
         });
         if (!err.length) {
             // go to next step
+            // setData(members);
+            // setOpen(!isOpen);
+            // Spn.Hide();
         } else {
             Spn.Hide();
             Tst.Error('Choose plan for the member(s) - ' + err.join(", "));
