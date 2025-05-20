@@ -8,6 +8,7 @@ const Profile = (props) => {
   const isProfileCreated = store.getState().auth.isProfileCreated;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
+  console.log(profile);
 
   document.title = 'Profile - ' + window.seoTagLine;
 

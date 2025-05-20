@@ -12,6 +12,15 @@ const CommonWrapper = styled.div`
   --rmsc-radius:4px;
   --rmsc-h:38px;
 }
+  .expiry-alert{
+    color:#FFF;
+    font-weight:bold;
+    background-color:#cf1818;
+    a{
+      color:#fff;
+      text-decoration:underline;
+    }
+  }
   .cancelmain {
     width: 20px;
     height: 20px;
@@ -181,6 +190,7 @@ const CommonWrapper = styled.div`
   .form-group {
     margin-bottom: 1rem;
   }
+  
 `
 
 export default CommonWrapper

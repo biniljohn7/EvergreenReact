@@ -148,3 +148,14 @@ export const getRecommendationLetter = (memberId) => {
             return response.data;
         });
 };
+///
+export const membershipExp = () => {
+    setHeaders();
+    return axios
+        .get(
+            `${BASE_URL}/member/?method=member-exp`
+        )
+        .then((response) => {
+            return response.data;
+        });
+};
