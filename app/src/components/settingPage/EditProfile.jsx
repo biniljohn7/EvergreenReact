@@ -56,8 +56,6 @@ export const SELECT_CSS = {
 };
 
 const EditProfile = (props) => {
-  console.log(props.values);
-
   const { values, errors, touched, submitCount } = props;
 
   const isProfileCreated = store.getState().auth.isProfileCreated;
@@ -81,7 +79,6 @@ const EditProfile = (props) => {
   const [formValues, setFormValues] = useState({ ...values });
   const [ErrorList, setErrorList] = useState({});
 
-  // console.log(formValues.affilateOrgzn, formValues.occupation);
   let Tst = Toast();
   let Spn = Spinner();
 
@@ -250,23 +247,6 @@ const EditProfile = (props) => {
       return <span />;
     }
   };
-  // console.log(
-  //   formValues.affilateOrgzn,
-  //   formValues.affilateOrgzn.profileOptionsId,
-  //   formValues.affilateOrgznSwitch
-  // );
-
-  // console.log(
-  //   formValues.occupation,
-  //   formValues.occupation.profileOptionsId,
-  //   formValues.occupationSwitch
-  // );
-
-  // console.log(
-  //   formValues.currentChapter,
-  //   formValues.currentChapter.chapterId,
-  //   formValues.currentChapSwitch
-  // );
 
   const handleForm = (e) => {
     function el(id) {

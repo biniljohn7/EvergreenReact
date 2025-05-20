@@ -5,8 +5,6 @@ import UpdateProfile from "./EditProfile";
 import { store } from "../../redux/store";
 
 const Profile = (props) => {
-  console.log(props.data);
-
   const isProfileCreated = store.getState().auth.isProfileCreated;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);

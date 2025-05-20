@@ -5,7 +5,7 @@ const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
     firstName: Yup.string().trim().required("This field is required"),
     lastName: Yup.string().trim().required("This field is required"),
-    memberId: Yup.string().trim().required("This field is required"),
+    // memberId: Yup.string().trim().required("This field is required"),
     email: Yup.string()
       .email("Invalid Email")
       .trim()

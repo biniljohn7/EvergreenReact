@@ -266,7 +266,7 @@ const SignUp = (props) => {
         method: "signup",
         firstName: values.firstName,
         lastName: values.lastName,
-        memberCode: values.memberId,
+        // memberCode: values.memberId,
         email: values.email,
         password: values.password,
         section: values.section,
@@ -352,6 +352,18 @@ const SignUp = (props) => {
           </div>
           <div className="form-col">
             <div className="fm-row">
+              <Select
+                label="AFFILIATION"
+                placeholder="CHOOSE AFFILIATION"
+                id="affiliation"
+                options={affiliationList}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.affiliation || ""}
+              />
+              <Error field="affiliation" />
+            </div>
+            {/* <div className="fm-row">
               <Input
                 label="MEMBER ID"
                 type="text"
@@ -362,7 +374,7 @@ const SignUp = (props) => {
                 value={values.memberId || ""}
               />
               <Error field="memberId" />
-            </div>
+            </div> */}
             <div className="fm-row">
               <div className="position-relative">
                 <Input
@@ -403,18 +415,6 @@ const SignUp = (props) => {
                 value={values.confirmPwd || ""}
               />
               <Error field="confirmPwd" />
-            </div>
-            <div className="fm-row">
-              <Select
-                label="AFFILIATION"
-                placeholder="CHOOSE AFFILIATION"
-                id="affiliation"
-                options={affiliationList}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.affiliation || ""}
-              />
-              <Error field="affiliation" />
             </div>
           </div>
         </div>
