@@ -56,12 +56,7 @@ export const SELECT_CSS = {
 };
 
 const EditProfile = (props) => {
-  const {
-    values,
-    errors,
-    touched,
-    submitCount
-  } = props;
+  const { values, errors, touched, submitCount } = props;
 
   const isProfileCreated = store.getState().auth.isProfileCreated;
 
@@ -71,7 +66,7 @@ const EditProfile = (props) => {
   const RIGHT_CLASS =
     "col-4 col-sm-2 col-md-3 col-lg-3 col-xl-3" +
     (isProfileCreated ? "" : " d-none");
-    
+
   const [dropdown, setDropdown] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loader, setLoader] = useState(false);
@@ -143,7 +138,9 @@ const EditProfile = (props) => {
               setState([...res.data]);
             })
             .catch((err) => {
-              Tst.Error('Failed to retrive State list. Please try again later!');
+              Tst.Error(
+                "Failed to retrive State list. Please try again later!"
+              );
             });
         }
         if (props.profile.profile.nation) {
@@ -152,7 +149,9 @@ const EditProfile = (props) => {
               setRegionList([...res.data]);
             })
             .catch((err) => {
-              Tst.Error('Failed to retrive Region list. Please try again later!');
+              Tst.Error(
+                "Failed to retrive Region list. Please try again later!"
+              );
             });
         }
         if (props.profile.profile.region) {
@@ -161,17 +160,24 @@ const EditProfile = (props) => {
               setOrganizationalState([...res.data]);
             })
             .catch((err) => {
-              Tst.Error('Failed to retrive State list. Please try again later!');
+              Tst.Error(
+                "Failed to retrive State list. Please try again later!"
+              );
             });
         }
 
         if (props.profile.profile.organizationalState) {
           getChapter(props.profile.profile.organizationalState.id)
             .then((res) => {
-                setChapter([{ chapterId: 0, chapterName: "National Member" },...res.data]);
+              setChapter([
+                { chapterId: 0, chapterName: "National Member" },
+                ...res.data,
+              ]);
             })
             .catch((err) => {
-              Tst.Error('Failed to retrive Section list. Please try again later!');
+              Tst.Error(
+                "Failed to retrive Section list. Please try again later!"
+              );
             });
         }
 
@@ -180,7 +186,7 @@ const EditProfile = (props) => {
         setFormValues(ndata);
       })
       .catch((err) => {
-        Tst.Error('Something went wrong!');
+        Tst.Error("Something went wrong!");
         props.history.push("/home");
       });
   }, []);
@@ -191,23 +197,23 @@ const EditProfile = (props) => {
         setNationList([...res.data]);
       })
       .catch((err) => {
-        Tst.Error('Failed to retrive City list. Please try again later!');
+        Tst.Error("Failed to retrive City list. Please try again later!");
       });
     getChapter(0)
       .then((res) => {
         setChapterOfIntiation([...res.data]);
       })
       .catch((err) => {
-        Tst.Error('Failed to retrive Section list. Please try again later!');
+        Tst.Error("Failed to retrive Section list. Please try again later!");
       });
   }, []);
 
   const Error = ({ field }) => {
-    return ErrorList[field] ?
-      <div className="text-danger">
-        {ErrorList[field]}
-      </div> :
-      <></>;
+    return ErrorList[field] ? (
+      <div className="text-danger">{ErrorList[field]}</div>
+    ) : (
+      <></>
+    );
   };
 
   const Error2 = (props) => {
@@ -259,7 +265,11 @@ const EditProfile = (props) => {
         if (typeof entry !== "object" || entry === null) {
           return `Education entry ${i + 1} must be an object`;
         }
-        if (!entry.university || !entry.university.name || !entry.university.profileOptionsId) {
+        if (
+          !entry.university ||
+          !entry.university.name ||
+          !entry.university.profileOptionsId
+        ) {
           return `University field is required in education entry ${i + 1}`;
         }
         if (!entry.degree || !entry.degree.label || !entry.degree.value) {
@@ -271,92 +281,91 @@ const EditProfile = (props) => {
 
     const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 
-    let
-      sErrs = {}
+    let sErrs = {};
 
     if (!formValues.prefix.value) {
-      sErrs['prefix'] = 'This field is required';
+      sErrs["prefix"] = "This field is required";
     }
-    if (!el('firstName').value.trim()) {
-      sErrs['firstName'] = 'This field is required';
+    if (!el("firstName").value.trim()) {
+      sErrs["firstName"] = "This field is required";
     }
-    if (!el('lastName').value.trim()) {
-      sErrs['lastName'] = 'This field is required';
+    if (!el("lastName").value.trim()) {
+      sErrs["lastName"] = "This field is required";
     }
     if (!formValues.country.profileOptionsId) {
-      sErrs['country'] = 'This field is required';
+      sErrs["country"] = "This field is required";
     }
     if (!formValues.state.id) {
-      sErrs['state'] = 'This field is required';
+      sErrs["state"] = "This field is required";
     }
-    if (!el('city').value.trim()) {
-      sErrs['city'] = 'This field is required';
+    if (!el("city").value.trim()) {
+      sErrs["city"] = "This field is required";
     }
-    if (!el('address').value.trim()) {
-      sErrs['address'] = 'This field is required';
+    if (!el("address").value.trim()) {
+      sErrs["address"] = "This field is required";
     }
-    if (!el('zip').value.trim()) {
-      sErrs['zip'] = 'This field is required';
-    }else if(!(/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(el('zip').value.trim()))){
-            sErrs['zip'] = 'Not a valid zip code';
-    } 
-    if (!el('phoneNumber').value) {
-      sErrs['phoneNumber'] = 'Pnone number is required';
-    } else if (!phoneRegex.test(el('phoneNumber').value.trim())) {
-      sErrs['phoneNumber'] = 'Not a valid phone number';
+    if (!el("zip").value.trim()) {
+      sErrs["zip"] = "This field is required";
+    } else if (!/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(el("zip").value.trim())) {
+      sErrs["zip"] = "Not a valid zip code";
+    }
+    if (!el("phoneNumber").value) {
+      sErrs["phoneNumber"] = "Pnone number is required";
+    } else if (!phoneRegex.test(el("phoneNumber").value.trim())) {
+      sErrs["phoneNumber"] = "Not a valid phone number";
     }
     if (!formValues.occupation.profileOptionsId) {
-      sErrs['occupation'] = 'This field is required';
+      sErrs["occupation"] = "This field is required";
     }
     if (!formValues.employmentStatus.value) {
-      sErrs['employmentStatus'] = 'This field is required';
+      sErrs["employmentStatus"] = "This field is required";
     }
     if (!formValues.industry.profileOptionsId) {
-      sErrs['industry'] = 'This field is required';
+      sErrs["industry"] = "This field is required";
     }
-    if (!el('leadershipRole').value.trim()) {
-      sErrs['leadershipRole'] = 'This field is required';
+    if (!el("leadershipRole").value.trim()) {
+      sErrs["leadershipRole"] = "This field is required";
     }
     if (!formValues.household.value) {
-      sErrs['household'] = 'This field is required';
+      sErrs["household"] = "This field is required";
     }
     if (!formValues.volunteerInterest.value) {
-      sErrs['volunteerInterest'] = 'This field is required';
+      sErrs["volunteerInterest"] = "This field is required";
     }
     if (!formValues.racialIdentity.value) {
-      sErrs['racialIdentity'] = 'This field is required';
+      sErrs["racialIdentity"] = "This field is required";
     }
     if (!formValues.salaryRange.value) {
-      sErrs['salaryRange'] = 'This field is required';
+      sErrs["salaryRange"] = "This field is required";
     }
     if (!formValues.expertise.map((ex) => ex.value).length) {
-      sErrs['expertise'] = 'This field is required';
+      sErrs["expertise"] = "This field is required";
     }
     if (!formValues.nation.nationId) {
-      sErrs['nation'] = 'This field is required';
+      sErrs["nation"] = "This field is required";
     }
     if (!formValues.region.regionId) {
-      sErrs['region'] = 'This field is required';
+      sErrs["region"] = "This field is required";
     }
     if (!formValues.organizationalState.id) {
-      sErrs['organizationalState'] = 'This field is required';
+      sErrs["organizationalState"] = "This field is required";
     }
     if (!formValues.chapterOfInitiation.chapterId) {
-      sErrs['chapterOfInitiation'] = 'This field is required';
+      sErrs["chapterOfInitiation"] = "This field is required";
     }
-    if (!el('yearOfIni').value.trim()) {
-      sErrs['yearOfIni'] = 'This field is required';
+    if (!el("yearOfIni").value.trim()) {
+      sErrs["yearOfIni"] = "This field is required";
     }
-    if (!el('dob').value.trim()) {
-      sErrs['dob'] = 'This field is required';
+    if (!el("dob").value.trim()) {
+      sErrs["dob"] = "This field is required";
     }
     if (!formValues.currentChapter.chapterId) {
-      sErrs['currentChapter'] = 'This field is required';
+      sErrs["currentChapter"] = "This field is required";
     }
 
     let res = validateEducation(formValues.education);
     if (res) {
-      sErrs['education'] = res;
+      sErrs["education"] = res;
     }
 
     setErrorList(sErrs);
@@ -365,22 +374,22 @@ const EditProfile = (props) => {
       setLoader(true);
       Spn.Show();
       let body = {
-        statusUpdate: el('statusUpdate').value.trim(),
+        statusUpdate: el("statusUpdate").value.trim(),
         prefixId: formValues.prefix.value,
-        firstName: el('firstName').value.trim(),
-        lastName: el('lastName').value.trim(),
+        firstName: el("firstName").value.trim(),
+        lastName: el("lastName").value.trim(),
         suffixId: formValues.suffix ? formValues.suffix.value : null,
         countryId: formValues.country.profileOptionsId,
         stateId: formValues.state.id,
         organizationalStateId: formValues.organizationalState.id,
         regionId: formValues.region.regionId,
         nationId: formValues.nation.nationId,
-        cityId: el('city').value.trim(),
-        address: el('address').value.trim(),
-        address2: el('address2').value.trim(),
-        zipcode: el('zip').value.trim(),
-        phoneNumber: el('phoneNumber').value.trim(),
-        biography: el('biography').value.trim() || null,
+        cityId: el("city").value.trim(),
+        address: el("address").value.trim(),
+        address2: el("address2").value.trim(),
+        zipcode: el("zip").value.trim(),
+        phoneNumber: el("phoneNumber").value.trim(),
+        biography: el("biography").value.trim() || null,
         occupationId: formValues.occupation.profileOptionsId,
         employmentStatusId: formValues.employmentStatus.value,
         industryId: formValues.industry.profileOptionsId,
@@ -395,17 +404,18 @@ const EditProfile = (props) => {
           : [],
         chapterOfInitiation: formValues.chapterOfInitiation.chapterId,
         currentChapter: formValues.currentChapter.chapterId,
-        leadershipRole: el('leadershipRole').value.trim(),
+        leadershipRole: el("leadershipRole").value.trim(),
         householdId: formValues.household.value,
         volunteerInterestId: formValues.volunteerInterest.value,
         racialIdentityId: formValues.racialIdentity.value,
         salaryRangeId: formValues.salaryRange.value,
         expertiseIds: formValues.expertise.map((ex) => ex.value),
-        affilateOrgzn: el('affilateOrgzn').value.trim(),
+        // affilateOrgzn: el("affilateOrgzn").value.trim(),
+        affilateOrgzn: formValues.affilateOrgzn.profileOptionsId,
       };
-      const YOI = el('yearOfIni').value.trim().split("-");
+      const YOI = el("yearOfIni").value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
-      const DOB = el('dob').value.trim().split("-");
+      const DOB = el("dob").value.trim().split("-");
       body.dob = DOB[2] + "/" + DOB[1] + "/" + DOB[0];
       if (isProfileCreated) {
         const totalBody = {
@@ -529,14 +539,13 @@ const EditProfile = (props) => {
               <div className="plr-30 ptb-50 position-relative">
                 <div
                   className="cursor-pointer text-bold close"
-                  onClick={
-                    (e) => {
-                      if (isProfileCreated) {
-                        props.toggle();
-                      } else {
-                        alert("Please create your profile first!");
-                      }
-                    }}
+                  onClick={(e) => {
+                    if (isProfileCreated) {
+                      props.toggle();
+                    } else {
+                      alert("Please create your profile first!");
+                    }
+                  }}
                 >
                   X
                 </div>
@@ -684,14 +693,16 @@ const EditProfile = (props) => {
                       onChange={(selectedOp) => {
                         let ndata = { ...formValues };
                         ndata.country = selectedOp;
-                        ndata.state = '';
+                        ndata.state = "";
                         setFormValues(ndata);
                         getState(selectedOp.profileOptionsId)
                           .then((res) => {
                             setState([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive State list. Please try again later!');
+                            Tst.Error(
+                              "Failed to retrive State list. Please try again later!"
+                            );
                           });
                       }}
                       value={formValues.country || ""}
@@ -732,7 +743,7 @@ const EditProfile = (props) => {
                       onChange={(selectedOp) => {
                         let ndata = { ...formValues };
                         ndata.state = selectedOp;
-                        ndata.city = '';
+                        ndata.city = "";
                         setFormValues(ndata);
                       }}
                       value={formValues.state || ""}
@@ -786,7 +797,8 @@ const EditProfile = (props) => {
                       defaultValue={formValues.address || ""}
                     />
                     <Error field="address" />
-                  </div><div className="mb-15">
+                  </div>
+                  <div className="mb-15">
                     <Input
                       id="address2"
                       label="Address 2"
@@ -947,7 +959,9 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Employment Status</label>
+                      <label className="fs-16 mb-5 text-dark">
+                        Employment Status
+                      </label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -985,7 +999,9 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Volunteer/My Interest</label>
+                      <label className="fs-16 mb-5 text-dark">
+                        Volunteer/My Interest
+                      </label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -1105,24 +1121,34 @@ const EditProfile = (props) => {
                                         ndata.education = array;
                                         setFormValues(ndata);
                                       }}
-                                    >delete</span>
+                                    >
+                                      delete
+                                    </span>
                                   </div>
                                   <div className="">
                                     <Select
                                       placeholder="Select University"
                                       options={dropdown.university || []}
                                       getOptionLabel={(op) => op.name}
-                                      getOptionValue={(op) => op.profileOptionsId}
+                                      getOptionValue={(op) =>
+                                        op.profileOptionsId
+                                      }
                                       styles={SELECT_CSS}
                                       onChange={(selectedOp) => {
                                         let ndata = { ...formValues };
                                         if (ndata.education[index]) {
-                                          ndata.education[index].university = selectedOp;
+                                          ndata.education[index].university =
+                                            selectedOp;
                                         }
                                         setFormValues(ndata);
                                       }}
                                       name={`education.${index}.university`}
-                                      value={formValues.education[index] ? (formValues.education[index].university || "") : ''}
+                                      value={
+                                        formValues.education[index]
+                                          ? formValues.education[index]
+                                              .university || ""
+                                          : ""
+                                      }
                                     />
                                     <Error2 field="university" index={index} />
                                   </div>
@@ -1132,15 +1158,20 @@ const EditProfile = (props) => {
                                       options={PROFILE_OPTIONS.degree}
                                       styles={SELECT_CSS}
                                       onChange={(selectedOp) => {
-
                                         let ndata = { ...formValues };
                                         if (ndata.education[index]) {
-                                          ndata.education[index].degree = selectedOp;
+                                          ndata.education[index].degree =
+                                            selectedOp;
                                         }
                                         setFormValues(ndata);
                                       }}
                                       name={`education.${index}.degree`}
-                                      value={formValues.education[index] ? (formValues.education[index].degree || "") : ''}
+                                      value={
+                                        formValues.education[index]
+                                          ? formValues.education[index]
+                                              .degree || ""
+                                          : ""
+                                      }
                                     />
                                     <Error2 field="degree" index={index} />
                                   </div>
@@ -1152,12 +1183,16 @@ const EditProfile = (props) => {
                               className="c-btn c-info form-button"
                               type="button"
                               onClick={() => {
-                                let ndata = { ...formValues }, edcn = formValues.education;
+                                let ndata = { ...formValues },
+                                  edcn = formValues.education;
                                 edcn.push({ university: "", degree: "" });
                                 ndata.education = edcn;
                                 setFormValues(ndata);
                               }}
-                              style={{ width: "fit-content", marginTop: "10px" }}
+                              style={{
+                                width: "fit-content",
+                                marginTop: "10px",
+                              }}
                             >
                               + Add
                             </button>
@@ -1285,7 +1320,9 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Salary Range</label>
+                      <label className="fs-16 mb-5 text-dark">
+                        Salary Range
+                      </label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -1359,7 +1396,7 @@ const EditProfile = (props) => {
                     <Error field="expertise" />
                   </div>
 
-                  <div className="mb-15 position-relative">
+                  {/* <div className="mb-15 position-relative">
                     <Input
                       id="affilateOrgzn"
                       label="Affiliate Organization"
@@ -1376,6 +1413,48 @@ const EditProfile = (props) => {
                       }}
                       checked={formValues.affilateOrgznSwitch || false}
                       defaultValue={formValues.affilateOrgzn || ""}
+                    />
+                  </div> */}
+
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">
+                        Affiliate Organization
+                      </label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.affilateOrgznSwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.affilateOrgznSwitch}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <Select
+                      id="affilateOrgzn"
+                      placeholder="Select Affiliation"
+                      options={dropdown.affiliation || []}
+                      styles={SELECT_CSS}
+                      getOptionLabel={(op) => op.name}
+                      getOptionValue={(op) => op.profileOptionsId}
+                      onChange={(selectedOp) => {
+                        let ndata = { ...formValues };
+                        ndata.affilateOrgzn = selectedOp;
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.affilateOrgzn || ""}
                     />
                   </div>
 
@@ -1417,9 +1496,9 @@ const EditProfile = (props) => {
                       onChange={(selectedOp) => {
                         let ndata = { ...formValues };
                         ndata.nation = selectedOp;
-                        ndata.region = '';
-                        ndata.organizationalState = '';
-                        ndata.currentChapter = '';
+                        ndata.region = "";
+                        ndata.organizationalState = "";
+                        ndata.currentChapter = "";
                         setFormValues(ndata);
 
                         setOrganizationalState([]);
@@ -1429,7 +1508,9 @@ const EditProfile = (props) => {
                             setRegionList([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrieve the country list. Please try again later!');
+                            Tst.Error(
+                              "Failed to retrieve the country list. Please try again later!"
+                            );
                           });
                       }}
                       value={formValues.nation || ""}
@@ -1471,8 +1552,8 @@ const EditProfile = (props) => {
                       onChange={(selectedOp) => {
                         let ndata = { ...formValues };
                         ndata.region = selectedOp;
-                        ndata.organizationalState = '';
-                        ndata.currentChapter = '';
+                        ndata.organizationalState = "";
+                        ndata.currentChapter = "";
                         setFormValues(ndata);
                         setChapter([]);
                         getStateFromRegion(selectedOp?.regionId)
@@ -1480,7 +1561,9 @@ const EditProfile = (props) => {
                             setOrganizationalState([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive Region list. Please try again later!');
+                            Tst.Error(
+                              "Failed to retrive Region list. Please try again later!"
+                            );
                           });
                       }}
                       value={formValues.region || ""}
@@ -1530,14 +1613,16 @@ const EditProfile = (props) => {
                       onChange={(selectedOp) => {
                         let ndata = { ...formValues };
                         ndata.organizationalState = selectedOp;
-                        ndata.currentChapter = '';
+                        ndata.currentChapter = "";
                         setFormValues(ndata);
                         getChapter(selectedOp.id)
                           .then((res) => {
                             setChapter([...res.data]);
                           })
                           .catch((err) => {
-                            Tst.Error('Failed to retrive section list. Please try again later!');
+                            Tst.Error(
+                              "Failed to retrive section list. Please try again later!"
+                            );
                           });
                       }}
                       value={formValues.organizationalState || ""}
@@ -1665,7 +1750,7 @@ const EditProfile = (props) => {
                           className="profile-switch"
                         />
                       )}
-                    </div>                
+                    </div>
                     <Select
                       id="currentChapter"
                       placeholder="Select Current Section"
@@ -1733,7 +1818,9 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Racial Identity</label>
+                      <label className="fs-16 mb-5 text-dark">
+                        Racial Identity
+                      </label>
                       {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
@@ -1782,9 +1869,9 @@ const EditProfile = (props) => {
                 </form>
               </div>
             )}
-          </Wrapper >
-        </Modal >
-      </div >
+          </Wrapper>
+        </Modal>
+      </div>
     </>
   );
 };

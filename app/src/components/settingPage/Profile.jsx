@@ -8,8 +8,9 @@ const Profile = (props) => {
   const isProfileCreated = store.getState().auth.isProfileCreated;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
+  console.log(profile);
 
-  document.title = 'Profile - ' + window.seoTagLine;
+  document.title = "Profile - " + window.seoTagLine;
 
   return (
     <Wrapper>
@@ -119,8 +120,10 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Affiliate Organization&nbsp;:&nbsp;</label>
-                {profile.profile.affilateOrgzn ?? "-"}
+                <label className="fs-18 medium-text">
+                  Affiliate Organization&nbsp;:&nbsp;
+                </label>
+                {profile.profile.affilateOrgzn.name ?? "-"}
               </div>
             </div>
 
@@ -137,7 +140,9 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Country&nbsp;:&nbsp;</label>
+                <label className="fs-18 medium-text">
+                  Country&nbsp;:&nbsp;
+                </label>
                 {(profile.profile.nation && profile.profile.nation.name) ?? "-"}
               </div>
             </div>
@@ -180,10 +185,10 @@ const Profile = (props) => {
                 <label className="fs-18 medium-text">
                   Current Section&nbsp;:&nbsp;
                 </label>
-                {(profile.profile.currentChapter &&
-                  profile.profile.currentChapter.name !='') ?
-                  profile.profile.currentChapter.name
-                  :"National Member"}
+                {profile.profile.currentChapter &&
+                profile.profile.currentChapter.name != ""
+                  ? profile.profile.currentChapter.name
+                  : "National Member"}
               </div>
             </div>
           </div>
