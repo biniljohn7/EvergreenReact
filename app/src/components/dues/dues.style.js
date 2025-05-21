@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 const Wrapper = styled.div`
   .flex-container {
     display: flex;
@@ -20,5 +20,36 @@ const Wrapper = styled.div`
   .card-container {
     margin-left: -12px;
   }
-`
-export default Wrapper
+
+  .add-btn {
+    padding-top: 20px;
+  }
+
+  .add-btn span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .add-btn span .icn {
+    font-size: 1.3em;
+  }
+
+  .radion-ops {
+    display: flex;
+    gap: 10px;
+  }
+
+  .radion-ops .rd-ops {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+`;
+export default Wrapper;

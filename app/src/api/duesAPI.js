@@ -18,6 +18,24 @@ export const getMembershipType = () => {
     });
 };
 
+export const getMembershipPlans = () => {
+  setHeaders();
+  return axios
+    .get(`${BASE_URL}/member/?method=dues-membership-plans-list`)
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const getInstallments = (id) => {
+  setHeaders();
+  return axios
+    .get(`${BASE_URL}/member/?method=dues-installments&id=${id}`)
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const getAttachment = (id) => {
   setHeaders();
   return axios
@@ -47,24 +65,29 @@ export const getMembership = (body) => {
 
 export const addMembership = (body) => {
   setHeaders();
-  return axios.post(`${BASE_URL}/member/?method=membership-add`, body).then((response) => {
-    return response.data;
-  });
+  return axios
+    .post(`${BASE_URL}/member/?method=membership-add`, body)
+    .then((response) => {
+      return response.data;
+    });
 };
 
 export const validateToken = (token) => {
   // setHeaders()
-  return axios.get(`${BASE_URL}/public/?method=payment-verify&token=${token}`).
-    then((response) => {
+  return axios
+    .get(`${BASE_URL}/public/?method=payment-verify&token=${token}`)
+    .then((response) => {
       return response.data;
     });
 };
 
 export const fetchStoredCard = (token) => {
   // setHeaders()
-  return axios.get(`${BASE_URL}/public/?method=dues-fetch-card&token${token}`).then((response) => {
-    return response.data;
-  });
+  return axios
+    .get(`${BASE_URL}/public/?method=dues-fetch-card&token${token}`)
+    .then((response) => {
+      return response.data;
+    });
 };
 
 export const deleteStroredCard = (id) => {
@@ -104,15 +127,28 @@ export const cancelSubscription = (id) => {
 };
 
 export const viewPaymentHistory = (id) => {
-  return axios.get(`${BASE_URL}/member/?method=dues-history`).then((response) => {
-    return response.data;
-  });
+  return axios
+    .get(`${BASE_URL}/member/?method=dues-history`)
+    .then((response) => {
+      return response.data;
+    });
 };
 
-export const getAllMembers = (body) => {
+// export const getAllMembers = (body) => {
+//   setHeaders();
+//   return axios
+//     .post(`${BASE_URL}/member/?method=get-all-members`, body)
+//     .then((response) => {
+//       return response.data;
+//     });
+// };
+
+export const getAllMembers = (pgn, search) => {
   setHeaders();
   return axios
-    .post(`${BASE_URL}/member/?method=get-all-members`, body)
+    .get(
+      `${BASE_URL}/member/?method=get-all-members&pgn=${pgn}&search=${search}`
+    )
     .then((response) => {
       return response.data;
     });
@@ -123,7 +159,6 @@ export const declineGift = (data) => {
   return axios
     .post(`${BASE_URL}/member/?method=get-all-members`, data)
     .then((response) => {
-      return { "success": 1, "msg": "Gift Membership" };
+      return { success: 1, msg: "Gift Membership" };
     });
-
 };
