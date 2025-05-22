@@ -35,10 +35,16 @@ function Membership(props) {
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [isGift, setIsGift] = useState(false);
+  const [members, setMembers] = useState([]);
+  const [content, setContent] = useState([]);
+
+  console.log(members);
 
   const { values, errors, touched, submitCount, handleChange } = props;
 
   const lgMbr = store.getState().auth.memberId;
+  let mbrExist = false;
+
   let Spn = Spinner();
   let Tst = Toast();
 
@@ -62,9 +68,59 @@ function Membership(props) {
           ToastsStore.error("Something went wrong!");
         }
       });
+    addMbr(store.getState().auth.memberId, "Own Membership");
   }, []);
 
   document.title = "Membership - " + window.seoTagLine;
+
+  const addMbr = (mbrId, mbrNam) => {
+    setMembers((prevMembers) => {
+      const exstMbrIndx = prevMembers.findIndex(
+        (member) => member.memberId === mbrId
+      );
+
+      if (exstMbrIndx !== -1) {
+        mbrExist = true;
+        return prevMembers;
+      } else {
+        return [
+          ...prevMembers,
+          {
+            memberId: mbrId,
+            membershipPlan: null,
+            installment: null,
+            sectionId: null,
+            affiliate: null,
+            mbrName: mbrNam,
+          },
+        ];
+      }
+    });
+  };
+
+  const removeMbr = (mbrId, loggedMbr = false) => {
+    setMembers(members.filter((mbr) => mbr.id !== mbrId));
+    if (!loggedMbr) {
+      setContent(content.filter((cnt) => cnt.id !== mbrId));
+    }
+  };
+
+  const handleAddContent = (person) => {
+    // addMbr(person.id, person.name);
+    setMembers((prevItems) =>
+      prevItems.map((mbr) =>
+        mbr.memberId != person.id
+          ? { ...mbr, memberId: person.id, mbrName: person.name }
+          : mbr
+      )
+    );
+    if (!mbrExist) {
+      setContent([...content, person]);
+    } else {
+      Tst.Error("Member already added!");
+    }
+    setMbrOpen(false);
+  };
 
   const Error = (props) => {
     const field1 = props.field;
@@ -126,6 +182,18 @@ function Membership(props) {
                             onChange={(selectedOp) => {
                               if (selectedOp && selectedOp.membershipPlanId) {
                                 Spn.Show();
+                                setMembers((prevItems) =>
+                                  prevItems.map((mbr) =>
+                                    mbr.memberId === lgMbr
+                                      ? {
+                                          ...mbr,
+                                          membershipPlan:
+                                            selectedOp.membershipPlanId,
+                                          installment: null,
+                                        }
+                                      : mbr
+                                  )
+                                );
                                 getInstallments(selectedOp.membershipPlanId)
                                   .then((res) => {
                                     setSubDrop((prevDrpItems) => ({
@@ -158,6 +226,13 @@ function Membership(props) {
                               if (selectedOp.value == "gift") {
                                 setIsGift(true);
                               } else {
+                                setMembers((prevItems) =>
+                                  prevItems.map((mbr) =>
+                                    mbr.memberId === lgMbr
+                                      ? { ...mbr, memberId: lgMbr }
+                                      : mbr
+                                  )
+                                );
                                 setIsGift(false);
                               }
                             }}
@@ -178,14 +253,26 @@ function Membership(props) {
                                 id="installment"
                                 placeholder="Select Installment"
                                 options={subDropItems[lgMbr].items || []}
+                                onChange={(selectedOp) => {
+                                  setMembers((prevItems) =>
+                                    prevItems.map((mbr) =>
+                                      mbr.memberId === lgMbr
+                                        ? {
+                                            ...mbr,
+                                            installment: selectedOp.installment,
+                                          }
+                                        : mbr
+                                    )
+                                  );
+                                }}
                                 getOptionLabel={(op) => op.title}
                                 getOptionValue={(op) => op.installment}
                               />
                               <Error field="installment" />
                             </div>
                           )}
-                        {isGift && (
-                          <div className="form-col add-btn">
+                        <div className="form-col add-btn">
+                          {isGift && (
                             <span
                               className="btn button plr-20 ptb-10"
                               onClick={(e) => setMbrOpen(true)}
@@ -195,26 +282,64 @@ function Membership(props) {
                               </span>
                               <span className="btn-txt">Add More</span>
                             </span>
-                            {/* <label htmlFor="" className="fs-16">
-                              Add More
-                            </label>
-                            <div className="radion-ops">
-                              <label className="rd-ops">
-                                <input
-                                  type="radio"
-                                  name="giftto"
-                                  value="exist"
-                                
-                                />
-                                Existing
-                              </label>
-                              <label className="rd-ops">
-                                <input type="radio" name="giftto" value="new" />
-                                New
-                              </label>
-                            </div> */}
+                          )}
+                          <div
+                            className="gift-membership"
+                            style={{ display: isGift ? "block" : "none" }}
+                          >
+                            <div id="selectedMembers">
+                              {content && content.length > 0
+                                ? content.map((item) => (
+                                    <div
+                                      className="ech-mbr"
+                                      key={item.id}
+                                      id={`person-${item.id}`}
+                                    >
+                                      <div className="info-sec">
+                                        <div className="person-info">
+                                          <div className="avatar-sec">
+                                            {item.avatarUrl ? (
+                                              <div className="mbr-img">
+                                                <img
+                                                  src={item.avatarUrl}
+                                                  alt=""
+                                                />
+                                              </div>
+                                            ) : (
+                                              <div className="no-img">
+                                                <span class="material-symbols-outlined icn">
+                                                  person
+                                                </span>
+                                              </div>
+                                            )}
+                                          </div>
+                                          <div className="mbr-nam">
+                                            {item.name}
+                                          </div>
+                                        </div>
+                                        <div className="action">
+                                          <span
+                                            className="material-symbols-outlined"
+                                            onClick={(e) => {
+                                              if (
+                                                window.confirm(
+                                                  "Are you sure you want to remove this member?"
+                                                )
+                                              ) {
+                                                removeMbr(item.id, false);
+                                              }
+                                            }}
+                                          >
+                                            cancel
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))
+                                : ""}
+                            </div>
                           </div>
-                        )}
+                        </div>
                       </div>
                       <div className="text-left mt-20">
                         <button
@@ -239,6 +364,8 @@ function Membership(props) {
           toggle={() => {
             setMbrOpen(!isMbrOpen);
           }}
+          addContent={handleAddContent}
+          changeURL={props.history.push}
         />
       )}
     </Wrapper>

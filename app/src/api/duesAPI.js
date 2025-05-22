@@ -147,7 +147,7 @@ export const getAllMembers = (pgn, search) => {
   setHeaders();
   return axios
     .get(
-      `${BASE_URL}/member/?method=get-all-members&pgn=${pgn}&search=${search}`
+      `${BASE_URL}/member/?method=get-all-member&pgn=${pgn}&search=${search}`
     )
     .then((response) => {
       return response.data;
@@ -160,5 +160,13 @@ export const declineGift = (data) => {
     .post(`${BASE_URL}/member/?method=get-all-members`, data)
     .then((response) => {
       return { success: 1, msg: "Gift Membership" };
+    });
+};
+
+export const duesNewMember = (body) => {
+  return axios
+    .post(BASE_URL + "/member/?method=dues-add-new-member", body)
+    .then((response) => {
+      return response.data;
     });
 };

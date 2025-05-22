@@ -38,6 +38,8 @@ const Wrapper = styled.div`
   .radion-ops {
     display: flex;
     gap: 10px;
+    padding-top: 20px;
+    margin-bottom: 20px;
   }
 
   .radion-ops .rd-ops {
@@ -50,6 +52,45 @@ const Wrapper = styled.div`
     position: absolute;
     top: 20px;
     right: 20px;
+  }
+
+  .popup-title {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+
+  .psw-view {
+    position: absolute;
+    font-size: 1.3em;
+    top: 36px;
+    right: 8px;
+    cursor: pointer;
+  }
+
+  .member .insidelabelmain {
+    color: #000;
+  }
+
+  .gift-membership #selectedMembers {
+    margin-bottom: 0px;
+    padding-top: 20px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .info-sec {
+    position: relative;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .info-sec .person-info {
+    margin-bottom: 0px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .action {
+    position: absolute;
+    top: 3px;
+    right: -40px;
   }
 `;
 export default Wrapper;

@@ -1,13 +1,13 @@
-import React from 'react'
-import InputWrapper from './input.style'
+import React from "react";
+import InputWrapper from "./input.style";
 
 const input = (props) => {
   return (
     <InputWrapper>
-      {props.label && props.label !== '' ? (
+      {props.label && props.label !== "" ? (
         <div className="">
           <label
-            className={['insidelabelmain mb-10', props.fontSize].join(' ')}
+            className={["insidelabelmain mb-10", props.fontSize].join(" ")}
           >
             {props.label}
           </label>
@@ -18,25 +18,26 @@ const input = (props) => {
         type={props.type}
         placeholder={props.placeholder}
         id={props.id}
+        name={props.name}
         onChange={props.onChange}
         onBlur={props.onBlur}
         value={props.value}
         style={props.style}
         className={[
-          'inputmain pa-10',
+          "inputmain pa-10",
           props.contentFontSize,
           props.className,
-        ].join(' ')}
+        ].join(" ")}
         disabled={props.disabled}
         maxLength={props.maxLength}
         onKeyPress={(e) => {
-          if (e.key === 'Enter' && props.onEnter) {
-            props.onEnter()
+          if (e.key === "Enter" && props.onEnter) {
+            props.onEnter();
           }
         }}
       />
     </InputWrapper>
-  )
-}
+  );
+};
 
-export default input
+export default input;

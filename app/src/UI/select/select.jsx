@@ -17,6 +17,7 @@ const Select = (props) => {
 
       <select
         id={props.id}
+        name={props.name}
         onChange={props.onChange}
         onBlur={props.onBlur}
         value={props.value}
