@@ -234,7 +234,7 @@ function Membership(props) {
         </div>
       </div>
       {isMbrOpen && (
-        <MemberModal
+        <SelectMember
           isOpen={isMbrOpen}
           toggle={() => {
             setMbrOpen(!isMbrOpen);
