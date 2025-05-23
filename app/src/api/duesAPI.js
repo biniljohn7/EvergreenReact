@@ -127,3 +127,12 @@ export const declineGift = (data) => {
     });
 
 };
+
+export const getExpiredMemberships = () => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?method=get-exp-memberships`)
+    .then((response) => {
+      return response.data;
+    });
+};
