@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "./dues.style";
 import Select from "react-select";
+import Autosuggest from "react-autosuggest";
+import Input from "../../UI/input/input";
 import {
   getMembershipType,
   getMembershipPlans,
   getInstallments,
   getAttachment,
   getMembership,
+  duesSearchSections,
 } from "../../api/duesAPI";
 import { connect } from "react-redux";
 import AuthActions from "../../redux/auth/actions";
 import { ToastsStore } from "react-toasts";
-import { Breadcrumb, BreadcrumbItem, Input } from "reactstrap";
+import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
 import { chooseMembership as enhancer } from "./enhancer";
@@ -20,7 +23,6 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
 import Pix from "../../helper/Pix";
 
-import Checkbox from "../../UI/checkbox/checkbox";
 import "../../assets/css/style2.css";
 import MemberModal from "./ChooseMember";
 import { store } from "../../redux/store";
@@ -37,10 +39,15 @@ function Membership(props) {
   const [isGift, setIsGift] = useState(false);
   const [members, setMembers] = useState([]);
   const [content, setContent] = useState([]);
-
-  console.log(members);
-
-  const { values, errors, touched, submitCount, handleChange } = props;
+  const [ErrorList, setErrorList] = useState({});
+  const [membData, setMembData] = useState({
+    membershipPlan: "",
+    installment: 1,
+    section: "",
+    affiliate: "",
+    membshipFor: "",
+  });
+  const [membId, setMembId] = useState([]);
 
   const lgMbr = store.getState().auth.memberId;
   let mbrExist = false;
@@ -68,52 +75,25 @@ function Membership(props) {
           ToastsStore.error("Something went wrong!");
         }
       });
-    addMbr(store.getState().auth.memberId, "Own Membership");
   }, []);
 
   document.title = "Membership - " + window.seoTagLine;
 
   const addMbr = (mbrId, mbrNam) => {
-    setMembers((prevMembers) => {
-      const exstMbrIndx = prevMembers.findIndex(
-        (member) => member.memberId === mbrId
-      );
+    setMembId((prev) => {
+      const exstMbrIndx = prev.findIndex((member) => member === mbrId);
 
       if (exstMbrIndx !== -1) {
         mbrExist = true;
-        return prevMembers;
+        return prev;
       } else {
-        return [
-          ...prevMembers,
-          {
-            memberId: mbrId,
-            membershipPlan: null,
-            installment: null,
-            sectionId: null,
-            affiliate: null,
-            mbrName: mbrNam,
-          },
-        ];
+        return [...new Set([...prev, mbrId])];
       }
     });
   };
 
-  const removeMbr = (mbrId, loggedMbr = false) => {
-    setMembers(members.filter((mbr) => mbr.id !== mbrId));
-    if (!loggedMbr) {
-      setContent(content.filter((cnt) => cnt.id !== mbrId));
-    }
-  };
-
   const handleAddContent = (person) => {
-    // addMbr(person.id, person.name);
-    setMembers((prevItems) =>
-      prevItems.map((mbr) =>
-        mbr.memberId != person.id
-          ? { ...mbr, memberId: person.id, mbrName: person.name }
-          : mbr
-      )
-    );
+    addMbr(person.id, person.name);
     if (!mbrExist) {
       setContent([...content, person]);
     } else {
@@ -122,12 +102,55 @@ function Membership(props) {
     setMbrOpen(false);
   };
 
-  const Error = (props) => {
-    const field1 = props.field;
-    if ((errors[field1] && touched[field1]) || submitCount > 0) {
-      return <div className="text-danger">{errors[field1]}</div>;
-    } else {
-      return <div />;
+  const removeMbr = (mbrId) => {
+    setMembId((prev) => prev.filter((id) => id !== mbrId));
+  };
+
+  const Error = ({ field }) => {
+    return ErrorList[field] ? (
+      <div className="text-danger">{ErrorList[field]}</div>
+    ) : (
+      <></>
+    );
+  };
+
+  const handleMembershipForm = (e) => {
+    function el(id) {
+      return document.getElementById(id);
+    }
+
+    let sErrs = {};
+
+    if (!membData.membershipPlan) {
+      sErrs["plan"] = "This field is required";
+    }
+    if (!membData.membshipFor) {
+      sErrs["membshipFor"] = "This field is required";
+    }
+    if (isGift && content.length < 1) {
+      sErrs["memberGift"] = "At least one member is required!";
+    }
+    if (!membData.section) {
+      sErrs["section"] = "This field is required";
+    }
+    if (!membData.affiliate) {
+      sErrs["affiliation"] = "This field is required";
+    }
+
+    setErrorList(sErrs);
+    if (Object.keys(sErrs).length < 1) {
+      Spn.Show();
+
+      const formattedMembers = membId.map((id) => ({
+        memberId: parseInt(id),
+        membershipPlan: membData.membershipPlan,
+        installment: membData.installment,
+        sectionId: membData.section,
+        affiliate: membData.affiliate,
+      }));
+
+      // setShowForm(false);
+      console.log(formattedMembers);
     }
   };
 
@@ -156,7 +179,10 @@ function Membership(props) {
               <button
                 className="btn btn-rounded button plr-20 ptb-10"
                 type="button"
-                onClick={() => setShowForm(true)}
+                onClick={() => {
+                  setShowForm(true);
+                  setContent([]);
+                }}
               >
                 ADD MEMBERSHIP
               </button>
@@ -172,6 +198,32 @@ function Membership(props) {
                     <div id="ownMembership">
                       <div className="form-row">
                         <div className="form-col">
+                          <Input
+                            id="section"
+                            name="section"
+                            label="Section"
+                            placeholder="Section"
+                            fontSize={"fs-16 text-dark"}
+                            contentFontSize="fs-14"
+                            type="text"
+                          />
+                          <Error field="section" />
+                        </div>
+                        <div className="form-col">
+                          <Input
+                            id="affiliation"
+                            name="affiliation"
+                            label="Affiliation"
+                            placeholder="Affiliation"
+                            fontSize={"fs-16 text-dark"}
+                            contentFontSize="fs-14"
+                            type="text"
+                          />
+                          <Error field="affiliation" />
+                        </div>
+                      </div>
+                      <div className="form-row">
+                        <div className="form-col">
                           <label htmlFor="" className="fs-16">
                             Membership Dues/Fees:
                           </label>
@@ -182,18 +234,12 @@ function Membership(props) {
                             onChange={(selectedOp) => {
                               if (selectedOp && selectedOp.membershipPlanId) {
                                 Spn.Show();
-                                setMembers((prevItems) =>
-                                  prevItems.map((mbr) =>
-                                    mbr.memberId === lgMbr
-                                      ? {
-                                          ...mbr,
-                                          membershipPlan:
-                                            selectedOp.membershipPlanId,
-                                          installment: null,
-                                        }
-                                      : mbr
-                                  )
-                                );
+
+                                setMembData({
+                                  ...membData,
+                                  membershipPlan: selectedOp.membershipPlanId,
+                                });
+
                                 getInstallments(selectedOp.membershipPlanId)
                                   .then((res) => {
                                     setSubDrop((prevDrpItems) => ({
@@ -225,16 +271,18 @@ function Membership(props) {
                             onChange={(selectedOp) => {
                               if (selectedOp.value == "gift") {
                                 setIsGift(true);
+                                setMembId([]);
                               } else {
-                                setMembers((prevItems) =>
-                                  prevItems.map((mbr) =>
-                                    mbr.memberId === lgMbr
-                                      ? { ...mbr, memberId: lgMbr }
-                                      : mbr
-                                  )
-                                );
+                                if (!membId.includes(lgMbr)) {
+                                  setMembId((prev) => [...prev, lgMbr]);
+                                }
                                 setIsGift(false);
                               }
+
+                              setMembData({
+                                ...membData,
+                                membshipFor: selectedOp.value,
+                              });
                             }}
                           />
                           <Error field="membshipFor" />
@@ -253,35 +301,39 @@ function Membership(props) {
                                 id="installment"
                                 placeholder="Select Installment"
                                 options={subDropItems[lgMbr].items || []}
+                                value={
+                                  subDropItems[lgMbr]?.items.find(
+                                    (opt) =>
+                                      opt.installment === membData.installment
+                                  ) || null
+                                }
                                 onChange={(selectedOp) => {
-                                  setMembers((prevItems) =>
-                                    prevItems.map((mbr) =>
-                                      mbr.memberId === lgMbr
-                                        ? {
-                                            ...mbr,
-                                            installment: selectedOp.installment,
-                                          }
-                                        : mbr
-                                    )
-                                  );
+                                  setMembData({
+                                    ...membData,
+                                    installment: selectedOp.installment,
+                                  });
                                 }}
                                 getOptionLabel={(op) => op.title}
                                 getOptionValue={(op) => op.installment}
                               />
-                              <Error field="installment" />
                             </div>
                           )}
                         <div className="form-col add-btn">
                           {isGift && (
-                            <span
-                              className="btn button plr-20 ptb-10"
-                              onClick={(e) => setMbrOpen(true)}
-                            >
-                              <span class="material-symbols-outlined icn">
-                                add_circle
+                            <>
+                              <span
+                                className="btn button plr-20 ptb-10"
+                                onClick={(e) => {
+                                  setMbrOpen(true);
+                                }}
+                              >
+                                <span class="material-symbols-outlined icn">
+                                  add_circle
+                                </span>
+                                <span className="btn-txt">Add More</span>
                               </span>
-                              <span className="btn-txt">Add More</span>
-                            </span>
+                              <Error field="memberGift" />
+                            </>
                           )}
                           <div
                             className="gift-membership"
@@ -326,7 +378,7 @@ function Membership(props) {
                                                   "Are you sure you want to remove this member?"
                                                 )
                                               ) {
-                                                removeMbr(item.id, false);
+                                                removeMbr(item.id);
                                               }
                                             }}
                                           >
@@ -341,11 +393,12 @@ function Membership(props) {
                           </div>
                         </div>
                       </div>
+
                       <div className="text-left mt-20">
                         <button
                           className="btn btn-success"
                           type="button"
-                          onClick={() => setShowForm(false)}
+                          onClick={(e) => handleMembershipForm(e)}
                         >
                           Save
                         </button>

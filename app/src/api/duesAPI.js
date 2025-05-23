@@ -170,3 +170,12 @@ export const duesNewMember = (body) => {
       return response.data;
     });
 };
+
+export const duesSearchSections = (key) => {
+  setHeaders();
+  return axios
+    .get(`${BASE_URL}/member/?method=get-sections&&key=${key}`)
+    .then((response) => {
+      return response.data;
+    });
+};

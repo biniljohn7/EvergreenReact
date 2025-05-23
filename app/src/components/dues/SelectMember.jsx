@@ -270,7 +270,7 @@ function SelectMember(props) {
                       <>
                         {mbrData.list.map((mbr) => {
                           return (
-                            <div className="each-mbr">
+                            <div className="each-mbr" key={mbr.id}>
                               <div className="avatar-sec">
                                 {mbr.avatar ? (
                                   <div className="mbr-img">
