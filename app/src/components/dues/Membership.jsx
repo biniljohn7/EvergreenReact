@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "./dues.style";
 import Select from "react-select";
-import Autosuggest from "react-autosuggest";
 import Input from "../../UI/input/input";
 import {
   getMembershipType,
@@ -10,6 +9,7 @@ import {
   getAttachment,
   getMembership,
   duesSearchSections,
+  duesSearchAffiliate,
 } from "../../api/duesAPI";
 import { connect } from "react-redux";
 import AuthActions from "../../redux/auth/actions";
@@ -34,6 +34,8 @@ const { logout } = AuthActions;
 function Membership(props) {
   const [showForm, setShowForm] = useState(false);
   const [dropdown, setDropdown] = useState(null);
+  const [secSuggestions, setSecSuggestions] = useState([]);
+  const [affSuggestions, setAffSuggestions] = useState([]);
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [isGift, setIsGift] = useState(false);
@@ -46,6 +48,8 @@ function Membership(props) {
     section: "",
     affiliate: "",
     membshipFor: "",
+    sectionLabel: "",
+    affiliateLabel: "",
   });
   const [membId, setMembId] = useState([]);
 
@@ -104,6 +108,7 @@ function Membership(props) {
 
   const removeMbr = (mbrId) => {
     setMembId((prev) => prev.filter((id) => id !== mbrId));
+    setContent(content.filter((cnt) => cnt.id !== mbrId));
   };
 
   const Error = ({ field }) => {
@@ -139,7 +144,7 @@ function Membership(props) {
 
     setErrorList(sErrs);
     if (Object.keys(sErrs).length < 1) {
-      Spn.Show();
+      // Spn.Show();
 
       const formattedMembers = membId.map((id) => ({
         memberId: parseInt(id),
@@ -151,6 +156,62 @@ function Membership(props) {
 
       // setShowForm(false);
       console.log(formattedMembers);
+    }
+  };
+
+  const sectionSuggestion = (e, type) => {
+    const value = e.target.value;
+
+    if (type == "section") {
+      setMembData((prev) => ({ ...prev, sectionLabel: value }));
+
+      if (value) {
+        duesSearchSections(value)
+          .then((res) => {
+            if (res.success === 1) {
+              setSecSuggestions(res.data);
+            }
+          })
+          .catch(() => {})
+          .finally(() => {
+            Spn.Hide();
+          });
+
+        Spn.Show();
+      } else {
+        setSecSuggestions([]);
+        setMembData({
+          ...membData,
+          section: "",
+          sectionLabel: "",
+        });
+      }
+    }
+
+    if (type == "affiliate") {
+      setMembData((prev) => ({ ...prev, affiliateLabel: value }));
+
+      if (value) {
+        duesSearchAffiliate(value)
+          .then((res) => {
+            if (res.success === 1) {
+              setAffSuggestions(res.data);
+            }
+          })
+          .catch(() => {})
+          .finally(() => {
+            Spn.Hide();
+          });
+
+        Spn.Show();
+      } else {
+        setAffSuggestions([]);
+        setMembData({
+          ...membData,
+          affiliate: "",
+          affiliateLabel: "",
+        });
+      }
     }
   };
 
@@ -197,7 +258,7 @@ function Membership(props) {
                   <div className="mbrs-col">
                     <div id="ownMembership">
                       <div className="form-row">
-                        <div className="form-col">
+                        <div className="form-col sugg">
                           <Input
                             id="section"
                             name="section"
@@ -206,10 +267,39 @@ function Membership(props) {
                             fontSize={"fs-16 text-dark"}
                             contentFontSize="fs-14"
                             type="text"
+                            value={membData.sectionLabel || ""}
+                            onChange={(e) => sectionSuggestion(e, "section")}
+                            onBlur={() => {
+                              setTimeout(() => setSecSuggestions([]), 1000);
+                            }}
                           />
                           <Error field="section" />
+                          <div
+                            className="suggestion-box"
+                            style={{
+                              display:
+                                secSuggestions.length > 0 ? "block" : "none",
+                            }}
+                          >
+                            {secSuggestions.map((item) => (
+                              <div
+                                className="suggestions"
+                                key={item.sectionId}
+                                onClick={() => {
+                                  setMembData({
+                                    ...membData,
+                                    section: item.sectionId,
+                                    sectionLabel: item.sectionName,
+                                  });
+                                  setSecSuggestions([]);
+                                }}
+                              >
+                                {item.sectionName}
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                        <div className="form-col">
+                        <div className="form-col sugg">
                           <Input
                             id="affiliation"
                             name="affiliation"
@@ -218,8 +308,37 @@ function Membership(props) {
                             fontSize={"fs-16 text-dark"}
                             contentFontSize="fs-14"
                             type="text"
+                            value={membData.affiliateLabel || ""}
+                            onChange={(e) => sectionSuggestion(e, "affiliate")}
+                            onBlur={() => {
+                              setTimeout(() => setAffSuggestions([]), 1000);
+                            }}
                           />
                           <Error field="affiliation" />
+                          <div
+                            className="suggestion-box"
+                            style={{
+                              display:
+                                affSuggestions.length > 0 ? "block" : "none",
+                            }}
+                          >
+                            {affSuggestions.map((item) => (
+                              <div
+                                className="suggestions"
+                                key={item.affiliateId}
+                                onClick={() => {
+                                  setMembData({
+                                    ...membData,
+                                    affiliate: item.affiliateId,
+                                    affiliateLabel: item.affiliateName,
+                                  });
+                                  setAffSuggestions([]);
+                                }}
+                              >
+                                {item.affiliateName}
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
                       <div className="form-row">
@@ -238,6 +357,7 @@ function Membership(props) {
                                 setMembData({
                                   ...membData,
                                   membershipPlan: selectedOp.membershipPlanId,
+                                  installment: 1,
                                 });
 
                                 getInstallments(selectedOp.membershipPlanId)
@@ -272,9 +392,13 @@ function Membership(props) {
                               if (selectedOp.value == "gift") {
                                 setIsGift(true);
                                 setMembId([]);
+                                setContent([]);
                               } else {
                                 if (!membId.includes(lgMbr)) {
                                   setMembId((prev) => [...prev, lgMbr]);
+                                  setMembId((prev) =>
+                                    prev.filter((id) => id == lgMbr)
+                                  );
                                 }
                                 setIsGift(false);
                               }

@@ -179,3 +179,12 @@ export const duesSearchSections = (key) => {
       return response.data;
     });
 };
+
+export const duesSearchAffiliate = (key) => {
+  setHeaders();
+  return axios
+    .get(`${BASE_URL}/member/?method=get-affiliates&&key=${key}`)
+    .then((response) => {
+      return response.data;
+    });
+};

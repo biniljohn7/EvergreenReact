@@ -180,9 +180,15 @@ function SelectMember(props) {
       duesNewMember(data)
         .then((res) => {
           if (res.success === 1) {
-            props.history.push("/account-created");
+            const newMemberDetails = {
+              id: res.data.id,
+              name: res.data.name,
+              avatarUrl: res.data.avatarUrl,
+            };
+            props.addContent(newMemberDetails);
           } else {
             Tst.Error(res.message);
+            sErrs["email"] = res.message;
           }
         })
         .catch((err) => {

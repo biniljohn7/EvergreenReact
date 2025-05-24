@@ -31,6 +31,10 @@ const Wrapper = styled.div`
     gap: 4px;
   }
 
+  .add-btn .action span {
+    font-size: 1.5em;
+  }
+
   .add-btn span .icn {
     font-size: 1.3em;
   }
@@ -77,6 +81,34 @@ const Wrapper = styled.div`
   .gift-membership #selectedMembers {
     margin-bottom: 0px;
     padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: none;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr {
+    width: calc(50% - 10px);
+    margin: 0px 5px 10px;
+  }
+  .gift-membership #selectedMembers .ech-mbr .avatar-sec {
+    width: 40px;
+    height: 40px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .avatar-sec .no-img .icn {
+    font-size: 22px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .mbr-nam,
+  .gift-membership #selectedMembers .ech-mbr .action {
+    margin-left: 10px;
+    font-size: 0.9em;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .action {
+    position: absolute;
+    top: -10px;
+    right: -25px;
   }
 
   .gift-membership #selectedMembers .ech-mbr .info-sec {
@@ -87,10 +119,32 @@ const Wrapper = styled.div`
     margin-bottom: 0px;
   }
 
-  .gift-membership #selectedMembers .ech-mbr .action {
+  .form-col.sugg {
+    position: relative;
+  }
+
+  .form-col.sugg .suggestion-box {
     position: absolute;
-    top: 3px;
-    right: -40px;
+    width: 100%;
+    // height: 300px;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1;
+    background-color: #f3f3f3;
+    top: 70px;
+    left: 0px;
+    border-radius: 6px;
+  }
+
+  .form-col.sugg .suggestion-box .suggestions {
+    padding: 6px 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+  }
+
+  .form-col.sugg .suggestion-box .suggestions:not(:last-child) {
+    border-bottom: 1px solid #ececec;
   }
 `;
 export default Wrapper;
