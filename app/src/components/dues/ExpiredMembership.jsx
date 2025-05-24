@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "./dues.style";
+import Checkbox from "../../UI/checkbox/checkbox";
 import Spinner from "../../UI/Spinner/Spinner";
 import { getExpiredMemberships } from "../../api/duesAPI";
 
 const ExpiredMembership = () => {
     const [expData, setExpData] = useState(null);
+    const [selectedMships, setSelectedMships] = useState([]);
     let Spn = Spinner();
 
     useEffect(() => {
@@ -20,12 +22,59 @@ const ExpiredMembership = () => {
 
     }, []);
 
+    const handleMshipChange = (mid) => {
+        setSelectedMships((prev) =>
+            prev.includes(mid)
+                ? prev.filter((item) => item !== mid) // uncheck
+                : [...prev, mid] // check
+        );
+    };
 
     return (
-        <div className="">
+        <div className="renew">
             {Spn.Obj}
-            expired membership list
-            {console.log(expData)}
+
+            {
+                expData && expData.list && expData.list.length > 0 ? (
+                    <>
+                        {expData.list.map((ms) => {
+                            return (
+                                <div className="each-mbrshp">
+                                    <div className="chk-sec">
+                                        <Checkbox
+                                            id={`mshp${ms.id}`}
+                                            name="mshp[]"
+                                            checked={selectedMships.includes(ms.id)}
+                                            onChange={() => handleMshipChange(ms.id)}
+                                            label=""
+                                        />
+                                    </div>
+                                    <div className="pln-nam">
+                                        {ms.planInfo.title}
+                                    </div>
+                                    <div className="pln-amt">
+                                        ${ms.planInfo.ttlCharge}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                        <div className="">
+                            <button className="btn btn-rounded button plr-20 ptb-10"
+                                onClick={() => {
+
+                                }}
+                            >
+                                RENEW
+                            </button>
+                        </div>
+                    </>
+                ) : (
+                    <div className="text-center">
+                        YOU HAVE NO MEMBERSHIP
+                    </div>
+                )
+            }
+
         </div>
     );
 }

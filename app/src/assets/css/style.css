@@ -852,6 +852,21 @@ a:focus {
     padding: 20px;
 }
 
+.due-box .due-item .due-content .renew {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.due-box .due-item .due-content .renew .each-mbrshp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
 .due-box .due-right .due-item .due-content {
     max-height: 530px;
     overflow: auto;
