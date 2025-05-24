@@ -22,6 +22,7 @@ import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
 // import Donate from "../components/donate/Donate";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
+import Transaction from "../components/txn/Transaction";
 import { store } from "../redux/store";
 
 function Routes() {
@@ -177,6 +178,16 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             <div className="red--text text-center ptb-100">Redirecting...</div>
+          </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
+        path="/txn/:s"
+        render={(props) => (
+          <PageContainer>
+            <Transaction {...props} />
           </PageContainer>
         )}
       />
