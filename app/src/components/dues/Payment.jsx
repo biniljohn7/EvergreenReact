@@ -94,16 +94,9 @@ const PaymentSummary = (props) => {
             })
                 .then((res) => {
                     if (res.success === 1) {
-                        //       // window.location.href =  res.data.paymentUrl
-                        props.changeURL(
-                            res.data.paymentUrlForWebsite,
-                            {
-                                fromWebsite: true,
-                                referralCode: code,
-                            }
-                        );
+                        window.location.href =  res.data.paymentUrl;
                     } else {
-                        //       ToastsStore.error(res.message);
+                        ToastsStore.error(res.message);
                     }
                 })
                 //   .catch((err) => {
