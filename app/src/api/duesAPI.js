@@ -136,3 +136,12 @@ export const getExpiredMemberships = () => {
       return response.data;
     });
 };
+
+export const renewExpiredMembership = (body) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?method=renew-expired-membership`, body)
+    .then((response) => {
+      return response.data;
+    });
+};

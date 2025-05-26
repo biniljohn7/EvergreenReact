@@ -881,6 +881,37 @@ a:focus {
     display: block;
 }
 
+.renew-mdl .each-mbrshp {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.renew-mdl .container-sec {
+    width: 100%;
+    min-width: 420px;
+    margin: 0 auto;
+}
+
+.renew-mdl .summary {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.renew-mdl .ttl {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: 600;
+    border-top: 1px solid #ccc;
+    text-align: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    margin-bottom: 15px;
+}
+
 .referal-box .ref-box {
     max-width: 800px;
     margin: 0px auto;
@@ -2090,7 +2121,29 @@ a:focus {
 
 }
 
-@media only screen and (max-width:550px) {}
+@media only screen and (max-width:550px) {
+    .due-box .due-item .due-content .renew .each-mbrshp .chk-sec {
+        order: 2;
+    }
+
+    .due-box .due-item .due-content .renew .each-mbrshp .pln-nam {
+        order: 1;
+        width: 100%;
+        text-align: left;
+    }
+
+    .due-box .due-item .due-content .renew .each-mbrshp .pln-amt {
+        order: 3;
+    }
+
+    .renew-mdl .container-sec {
+        min-width: unset;
+    }
+
+    .renew-mdl .each-mbrshp {
+        display: block;
+    }
+}
 
 @media only screen and (max-width:480px) {
     .advo-box .adv-item {
