@@ -3,11 +3,8 @@ import Wrapper from "./dues.style";
 import Select from "react-select";
 import Input from "../../UI/input/input";
 import {
-  getMembershipType,
   getMembershipPlans,
   getInstallments,
-  getAttachment,
-  getMembership,
   duesSearchSections,
   duesSearchAffiliate,
 } from "../../api/duesAPI";
@@ -18,13 +15,10 @@ import { Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
 import { chooseMembership as enhancer } from "./enhancer";
-import Modal from "./Payment";
 import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
 import Pix from "../../helper/Pix";
-
 import "../../assets/css/style2.css";
-import MemberModal from "./ChooseMember";
 import { store } from "../../redux/store";
 import { MEMBERSHIP_FOR } from "../../helper/constant";
 import SelectMember from "./SelectMember";
@@ -44,7 +38,10 @@ function Membership(props) {
   const [ErrorList, setErrorList] = useState({});
   const [membData, setMembData] = useState({
     membershipPlan: "",
+    membershipPlanName: "",
+    membershipPlanCharge: "",
     installment: 1,
+    installmentName: "",
     section: "",
     affiliate: "",
     membshipFor: "",
@@ -52,6 +49,7 @@ function Membership(props) {
     affiliateLabel: "",
   });
   const [membId, setMembId] = useState([]);
+  const [membershipList, setMembershipList] = useState([]);
 
   const lgMbr = store.getState().auth.memberId;
   let mbrExist = false;
@@ -146,18 +144,25 @@ function Membership(props) {
     if (Object.keys(sErrs).length < 1) {
       // Spn.Show();
 
-      const formattedMembers = membId.map((id) => ({
-        memberId: parseInt(id),
+      const formattedMembers = {
+        memberIds: membId.map((id) => parseInt(id)),
         membershipPlan: membData.membershipPlan,
+        membershipPlanName: membData.membershipPlanName,
+        membershipPlanCharge: membData.membershipPlanCharge,
         installment: membData.installment,
+        installmentName: membData.installmentName,
         sectionId: membData.section,
-        affiliate: membData.affiliate,
-      }));
+        sectionName: membData.sectionLabel,
+        affiliateId: membData.affiliate,
+        affiliateName: membData.affiliateLabel,
+      };
 
-      // setShowForm(false);
-      console.log(formattedMembers);
+      setShowForm(false);
+      setMembershipList((prevList) => [...prevList, formattedMembers]);
     }
   };
+
+  console.log(membershipList);
 
   const sectionSuggestion = (e, type) => {
     const value = e.target.value;
@@ -227,27 +232,178 @@ function Membership(props) {
                 Dues
               </Link>
             </BreadcrumbItem>
-            <BreadcrumbItem active className="text-white">
+            <BreadcrumbItem
+              className="text-white"
+              onClick={() => setShowForm(false)}
+              active={!showForm}
+            >
               Memberships
             </BreadcrumbItem>
+            {showForm && (
+              <BreadcrumbItem active className="text-white">
+                Membership Form
+              </BreadcrumbItem>
+            )}
           </Breadcrumb>
         </div>
       </div>
       <div className="container">
         <div className="ptb-50">
           {!showForm && (
-            <div className="text-left">
-              <button
-                className="btn btn-rounded button plr-20 ptb-10"
-                type="button"
-                onClick={() => {
-                  setShowForm(true);
-                  setContent([]);
-                }}
-              >
-                ADD MEMBERSHIP
-              </button>
-            </div>
+            <>
+              <div className="text-left">
+                <button
+                  className="btn btn-rounded button plr-20 ptb-10"
+                  type="button"
+                  onClick={() => {
+                    setShowForm(true);
+                    setContent([]);
+                    setMembData([]);
+                    setSubDrop({});
+                    setIsGift(false);
+                  }}
+                >
+                  ADD MEMBERSHIP
+                </button>
+              </div>
+              <div className="order-summery">
+                <h4>Order Summery</h4>
+                <div className="order-box">
+                  <div className="order-itm">
+                    <div className="ordr-membship">Life Membership</div>
+                    <div className="ordr-sub">
+                      <div className="sec-aff">
+                        <div className="ord-sa sec">Alpha Beta Tau</div>
+                        <div className="ord-sa aff">
+                          Chi Eta Phi Sorority, Incorporated
+                        </div>
+                      </div>
+
+                      <div className="ord-members">
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Peter David</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Thomas Wade</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ord-inst">Quarterly Installments</div>
+                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
+                    </div>
+                  </div>
+                  <div className="order-itm">
+                    <div className="ordr-membship">Life Membership</div>
+                    <div className="ordr-sub">
+                      <div className="sec-aff">
+                        <div className="ord-sa sec">Alpha Beta Tau</div>
+                        <div className="ord-sa aff">
+                          Chi Eta Phi Sorority, Incorporated
+                        </div>
+                      </div>
+
+                      <div className="ord-members">
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Peter David</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Thomas Wade</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ord-inst">Quarterly Installments</div>
+                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
+                    </div>
+                  </div>
+                  <div className="order-itm">
+                    <div className="ordr-membship">Life Membership</div>
+                    <div className="ordr-sub">
+                      <div className="sec-aff">
+                        <div className="ord-sa sec">Alpha Beta Tau</div>
+                        <div className="ord-sa aff">
+                          Chi Eta Phi Sorority, Incorporated
+                        </div>
+                      </div>
+
+                      <div className="ord-members">
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Peter David</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="ech-mbr">
+                          <div className="info-sec">
+                            <div className="person-info">
+                              <div className="avatar-sec">
+                                <div className="no-img">
+                                  <span class="material-symbols-outlined icn">
+                                    person
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="mbr-nam">Thomas Wade</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="ord-inst">Quarterly Installments</div>
+                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
 
           {showForm && (
@@ -357,6 +513,10 @@ function Membership(props) {
                                 setMembData({
                                   ...membData,
                                   membershipPlan: selectedOp.membershipPlanId,
+                                  membershipPlanName:
+                                    selectedOp.membershipPlanName,
+                                  membershipPlanCharge:
+                                    selectedOp.membershipPlanCharge,
                                   installment: 1,
                                 });
 
@@ -435,6 +595,7 @@ function Membership(props) {
                                   setMembData({
                                     ...membData,
                                     installment: selectedOp.installment,
+                                    installmentName: selectedOp.title,
                                   });
                                 }}
                                 getOptionLabel={(op) => op.title}
