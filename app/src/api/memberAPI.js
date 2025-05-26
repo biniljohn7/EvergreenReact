@@ -154,3 +154,14 @@ export const membershipExp = () => {
             return response.data;
         });
 };
+export const memberTxn = (token) => {
+    setHeaders();
+    return axios
+        .post(
+            `${BASE_URL}/member/?method=txn-status`,
+            token
+        )
+        .then((response) => {
+            return response.data;
+        });
+};
