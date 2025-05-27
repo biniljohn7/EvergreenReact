@@ -7,6 +7,7 @@ import {
   getInstallments,
   duesSearchSections,
   duesSearchAffiliate,
+  addMembership,
 } from "../../api/duesAPI";
 import { connect } from "react-redux";
 import AuthActions from "../../redux/auth/actions";
@@ -41,18 +42,19 @@ function Membership(props) {
     membershipPlanName: "",
     membershipPlanCharge: "",
     installment: 1,
-    installmentName: "",
+    installmentName: "One-Time Payment",
     section: "",
     affiliate: "",
     membshipFor: "",
     sectionLabel: "",
     affiliateLabel: "",
   });
-  const [membId, setMembId] = useState([]);
+  const [membId, setMembId] = useState({});
   const [membershipList, setMembershipList] = useState([]);
 
   const lgMbr = store.getState().auth.memberId;
   let mbrExist = false;
+  let ttlAmt = 0;
 
   let Spn = Spinner();
   let Tst = Toast();
@@ -81,21 +83,22 @@ function Membership(props) {
 
   document.title = "Membership - " + window.seoTagLine;
 
-  const addMbr = (mbrId, mbrNam) => {
+  const addMbr = (mbrId, mbrNam, mbrAvatar) => {
     setMembId((prev) => {
-      const exstMbrIndx = prev.findIndex((member) => member === mbrId);
-
-      if (exstMbrIndx !== -1) {
+      if (prev[mbrId]) {
         mbrExist = true;
         return prev;
-      } else {
-        return [...new Set([...prev, mbrId])];
       }
+
+      return {
+        ...prev,
+        [mbrId]: [mbrNam, mbrAvatar],
+      };
     });
   };
 
   const handleAddContent = (person) => {
-    addMbr(person.id, person.name);
+    addMbr(person.id, person.name, person.avatarUrl);
     if (!mbrExist) {
       setContent([...content, person]);
     } else {
@@ -105,8 +108,13 @@ function Membership(props) {
   };
 
   const removeMbr = (mbrId) => {
-    setMembId((prev) => prev.filter((id) => id !== mbrId));
-    setContent(content.filter((cnt) => cnt.id !== mbrId));
+    setMembId((prev) => {
+      const updated = { ...prev };
+      delete updated[mbrId];
+      return updated;
+    });
+
+    setContent((prev) => prev.filter((cnt) => cnt.id !== mbrId));
   };
 
   const Error = ({ field }) => {
@@ -142,10 +150,12 @@ function Membership(props) {
 
     setErrorList(sErrs);
     if (Object.keys(sErrs).length < 1) {
-      // Spn.Show();
-
       const formattedMembers = {
-        memberIds: membId.map((id) => parseInt(id)),
+        memberIds: Object.entries(membId).map(([id, [name, avatar]]) => ({
+          id: parseInt(id),
+          name,
+          avatar,
+        })),
         membershipPlan: membData.membershipPlan,
         membershipPlanName: membData.membershipPlanName,
         membershipPlanCharge: membData.membershipPlanCharge,
@@ -161,8 +171,6 @@ function Membership(props) {
       setMembershipList((prevList) => [...prevList, formattedMembers]);
     }
   };
-
-  console.log(membershipList);
 
   const sectionSuggestion = (e, type) => {
     const value = e.target.value;
@@ -220,6 +228,38 @@ function Membership(props) {
     }
   };
 
+  const makePayment = () => {
+    if (membershipList.length > 0) {
+      Spn.Show();
+
+      const membershipData = {
+        members: membershipList.map((item) => ({
+          memberIds: item.memberIds.map((m) => m.id),
+          membershipPlan: item.membershipPlan,
+          installment: item.installment,
+          sectionId: item.sectionId,
+          affiliateId: item.affiliateId,
+        })),
+      };
+
+      addMembership(membershipData)
+        .then((res) => {
+          if (res.success === 1) {
+            console.log(22);
+          } else {
+            Tst.Error(res.message);
+          }
+        })
+        .catch((err) => {
+          Tst.Error("Something went wrong!");
+        })
+        .finally(() => {
+          Spn.Hide();
+        });
+      // console.log(membershipData);
+    }
+  };
+
   return (
     <Wrapper>
       {Spn.Obj}
@@ -267,141 +307,110 @@ function Membership(props) {
                 </button>
               </div>
               <div className="order-summery">
-                <h4>Order Summery</h4>
-                <div className="order-box">
-                  <div className="order-itm">
-                    <div className="ordr-membship">Life Membership</div>
-                    <div className="ordr-sub">
-                      <div className="sec-aff">
-                        <div className="ord-sa sec">Alpha Beta Tau</div>
-                        <div className="ord-sa aff">
-                          Chi Eta Phi Sorority, Incorporated
-                        </div>
-                      </div>
-
-                      <div className="ord-members">
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
+                {membershipList && membershipList.length > 0 && (
+                  <>
+                    <h4>Order Summery</h4>
+                    <div className="order-box">
+                      {membershipList.map((mbr) => {
+                        ttlAmt += parseFloat(mbr.membershipPlanCharge || 0);
+                        return (
+                          <div className="order-itm">
+                            <div className="ordr-membship">
+                              {mbr.membershipPlanName || ""}
+                            </div>
+                            <div className="ordr-sub">
+                              <div className="sec-aff">
+                                <div className="ord-sa sec">
+                                  {mbr.sectionName || ""}
+                                </div>
+                                <div className="ord-sa aff">
+                                  {mbr.affiliateName || ""}
                                 </div>
                               </div>
-                              <div className="mbr-nam">Peter David</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
+                              {mbr.memberIds.filter(
+                                (member) => member.id !== lgMbr
+                              ).length > 0 && (
+                                <>
+                                  <div className="ord-gift">Gift to</div>
+                                  <div className="ord-members">
+                                    {mbr.memberIds
+                                      .filter((member) => member.id !== lgMbr)
+                                      .map((member, index) => (
+                                        <div className="ech-mbr" key={index}>
+                                          <div className="info-sec">
+                                            <div className="person-info">
+                                              <div className="avatar-sec">
+                                                {member.avatar ? (
+                                                  <div className="mbr-img">
+                                                    <img
+                                                      src={member.avatar}
+                                                      alt=""
+                                                    />
+                                                  </div>
+                                                ) : (
+                                                  <div className="no-img">
+                                                    <span className="material-symbols-outlined icn">
+                                                      person
+                                                    </span>
+                                                  </div>
+                                                )}
+                                              </div>
+                                              <div className="mbr-nam">
+                                                {member.name || ""}
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </>
+                              )}
+                              <div className="ord-amnt-sec">
+                                <div className="sec-lf">
+                                  <span className="act-btn edt">EDIT</span>
+                                  <span className="act-btn dlt">REMOVE</span>
+                                </div>
+                                <div className="sec-rg">
+                                  <div className="amnt-sec">
+                                    <div className="sec-label">Installment</div>
+                                    <div className="sec-value">
+                                      {mbr.installmentName || ""}
+                                    </div>
+                                  </div>
+                                  <div className="amnt-sec">
+                                    <div className="sec-label">
+                                      Total Charge
+                                    </div>
+                                    <div className="sec-value amnt">
+                                      {Pix.dollar(
+                                        mbr.membershipPlanCharge || 0,
+                                        1
+                                      )}
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
-                              <div className="mbr-nam">Thomas Wade</div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                      <div className="ord-inst">Quarterly Installments</div>
-                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
+                        );
+                      })}
                     </div>
-                  </div>
-                  <div className="order-itm">
-                    <div className="ordr-membship">Life Membership</div>
-                    <div className="ordr-sub">
-                      <div className="sec-aff">
-                        <div className="ord-sa sec">Alpha Beta Tau</div>
-                        <div className="ord-sa aff">
-                          Chi Eta Phi Sorority, Incorporated
-                        </div>
+                    <div className="order-ttl-charge">
+                      <div className="ttl-left">
+                        <span className="lf-lbl">Total Amount</span>
+                        <span className="lf-amnt">{Pix.dollar(ttlAmt, 1)}</span>
                       </div>
-
-                      <div className="ord-members">
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mbr-nam">Peter David</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mbr-nam">Thomas Wade</div>
-                            </div>
-                          </div>
-                        </div>
+                      <div className="ttl-right">
+                        <button
+                          className="btn button"
+                          onClick={(e) => makePayment(e)}
+                        >
+                          Make Payment
+                        </button>
                       </div>
-                      <div className="ord-inst">Quarterly Installments</div>
-                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
                     </div>
-                  </div>
-                  <div className="order-itm">
-                    <div className="ordr-membship">Life Membership</div>
-                    <div className="ordr-sub">
-                      <div className="sec-aff">
-                        <div className="ord-sa sec">Alpha Beta Tau</div>
-                        <div className="ord-sa aff">
-                          Chi Eta Phi Sorority, Incorporated
-                        </div>
-                      </div>
-
-                      <div className="ord-members">
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mbr-nam">Peter David</div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="ech-mbr">
-                          <div className="info-sec">
-                            <div className="person-info">
-                              <div className="avatar-sec">
-                                <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
-                                    person
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="mbr-nam">Thomas Wade</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="ord-inst">Quarterly Installments</div>
-                      <div className="ord-amnt">{Pix.dollar(1000)}</div>
-                    </div>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
             </>
           )}
@@ -518,6 +527,7 @@ function Membership(props) {
                                   membershipPlanCharge:
                                     selectedOp.membershipPlanCharge,
                                   installment: 1,
+                                  installmentName: "One-Time Payment",
                                 });
 
                                 getInstallments(selectedOp.membershipPlanId)
@@ -554,12 +564,7 @@ function Membership(props) {
                                 setMembId([]);
                                 setContent([]);
                               } else {
-                                if (!membId.includes(lgMbr)) {
-                                  setMembId((prev) => [...prev, lgMbr]);
-                                  setMembId((prev) =>
-                                    prev.filter((id) => id == lgMbr)
-                                  );
-                                }
+                                setMembId({ [lgMbr]: ["myself", ""] });
                                 setIsGift(false);
                               }
 

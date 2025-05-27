@@ -211,7 +211,7 @@ const Wrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     max-width: none;
-    margin: 0px -5px;
+    margin: 0px -5px 15px;
   }
 
   .ord-members .ech-mbr {
@@ -260,6 +260,113 @@ const Wrapper = styled.div`
   .ech-mbr .mbr-nam {
     margin-left: 10px;
     font-size: 0.9em;
+  }
+
+  .order-summery .order-box .order-itm .ord-gift {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    color: #947f98;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec {
+    position: relative;
+    border-top: 1px dashed #e7e7e7;
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .sec-lf {
+    padding-right: 15px;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .sec-rg {
+    flex: 0 1 400px;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .sec-lf .act-btn {
+    padding: 2px 15px;
+    border: 1px solid;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8em;
+  }
+
+  .order-summery
+    .order-box
+    .order-itm
+    .ord-amnt-sec
+    .sec-lf
+    .act-btn.edt:hover {
+    border-color: #0e6acc;
+    color: #0e6acc;
+  }
+
+  .order-summery
+    .order-box
+    .order-itm
+    .ord-amnt-sec
+    .sec-lf
+    .act-btn.dlt:hover {
+    border-color: #d60000;
+    color: #d60000;
+  }
+
+  .order-summery
+    .order-box
+    .order-itm
+    .ord-amnt-sec
+    .sec-lf
+    .act-btn:first-child {
+    margin-right: 10px;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+    // margin-left: auto;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec + .amnt-sec {
+    padding-top: 10px;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec .sec-label {
+    font-size: 0.9em;
+    flex: 0 1 200px;
+    color: #947f98;
+  }
+
+  .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec .amnt {
+    font-size: 1.2em;
+    font-weight: 500;
+  }
+
+  .order-summery .order-ttl-charge {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+    align-items: flex-end;
+    max-width: 445px;
+    margin-left: auto;
+  }
+
+  .order-summery .order-ttl-charge .ttl-left {
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+  }
+
+  .order-summery .order-ttl-charge .ttl-left .lf-lbl {
+    font-size: 0.9em;
+  }
+
+  .order-summery .order-ttl-charge .ttl-left .lf-amnt {
+    font-size: 1.5em;
+    font-weight: 600;
   }
 
   @media only screen and (max-width: 839px) {
