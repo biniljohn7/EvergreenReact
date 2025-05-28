@@ -303,6 +303,17 @@ export const NEWS_LOCATION = [
   },
 ];
 
+export const MEMBERSHIP_FOR = [
+  {
+    label: "Myself",
+    value: "myself",
+  },
+  {
+    label: "Gift to Other",
+    value: "gift",
+  },
+];
+
 // export const DONATE_SPACIFICATIONS = [
 //   {
 //     label: "In Honor Of",
