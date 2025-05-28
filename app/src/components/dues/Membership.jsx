@@ -245,7 +245,11 @@ function Membership(props) {
       addMembership(membershipData)
         .then((res) => {
           if (res.success === 1) {
-            console.log(22);
+            if (res.data && res.data.paymentUrl) {
+              window.location.href = res.data.paymentUrl;
+            } else {
+              Tst.Error("Something went wrong!");
+            }
           } else {
             Tst.Error(res.message);
           }

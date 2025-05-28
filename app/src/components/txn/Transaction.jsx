@@ -15,7 +15,7 @@ const Transaction = () => {
       memberTxn(payload)
         .then((res) => {
           if (res.success === 1) {
-            setShwStatus(res.data.status);
+            setShwStatus(res.data.payStatus);
             setLoading(false);
           } else {
             ToastsStore.error(res.message);
