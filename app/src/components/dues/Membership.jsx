@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Wrapper from "./dues.style";
 import Select from "react-select";
+import Switch from "react-switch";
 import Input from "../../UI/input/input";
 import {
   getMembershipPlans,
@@ -28,6 +29,7 @@ const { logout } = AuthActions;
 
 function Membership(props) {
   const [showForm, setShowForm] = useState(false);
+  // const [isEdited, setIsEdited] = useState(false);
   const [dropdown, setDropdown] = useState(null);
   const [secSuggestions, setSecSuggestions] = useState([]);
   const [affSuggestions, setAffSuggestions] = useState([]);
@@ -260,9 +262,72 @@ function Membership(props) {
         .finally(() => {
           Spn.Hide();
         });
-      // console.log(membershipData);
+      console.log(membershipData);
     }
   };
+
+  const removeMembship = (e, key) => {
+    setMembershipList((prevList) =>
+      prevList.filter((_, index) => index !== key)
+    );
+  };
+
+  const editMembship = (iKey) => {
+    let membFor = "",
+      users = membershipList[iKey].memberIds;
+
+    if (users.filter((m) => m.id !== lgMbr).length > 0) {
+      membFor = "gift";
+
+      const exMemb = users.reduce((acc, curr) => {
+        acc[curr.id] = [curr.name, curr.avatar];
+        return acc;
+      }, {});
+
+      setMembId(exMemb);
+      setIsGift(true);
+      /* Stopped here, setting value in setContent is pending  */
+    } else {
+      membFor = "myself";
+      setMembId({ [lgMbr]: ["myself", ""] });
+      setIsGift(false);
+    }
+
+    const modData = {
+      membershipPlan: membershipList[iKey].membershipPlan,
+      membershipPlanName: membershipList[iKey].membershipPlanName,
+      membershipPlanCharge: membershipList[iKey].membershipPlanCharge,
+      installment: membershipList[iKey].installment,
+      installmentName: membershipList[iKey].installmentName,
+      section: membershipList[iKey].sectionId,
+      sectionLabel: membershipList[iKey].sectionName,
+      affiliate: membershipList[iKey].affiliateId,
+      affiliateLabel: membershipList[iKey].affiliateName,
+      membshipFor: membFor,
+    };
+
+    setMembData(modData);
+    setShowForm(true);
+    // setIsEdited(true);
+
+    getInstallments(membershipList[iKey].membershipPlan)
+      .then((res) => {
+        setSubDrop((prevDrpItems) => ({
+          ...prevDrpItems,
+          [lgMbr]: {
+            items: res.data || [],
+          },
+        }));
+      })
+      .catch((err) => {})
+      .finally(() => {
+        Spn.Hide();
+      });
+  };
+  console.log(
+    // membData,
+    membId
+  );
 
   return (
     <Wrapper>
@@ -315,10 +380,10 @@ function Membership(props) {
                   <>
                     <h4>Order Summery</h4>
                     <div className="order-box">
-                      {membershipList.map((mbr) => {
+                      {membershipList.map((mbr, key) => {
                         ttlAmt += parseFloat(mbr.membershipPlanCharge || 0);
                         return (
-                          <div className="order-itm">
+                          <div className="order-itm" key={key}>
                             <div className="ordr-membship">
                               {mbr.membershipPlanName || ""}
                             </div>
@@ -371,8 +436,26 @@ function Membership(props) {
                               )}
                               <div className="ord-amnt-sec">
                                 <div className="sec-lf">
-                                  <span className="act-btn edt">EDIT</span>
-                                  <span className="act-btn dlt">REMOVE</span>
+                                  <span
+                                    className="act-btn edt"
+                                    onClick={() => editMembship(key)}
+                                  >
+                                    EDIT
+                                  </span>
+                                  <span
+                                    className="act-btn dlt"
+                                    onClick={(e) => {
+                                      if (
+                                        window.confirm(
+                                          "Are you sure to remove this membership?"
+                                        )
+                                      ) {
+                                        removeMembship(e, key);
+                                      }
+                                    }}
+                                  >
+                                    REMOVE
+                                  </span>
                                 </div>
                                 <div className="sec-rg">
                                   <div className="amnt-sec">
@@ -551,6 +634,13 @@ function Membership(props) {
                             }}
                             getOptionLabel={(op) => op.membershipPlanName}
                             getOptionValue={(op) => op}
+                            value={
+                              dropdown.find(
+                                (op) =>
+                                  op.membershipPlanId ===
+                                  membData.membershipPlan
+                              ) || null
+                            }
                           />
                           <Error field="plan" />
                         </div>
@@ -562,6 +652,11 @@ function Membership(props) {
                             id="membshipFor"
                             placeholder="Select the option"
                             options={MEMBERSHIP_FOR}
+                            value={
+                              MEMBERSHIP_FOR.find(
+                                (op) => op.value === membData.membshipFor
+                              ) || null
+                            }
                             onChange={(selectedOp) => {
                               if (selectedOp.value == "gift") {
                                 setIsGift(true);
