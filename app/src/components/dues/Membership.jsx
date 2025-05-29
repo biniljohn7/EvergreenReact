@@ -29,7 +29,7 @@ const { logout } = AuthActions;
 
 function Membership(props) {
   const [showForm, setShowForm] = useState(false);
-  // const [isEdited, setIsEdited] = useState(false);
+  const [isEdited, setIsEdited] = useState(null);
   const [dropdown, setDropdown] = useState(null);
   const [secSuggestions, setSecSuggestions] = useState([]);
   const [affSuggestions, setAffSuggestions] = useState([]);
@@ -168,9 +168,18 @@ function Membership(props) {
         affiliateId: membData.affiliate,
         affiliateName: membData.affiliateLabel,
       };
-
       setShowForm(false);
-      setMembershipList((prevList) => [...prevList, formattedMembers]);
+
+      if (typeof isEdited === "number" && isEdited !== null && isEdited >= 0) {
+        setMembershipList((prevList) => {
+          const updatedList = [...prevList];
+          updatedList[isEdited] = formattedMembers;
+          return updatedList;
+        });
+        setIsEdited(null);
+      } else {
+        setMembershipList((prevList) => [...prevList, formattedMembers]);
+      }
     }
   };
 
@@ -262,7 +271,6 @@ function Membership(props) {
         .finally(() => {
           Spn.Hide();
         });
-      console.log(membershipData);
     }
   };
 
@@ -285,12 +293,13 @@ function Membership(props) {
       }, {});
 
       setMembId(exMemb);
+      setContent(users);
       setIsGift(true);
-      /* Stopped here, setting value in setContent is pending  */
     } else {
       membFor = "myself";
       setMembId({ [lgMbr]: ["myself", ""] });
       setIsGift(false);
+      setContent([]);
     }
 
     const modData = {
@@ -308,7 +317,7 @@ function Membership(props) {
 
     setMembData(modData);
     setShowForm(true);
-    // setIsEdited(true);
+    setIsEdited(iKey);
 
     getInstallments(membershipList[iKey].membershipPlan)
       .then((res) => {
@@ -324,10 +333,6 @@ function Membership(props) {
         Spn.Hide();
       });
   };
-  console.log(
-    // membData,
-    membId
-  );
 
   return (
     <Wrapper>
@@ -342,7 +347,7 @@ function Membership(props) {
               </Link>
             </BreadcrumbItem>
             <BreadcrumbItem
-              className="text-white"
+              className="text-white brdcrb-cursor"
               onClick={() => setShowForm(false)}
               active={!showForm}
             >
@@ -381,7 +386,9 @@ function Membership(props) {
                     <h4>Order Summery</h4>
                     <div className="order-box">
                       {membershipList.map((mbr, key) => {
-                        ttlAmt += parseFloat(mbr.membershipPlanCharge || 0);
+                        ttlAmt += parseFloat(
+                          mbr.membershipPlanCharge / mbr.installment || 0
+                        );
                         return (
                           <div className="order-itm" key={key}>
                             <div className="ordr-membship">
@@ -470,7 +477,8 @@ function Membership(props) {
                                     </div>
                                     <div className="sec-value amnt">
                                       {Pix.dollar(
-                                        mbr.membershipPlanCharge || 0,
+                                        mbr.membershipPlanCharge /
+                                          mbr.installment || 0,
                                         1
                                       )}
                                     </div>
@@ -519,6 +527,7 @@ function Membership(props) {
                             fontSize={"fs-16 text-dark"}
                             contentFontSize="fs-14"
                             type="text"
+                            autocomplete="off"
                             value={membData.sectionLabel || ""}
                             onChange={(e) => sectionSuggestion(e, "section")}
                             onBlur={() => {
@@ -560,6 +569,7 @@ function Membership(props) {
                             fontSize={"fs-16 text-dark"}
                             contentFontSize="fs-14"
                             type="text"
+                            autocomplete="off"
                             value={membData.affiliateLabel || ""}
                             onChange={(e) => sectionSuggestion(e, "affiliate")}
                             onBlur={() => {

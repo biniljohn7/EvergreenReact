@@ -23,6 +23,7 @@ const input = (props) => {
         onBlur={props.onBlur}
         value={props.value}
         style={props.style}
+        autocomplete={props.autocomplete}
         className={[
           "inputmain pa-10",
           props.contentFontSize,

@@ -340,6 +340,10 @@ const Wrapper = styled.div`
     color: #947f98;
   }
 
+  .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec .sec-value {
+    text-align: right;
+  }
+
   .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec .amnt {
     font-size: 1.2em;
     font-weight: 500;
@@ -369,6 +373,16 @@ const Wrapper = styled.div`
     font-weight: 600;
   }
 
+  .brdcrb-cursor {
+    cursor: pointer;
+  }
+
+  @media only screen and (max-width: 1260px) {
+    .ord-members .ech-mbr {
+      width: calc(25% - 10px);
+    }
+  }
+
   @media only screen and (max-width: 839px) {
     .form-row {
       flex-direction: column;
@@ -387,6 +401,41 @@ const Wrapper = styled.div`
     }
   }
 
+  @media only screen and (max-width: 768px) {
+    .ord-members .ech-mbr {
+      width: calc(33.33% - 10px);
+    }
+
+    .order-summery .order-box {
+      padding: 20px;
+    }
+  }
+
+  @media only screen and (max-width: 609px) {
+    .ord-members .ech-mbr {
+      width: calc(50% - 10px);
+    }
+  }
+
+  @media only screen and (max-width: 570px) {
+    .order-summery .order-box .order-itm .ord-amnt-sec {
+      flex-direction: column-reverse;
+      align-items: normal;
+    }
+
+    .order-summery .order-box .order-itm .ord-amnt-sec .sec-lf {
+      padding-top: 20px;
+    }
+
+    .order-summery .order-box .order-itm .ord-amnt-sec .sec-rg {
+      flex: none;
+    }
+
+    .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec {
+      max-width: 100%;
+    }
+  }
+
   @media only screen and (max-width: 425px) {
     .gift-membership #selectedMembers {
       flex-direction: column;
@@ -395,6 +444,37 @@ const Wrapper = styled.div`
     .gift-membership #selectedMembers .ech-mbr {
       margin: 0px 5px 10px;
       width: auto;
+    }
+
+    .ord-members .ech-mbr {
+      width: calc(100% - 10px);
+    }
+
+    .order-summery .order-box .order-itm .ordr-sub {
+      margin-left: 0px;
+    }
+  }
+
+  @media only screen and (max-width: 375px) {
+    .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec {
+      display: block;
+    }
+
+    .order-summery .order-box .order-itm .ord-amnt-sec .amnt-sec .sec-value {
+      text-align: left;
+    }
+
+    .order-summery .order-ttl-charge {
+      flex-direction: column;
+      align-items: normal;
+    }
+
+    .order-summery .order-ttl-charge .ttl-left {
+      margin-bottom: 15px;
+    }
+
+    .order-summery .order-ttl-charge .ttl-right .btn {
+      border-radius: 10px;
     }
   }
 `;
