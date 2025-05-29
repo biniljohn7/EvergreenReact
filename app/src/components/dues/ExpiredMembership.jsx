@@ -55,16 +55,23 @@ const ExpiredMembership = () => {
         renewExpiredMembership(
             selectedMships
         )
-            .then((res) => {
-                if (res.success === 1) {
-                    //  code for renew success here
-                } else { }
-            })
-            .catch((err) => {
-                //
-            }).finally(() => {
-                Spn.Hide();
-            });
+        .then((res) => {
+          if (res.success === 1) {
+            if (res.data && res.data.paymentUrl) {
+              window.location.href = res.data.paymentUrl;
+            } else {
+              Tst.Error("Something went wrong!");
+            }
+          } else {
+            Tst.Error(res.message);
+          }
+        })
+        .catch((err) => {
+          Tst.Error("Something went wrong!");
+        })
+        .finally(() => {
+          Spn.Hide();
+        });
     }
 
     let insTxt = { 1: '1st', 2: '2nd', 3: '3rd', 4: '4th' };
