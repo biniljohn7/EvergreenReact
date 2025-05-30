@@ -645,11 +645,13 @@ function Membership(props) {
                             getOptionLabel={(op) => op.membershipPlanName}
                             getOptionValue={(op) => op}
                             value={
-                              dropdown.find(
-                                (op) =>
-                                  op.membershipPlanId ===
-                                  membData.membershipPlan
-                              ) || null
+                              Array.isArray(dropdown) && membData.membershipPlan
+                                ? dropdown.find(
+                                    (op) =>
+                                      op.membershipPlanId ===
+                                      Number(membData.membershipPlan)
+                                  ) || null
+                                : null
                             }
                           />
                           <Error field="plan" />
