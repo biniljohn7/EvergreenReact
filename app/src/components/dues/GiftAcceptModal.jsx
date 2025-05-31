@@ -13,24 +13,30 @@ const GiftAcceptModal = (props) => {
         className="decline-modal"
       >
         <Wrapper>
-          {props.data.current ? (
-            <div className="self-alert-modal">
-              <h5>ACCEPT YOUR GIFT.</h5>
-              <hr />
-              <p>
-                The <strong>{props.data.new}</strong> gifted to you by{" "}
-                <strong>{props.data.gifted}</strong> with a validity of{" "}
-                <strong>{props.data.validity}</strong>.
-              </p>
-              <p>
-                You can apply the membership now or after expiring the current
-                plan.
-              </p>
-              <p>
-                <button type="button apply-now">Apply now</button>
-                <button type="button apply-later">apply after expiry</button>
-              </p>
-              {/* {props.data.plan === 'high' && (
+          {/* {props.data.current ? ( */}
+          <div className="self-alert-modal">
+            <h5>ACCEPT YOUR GIFT.</h5>
+            <hr />
+            <p>
+              The <strong>{props.data.new}</strong> gifted to you by{" "}
+              <strong>{props.data.gifted}</strong> with a validity of{" "}
+              <strong>{props.data.validity}</strong> is added to your account.
+            </p>
+            {/* <p>
+              You can apply the membership now or after expiring the current
+              plan.
+            </p> */}
+            <p>
+              <button
+                type="button"
+                onClick={() => props.closeAccModal(props.data.giftid)}
+              >
+                Apply now
+              </button>
+              {/* <button type="button apply-now">Apply now</button> */}
+              {/* <button type="button apply-later">apply after expiry</button> */}
+            </p>
+            {/* {props.data.plan === 'high' && (
                             <>
                                 <p>The <strong>{props.data.new}</strong> gifted to you by <strong>{props.data.gifted}</strong> with a validity of <strong>{props.data.validity}</strong> has a higher value than your current membership plan.</p>
                                 <p>You can apply the membership now or after expiring the current plan.</p>
@@ -41,7 +47,7 @@ const GiftAcceptModal = (props) => {
                             </>
                             
                             )} */}
-              {/* { props.data.plan === 'low' && (
+            {/* { props.data.plan === 'low' && (
                                 <>
                                     <p>The <strong>{props.data.new}</strong> gifted to you by <strong>{props.data.gifted}</strong> with a validity of <strong>{props.data.validity}</strong> has a lower value than your current membership plan.</p>
                                     <p>You can apply the membership now or after expiring the current plan.</p>
@@ -51,26 +57,26 @@ const GiftAcceptModal = (props) => {
                                     </p>
                                 </>
                             )} */}
-            </div>
-          ) : (
-            <div className="self-alert-modal">
-              <h5>GIFT ACCEPTED.</h5>
-              <hr />
-              <p>
-                The <strong>{props.data.new}</strong> gifted to you by{" "}
-                <strong>{props.data.gifted}</strong> with a validity of{" "}
-                <strong>{props.data.validity}</strong> is added to your account.
-              </p>
-              <p>
-                <button
-                  type="button"
-                  onClick={() => props.closeAccModal(props.data.giftid)}
-                >
-                  OK
-                </button>
-              </p>
-            </div>
-          )}
+          </div>
+          {/* ) : ( */}
+          {/* <div className="self-alert-modal">
+            <h5>GIFT ACCEPTED.</h5>
+            <hr />
+            <p>
+              The <strong>{props.data.new}</strong> gifted to you by{" "}
+              <strong>{props.data.gifted}</strong> with a validity of{" "}
+              <strong>{props.data.validity}</strong> is added to your account.
+            </p>
+            <p>
+              <button
+                type="button"
+                onClick={() => props.closeAccModal(props.data.giftid)}
+              >
+                OK
+              </button>
+            </p>
+          </div> */}
+          {/* )} */}
         </Wrapper>
       </Modal>
     </>

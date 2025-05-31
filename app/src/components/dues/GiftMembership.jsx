@@ -8,7 +8,11 @@ import AcceptModal from "./GiftAcceptModal";
 import Wrapper from "./dues.style";
 import Toast from "../../UI/Toast/Toast";
 import { store } from "../../redux/store";
-import { getRecievedMemberships } from "../../api/duesAPI";
+import {
+  getRecievedMemberships,
+  getGiftedMemberships,
+  giftAcceptedApi,
+} from "../../api/duesAPI";
 
 const GiftMembership = () => {
   const Tst = Toast();
@@ -38,7 +42,23 @@ const GiftMembership = () => {
     setGiftAccept(true);
     setGiftData(data);
   };
-  const closeAcceptModal = () => {
+  const closeAcceptModal = (id) => {
+    giftAcceptedApi({ id: id })
+      .then((res) => {
+        if (res.status === "ok") {
+          setAllGift((prevGiftData) =>
+            prevGiftData.map((gift) =>
+              gift.id === id ? { ...gift, accepted: "Y" } : gift
+            )
+          );
+        }
+      })
+      .catch((err) => {
+        Tst.Error(
+          "Failed to retrieve received membership list. Please try again later!"
+        );
+      });
+
     setGiftAccept(false);
     setGiftData(null);
   };
@@ -50,67 +70,27 @@ const GiftMembership = () => {
   useEffect(() => {
     getRecievedMemberships(lgMbr)
       .then((res) => {
-        // setSectionList([...res.data]);
+        setAllGift([...res.data]);
       })
       .catch((err) => {
         Tst.Error(
           "Failed to retrive recieved membership list. Please try again later!"
         );
       });
+    getGiftedMemberships(lgMbr)
+      .then((res) => {
+        setAllGifted([...res.data]);
+      })
+      .catch((err) => {
+        Tst.Error(
+          "Failed to retrive gifted membership list. Please try again later!"
+        );
+      });
   }, []);
 
-  const [giftData, setAllGift] = useState([
-    {
-      id: 0,
-      validity: "1 year",
-      gifter: "Basil",
-      price: 1000,
-      plans: "Legacy life membership",
-      status: "low",
-      have: false,
-      date: "September 15, 2023",
-    },
-    {
-      id: 1,
-      validity: "Lifelong",
-      gifter: "Hari",
-      price: 600,
-      plans: "Life Membership",
-      status: false,
-      have: false,
-      date: "August 4, 2023",
-    },
-    {
-      id: 2,
-      validity: "6 Months",
-      gifter: "Basil",
-      price: 1000,
-      plans: "Associate membership",
-      status: false,
-      have: false,
-      date: "September 13, 2023",
-    },
-    {
-      id: 3,
-      validity: "Lifelong",
-      gifter: "Saji",
-      price: 600,
-      plans: "Associate membership",
-      status: "low",
-      have: true,
-      date: "July 13, 2023",
-    },
-    {
-      id: 4,
-      validity: "1 year",
-      gifter: "Hari",
-      price: 700,
-      plans: "Regular Membership",
-      status: false,
-      have: true,
-      date: "September 1, 2024",
-    },
-  ]);
+  const [giftData, setAllGift] = useState([]);
+  const [giftedData, setAllGifted] = useState([]);
+
   return (
     <>
       <div className="container all-gifts">
@@ -141,7 +121,7 @@ const GiftMembership = () => {
               giftData.map((data) => {
                 return (
                   <>
-                    <div className="gift-wrapper">
+                    <div className="gift-wrapper" key={data.id}>
                       <div className="gift-media">
                         {<img src={Gift} alt="gift" />}
                         <span className="gift-validity">{data.validity}</span>
@@ -160,27 +140,43 @@ const GiftMembership = () => {
                           </p>
                         </div>
                         <div className="btn-container">
-                          <button
-                            className="gift-accept-btn"
-                            onClick={() =>
-                              openAcceptModal({
-                                giftid: data.id,
-                                current: data.have,
-                                new: data.plans,
-                                validity: data.validity,
-                                plan: data.status,
-                                gifted: data.gifter,
-                              })
-                            }
-                          >
-                            Accept
-                          </button>
-                          <button
-                            className="gift-decline-btn"
-                            onClick={() => openDeclineModal({ id: data.id })}
-                          >
-                            Decline
-                          </button>
+                          {data.accepted != "N" && data.accepted != "Y" ? (
+                            <>
+                              <button
+                                className="gift-accept-btn"
+                                onClick={() =>
+                                  openAcceptModal({
+                                    giftid: data.id,
+                                    // current: data.have,
+                                    new: data.plans,
+                                    validity: data.validity,
+                                    // plan: data.status,
+                                    gifted: data.gifter,
+                                  })
+                                }
+                              >
+                                Accept
+                              </button>
+                              <button
+                                className="gift-decline-btn"
+                                onClick={() =>
+                                  openDeclineModal({ id: data.id })
+                                }
+                              >
+                                Decline
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <div className="rcv-sts">
+                                {data.accepted == "Y" ? (
+                                  <>You accepted the offering.</>
+                                ) : (
+                                  <>You declined to recieve the gift.</>
+                                )}
+                              </div>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -253,59 +249,83 @@ const GiftMembership = () => {
           style={{ display: isGftdOpn ? "block" : "none" }}
         >
           <div className="gift-container">
-            <div className="gift-wrapper">
-              <div className="gift-media gifted-media">
-                {<img src={Gifted} alt="gift" />}
-                <span className="gift-validity">1 Year</span>
-              </div>
-              <div className="gift-content">
-                <div className="gift-above-btn">
-                  <p>
-                    <span className="gift-note">Accepted</span>
-                  </p>
-                  <p>
-                    <strong>The regular membership</strong>
-                  </p>
-                  <p className="gift-worth">
-                    <span>worth $600</span> that you gifted was accepted by{" "}
-                    <strong>John Doe</strong> on January 18, 2025{" "}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="gift-wrapper">
-              <div className="gift-media gifted-media">
-                {<img src={Gifted} alt="gift" />}
-                <span className="gift-validity">1 Year</span>
-              </div>
-              <div className="gift-content">
-                <div className="gift-above-btn">
-                  <p>
-                    <span className="gift-note">Declined</span>
-                  </p>
-                  <p>
-                    <strong>The regular membership</strong>
-                  </p>
-                  <p className="gift-worth">
-                    <span>worth $600</span> that you gifted has been declined by{" "}
-                    <strong>John Doe</strong> on January 18, 2025{" "}
-                  </p>
-                </div>
-                <div className="btn-container">
-                  <button
-                    type="button"
-                    className="gift-accept-btn"
-                    onClick={(e) => setCfmOpn(true)}
-                  >
-                    Make it your's
-                  </button>
-                  <button type="button" className="gift-accept-btn">
-                    Gift to someone
-                  </button>
-                </div>
-              </div>
-            </div>
-
+            {giftedData &&
+              giftedData.map((data) => {
+                return (
+                  <>
+                    <div className="gift-wrapper" key={data.id}>
+                      <div className="gift-media gifted-media">
+                        {<img src={Gifted} alt="gift" />}
+                        <span className="gift-validity">{data.validity}</span>
+                      </div>
+                      <div className="gift-content">
+                        <div className="gift-above-btn">
+                          {data.accepted != "Y" && data.accepted != "N" ? (
+                            <>
+                              <p>
+                                <span className="gift-note">Pending</span>
+                              </p>
+                              <p>
+                                <strong>{data.plans}</strong>
+                              </p>
+                              <p className="gift-worth">
+                                A <span>${data.price}</span> gift was gifted to{" "}
+                                <strong>{data.gifted}</strong> on {data.date}
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              {data.accepted == "N" ? (
+                                <>
+                                  <p>
+                                    <span className="gift-note">Declined</span>
+                                  </p>
+                                  <p>
+                                    <strong>{data.plans}</strong>
+                                  </p>
+                                  <p className="gift-worth">
+                                    <span>worth ${data.price}</span> that you
+                                    gifted has been declined by{" "}
+                                    <strong>{data.gifted}</strong> on{" "}
+                                    {data.date}
+                                  </p>
+                                </>
+                              ) : (
+                                <>
+                                  <p>
+                                    <span className="gift-note">Accepted</span>
+                                  </p>
+                                  <p>
+                                    <strong>{data.plans}</strong>
+                                  </p>
+                                  <p className="gift-worth">
+                                    <span>worth ${data.price}</span> that you
+                                    gifted was accepted by{" "}
+                                    <strong>{data.gifted}</strong> on{" "}
+                                    {data.date}{" "}
+                                  </p>
+                                </>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        {/* <div className="btn-container">
+                          <button
+                            type="button"
+                            className="gift-accept-btn"
+                            onClick={(e) => setCfmOpn(true)}
+                          >
+                            Make it your's
+                          </button>
+                          <button type="button" className="gift-accept-btn">
+                            Gift to someone
+                          </button>
+                        </div> */}
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
             {/* <div className="no-content">No memberships gifted!</div> */}
           </div>
         </div>

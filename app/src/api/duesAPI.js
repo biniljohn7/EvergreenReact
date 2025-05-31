@@ -45,6 +45,24 @@ export const getRecievedMemberships = (id) => {
     });
 };
 
+export const getGiftedMemberships = (id) => {
+  setHeaders();
+  return axios
+    .get(`${BASE_URL}/member/?method=dues-gifted-memberships&id=${id}`)
+    .then((response) => {
+      return response.data;
+    });
+};
+
+export const giftAcceptedApi = (body) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?method=gift-accepted`, body)
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const getAttachment = (id) => {
   setHeaders();
   return axios

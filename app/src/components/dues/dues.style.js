@@ -377,6 +377,10 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
 
+  .rcv-sts {
+    color: #925da1;
+  }
+
   @media only screen and (max-width: 1260px) {
     .ord-members .ech-mbr {
       width: calc(25% - 10px);
