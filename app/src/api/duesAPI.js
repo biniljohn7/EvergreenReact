@@ -63,6 +63,15 @@ export const giftAcceptedApi = (body) => {
     });
 };
 
+export const giftDeclineApi = (body) => {
+  setHeaders();
+  return axios
+    .post(`${BASE_URL}/member/?method=gift-declined`, body)
+    .then((response) => {
+      return response.data;
+    });
+};
+
 export const getAttachment = (id) => {
   setHeaders();
   return axios

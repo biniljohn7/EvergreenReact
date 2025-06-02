@@ -62,6 +62,15 @@ const GiftMembership = () => {
     setGiftAccept(false);
     setGiftData(null);
   };
+  const closeDeclineModal = (id) => {
+    if (id) {
+      setAllGift((prevData) =>
+        prevData.map((gift) =>
+          gift.id === id ? { ...gift, accepted: "N" } : gift
+        )
+      );
+    }
+  };
   const openDeclineModal = (data) => {
     setDclnOpn(true);
     setDclnData(data);
@@ -348,6 +357,7 @@ const GiftMembership = () => {
             setDclnOpn(!isDclnOpn);
           }}
           closeDcln={closeDcln}
+          closeDecModal={closeDeclineModal}
           data={isDclnData}
         />
       )}
