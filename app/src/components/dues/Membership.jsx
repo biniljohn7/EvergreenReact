@@ -387,7 +387,8 @@ function Membership(props) {
                     <div className="order-box">
                       {membershipList.map((mbr, key) => {
                         ttlAmt += parseFloat(
-                          mbr.membershipPlanCharge / mbr.installment || 0
+                          (mbr.membershipPlanCharge * mbr.memberIds.length) /
+                            mbr.installment || 0
                         );
                         return (
                           <div className="order-itm" key={key}>
@@ -477,7 +478,8 @@ function Membership(props) {
                                     </div>
                                     <div className="sec-value amnt">
                                       {Pix.dollar(
-                                        mbr.membershipPlanCharge /
+                                        (mbr.membershipPlanCharge *
+                                          mbr.memberIds.length) /
                                           mbr.installment || 0,
                                         1
                                       )}
