@@ -15,7 +15,10 @@ const ExtraRoutes = () => {
             key={i}
             // component={pathObj.component}
             render={(props) => (
-              <ProtectedLayout {...props} mainComponent={pathObj.component} />
+              <ProtectedLayout {...props} 
+              mainComponent={pathObj.component}
+              allowedRoles={pathObj.allowedRoles || []} 
+              />
             )}
           />
         );
