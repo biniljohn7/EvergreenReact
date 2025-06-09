@@ -105,6 +105,11 @@ function SelectMember(props) {
       id: event.target.getAttribute("data-id"),
       name: event.target.getAttribute("data-name"),
       avatarUrl: event.target.getAttribute("data-avatar"),
+      section: event.target.getAttribute("data-section"),
+      affiliation: event.target.getAttribute("data-affiliation"),
+      city: event.target.getAttribute("data-city"),
+      zipcode: event.target.getAttribute("data-zipcode"),
+      memberid: event.target.getAttribute("data-memberid"),
     };
     props.addContent(personDetails);
   };
@@ -298,6 +303,11 @@ function SelectMember(props) {
                                   data-id={mbr.id}
                                   data-name={mbr.name}
                                   data-avatar={mbr.avatar}
+                                  data-section={mbr.secName}
+                                  data-affiliation={mbr.affName}
+                                  data-city={mbr.city}
+                                  data-zipcode={mbr.zipcode}
+                                  data-memberid={mbr.memberId}
                                 >
                                   Add
                                 </span>

@@ -31,7 +31,7 @@ const LeadershipDashboard = (props) => {
         return <Dashboard userRoles={userRoles} />;
       case "Sections":
         return <Sections />;
-      case "Officers":
+      case "Elected Officers":
         return <Officers />;
       case "Members":
         return <Members />;
