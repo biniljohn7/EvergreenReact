@@ -206,6 +206,13 @@ const Header = (props) => {
                         &nbsp; PROFILE
                       </span>
                       <ul>
+                        {
+                            store.getState().auth.userRoles && (
+                                <li>
+                                    <Link to="/leader-dashboard">Dashaboard</Link>
+                                </li>
+                            )
+                        }
                         <li>
                           <Link to="/account">Settings</Link>
                         </li>
