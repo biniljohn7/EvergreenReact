@@ -14,7 +14,9 @@ const LeadershipDashboard = (props) => {
     "Dashboard",
     userRoles.includes("state-leader") ? "Sections" : null,
     userRoles.includes("section-leader") ||
-    userRoles.includes("section-president")
+    userRoles.includes("section-president") ||
+    userRoles.includes("collegiate-leaders") ||
+    userRoles.includes("affiliate-leader")
       ? "Elected Officers"
       : null,
     "Members",
