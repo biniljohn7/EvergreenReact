@@ -197,6 +197,14 @@ export const PROFILE_OPTIONS = {
     { label: "Economic Empowerment", value: 3513 },
     { label: "Mentorship", value: 3514 },
   ],
+
+  memberRole: [
+    { label: "State Leader", value: "state-leader" },
+    { label: "Section Leader", value: "section-leader" },
+    { label: "Section President", value: "section-president" },
+    { label: "Affiliate Leader", value: "affiliate-leader" },
+    { label: "Collegiate leaders", value: "collegiate-leaders" },
+  ],
 };
 
 export const MONTH = [

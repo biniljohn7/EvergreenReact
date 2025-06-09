@@ -3,6 +3,7 @@ import LabelWithValue from "../../UI/labelWithValue/LabelWithValue";
 import Wrapper from "./common.style";
 import UpdateProfile from "./EditProfile";
 import { store } from "../../redux/store";
+import { PROFILE_OPTIONS } from "../../helper/constant";
 
 const Profile = (props) => {
   const isProfileCreated = store.getState().auth.isProfileCreated;
@@ -120,10 +121,25 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
+                <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
+                {PROFILE_OPTIONS.memberRole.find(
+                  (opt) => opt.value === profile.profile.role
+                )?.label ?? ""}
+                {""}
+              </div>
+            </div>
+
+            <div className="col-6 pt-2">
+              <div className="form-group">
                 <label className="fs-18 medium-text">
                   Affiliate Organization&nbsp;:&nbsp;
                 </label>
                 {profile.profile.affilateOrgzn.name ?? "-"}
+              </div>
+            </div>
+            <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
               </div>
             </div>
 
