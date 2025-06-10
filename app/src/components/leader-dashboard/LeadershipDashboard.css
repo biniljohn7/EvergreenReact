@@ -154,7 +154,7 @@
 .selected-membs .ech-usr .usr-wrap {
   display: flex;
   position: relative;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 10px;
 }
 
@@ -164,12 +164,13 @@
 
 .selected-membs .ech-usr .usr-wrap .wp-lf {
   color: #a9a9a9;
-  font-size: 0.9em;
+  font-size: 0.85em;
 }
 
 .selected-membs .ech-usr .usr-wrap .wp-rg {
   word-break: break-word;
   flex: 1 1 0;
+  font-size: 0.9em;
 }
 
 .selected-membs .ech-usr .can-btn span {
@@ -184,4 +185,18 @@
   margin-left: 10px;
   font-size: 0.9em;
   z-index: 1000;
+}
+
+@media only screen and (max-width: 1399px) {
+  .selected-membs .ech-usr {
+    width: calc(50% - 20px);
+    padding: 25px;
+  }
+}
+
+@media only screen and (max-width: 939px) {
+  .selected-membs .ech-usr {
+    width: calc(100% - 20px);
+    padding: 20px;
+  }
 }

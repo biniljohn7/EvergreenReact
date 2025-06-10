@@ -322,6 +322,17 @@ export const MEMBERSHIP_FOR = [
   },
 ];
 
+export const MEMBER_ROLES = [
+  {
+    label: "President",
+    value: "president",
+  },
+  {
+    label: "Vice President",
+    value: "vice-president",
+  },
+];
+
 // export const DONATE_SPACIFICATIONS = [
 //   {
 //     label: "In Honor Of",

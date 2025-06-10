@@ -102,14 +102,14 @@ function SelectMember(props) {
 
   const handleClick = (event) => {
     const personDetails = {
-      id: event.target.getAttribute("data-id"),
+      id: parseInt(event.target.getAttribute("data-id")),
       name: event.target.getAttribute("data-name"),
       avatarUrl: event.target.getAttribute("data-avatar"),
       section: event.target.getAttribute("data-section"),
       affiliation: event.target.getAttribute("data-affiliation"),
       city: event.target.getAttribute("data-city"),
       zipcode: event.target.getAttribute("data-zipcode"),
-      memberid: event.target.getAttribute("data-memberid"),
+      memberId: event.target.getAttribute("data-memberid"),
     };
     props.addContent(personDetails);
   };
