@@ -50,10 +50,6 @@ const LeadershipDashboard = (props) => {
   return (
     <div className="dashboard-layout">
       <div className="side-column">
-        <div className="side-header">
-          <h4>Head of Engineering</h4>
-        </div>
-
         <ul className="menu-list">
           {menuItems.map(
             (item) =>

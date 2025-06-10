@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import Toast from '../../UI/Toast/Toast';
+import React, { useState, useEffect, useMemo } from 'react';
 import { viewDashboard } from '../../api/LeadershipAPI';
 
 const Dashboard = ({ userRoles }) => {
-  const toast = Toast();
-
   const [loading, setLoading] = useState(true);
   const [metrics, setMetrics] = useState([]);
 
@@ -48,9 +45,9 @@ const Dashboard = ({ userRoles }) => {
         setMetrics(res?.data?.metrics || []);
       } catch (err) {
         if (err.response?.status === 401) {
-          toast.Error('Session Expired! Please login again.');
+          console.log('Session Expired! Please login again.');
         } else {
-          toast.Error('Something went wrong.');
+          console.log('Something went wrong.');
         }
       } finally {
         setLoading(false);
@@ -58,14 +55,12 @@ const Dashboard = ({ userRoles }) => {
     };
 
     fetchData();
-  }, [toast]);
+  }, []);
 
   if (loading) return null;
 
   return (
     <>
-      {toast?.Obj}
-
       {metrics.length > 0 && (
         <div className="kpi-grid">
           {metrics.map((metric, index) => (
