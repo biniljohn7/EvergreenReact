@@ -1,7 +1,8 @@
 .dashboard-layout {
     display: flex;
-    height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
+    flex-wrap: wrap;
+    padding: 50px 0;
+    margin: 0 7vw;
 }
 
 /* Side menu */

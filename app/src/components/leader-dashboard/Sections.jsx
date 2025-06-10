@@ -1,12 +1,11 @@
 import React from 'react';
 
-const App = () => {
+const Sections = () => {
   return (
     <div>
-      <h1>Hello, world!</h1>
-      <p>This is a basic JSX component.</p>
+      <p>Feature in development</p>
     </div>
   );
 };
 
-export default App;
+export default Sections;
