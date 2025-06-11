@@ -16,19 +16,19 @@ const Officers = () => {
   let mbrExist = false;
 
   const [isMbrOpen, setMbrOpen] = useState(false);
-  const [membId, setMembId] = useState({ ids: [] });
+  const [membId, setMembId] = useState({});
   const [content, setContent] = useState([]);
 
-  const addMbr = (mbrId) => {
+  const addMbr = (mbrId, mbrName) => {
     setMembId((prev) => {
-      if (prev.ids && prev.ids.includes(mbrId)) {
+      if (prev[mbrId]) {
         mbrExist = true;
         return prev;
       }
 
       return {
         ...prev,
-        ids: [...(prev.ids || []), mbrId],
+        [mbrId]: [mbrName],
       };
     });
   };
@@ -59,10 +59,9 @@ const Officers = () => {
 
     if (isRemove) {
       setMembId((prev) => {
-        return {
-          ...prev,
-          ids: prev.ids.filter((id) => id != mbrId),
-        };
+        const updated = { ...prev };
+        delete updated[mbrId];
+        return updated;
       });
       setContent((prev) => prev.filter((cnt) => cnt.id !== mbrId));
       toast.Success("Member removed successfully.");
@@ -70,7 +69,7 @@ const Officers = () => {
   };
 
   const handleAddContent = (person) => {
-    addMbr(person.id);
+    addMbr(person.id, person.name);
     if (!mbrExist) {
       setContent([...content, person]);
     } else {
@@ -106,15 +105,13 @@ const Officers = () => {
     getOfficers()
       .then((res) => {
         const officers = res.data.officers;
-        const allIds = officers.map((officer) => officer.id);
+        const dbMembData = officers.reduce((acc, officer) => {
+          acc[officer.id] = [officer.name];
+          return acc;
+        }, {});
 
         setMembId((prev) => {
-          const merged = [...prev.ids, ...allIds];
-          const updatedMembIds = merged.filter(
-            (id, index, self) => index === self.indexOf(id)
-          );
-
-          return { ids: updatedMembIds };
+          return dbMembData;
         });
 
         setContent((prev) => {
