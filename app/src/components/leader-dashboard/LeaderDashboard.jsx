@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { store } from "../../redux/store";
 import "./LeadershipDashboard.css";
@@ -24,6 +24,7 @@ const LeadershipDashboard = (props) => {
   ];
 
   const [selectedMenu, setSelectedMenu] = useState("Dashboard");
+  const [show, setShow] = useState(false);
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -47,9 +48,28 @@ const LeadershipDashboard = (props) => {
     }
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768 && show === true) {
+        setShow(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [show]);
+
   return (
     <div className="dashboard-layout">
-      <div className="side-column">
+      <div className={`side-column ${show ? "mob" : ""}`}>
+        <span
+          class="material-symbols-outlined sidebar-icn"
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          dehaze
+        </span>
         <ul className="menu-list">
           {menuItems.map(
             (item) =>
@@ -57,7 +77,10 @@ const LeadershipDashboard = (props) => {
                 <li
                   key={item}
                   className={selectedMenu === item ? "active" : ""}
-                  onClick={() => setSelectedMenu(item)}
+                  onClick={() => {
+                    setSelectedMenu(item);
+                    setShow(!show);
+                  }}
                 >
                   {item}
                 </li>

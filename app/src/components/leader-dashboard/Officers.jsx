@@ -18,19 +18,61 @@ const Officers = () => {
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [membId, setMembId] = useState({});
   const [content, setContent] = useState([]);
+  const [officerTitles, setOfficersTitles] = useState([]);
 
-  const addMbr = (mbrId, mbrName) => {
-    setMembId((prev) => {
-      if (prev[mbrId]) {
-        mbrExist = true;
-        return prev;
+  // const addMbr = (mbrId, mbrName) => {
+  //   setMembId((prev) => {
+  //     if (prev[mbrId]) {
+  //       mbrExist = true;
+  //       return prev;
+  //     }
+
+  //     return {
+  //       ...prev,
+  //       [mbrId]: [mbrName],
+  //     };
+  //   });
+  // };
+
+  // const handleAddContent = (person) => {
+  //   addMbr(person.id, person.name);
+  //   if (!mbrExist) {
+  //     setContent([...content, person]);
+  //   } else {
+  //     toast.Error("Member already added!");
+  //   }
+  //   setMbrOpen(false);
+  // };
+
+  const addMbr = (mbrId, mbrName, currentMembId) => {
+    if (currentMembId[mbrId]) {
+      return { updated: currentMembId, exists: true };
+    }
+
+    return {
+      updated: {
+        ...currentMembId,
+        [mbrId]: [mbrName],
+      },
+      exists: false,
+    };
+  };
+
+  const handleAddContent = (person) => {
+    setMembId((prevMembId) => {
+      const { updated, exists } = addMbr(person.id, person.name, prevMembId);
+      console.log(exists);
+
+      if (!exists) {
+        setContent([...content, person]);
+      } else {
+        toast.Error("Member already added!");
       }
 
-      return {
-        ...prev,
-        [mbrId]: [mbrName],
-      };
+      return updated;
     });
+
+    setMbrOpen(false);
   };
 
   const removeMbr = (mbrId, offId) => {
@@ -68,16 +110,6 @@ const Officers = () => {
     }
   };
 
-  const handleAddContent = (person) => {
-    addMbr(person.id, person.name);
-    if (!mbrExist) {
-      setContent([...content, person]);
-    } else {
-      toast.Error("Member already added!");
-    }
-    setMbrOpen(false);
-  };
-
   const setOfficers = (officer, member, title) => {
     Spn.Show();
 
@@ -93,6 +125,9 @@ const Officers = () => {
         .then((res) => {
           if (res.status == "ok") {
             getExOfficers();
+            toast.Success("The officer’s title has been set.");
+          } else {
+            toast.Error(res.message);
           }
         })
         .catch((err) => {
@@ -122,6 +157,8 @@ const Officers = () => {
 
           return updatedOfficers;
         });
+
+        setOfficersTitles(res.data.titles.data);
       })
       .catch((err) => {
         toast.Error("Failed to retrive officers list. Please try again later!");
@@ -137,75 +174,80 @@ const Officers = () => {
     <>
       {toast?.Obj}
       <div className="add-btn">
-        <span
-          className="btn button plr-29 ptb-10"
-          onClick={() => setMbrOpen(true)}
-        >
-          <span class="material-symbols-outlined icn">add_circle</span>
-          <span className="btn-txt">Choose Officers</span>
-        </span>
+        <div>
+          <span
+            className="btn button plr-29 ptb-10"
+            onClick={() => setMbrOpen(true)}
+          >
+            <span class="material-symbols-outlined icn">add_circle</span>
+            <span className="btn-txt">Choose Officers</span>
+          </span>
+        </div>
 
         <div className="selected-membs">
-          {content && content.length > 0
-            ? content.map((usr, index) => (
-                <div key={index} id={`person-${usr.id}`} className="ech-usr">
-                  <div className="can-btn">
-                    <span
-                      className="material-symbols-outlined"
-                      onClick={(e) => {
-                        if (
-                          window.confirm(
-                            "Are you sure you want to remove this officer?"
-                          )
-                        ) {
-                          removeMbr(usr.id, usr.offId);
-                        }
+          {content && content.length > 0 ? (
+            content.map((usr, index) => (
+              <div key={index} id={`person-${usr.id}`} className="ech-usr">
+                <div className="can-btn">
+                  <span
+                    className="material-symbols-outlined"
+                    onClick={(e) => {
+                      if (
+                        window.confirm(
+                          "Are you sure you want to remove this officer?"
+                        )
+                      ) {
+                        removeMbr(usr.id, usr.offId);
+                      }
+                    }}
+                  >
+                    cancel
+                  </span>
+                </div>
+                <div className="usr-top">{usr.name}</div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">Member ID:</div>
+                  <div className="wp-rg">{usr.memberId ?? "--"}</div>
+                </div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">City:</div>
+                  <div className="wp-rg">{usr.city ?? "--"}</div>
+                </div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">Zipcode:</div>
+                  <div className="wp-rg">{usr.zipcode ?? "--"}</div>
+                </div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">Section:</div>
+                  <div className="wp-rg">{usr.section ?? "--"}</div>
+                </div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">Affiliation:</div>
+                  <div className="wp-rg">{usr.affiliation ?? "--"}</div>
+                </div>
+                <div className="usr-wrap">
+                  <div className="wp-lf">Role:</div>
+                  <div className="wp-rg">
+                    <Select
+                      id="leaderRole"
+                      placeholder="Choose Role"
+                      options={officerTitles || []}
+                      value={
+                        officerTitles.find((op) => op.id === usr.title) || null
+                      }
+                      getOptionLabel={(op) => op.title}
+                      getOptionValue={(op) => op}
+                      onChange={(selectedOp) => {
+                        setOfficers(usr.offId, usr.id, selectedOp.id);
                       }}
-                    >
-                      cancel
-                    </span>
-                  </div>
-                  <div className="usr-top">{usr.name}</div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">Member ID:</div>
-                    <div className="wp-rg">{usr.memberId ?? "--"}</div>
-                  </div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">City:</div>
-                    <div className="wp-rg">{usr.city ?? "--"}</div>
-                  </div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">Zipcode:</div>
-                    <div className="wp-rg">{usr.zipcode ?? "--"}</div>
-                  </div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">Section:</div>
-                    <div className="wp-rg">{usr.section ?? "--"}</div>
-                  </div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">Affiliation:</div>
-                    <div className="wp-rg">{usr.affiliation ?? "--"}</div>
-                  </div>
-                  <div className="usr-wrap">
-                    <div className="wp-lf">Role:</div>
-                    <div className="wp-rg">
-                      <Select
-                        id="leaderRole"
-                        placeholder="Choose Role"
-                        options={MEMBER_ROLES}
-                        value={
-                          MEMBER_ROLES.find((op) => op.value === usr.title) ||
-                          null
-                        }
-                        onChange={(selectedOp) => {
-                          setOfficers(usr.offId, usr.id, selectedOp.value);
-                        }}
-                      />
-                    </div>
+                    />
                   </div>
                 </div>
-              ))
-            : ""}
+              </div>
+            ))
+          ) : (
+            <div className="no-list">No officers have been elected</div>
+          )}
         </div>
       </div>
       {isMbrOpen && (
