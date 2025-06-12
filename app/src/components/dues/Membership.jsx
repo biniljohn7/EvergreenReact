@@ -81,6 +81,12 @@ function Membership(props) {
           ToastsStore.error("Something went wrong!");
         }
       });
+      
+      setShowForm(true);
+      setContent([]);
+      setMembData([]);
+      setSubDrop({});
+      setIsGift(false);
   }, []);
 
   document.title = "Membership - " + window.seoTagLine;
