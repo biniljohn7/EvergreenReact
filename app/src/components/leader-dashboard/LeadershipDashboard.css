@@ -115,20 +115,20 @@
   border-bottom: 1px solid #eee;
 }
 
-.add-btn {
+.officers-wrap {
   padding-top: 20px;
   display: flex;
   flex-direction: column;
   height: calc(100% - 60px);
 }
 
-.add-btn span {
+.officers-wrap span {
   display: inline-flex !important;
   align-items: center;
   gap: 4px;
 }
 
-.add-btn span .icn {
+.officers-wrap span .icn {
   font-size: 1.3em;
 }
 
@@ -439,6 +439,7 @@
     border-radius: 5px;
     transition: width 0.4s ease-in-out, padding 0.4s ease-in-out,
       transform 0.4s ease-in-out;
+    cursor: pointer;
   }
 
   .side-column.mob {

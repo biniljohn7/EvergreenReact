@@ -14,7 +14,6 @@ function SelectMember(props) {
   const [mbrData, setMbrData] = useState(null);
   const [popupView, setPopupView] = useState(false);
   const [selectedOption, setSelectedOption] = useState("exist");
-  const [passwordType, setPasswordType] = useState("password");
   const [ErrorList, setErrorList] = useState({});
   const [sectionList, setSectionList] = useState([]);
   const [affiliationList, setAffiliationList] = useState([]);
@@ -22,10 +21,12 @@ function SelectMember(props) {
     firstName: "",
     lastName: "",
     email: "",
+    address: "",
+    city: "",
+    zipcode: "",
+    phone: "",
     section: "",
     affilation: "",
-    password: "",
-    cpassword: "",
   });
 
   let Spn = Spinner();
@@ -136,9 +137,6 @@ function SelectMember(props) {
     }
 
     let sErrs = {};
-    const password = el("password").value.trim();
-    const confirmPwd = el("confirmPwd").value.trim();
-    const pwdRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$/;
 
     if (!el("firstName").value.trim()) {
       sErrs["firstName"] = "This field is required";
@@ -149,22 +147,14 @@ function SelectMember(props) {
     if (!el("email").value.trim()) {
       sErrs["email"] = "This field is required";
     }
+    if (!el("zipcode").value.trim()) {
+      sErrs["zipcode"] = "This field is required";
+    }
     if (!formValues.section) {
       sErrs["section"] = "This field is required";
     }
     if (!formValues.affilation) {
       sErrs["affilation"] = "This field is required";
-    }
-    if (!password) {
-      sErrs["password"] = "This field is required";
-    } else if (!pwdRegex.test(password)) {
-      sErrs["password"] =
-        "Must contain 8 characters, one uppercase, one lowercase, one number and one special character";
-    }
-    if (!confirmPwd) {
-      sErrs["confirmPwd"] = "This field is required";
-    } else if (password && password !== confirmPwd) {
-      sErrs["confirmPwd"] = "Password didn't match";
     }
 
     setErrorList(sErrs);
@@ -177,7 +167,10 @@ function SelectMember(props) {
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         email: formValues.email,
-        password: formValues.password,
+        address: formValues.address,
+        city: formValues.city,
+        zipcode: formValues.zipcode,
+        phone: formValues.phone,
         section: formValues.section,
         affilation: formValues.affilation,
       };
@@ -189,6 +182,11 @@ function SelectMember(props) {
               id: res.data.id,
               name: res.data.name,
               avatarUrl: res.data.avatarUrl,
+              section: res.data.section,
+              affiliation: res.data.affiliation,
+              city: res.data.city,
+              zipcode: res.data.zipcode,
+              memberId: res.data.memberId,
             };
             props.addContent(newMemberDetails);
           } else {
@@ -382,6 +380,56 @@ function SelectMember(props) {
                   />
                   <Error field="email" />
                 </div>
+                <div className="mb-15">
+                  <Input
+                    id="address"
+                    label="Address"
+                    name="address"
+                    placeholder="Address"
+                    fontSize={"fs-16 text-dark"}
+                    contentFontSize="fs-14"
+                    type="text"
+                    onChange={storeData}
+                  />
+                </div>
+                <div className="mb-15">
+                  <Input
+                    id="city"
+                    label="City"
+                    name="city"
+                    placeholder="City"
+                    fontSize={"fs-16 text-dark"}
+                    contentFontSize="fs-14"
+                    type="text"
+                    onChange={storeData}
+                  />
+                </div>
+                <div className="mb-15">
+                  <Input
+                    id="zipcode"
+                    label="Zipcode"
+                    name="zipcode"
+                    placeholder="Zipcode"
+                    fontSize={"fs-16 text-dark"}
+                    contentFontSize="fs-14"
+                    type="text"
+                    onChange={storeData}
+                  />
+                  <Error field="zipcode" />
+                </div>
+                <div className="mb-15">
+                  <Input
+                    id="phone"
+                    label="Phone"
+                    name="phone"
+                    placeholder="Phone"
+                    fontSize={"fs-16 text-dark"}
+                    contentFontSize="fs-14"
+                    type="text"
+                    onChange={storeData}
+                  />
+                  <Error field="phone" />
+                </div>
                 <div className="mb-15 member">
                   <Select
                     label="Section"
@@ -405,53 +453,6 @@ function SelectMember(props) {
                     value={formValues.affilation}
                   />
                   <Error field="affilation" />
-                </div>
-                <div className="mb-15">
-                  <div className="position-relative">
-                    <Input
-                      id="password"
-                      label="Password"
-                      name="password"
-                      placeholder="Password"
-                      fontSize={"fs-16 text-dark"}
-                      contentFontSize="fs-14"
-                      type={passwordType}
-                      onChange={storeData}
-                    />
-                    {passwordType === "password" ? (
-                      <span
-                        className="material-symbols-outlined psw-view"
-                        onClick={() => {
-                          setPasswordType("text");
-                        }}
-                      >
-                        visibility
-                      </span>
-                    ) : (
-                      <span
-                        className="material-symbols-outlined psw-view"
-                        onClick={() => {
-                          setPasswordType("password");
-                        }}
-                      >
-                        visibility_off
-                      </span>
-                    )}
-                  </div>
-                  <Error field="password" />
-                </div>
-                <div className="mb-15">
-                  <Input
-                    id="confirmPwd"
-                    name="cpassword"
-                    label="Confirm Password"
-                    placeholder="Confirm Password"
-                    fontSize={"fs-16 text-dark"}
-                    contentFontSize="fs-14"
-                    type="password"
-                    onChange={storeData}
-                  />
-                  <Error field="confirmPwd" />
                 </div>
                 <div className="text-center">
                   <button

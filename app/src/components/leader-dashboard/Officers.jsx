@@ -75,6 +75,8 @@ const Officers = () => {
     setMbrOpen(false);
   };
 
+  console.log(membId, content);
+
   const removeMbr = (mbrId, offId) => {
     let isRemove = true;
 
@@ -152,9 +154,10 @@ const Officers = () => {
         setContent((prev) => {
           const merged = [...prev, ...officers];
           const updatedOfficers = Array.from(
-            new Map(merged.map((officer) => [officer.id, officer])).values()
+            new Map(
+              merged.map((officer) => [Number(officer.id), officer])
+            ).values()
           );
-
           return updatedOfficers;
         });
 
@@ -173,7 +176,7 @@ const Officers = () => {
   return (
     <>
       {toast?.Obj}
-      <div className="add-btn">
+      <div className="officers-wrap">
         <div>
           <span
             className="btn button plr-29 ptb-10"
