@@ -222,7 +222,8 @@ const SignIn = (props) => {
                         isProfileCreated: res.data.profileCreated,
                         isNotificationOn: res.data.notification || false,
                         currentChapter: res.data.currentChapter,
-                        userRoles: res.data.roles
+                        userRoles: res.data.roles,
+                        membershipStatus:res.data.membershipStatus
                     };
                     props.login(userData);
                     Tst.Success(res.message);
@@ -310,7 +311,8 @@ const SignIn = (props) => {
                             isProfileCreated: res.data.profileCreated,
                             isNotificationOn: res.data.notification || false,
                             currentChapter: res.data.currentChapter,
-                            userRoles: res.data.roles
+                            userRoles: res.data.roles,
+                            membershipStatus:res.data.membershipStatus
                         };
                         props.login(userData);
                         Tst.Success(res.message);

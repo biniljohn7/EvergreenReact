@@ -10,9 +10,23 @@ const ProtectedLayout = ({
   ...rest
 }) => {
   const location = useLocation();
-  const { isLogin, accessToken, isProfileCreated, userRoles } = store.getState().auth;
+  const {
+    isLogin,
+    accessToken,
+    isProfileCreated,
+    userRoles,
+    membershipStatus,
+  } = store.getState().auth;
   // Not logged in
   if (!isLogin || !accessToken) return <Redirect to="/signin" />;
+
+  // Not have active membership
+  if (
+    (membershipStatus === "expired" || membershipStatus === null) &&
+    location.pathname !== "/dues"
+  ) {
+    return <Redirect to="/dues" />;
+  }
 
   // Profile not created
   if (location.pathname !== "/my-account" && !isProfileCreated)
