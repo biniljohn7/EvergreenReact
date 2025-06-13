@@ -404,7 +404,17 @@ const SignUp = (props) => {
                   ></i>
                 )}
               </div>
-              <Error field="password" />
+              {!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$/.test(
+                values.password || ""
+              ) && (
+                <>
+                  <Error field="password" />
+                  <div className="pws-rule">
+                    Must Contain 8 Characters, One Uppercase, One Lowercase, One
+                    Number and one special case Character
+                  </div>
+                </>
+              )}
             </div>
             <div className="fm-row">
               <Input

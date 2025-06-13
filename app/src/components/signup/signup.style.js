@@ -95,6 +95,13 @@ const SigninWrapper = styled.div`
     max-width: 100%;
     padding: 12px !important;
   }
+
+  .form-area .form-col .fm-row .pws-rule {
+    font-size: 0.8em;
+    color: #0037ff;
+    font-weight: 500;
+    padding-top: 8px;
+  }
 `;
 
 export default SigninWrapper;

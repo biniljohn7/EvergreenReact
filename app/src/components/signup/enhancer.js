@@ -15,7 +15,8 @@ const formikEnhancer = withFormik({
       .required("This field is required")
       .matches(
         /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+        "This following conditions are not fulfilled"
+        // "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
       ),
     confirmPwd: Yup.string()
       .oneOf([Yup.ref("password"), null], "Password didn't match")
