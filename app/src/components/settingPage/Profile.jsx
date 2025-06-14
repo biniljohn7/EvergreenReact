@@ -11,6 +11,11 @@ const Profile = (props) => {
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
   console.log(profile);
 
+  const roleKeys = profile.profile.role.split(",");
+  const roleLabels = PROFILE_OPTIONS.memberRole
+    .filter((option) => roleKeys.includes(option.value))
+    .map((option) => option.label);
+
   document.title = "Profile - " + window.seoTagLine;
 
   return (
@@ -121,22 +126,29 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
-                {PROFILE_OPTIONS.memberRole.find(
-                  (opt) => opt.value === profile.profile.role
-                )?.label ?? ""}
-                {""}
-              </div>
-            </div>
-
-            <div className="col-6 pt-2">
-              <div className="form-group">
                 <label className="fs-18 medium-text">
                   Affiliate Organization&nbsp;:&nbsp;
                 </label>
                 {profile.profile.affilateOrgzn.name ?? "-"}
               </div>
             </div>
+
+            {profile.profile.leadershipRole && (
+              <div className="col-6 pt-2">
+                <div className="form-group">
+                  <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
+                  <ul>
+                    {roleLabels.map((label, index) => (
+                      <React.Fragment key={index}>
+                        <li>{label}</li>
+                      </React.Fragment>
+                    ))}
+                  </ul>
+                  {""}
+                  {console.log(profile.profile)}
+                </div>
+              </div>
+            )}
             <div className="col-6 pt-2">
               <div className="form-group">
                 <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
