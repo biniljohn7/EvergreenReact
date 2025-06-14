@@ -21,10 +21,12 @@ const ProtectedLayout = ({
   if (!isLogin || !accessToken) return <Redirect to="/signin" />;
 
   // Not have active membership
+  const allowedPaths = ["/dues", "/dues/membership"];
   if (
-    (membershipStatus === "expired" || membershipStatus === null) &&
-    location.pathname !== "/dues"
+    (membershipStatus === null || membershipStatus === "expired") &&
+    !allowedPaths.includes(location.pathname)
   ) {
+    // Redirect based on which one they should see first
     return <Redirect to="/dues" />;
   }
 
