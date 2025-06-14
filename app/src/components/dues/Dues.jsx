@@ -108,62 +108,31 @@ const Dues = (props) => {
                                 <div className="due-content">
                                     {function () {
                                         if (data) {
-                                            return <>
-                                                <table cellPadding={7}>
-                                                    <tr>
-                                                        <td className="bold-600">
-                                                            National Dues
-                                                        </td>
-                                                        <td className="text-right">
-                                                            {Pix.dollar(data.nationalDues || 0, 1)}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="bold-600">
-                                                            Section Dues
-                                                        </td>
-                                                        <td className="text-right">
-                                                            {Pix.dollar(data.localDues || 0, 1)}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="bold-600">
-                                                            Payment Processing Fee
-                                                        </td>
-                                                        <td className="text-right">
-                                                            {Pix.dollar(data.nationalLateFee || 0, 1)}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="bold-600">
-                                                            Section Donation
-                                                        </td>
-                                                        <td className="text-right">
-                                                            {Pix.dollar(data.chapterDonation || 0, 1)}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="bold-600">
-                                                            National Donation
-                                                        </td>
-                                                        <td className="text-right">
-                                                            {Pix.dollar(data.nationDonation || 0, 1)}
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td className="bold-600 text-12">
-                                                            Total
-                                                        </td>
-                                                        <td className="text-right text-12 bold-600">
-                                                            {Pix.dollar(data.totalAmount || 0, 1)}
-                                                        </td>
-                                                    </tr>
+                                            return (
+                                                <table cellPadding={7} style={{ width: '100%' }}>
+                                                    <tbody>
+                                                        {data.map((group, groupIndex) => {
+                                                            const validItems = group?.filter(item => item && item.label) || [];
+                                        
+                                                            return validItems.map((item, itemIndex) => (
+                                                                <tr
+                                                                    key={`${groupIndex}-${itemIndex}`}
+                                                                    style={
+                                                                        groupIndex > 0 && itemIndex === 0
+                                                                            ? { borderTop: '1px solid #ccc' }
+                                                                            : {}
+                                                                    }
+                                                                >
+                                                                    <td className="bold-600">{item.label}</td>
+                                                                    <td className="text-right">{item.amount}</td>
+                                                                </tr>
+                                                            ));
+                                                        })}
+                                                    </tbody>
                                                 </table>
-                                            </>
-                                        } else {
-                                            // return <div className="text-center">
-                                            //     YOU HAVE NO MEMBERSHIP 
-                                            // </div>
+                                            );
+                                        }
+                                        else {
                                             return <ExpiredMembership />
                                         }
                                     }()}

@@ -49,7 +49,6 @@ const ExpiredMembership = () => {
     };
 
     const handleRenewMship = () => {
-        console.log(selectedMships);
 
         Spn.Show();
         renewExpiredMembership(
@@ -84,22 +83,9 @@ const ExpiredMembership = () => {
 
 
             {
-                expData && expData.list && expData.list.length > 0 ? (
+                expData && expData.list && expData.list.length > 0 && (
                     <>
                         {expData.list.map((ms) => {
-                            let ins = 0, insPhse = 0, amt = 0;
-
-                            if (ms.installment) {
-                                ins = ms.installment;
-                                if (ms.instllmntPhase) {
-                                    insPhse = ms.instllmntPhase < 4 ? (parseInt(ms.instllmntPhase, 10) + 1) : 1;
-                                }
-                                amt = parseFloat(ms.planInfo.ttlCharge / ins);
-                            }
-
-                            let plnTitle = ms.planInfo.title + ' ' + (insPhse ? insTxt[insPhse] + ' instalment' : ''),
-                                plnAmt = amt ? amt.toFixed(2) : parseFloat(ms.planInfo.ttlCharge).toFixed(2);
-
                             return (
                                 <div className="each-mbrshp">
                                     <div className="chk-sec">
@@ -108,15 +94,15 @@ const ExpiredMembership = () => {
                                             id={`mshp${ms.id}`}
                                             name="mshp[]"
                                             checked={selectedMships.some((item) => item.id === ms.id)}
-                                            onChange={() => handleMshipChange(ms.id, plnTitle, plnAmt)}
+                                            onChange={() => handleMshipChange(ms.id, ms.title, ms.amount)}
                                             label=""
                                         />
                                     </div>
                                     <div className="pln-nam">
-                                        {plnTitle}
+                                        {ms.title}
                                     </div>
                                     <div className="pln-amt">
-                                        ${plnAmt}
+                                        ${ms.amount}
                                     </div>
                                 </div>
                             )
@@ -131,10 +117,6 @@ const ExpiredMembership = () => {
                             </button>
                         </div>
                     </>
-                ) : (
-                    <div className="text-center">
-                        YOU HAVE NO MEMBERSHIP
-                    </div>
                 )
             }
 
