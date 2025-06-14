@@ -182,7 +182,7 @@ const Officers = () => {
             className="btn button plr-29 ptb-10"
             onClick={() => setMbrOpen(true)}
           >
-            <span class="material-symbols-outlined icn">add_circle</span>
+            <span className="material-symbols-outlined icn">add_circle</span>
             <span className="btn-txt">Choose Officers</span>
           </span>
         </div>

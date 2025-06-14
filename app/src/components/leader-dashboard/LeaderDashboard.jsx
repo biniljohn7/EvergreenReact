@@ -63,7 +63,7 @@ const LeadershipDashboard = (props) => {
     <div className="dashboard-layout">
       <div className={`side-column ${show ? "mob" : ""}`}>
         <span
-          class="material-symbols-outlined sidebar-icn"
+          className="material-symbols-outlined sidebar-icn"
           onClick={() => {
             setShow(!show);
           }}

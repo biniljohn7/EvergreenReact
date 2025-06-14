@@ -451,7 +451,7 @@ const Resource = (props) => {
                       >
                         Membership Card
                       </span>
-                      <span class="material-symbols-outlined">download</span>
+                      <span className="material-symbols-outlined">download</span>
                     </div>
                     <div className="dwnld-box">
                       <a
@@ -464,7 +464,7 @@ const Resource = (props) => {
                       >
                         Recommendation Letter
                       </a>
-                      <span class="material-symbols-outlined">download</span>
+                      <span className="material-symbols-outlined">download</span>
                     </div>
                   </div>
                 </div>

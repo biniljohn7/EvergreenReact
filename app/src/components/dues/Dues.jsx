@@ -132,11 +132,8 @@ const Dues = (props) => {
                                                 </table>
                                             );
                                         }
-                                        else {
-                                            return <ExpiredMembership />
-                                        }
                                     }()}
-
+                                    <ExpiredMembership />
                                 </div>
                             </div>
 
@@ -207,8 +204,8 @@ const Dues = (props) => {
                                             historyData &&
                                             historyData
                                         ) {
-                                            return historyData.map(function (el) {
-                                                return <div className="mb15">
+                                            return historyData.map(function (el, index) {
+                                                return <div className="mb15" key={index}>
                                                     <div className="bold-600 text-12">
                                                         {el.chargesTitle}
                                                     </div>

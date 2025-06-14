@@ -55,7 +55,7 @@ const Members = () => {
             className="srch-btn"
             onClick={(e) => showMembers(e)}
           >
-            <span class="material-symbols-outlined">search</span>
+            <span className="material-symbols-outlined">search</span>
           </button>
         </form>
       </div>
@@ -64,18 +64,18 @@ const Members = () => {
           <div className="memb-top">
             <div className="memb-avatar">
               <div className="no-img">
-                <span class="material-symbols-outlined icn">person</span>
+                <span className="material-symbols-outlined icn">person</span>
               </div>
             </div>
             <div className="memb-nam">David Peter</div>
           </div>
           <div className="memb-dtls">
             <div className="dt-itm">
-              <span class="material-symbols-outlined">barcode</span>
+              <span className="material-symbols-outlined">barcode</span>
               <span>68768</span>
             </div>
             <div className="dt-itm">
-              <span class="material-symbols-outlined">share_location</span>
+              <span className="material-symbols-outlined">share_location</span>
               <span>London, 876876</span>
             </div>
           </div>
@@ -84,18 +84,18 @@ const Members = () => {
           <div className="memb-top">
             <div className="memb-avatar">
               <div className="no-img">
-                <span class="material-symbols-outlined icn">person</span>
+                <span className="material-symbols-outlined icn">person</span>
               </div>
             </div>
             <div className="memb-nam">David Peter</div>
           </div>
           <div className="memb-dtls">
             <div className="dt-itm">
-              <span class="material-symbols-outlined">barcode</span>
+              <span className="material-symbols-outlined">barcode</span>
               <span>68768</span>
             </div>
             <div className="dt-itm">
-              <span class="material-symbols-outlined">share_location</span>
+              <span className="material-symbols-outlined">share_location</span>
               <span>London, 876876</span>
             </div>
           </div>
@@ -104,18 +104,18 @@ const Members = () => {
           <div className="memb-top">
             <div className="memb-avatar">
               <div className="no-img">
-                <span class="material-symbols-outlined icn">person</span>
+                <span className="material-symbols-outlined icn">person</span>
               </div>
             </div>
             <div className="memb-nam">David Peter</div>
           </div>
           <div className="memb-dtls">
             <div className="dt-itm">
-              <span class="material-symbols-outlined">barcode</span>
+              <span className="material-symbols-outlined">barcode</span>
               <span>68768</span>
             </div>
             <div className="dt-itm">
-              <span class="material-symbols-outlined">share_location</span>
+              <span className="material-symbols-outlined">share_location</span>
               <span>London, 876876</span>
             </div>
           </div>

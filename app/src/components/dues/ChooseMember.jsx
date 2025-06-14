@@ -110,7 +110,7 @@ const ChooseMember = (props) => {
                       className="srch-btn"
                       onClick={(e) => showMembers(e)}
                     >
-                      <span class="material-symbols-outlined">search</span>
+                      <span className="material-symbols-outlined">search</span>
                     </button>
                   </form>
                 </div>
@@ -127,7 +127,7 @@ const ChooseMember = (props) => {
                                 </div>
                               ) : (
                                 <div className="no-img">
-                                  <span class="material-symbols-outlined icn">
+                                  <span className="material-symbols-outlined icn">
                                     person
                                   </span>
                                 </div>

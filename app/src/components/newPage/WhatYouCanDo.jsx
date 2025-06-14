@@ -46,7 +46,7 @@ export default function WhatYouCanDo() {
                                     <div className="sub-h">View & RSVP for NCNW gatherings and key events.</div>
                                 </div>
                                 <div className="icn-sec">
-                                    <span class="material-symbols-outlined icn">event_note</span>
+                                    <span className="material-symbols-outlined icn">event_note</span>
                                 </div>
                             </div>
                         </Link>
@@ -60,7 +60,7 @@ export default function WhatYouCanDo() {
                                     <div className="sub-h">Ensure your membership is active and in good standing.</div>
                                 </div>
                                 <div className="icn-sec">
-                                    <span class="material-symbols-outlined icn">visibility</span>
+                                    <span className="material-symbols-outlined icn">visibility</span>
                                 </div>
                             </div>
                         </Link>
@@ -74,7 +74,7 @@ export default function WhatYouCanDo() {
                                     <div className="sub-h">See important updates and messages from leadership.</div>
                                 </div>
                                 <div className="icn-sec">
-                                    <span class="material-symbols-outlined icn">mail</span>
+                                    <span className="material-symbols-outlined icn">mail</span>
                                 </div>
                             </div>
                         </Link>
@@ -88,7 +88,7 @@ export default function WhatYouCanDo() {
                                     <div className="sub-h">Get involved in initiatives that impact our community.</div>
                                 </div>
                                 <div className="icn-sec">
-                                    <span class="material-symbols-outlined icn">groups_2</span>
+                                    <span className="material-symbols-outlined icn">groups_2</span>
                                 </div>
                             </div>
                         </Link>
@@ -102,7 +102,7 @@ export default function WhatYouCanDo() {
                                     <div className="sub-h">Find mentorship, networking, and job opportunities.</div>
                                 </div>
                                 <div className="icn-sec">
-                                    <span class="material-symbols-outlined icn">hub</span>
+                                    <span className="material-symbols-outlined icn">hub</span>
                                 </div>
                             </div>
                         </Link>

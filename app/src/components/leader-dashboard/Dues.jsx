@@ -98,7 +98,7 @@ const Dues = () => {
             className="srch-btn"
             onClick={(e) => showDues(e)}
           >
-            <span class="material-symbols-outlined">search</span>
+            <span className="material-symbols-outlined">search</span>
           </button>
         </form>
       </div>

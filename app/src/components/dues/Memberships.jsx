@@ -387,7 +387,7 @@ const Membership = (props) => {
                                       </div>
                                     ) : (
                                       <div className="no-img">
-                                        <span class="material-symbols-outlined icn">
+                                        <span className="material-symbols-outlined icn">
                                           person
                                         </span>
                                       </div>
@@ -547,7 +547,7 @@ const Membership = (props) => {
                         id="addBtn"
                         onClick={(e) => setMbrOpen(true)}
                       >
-                        <span class="material-symbols-outlined icn">
+                        <span className="material-symbols-outlined icn">
                           add_circle
                         </span>
                         <span className="btn-txt">Add More</span>

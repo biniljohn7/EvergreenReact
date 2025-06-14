@@ -191,7 +191,7 @@ const Header = (props) => {
                     })}
                     <li className="inbox-menu">
                       <Link to="/inbox">
-                        <span class="material-symbols-outlined">mail</span>
+                        <span className="material-symbols-outlined">mail</span>
                       </Link>
                     </li>
                     {/* {console.log(logout())} */}
