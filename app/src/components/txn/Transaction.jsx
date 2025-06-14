@@ -5,7 +5,11 @@ import { Spinner } from "reactstrap";
 import Wrapper from "./wrapper.style";
 import { memberTxn } from "../../api/memberAPI";
 
-const Transaction = () => {
+import AuthActions from "../../redux/auth/actions";
+import { connect } from "react-redux";
+const { login } = AuthActions;
+
+const Transaction = (props) => {
   const { s } = useParams();
   const [loading, setLoading] = useState(true);
   const [shwStatus, setShwStatus] = useState("pending");
@@ -16,6 +20,9 @@ const Transaction = () => {
         .then((res) => {
           if (res.success === 1) {
             setShwStatus(res.data.payStatus);
+            if(res.data.loginData){
+                props.login(res.data.loginData);
+            }
             setLoading(false);
           } else {
             ToastsStore.error(res.message);
@@ -89,4 +96,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default connect(null, { login })(Transaction);
