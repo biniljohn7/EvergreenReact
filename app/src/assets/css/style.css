@@ -279,7 +279,7 @@ a:focus {
 }
 
 .top-header .logo-box {
-  width: 72px;
+  width: 150px;
 }
 
 .top-header .nav-box {
@@ -1047,6 +1047,10 @@ a:focus {
 
 .footer-section .l-logo {
   width: 72px;
+}
+
+.footer-section .l-logo .ft-logo {
+  width: 110px;
 }
 
 .footer-section .r-logo {
@@ -2047,6 +2051,14 @@ a:focus {
 
   .home-tab ul {
     gap: 14px;
+  }
+
+  .top-header .logo-box {
+    width: 75px;
+  }
+
+  .footer-section .l-logo .ft-logo {
+    width: 90px;
   }
 }
 

@@ -1,21 +1,21 @@
-import React from 'react';
-import FooterWrapper from './footer.style';
+import React from "react";
+import FooterWrapper from "./footer.style";
 import { Link } from "react-router-dom";
-// import Logo from '../../assets/images/logo.png'
-import Llogo from '../../assets/images/f-logo.png';
-import Rlogo from '../../assets/images/r-logo.png';
+import Logo from "../../assets/images/logo.png";
+// import Llogo from '../../assets/images/f-logo.png';
+import Rlogo from "../../assets/images/r-logo.png";
 
-import fb from '../../assets/images/facebook.png';
-import lin from '../../assets/images/linkedin.png';
-import insta from '../../assets/images/instagram.png';
-import tw from '../../assets/images/twitter.png';
+import fb from "../../assets/images/facebook.png";
+import lin from "../../assets/images/linkedin.png";
+import insta from "../../assets/images/instagram.png";
+import tw from "../../assets/images/twitter.png";
 
 import {
   SITE_NAME,
   // SITE_SHORT_DESC,
   // WEBSITE_URL,
   // GOOGLE_MAP_KEY,
-} from '../../helper/constant'
+} from "../../helper/constant";
 //import { Link, useLocation } from 'react-router-dom'
 // import ContactUs from './ContactUs'
 // import { Map, GoogleApiWrapper, Marker } from 'google-maps-react'
@@ -28,25 +28,32 @@ const Footer = (props) => {
       <div className="footer-section">
         <div className="container">
           <div className="l-logo">
-            <img src={Llogo} alt={SITE_NAME} />
-            <div className='f-nav'>
+            {/* <img src={Llogo} alt={SITE_NAME} /> */}
+            <img src={Logo} alt={SITE_NAME} class="ft-logo" />
+            <div className="f-nav">
               <Link to="#">Contact Support</Link> |
               <Link to="#">Privacy Policy</Link> |
               <Link to="#">Terms & Conditions</Link>
             </div>
           </div>
-          
-          
+
           <div className="r-logo">
-            <div className='f-social'>
-              <Link to="#"><img src={fb} alt="fb" /></Link>
-              
-              <Link to="#"><img src={lin} alt="in" /></Link>
-              
-              <Link to="#"><img src={tw} alt="fb" /></Link>
-              
-              <Link to="#"><img src={insta} alt="in" /></Link>
-              
+            <div className="f-social">
+              <Link to="#">
+                <img src={fb} alt="fb" />
+              </Link>
+
+              <Link to="#">
+                <img src={lin} alt="in" />
+              </Link>
+
+              <Link to="#">
+                <img src={tw} alt="fb" />
+              </Link>
+
+              <Link to="#">
+                <img src={insta} alt="in" />
+              </Link>
             </div>
             <img src={Rlogo} alt={SITE_NAME} />
           </div>
@@ -154,13 +161,12 @@ const Footer = (props) => {
         </div>
       </div>
      */}
-
     </FooterWrapper>
-  )
-}
+  );
+};
 
 // export default GoogleApiWrapper({
 //   apiKey: GOOGLE_MAP_KEY,
 // })(Footer)
 
-export default Footer
+export default Footer;
