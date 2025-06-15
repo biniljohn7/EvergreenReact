@@ -28,6 +28,7 @@ import SelectMember from "./SelectMember";
 const { logout } = AuthActions;
 
 function Membership(props) {
+  const { memberId, membershipStatus } = store.getState().auth;
   const [showForm, setShowForm] = useState(false);
   const [isEdited, setIsEdited] = useState(null);
   const [dropdown, setDropdown] = useState(null);
@@ -36,7 +37,7 @@ function Membership(props) {
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [isGift, setIsGift] = useState(false);
-  const [members, setMembers] = useState([]);
+  const [unique, setUnique] = useState([]);
   const [content, setContent] = useState([]);
   const [ErrorList, setErrorList] = useState({});
   const [membData, setMembData] = useState({
@@ -62,6 +63,9 @@ function Membership(props) {
   let Tst = Toast();
 
   useEffect(() => {
+    if (membershipStatus == "active") {
+      setUnique([memberId]);
+    }
     getMembershipPlans()
       .then((res) => {
         setDropdown(res.data);
@@ -81,12 +85,12 @@ function Membership(props) {
           ToastsStore.error("Something went wrong!");
         }
       });
-      
-      setShowForm(true);
-      setContent([]);
-      setMembData([]);
-      setSubDrop({});
-      setIsGift(false);
+
+    setShowForm(true);
+    setContent([]);
+    setMembData([]);
+    setSubDrop({});
+    setIsGift(false);
   }, []);
 
   document.title = "Membership - " + window.seoTagLine;
@@ -671,14 +675,20 @@ function Membership(props) {
                           <Select
                             id="membshipFor"
                             placeholder="Select the option"
-                            options={MEMBERSHIP_FOR}
+                            options={
+                              unique.includes(lgMbr)
+                                ? MEMBERSHIP_FOR.filter(
+                                    (op) => op.value !== "myself"
+                                  )
+                                : MEMBERSHIP_FOR
+                            }
                             value={
                               MEMBERSHIP_FOR.find(
                                 (op) => op.value === membData.membshipFor
                               ) || null
                             }
                             onChange={(selectedOp) => {
-                              if (selectedOp.value == "gift") {
+                              if (selectedOp.value === "gift") {
                                 setIsGift(true);
                                 setMembId([]);
                                 setContent([]);
@@ -693,6 +703,7 @@ function Membership(props) {
                               });
                             }}
                           />
+
                           <Error field="membshipFor" />
                         </div>
                       </div>
@@ -739,7 +750,7 @@ function Membership(props) {
                                 <span className="material-symbols-outlined icn">
                                   add_circle
                                 </span>
-                                <span className="btn-txt">Add More</span>
+                                <span className="btn-txt">Add Gift Recipient</span>
                               </span>
                               <Error field="memberGift" />
                             </>

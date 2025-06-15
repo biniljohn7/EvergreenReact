@@ -18,8 +18,10 @@ import Visa from "../../assets/images/visa.png";
 
 import GiftMembership from './GiftMembership';
 import ExpiredMembership from './ExpiredMembership';
+import { store } from "../../redux/store";
 
 const Dues = (props) => {
+    const {membershipStatus} = store.getState().auth;
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [historyData, setHistoryData] = useState(null);
@@ -159,7 +161,7 @@ const Dues = (props) => {
                                         props.history.push("/dues/membership");
                                     }}
                                 >
-                                    CHOOSE MEMBERSHIP
+                                    {membershipStatus=='active'?'GIFT':'CHOOSE'} MEMBERSHIP
                                 </button>
                             </div>
 
