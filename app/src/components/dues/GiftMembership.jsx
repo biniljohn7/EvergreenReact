@@ -51,6 +51,9 @@ const GiftMembership = () => {
               gift.id === id ? { ...gift, accepted: "Y" } : gift
             )
           );
+        } else {
+          console.log(res.message);
+          Tst.Error(res.message);
         }
       })
       .catch((err) => {
@@ -129,65 +132,63 @@ const GiftMembership = () => {
             {giftData &&
               giftData.map((data) => {
                 return (
-                <div className="gift-wrapper" key={data.id}>
+                  <div className="gift-wrapper" key={data.id}>
                     <div className="gift-media">
-                    {<img src={Gift} alt="gift" />}
-                    <span className="gift-validity">{data.validity}</span>
+                      {<img src={Gift} alt="gift" />}
+                      <span className="gift-validity">{data.validity}</span>
                     </div>
                     <div className="gift-content">
-                    <div className="gift-above-btn">
+                      <div className="gift-above-btn">
                         <p>
-                        <span className="gift-note">New Gift received</span>
+                          <span className="gift-note">New Gift received</span>
                         </p>
                         <p>
-                        <strong>{data.gifter}</strong> has gifted you a{" "}
-                        <strong>{data.plans}</strong>
+                          <strong>{data.gifter}</strong> has gifted you a{" "}
+                          <strong>{data.plans}</strong>
                         </p>
                         <p className="gift-worth">
-                        <span>worth ${data.price}</span> on {data.date}
+                          <span>worth ${data.price}</span> on {data.date}
                         </p>
-                    </div>
-                    <div className="btn-container">
+                      </div>
+                      <div className="btn-container">
                         {data.accepted != "N" && data.accepted != "Y" ? (
-                        <>
+                          <>
                             <button
-                            className="gift-accept-btn"
-                            onClick={() =>
+                              className="gift-accept-btn"
+                              onClick={() =>
                                 openAcceptModal({
-                                giftid: data.id,
-                                // current: data.have,
-                                new: data.plans,
-                                validity: data.validity,
-                                // plan: data.status,
-                                gifted: data.gifter,
+                                  giftid: data.id,
+                                  // current: data.have,
+                                  new: data.plans,
+                                  validity: data.validity,
+                                  // plan: data.status,
+                                  gifted: data.gifter,
                                 })
-                            }
+                              }
                             >
-                            Accept
+                              Accept
                             </button>
                             <button
-                            className="gift-decline-btn"
-                            onClick={() =>
-                                openDeclineModal({ id: data.id })
-                            }
+                              className="gift-decline-btn"
+                              onClick={() => openDeclineModal({ id: data.id })}
                             >
-                            Decline
+                              Decline
                             </button>
-                        </>
+                          </>
                         ) : (
-                        <>
+                          <>
                             <div className="rcv-sts">
-                            {data.accepted == "Y" ? (
+                              {data.accepted == "Y" ? (
                                 <>You accepted the offering.</>
-                            ) : (
+                              ) : (
                                 <>You declined to recieve the gift.</>
-                            )}
+                              )}
                             </div>
-                        </>
+                          </>
                         )}
+                      </div>
                     </div>
-                    </div>
-                </div>
+                  </div>
                 );
               })}
           </div>
@@ -259,63 +260,61 @@ const GiftMembership = () => {
             {giftedData &&
               giftedData.map((data) => {
                 return (
-                    <div className="gift-wrapper" key={data.id}>
-                      <div className="gift-media gifted-media">
-                        {<img src={Gifted} alt="gift" />}
-                        <span className="gift-validity">{data.validity}</span>
+                  <div className="gift-wrapper" key={data.id}>
+                    <div className="gift-media gifted-media">
+                      {<img src={Gifted} alt="gift" />}
+                      <span className="gift-validity">{data.validity}</span>
+                    </div>
+                    <div className="gift-content">
+                      <div className="gift-above-btn">
+                        {data.accepted != "Y" && data.accepted != "N" ? (
+                          <>
+                            <p>
+                              <span className="gift-note">Pending</span>
+                            </p>
+                            <p>
+                              <strong>{data.plans}</strong>
+                            </p>
+                            <p className="gift-worth">
+                              A <span>${data.price}</span> gift was gifted to{" "}
+                              <strong>{data.gifted}</strong> on {data.date}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            {data.accepted == "N" ? (
+                              <>
+                                <p>
+                                  <span className="gift-note">Declined</span>
+                                </p>
+                                <p>
+                                  <strong>{data.plans}</strong>
+                                </p>
+                                <p className="gift-worth">
+                                  <span>worth ${data.price}</span> that you
+                                  gifted has been declined by{" "}
+                                  <strong>{data.gifted}</strong> on {data.date}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p>
+                                  <span className="gift-note">Accepted</span>
+                                </p>
+                                <p>
+                                  <strong>{data.plans}</strong>
+                                </p>
+                                <p className="gift-worth">
+                                  <span>worth ${data.price}</span> that you
+                                  gifted was accepted by{" "}
+                                  <strong>{data.gifted}</strong> on {data.date}{" "}
+                                </p>
+                              </>
+                            )}
+                          </>
+                        )}
                       </div>
-                      <div className="gift-content">
-                        <div className="gift-above-btn">
-                          {data.accepted != "Y" && data.accepted != "N" ? (
-                            <>
-                              <p>
-                                <span className="gift-note">Pending</span>
-                              </p>
-                              <p>
-                                <strong>{data.plans}</strong>
-                              </p>
-                              <p className="gift-worth">
-                                A <span>${data.price}</span> gift was gifted to{" "}
-                                <strong>{data.gifted}</strong> on {data.date}
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              {data.accepted == "N" ? (
-                                <>
-                                  <p>
-                                    <span className="gift-note">Declined</span>
-                                  </p>
-                                  <p>
-                                    <strong>{data.plans}</strong>
-                                  </p>
-                                  <p className="gift-worth">
-                                    <span>worth ${data.price}</span> that you
-                                    gifted has been declined by{" "}
-                                    <strong>{data.gifted}</strong> on{" "}
-                                    {data.date}
-                                  </p>
-                                </>
-                              ) : (
-                                <>
-                                  <p>
-                                    <span className="gift-note">Accepted</span>
-                                  </p>
-                                  <p>
-                                    <strong>{data.plans}</strong>
-                                  </p>
-                                  <p className="gift-worth">
-                                    <span>worth ${data.price}</span> that you
-                                    gifted was accepted by{" "}
-                                    <strong>{data.gifted}</strong> on{" "}
-                                    {data.date}{" "}
-                                  </p>
-                                </>
-                              )}
-                            </>
-                          )}
-                        </div>
-                        {/* <div className="btn-container">
+                      {/* <div className="btn-container">
                           <button
                             type="button"
                             className="gift-accept-btn"
@@ -327,8 +326,8 @@ const GiftMembership = () => {
                             Gift to someone
                           </button>
                         </div> */}
-                      </div>
                     </div>
+                  </div>
                 );
               })}
             {/* <div className="no-content">No memberships gifted!</div> */}
