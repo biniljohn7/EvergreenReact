@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
 import { getMembers } from "../../api/LeadershipAPI";
+import MemberForm from "./MemberForm";
 
 const Members = () => {
   const toast = Toast();
   let Spn = Spinner();
 
   const [members, setMembers] = useState([]);
+  const [isMbrOpen, setMbrOpen] = useState(false);
 
   const showMembers = (e) => {
     Spn.Show();
@@ -26,6 +28,10 @@ const Members = () => {
 
     e.preventDefault();
     return false;
+  };
+
+  const handleAddContent = () => {
+    console.log(88);
   };
 
   useEffect(() => {
@@ -48,6 +54,11 @@ const Members = () => {
     <>
       {toast?.Obj}
       <div className="due-serch">
+        <div className="add-membs">
+          <span className="btn" onClick={() => setMbrOpen(true)}>
+            ADD NEW MEMBER
+          </span>
+        </div>
         <form onSubmit={(e) => showMembers(e)}>
           <input type="text" name="key" className="key-inp" id="srchKey" />
           <button
@@ -121,6 +132,15 @@ const Members = () => {
           </div>
         </div>
       </div>
+      {isMbrOpen && (
+        <MemberForm
+          isOpen={isMbrOpen}
+          toggle={() => {
+            setMbrOpen(!isMbrOpen);
+          }}
+          addContent={handleAddContent}
+        />
+      )}
     </>
   );
 };
