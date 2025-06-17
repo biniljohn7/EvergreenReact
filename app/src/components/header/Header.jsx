@@ -41,6 +41,7 @@ const Header = (props) => {
   //const { logout, login } = AuthActions;
   const location = useLocation();
   const profileImage = useSelector((state) => state.auth.profileImage);
+  const { userRoles } = store.getState().auth;
   let Spn = Spinner();
   let Tst = Toast();
   return (
@@ -208,7 +209,7 @@ const Header = (props) => {
                       </span>
                       <ul>
                         {
-                            store.getState().auth.userRoles && (
+                            Array.isArray(userRoles) && userRoles.length > 0 && (
                                 <li>
                                     <Link to="/leader-dashboard">Leadership Panel</Link>
                                 </li>

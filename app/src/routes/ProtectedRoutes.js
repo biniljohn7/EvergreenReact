@@ -6,7 +6,7 @@ import Benefit from "../components/benefit/BenefitDetails";
 import SearchBenefit from "../components/benefit/SearchBenefit";
 import Career from "../components/career/Career";
 import CareerDetail from "../components/career/CareerDetail";
-import Referral from "../components/referral/Referral";
+// import Referral from "../components/referral/Referral";
 import Resource from "../components/resource/Resource";
 import Store from "../components/store/Store";
 import Event from "../components/eventModule/Event";
@@ -15,7 +15,7 @@ import Advocacy from "../components/advocacy/Advocacy";
 import AdvocacyDetail from "../components/advocacy/AdvocacyDetail";
 import Dues from "../components/dues/Dues";
 import Membership from "../components/dues/Membership";
-import Memberships from "../components/dues/Memberships";
+import Setting from "../components/settingPage/Setting";
 import News from "../components/news/News";
 import NewsDetails from "../components/news/NewsDetail";
 import Inbox from "../components/inbox/Inbox";
@@ -29,10 +29,10 @@ const protectedRoutes = [
         component: NewPage,
     },
     // Do not include it in ProtectedLayout to avoid infinite loop
-    // {
-    //   path: '/account',
-    //   component: Setting,
-    // },
+    {
+        path: '/account',
+        component: Setting,
+    },
     {
         path: "/benefits",
         component: BenefitCategory,

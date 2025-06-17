@@ -11,9 +11,9 @@ const Profile = (props) => {
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
   console.log(profile);
 
-  const roleKeys = profile.profile.role.split(",");
+  const {userRoles} = store.getState().auth;
   const roleLabels = PROFILE_OPTIONS.memberRole
-    .filter((option) => roleKeys.includes(option.value))
+    .filter((option) => userRoles.includes(option.value))
     .map((option) => option.label);
 
   document.title = "Profile - " + window.seoTagLine;

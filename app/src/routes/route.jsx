@@ -16,7 +16,7 @@ import ChangePassword from "../components/settingPage/ChangePassword";
 // import ProtectedRoutes from './ProtectedRoutes'
 // import ProtectedLayout from '../layout/ProtectedLayout'
 import ExtraRoutes from "./ExtraRoutes";
-import Setting from "../components/settingPage/Setting";
+// import Setting from "../components/settingPage/Setting";
 import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
@@ -133,7 +133,7 @@ function Routes() {
         )}
       />
 
-      <Route
+      {/* <Route
         exact
         path="/account"
         render={(props) => (
@@ -141,7 +141,7 @@ function Routes() {
             <Setting {...props} />
           </PageContainer>
         )}
-      />
+      /> */}
 
       <Route
         exact
