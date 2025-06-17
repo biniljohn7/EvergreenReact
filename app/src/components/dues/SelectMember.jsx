@@ -270,7 +270,9 @@ function SelectMember(props) {
                         className="srch-btn"
                         onClick={(e) => showMembers(e)}
                       >
-                        <span className="material-symbols-outlined">search</span>
+                        <span className="material-symbols-outlined">
+                          search
+                        </span>
                       </button>
                     </form>
                   </div>

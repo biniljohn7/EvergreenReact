@@ -211,6 +211,18 @@
   flex-wrap: wrap;
 }
 
+.due-serch .add-membs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: 0 1 400px;
+}
+
+.due-serch .add-membs .select {
+  max-width: 200px;
+}
+
 .due-serch form {
   position: relative;
   flex: 0 1 340px;
@@ -366,6 +378,20 @@
   margin: 0 10px 20px;
 }
 
+.member-wrap .ech-memb .edit-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  margin-left: 10px;
+  font-size: 0.9em;
+  z-index: 1000;
+}
+
+.member-wrap .ech-memb .edit-btn span {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
 .member-wrap .ech-memb .memb-top {
   display: flex;
   align-items: center;
@@ -415,6 +441,17 @@
 
 .member-wrap .ech-memb .memb-dtls .dt-itm .material-symbols-outlined {
   font-size: 1.2em;
+}
+
+.member-form .addr-label {
+  margin-bottom: 15px;
+  padding-top: 10px;
+  font-size: 1.2em;
+}
+
+.show-more.members {
+  display: flex;
+  justify-content: center;
 }
 
 @media only screen and (max-width: 1399px) {

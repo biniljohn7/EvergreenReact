@@ -42,10 +42,10 @@ export const getDues = (search) => {
     });
 };
 
-export const getMembers = (search) => {
+export const getMembers = (body) => {
   setHeaders();
   return axios
-    .get(`${BASE_URL}/leader/?method=get-members&search=${search}`)
+    .post(`${BASE_URL}/leader/?method=get-members`, body)
     .then((response) => {
       return response.data;
     });
@@ -61,4 +61,12 @@ export const renewal = (body) => {
   return axios.get(`${BASE_URL}/leader/?method=dues`).then((response) => {
     return response.data;
   });
+};
+
+export const dashboardNewMember = (body) => {
+  return axios
+    .post(BASE_URL + "/leader/?method=dash-add-new-member", body)
+    .then((response) => {
+      return response.data;
+    });
 };

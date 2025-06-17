@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Wrapper from "../dues/dues.style";
-import { getAllMembers, duesNewMember } from "../../api/duesAPI";
+import { dashboardNewMember } from "../../api/LeadershipAPI";
 import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
@@ -15,15 +15,18 @@ function MemberForm(props) {
   const [sectionList, setSectionList] = useState([]);
   const [affiliationList, setAffiliationList] = useState([]);
   const [formValues, setFormValues] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    address: "",
-    city: "",
-    zipcode: "",
-    phone: "",
-    section: "",
-    affilation: "",
+    id: props.data.id ?? "",
+    firstName: props.data.firstName,
+    lastName: props.data.firstName,
+    email: props.data.email,
+    address: props.data.address,
+    city: props.data.city,
+    zipcode: props.data.zipcode,
+    phone: props.data.phone,
+    section: props.data.section,
+    affiliation: props.data.affiliation,
+    sectionId: props.data.sectionId,
+    affiliationId: props.data.affiliationId,
   });
 
   let Spn = Spinner();
@@ -86,8 +89,8 @@ function MemberForm(props) {
     if (!formValues.section) {
       sErrs["section"] = "This field is required";
     }
-    if (!formValues.affilation) {
-      sErrs["affilation"] = "This field is required";
+    if (!formValues.affiliation) {
+      sErrs["affiliation"] = "This field is required";
     }
 
     setErrorList(sErrs);
@@ -97,6 +100,7 @@ function MemberForm(props) {
 
       const data = {
         method: "dues-add-new-member",
+        id: formValues.id,
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         email: formValues.email,
@@ -105,26 +109,16 @@ function MemberForm(props) {
         zipcode: formValues.zipcode,
         phone: formValues.phone,
         section: formValues.section,
-        affilation: formValues.affilation,
+        affiliation: formValues.affiliation,
       };
 
-      duesNewMember(data)
+      dashboardNewMember(data)
         .then((res) => {
-          if (res.success === 1) {
-            const newMemberDetails = {
-              id: res.data.id,
-              name: res.data.name,
-              avatarUrl: res.data.avatarUrl,
-              section: res.data.section,
-              affiliation: res.data.affiliation,
-              city: res.data.city,
-              zipcode: res.data.zipcode,
-              memberId: res.data.memberId,
-            };
-            props.addContent(newMemberDetails);
+          if (res.status === "ok") {
+            Spn.Hide();
+            props.addContent(true);
           } else {
-            Tst.Error(res.message);
-            sErrs["email"] = res.message;
+            // sErrs["email"] = "Email is already Registered!";
           }
         })
         .catch((err) => {
@@ -149,8 +143,10 @@ function MemberForm(props) {
         keyboard={false}
       >
         <Wrapper>
-          <div className="plr-30 ptb-50 position-relative">
-            <div className="popup-title">Choose Member</div>
+          <div className="plr-30 ptb-50 position-relative member-form">
+            <div className="popup-title">
+              {formValues.id != "" ? "Modify" : "Add"} Member
+            </div>
             <div
               className="cursor-pointer text-bold close"
               onClick={(e) => {
@@ -170,6 +166,7 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.firstName}
                 />
                 <Error field="firstName" />
               </div>
@@ -183,6 +180,7 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.lastName}
                 />
                 <Error field="lastName" />
               </div>
@@ -196,9 +194,35 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.email}
                 />
                 <Error field="email" />
               </div>
+              <div className="mb-15 member">
+                <Select
+                  label="Section"
+                  name="section"
+                  placeholder="Choose Section"
+                  id="section"
+                  options={sectionList}
+                  onChange={storeData}
+                  value={formValues.sectionId}
+                />
+                <Error field="section" />
+              </div>
+              <div className="mb-15 member">
+                <Select
+                  label="Affiliates"
+                  name="affiliation"
+                  placeholder="Choose Affiliate"
+                  id="affiliation"
+                  options={affiliationList}
+                  onChange={storeData}
+                  value={formValues.affiliationId}
+                />
+                <Error field="affiliation" />
+              </div>
+              <div className="addr-label">Shipping Address</div>
               <div className="mb-15">
                 <Input
                   id="address"
@@ -209,6 +233,7 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.address}
                 />
               </div>
               <div className="mb-15">
@@ -221,6 +246,7 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.city}
                 />
               </div>
               <div className="mb-15">
@@ -233,6 +259,7 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.zipcode}
                 />
                 <Error field="zipcode" />
               </div>
@@ -246,33 +273,11 @@ function MemberForm(props) {
                   contentFontSize="fs-14"
                   type="text"
                   onChange={storeData}
+                  value={formValues.phone}
                 />
                 <Error field="phone" />
               </div>
-              <div className="mb-15 member">
-                <Select
-                  label="Section"
-                  name="section"
-                  placeholder="Choose Section"
-                  id="section"
-                  options={sectionList}
-                  onChange={storeData}
-                  value={formValues.section}
-                />
-                <Error field="section" />
-              </div>
-              <div className="mb-15 member">
-                <Select
-                  label="Affiliates"
-                  name="affilation"
-                  placeholder="Choose Affiliate"
-                  id="affilation"
-                  options={affiliationList}
-                  onChange={storeData}
-                  value={formValues.affilation}
-                />
-                <Error field="affilation" />
-              </div>
+
               <div className="text-center">
                 <button
                   className="btn btn-rounded button plr-50 ptb-10 mt-20"

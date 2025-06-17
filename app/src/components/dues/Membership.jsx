@@ -750,7 +750,9 @@ function Membership(props) {
                                 <span className="material-symbols-outlined icn">
                                   add_circle
                                 </span>
-                                <span className="btn-txt">Add Gift Recipient</span>
+                                <span className="btn-txt">
+                                  Add Gift Recipient
+                                </span>
                               </span>
                               <Error field="memberGift" />
                             </>
