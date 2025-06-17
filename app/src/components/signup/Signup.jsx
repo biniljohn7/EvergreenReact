@@ -22,6 +22,7 @@ import {
   logInViaSMedia,
   getSection,
   getAffiliation,
+  getCollegiateDropdown,
 } from "../../api/commonAPI";
 
 import Toast from "../../UI/Toast/Toast";
@@ -72,6 +73,7 @@ const SignUp = (props) => {
   const [passwordType, setPasswordType] = useState("password");
   const [sectionList, setSectionList] = useState([]);
   const [affiliationList, setAffiliationList] = useState([]);
+  const [collegiateSectionList, setCollegiateSectionList] = useState([]);
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -119,6 +121,15 @@ const SignUp = (props) => {
       .catch((err) => {
         Tst.Error(
           "Failed to retrive Affiliation list. Please try again later!"
+        );
+      });
+      getCollegiateDropdown(0)
+      .then((res) => {
+        setCollegiateSectionList([...res.data]);
+      })
+      .catch((err) => {
+        Tst.Error(
+          "Failed to retrive collegiate list. Please try again later!"
         );
       });
   }, []);
@@ -238,7 +249,7 @@ const SignUp = (props) => {
             isNotificationOn: res.data.notification || false,
             currentChapter: res.data.currentChapter,
             userRoles: res.data.roles,
-            membershipStatus:res.data.membershipStatus
+            membershipStatus: res.data.membershipStatus,
           };
           props.login(userData);
           Tst.Success(res.message);
@@ -261,23 +272,32 @@ const SignUp = (props) => {
   };
 
   const handleSignup = (e) => {
+    console.log(isValid);
     if (isValid) {
+      if (!values.section && !values.affiliation && !values.collegiateSection) {
+        console.log(
+          "Please select at least one: Section, Affiliation, or Collegiate Section."
+        );
+        Tst.Error(
+          "Please select at least one: Section, Affiliation, or Collegiate Section."
+        );
+        return;
+      }
       Spn.Show();
 
       const body = {
         method: "signup",
         firstName: values.firstName,
         lastName: values.lastName,
-        // memberCode: values.memberId,
         email: values.email,
         password: values.password,
         section: values.section,
         affiliation: values.affiliation,
+        collegiate: values.collegiateSection,
         facebookId: null,
         googleId: null,
         registerType: REGISTER_TYPE.normal,
       };
-
       createAccount(body)
         .then((res) => {
           if (res.success === 1) {
@@ -296,157 +316,151 @@ const SignUp = (props) => {
   };
 
   return (
-    <SignUpWrapper>
-      <div className="sgp-container">
-        <div className="ttl-1">DON'T HAVE AN ACCOUNT?</div>
-        <div className="ttl-2">CREATE AN ACCOUNT</div>
+    <>
+      {Tst.Obj}
+      {Spn.Obj}
+      <SignUpWrapper>
+        <div className="sgp-container">
+          <div className="ttl-1">DON'T HAVE AN ACCOUNT?</div>
+          <div className="ttl-2">CREATE AN ACCOUNT</div>
 
-        <div className="form-area">
-          <div className="form-col">
-            <div className="fm-row">
-              <Input
-                label="FIRST NAME"
-                type="text"
-                placeholder="FIRST NAME"
-                id="firstName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.firstName || ""}
-              />
-              <Error field="firstName" />
-            </div>
-            <div className="fm-row">
-              <Input
-                label="LAST NAME"
-                type="text"
-                placeholder="LAST NAME"
-                id="lastName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lastName || ""}
-              />
-              <Error field="lastName" />
-            </div>
-            <div className="fm-row">
-              <Input
-                label="EMAIL"
-                type="text"
-                placeholder="EMAIL"
-                id="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email || ""}
-              />
-              <Error field="email" />
-            </div>
-            <div className="fm-row">
-              <Select
-                label="SECTION"
-                placeholder="CHOOSE SECTION"
-                id="section"
-                options={sectionList}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.section || ""}
-              />
-              <Error field="section" />
-            </div>
-          </div>
-          <div className="form-col">
-            <div className="fm-row">
-              <Select
-                label="AFFILIATION"
-                placeholder="CHOOSE AFFILIATION"
-                id="affiliation"
-                options={affiliationList}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.affiliation || ""}
-              />
-              <Error field="affiliation" />
-            </div>
-            {/* <div className="fm-row">
-              <Input
-                label="MEMBER ID"
-                type="text"
-                placeholder="MEMBER ID"
-                id="memberId"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.memberId || ""}
-              />
-              <Error field="memberId" />
-            </div> */}
-            <div className="fm-row">
-              <div className="position-relative">
+          <div className="form-area">
+            <div className="form-col">
+              <div className="fm-row">
                 <Input
-                  label="PASSWORD"
-                  type={passwordType}
-                  placeholder="PASSWORD"
-                  id="password"
+                  label="FIRST NAME"
+                  type="text"
+                  placeholder="FIRST NAME"
+                  id="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.password || ""}
+                  value={values.firstName || ""}
                 />
-                {passwordType === "password" ? (
-                  <i
-                    className="fa fa-eye eye pwd cursor-pointer"
-                    onClick={() => {
-                      setPasswordType("text");
-                    }}
-                  ></i>
-                ) : (
-                  <i
-                    className="fa fa-eye-slash eye pwd cursor-pointer"
-                    onClick={() => {
-                      setPasswordType("password");
-                    }}
-                  ></i>
-                )}
+                <Error field="firstName" />
               </div>
-              {!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$&*]).{8,}$/.test(
-                values.password || ""
-              ) && (
-                <>
+              <div className="fm-row">
+                <Input
+                  label="LAST NAME"
+                  type="text"
+                  placeholder="LAST NAME"
+                  id="lastName"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.lastName || ""}
+                />
+                <Error field="lastName" />
+              </div>
+              <div className="fm-row">
+                <Input
+                  label="EMAIL"
+                  type="text"
+                  placeholder="EMAIL"
+                  id="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email || ""}
+                />
+                <Error field="email" />
+              </div>
+              <div className="fm-row">
+                <Select
+                  label="SECTION"
+                  placeholder="CHOOSE SECTION"
+                  id="section"
+                  options={sectionList}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.section || ""}
+                />
+              </div>
+            </div>
+            <div className="form-col">
+              <div className="fm-row">
+                <Select
+                  label="AFFILIATION"
+                  placeholder="CHOOSE AFFILIATION"
+                  id="affiliation"
+                  options={affiliationList}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.affiliation || ""}
+                />
+              </div>
+              <div className="fm-row">
+                <Select
+                  label="COLLEGIATE SECTION"
+                  placeholder="CHOOSE COLLEGIATE SECTION"
+                  id="collegiateSection"
+                  options={collegiateSectionList}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.collegiateSection || ""}
+                />
+              </div>
+              <div className="fm-row">
+                <div className="position-relative">
+                  <Input
+                    label="PASSWORD"
+                    type={passwordType}
+                    placeholder="PASSWORD"
+                    id="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password || ""}
+                  />
+                  {passwordType === "password" ? (
+                    <i
+                      className="fa fa-eye eye pwd cursor-pointer"
+                      onClick={() => {
+                        setPasswordType("text");
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa fa-eye-slash eye pwd cursor-pointer"
+                      onClick={() => {
+                        setPasswordType("password");
+                      }}
+                    ></i>
+                  )}
                   <Error field="password" />
                   <div className="pws-rule">
                     Must Contain 8 Characters, One Uppercase, One Lowercase, One
                     Number and one special case Character
                   </div>
-                </>
-              )}
-            </div>
-            <div className="fm-row">
-              <Input
-                label="CONFIRM PASSWORD"
-                type="password"
-                placeholder="PASSWORD"
-                id="confirmPwd"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.confirmPwd || ""}
-              />
-              <Error field="confirmPwd" />
+                </div>
+              </div>
+              <div className="fm-row">
+                <Input
+                  label="CONFIRM PASSWORD"
+                  type="password"
+                  placeholder="PASSWORD"
+                  id="confirmPwd"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPwd || ""}
+                />
+                <Error field="confirmPwd" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="sgp-agree">
-          BY CREATING AN ACCOUNT YOU AGREE TO OUR{" "}
-          <Link to="/terms_of_service/">TERMS OF SERVICE</Link>
-          {" AND "}
-          <Link to="/privacy_policy/">PRIVACY POLICY</Link>
-        </div>
+          <div className="sgp-agree">
+            BY CREATING AN ACCOUNT YOU AGREE TO OUR{" "}
+            <Link to="/terms_of_service/">TERMS OF SERVICE</Link>
+            {" AND "}
+            <Link to="/privacy_policy/">PRIVACY POLICY</Link>
+          </div>
 
-        <div className="submit-area">
-          <Button
-            className="button mt-20"
-            name="SIGN UP"
-            clicked={handleSignup}
-          />
-        </div>
+          <div className="submit-area">
+            <Button
+              className="button mt-20"
+              name="SIGN UP"
+              clicked={handleSignup}
+            />
+          </div>
 
-        {/* <div className="sgp-agree">
+          {/* <div className="sgp-agree">
           OR SIGNUP WITH
         </div>
         <div className="d-flex justify-content-center">
@@ -463,8 +477,9 @@ const SignUp = (props) => {
               </span>
             </span>
           </div> */}
-      </div>
-    </SignUpWrapper>
+        </div>
+      </SignUpWrapper>
+    </>
   );
 };
 
