@@ -21,6 +21,7 @@ import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
 import Wrapper from "../newPage/newpage.style";
 import Banner from "../common/NewBanner";
+import Dashboard from './../leader-dashboard/Dashboard';
 
 const { logout, login } = AuthActions;
 
@@ -209,12 +210,12 @@ const Header = (props) => {
                         {
                             store.getState().auth.userRoles && (
                                 <li>
-                                    <Link to="/leader-dashboard">Dashaboard</Link>
+                                    <Link to="/leader-dashboard">Leadership Panel</Link>
                                 </li>
                             )
                         }
                         <li>
-                          <Link to="/account">Settings</Link>
+                            <Link to="/account">My Profile</Link>
                         </li>
                         <li>
                           <a

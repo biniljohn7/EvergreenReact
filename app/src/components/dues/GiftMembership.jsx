@@ -14,7 +14,11 @@ import {
   giftAcceptedApi,
 } from "../../api/duesAPI";
 
-const GiftMembership = () => {
+import AuthActions from "../../redux/auth/actions";
+import { connect } from "react-redux";
+const { login } = AuthActions;
+
+const GiftMembership = (props) => {
   const Tst = Toast();
   const lgMbr = store.getState().auth.memberId;
 
@@ -51,6 +55,10 @@ const GiftMembership = () => {
               gift.id === id ? { ...gift, accepted: "Y" } : gift
             )
           );
+          if(res.data.loginData){
+              props.login(res.data.loginData);
+          }
+
         } else {
           console.log(res.message);
           Tst.Error(res.message);
@@ -371,4 +379,4 @@ const GiftMembership = () => {
   );
 };
 
-export default GiftMembership;
+export default connect(null, { login })(GiftMembership);

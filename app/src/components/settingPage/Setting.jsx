@@ -6,6 +6,7 @@ import UserPic from "../../assets/images/user_1x.png";
 // import UserPic_05x from '../../assets/images/user_05x.png'
 // import CameraIcon from '../../assets/images/camera_2x.png'
 // import CameraIcon_2x from '../../assets/images/camera_2x.png'
+import LeadershipIcon from "../../assets/images/leadership.png";
 import PasswordIcon from "../../assets/images/password_icon2x.png";
 import PolicyIcon from "../../assets/images/policy_icon2x.png";
 import TermsIcon from "../../assets/images/terms_icon2x.png";
@@ -22,6 +23,7 @@ import {
 import { logout as logoutAPI } from "../../api/commonAPI";
 // import { Spinner, Toast } from "reactstrap";
 // import { ToastsStore } from "react-toasts";
+import LeadershipTeam from './LeadershipTeam';
 import ChangePassword from "./ChangePassword";
 import PrivacyPolicy from "../staticPage/PrivacyPolicy";
 import Terms from "../staticPage/Terms&Services";
@@ -50,6 +52,12 @@ const SIDE_MENU = [
 		icon: UserIcon,
 		alt: "user",
 		state: CHILD_STATE.profile,
+	},
+	{
+		label: "Leadership Team",
+		icon: LeadershipIcon,
+		alt: "Leadership Team",
+		state: CHILD_STATE.leadershipTeam,
 	},
 	{
 		label: "Change Password",
@@ -130,6 +138,8 @@ const Setting = (props) => {
 		switch (activeState) {
 			case CHILD_STATE.changePwd:
 				return <ChangePassword isMobile={isMobile} />;
+            case CHILD_STATE.leadershipTeam:
+                return <LeadershipTeam isMobile={isMobile} />;
 			case CHILD_STATE.terms:
 				return <Terms isMobile={isMobile} />;
 			case CHILD_STATE.policy:

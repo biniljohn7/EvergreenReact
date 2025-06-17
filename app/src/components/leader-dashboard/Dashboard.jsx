@@ -25,18 +25,18 @@ const Dashboard = ({ userRoles }) => {
 //     { title: "Retention Rate", value: "92%", description: "Past 12 months" },
 //   ];
 
-//   const leaderboard = [
-//     { name: "Alice Johnson", score: "95%" },
-//     { name: "Mark Thompson", score: "91%" },
-//     { name: "Sophia Lee", score: "89%" },
-//   ];
+  const leaderboard = [
+    { name: "Alice Johnson", score: "95%" },
+    { name: "Mark Thompson", score: "91%" },
+    { name: "Sophia Lee", score: "89%" },
+  ];
 
-//   const activities = [
-//     "Townhall scheduled for June 15",
-//     "New KPIs released",
-//     "Quarterly reviews underway",
-//     "Team expansion plan approved",
-//   ];
+  const activities = [
+    "Townhall scheduled for June 15",
+    "New KPIs released",
+    "Quarterly reviews underway",
+    "Team expansion plan approved",
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,7 +73,7 @@ const Dashboard = ({ userRoles }) => {
         </div>
       )}
 
-          {/* <div className="dashboard-sections">
+          <div className="dashboard-sections">
             <div className="section">
               <h3>Team Leaderboard</h3>
               <ul className="list">
@@ -95,7 +95,7 @@ const Dashboard = ({ userRoles }) => {
                 ))}
               </ul>
             </div> 
-          </div>*/}
+          </div>
     </>
   );
 };
