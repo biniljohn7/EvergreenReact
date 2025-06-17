@@ -430,7 +430,7 @@ const Resource = (props) => {
                                 ? new Date(
                                     resourceInfo.validThru
                                   ).toDateString()
-                                : "-"}
+                                : "--"}
                             </span>
                           </div>
                         </div>
@@ -451,7 +451,9 @@ const Resource = (props) => {
                       >
                         Membership Card
                       </span>
-                      <span className="material-symbols-outlined">download</span>
+                      <span className="material-symbols-outlined">
+                        download
+                      </span>
                     </div>
                     <div className="dwnld-box">
                       <a
@@ -464,7 +466,9 @@ const Resource = (props) => {
                       >
                         Recommendation Letter
                       </a>
-                      <span className="material-symbols-outlined">download</span>
+                      <span className="material-symbols-outlined">
+                        download
+                      </span>
                     </div>
                   </div>
                 </div>

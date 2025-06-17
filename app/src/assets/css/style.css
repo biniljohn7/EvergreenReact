@@ -371,10 +371,14 @@ a:focus {
   border: 1px solid #fff;
   display: none;
   z-index: 10;
-  top: 0;
+  top: 55px;
+  right: 0;
+  min-width: 200px;
+  padding-top: 22px;
+  /* top: 0;
   right: 0;
   min-width: 100%;
-  padding-top: 60px;
+  padding-top: 60px; */
 }
 
 .top-header .nav-box ul li.my-acc:hover > ul {
@@ -391,7 +395,8 @@ a:focus {
 }
 
 .top-header .nav-box ul li.my-acc ul li a {
-  padding: 0 28px;
+  /* padding: 0 28px; */
+  padding: 0 20px;
   font-size: 13px;
   line-height: 2em;
 }

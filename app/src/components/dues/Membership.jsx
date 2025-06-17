@@ -95,7 +95,15 @@ function Membership(props) {
 
   document.title = "Membership - " + window.seoTagLine;
 
-  const addMbr = (mbrId, mbrNam, mbrAvatar) => {
+  const addMbr = (
+    mbrId,
+    mbrNam,
+    mbrAvatar,
+    mbrMembship,
+    mbrZip,
+    mbrCity,
+    mbrMembId
+  ) => {
     setMembId((prev) => {
       if (prev[mbrId]) {
         mbrExist = true;
@@ -104,13 +112,21 @@ function Membership(props) {
 
       return {
         ...prev,
-        [mbrId]: [mbrNam, mbrAvatar],
+        [mbrId]: [mbrNam, mbrAvatar, mbrMembship, mbrZip, mbrCity, mbrMembId],
       };
     });
   };
 
   const handleAddContent = (person) => {
-    addMbr(person.id, person.name, person.avatarUrl);
+    addMbr(
+      person.id,
+      person.name,
+      person.avatarUrl,
+      person.membership,
+      person.zipcode,
+      person.city,
+      person.memberId
+    );
     if (!mbrExist) {
       setContent([...content, person]);
     } else {
@@ -163,11 +179,17 @@ function Membership(props) {
     setErrorList(sErrs);
     if (Object.keys(sErrs).length < 1) {
       const formattedMembers = {
-        memberIds: Object.entries(membId).map(([id, [name, avatar]]) => ({
-          id: parseInt(id),
-          name,
-          avatar,
-        })),
+        memberIds: Object.entries(membId).map(
+          ([id, [name, avatar, membership, zipcode, city, memberId]]) => ({
+            id: parseInt(id),
+            name,
+            avatar,
+            membership,
+            zipcode,
+            city,
+            memberId,
+          })
+        ),
         membershipPlan: membData.membershipPlan,
         membershipPlanName: membData.membershipPlanName,
         membershipPlanCharge: membData.membershipPlanCharge,
@@ -298,7 +320,14 @@ function Membership(props) {
       membFor = "gift";
 
       const exMemb = users.reduce((acc, curr) => {
-        acc[curr.id] = [curr.name, curr.avatar];
+        acc[curr.id] = [
+          curr.name,
+          curr.avatar,
+          curr.membership,
+          curr.zipcode,
+          curr.city,
+          curr.memberId,
+        ];
         return acc;
       }, {});
 
@@ -445,6 +474,36 @@ function Membership(props) {
                                               <div className="mbr-nam">
                                                 {member.name || ""}
                                               </div>
+                                            </div>
+                                          </div>
+                                          <div className="usr-wrap">
+                                            <div className="wp-lf">
+                                              Membership:
+                                            </div>
+                                            <div className="wp-rg">
+                                              {member.membership ?? "--"}
+                                            </div>
+                                          </div>
+                                          <div className="usr-wrap">
+                                            <div className="wp-lf">
+                                              Member ID:
+                                            </div>
+                                            <div className="wp-rg">
+                                              {member.memberId ?? "--"}
+                                            </div>
+                                          </div>
+                                          <div className="usr-wrap">
+                                            <div className="wp-lf">City:</div>
+                                            <div className="wp-rg">
+                                              {member.city ?? "--"}
+                                            </div>
+                                          </div>
+                                          <div className="usr-wrap">
+                                            <div className="wp-lf">
+                                              Zipcode:
+                                            </div>
+                                            <div className="wp-rg">
+                                              {member.zipcode ?? "--"}
                                             </div>
                                           </div>
                                         </div>
@@ -806,6 +865,30 @@ function Membership(props) {
                                           >
                                             cancel
                                           </span>
+                                        </div>
+                                      </div>
+                                      <div className="usr-wrap">
+                                        <div className="wp-lf">Membership:</div>
+                                        <div className="wp-rg">
+                                          {item.membership ?? "--"}
+                                        </div>
+                                      </div>
+                                      <div className="usr-wrap">
+                                        <div className="wp-lf">Member ID:</div>
+                                        <div className="wp-rg">
+                                          {item.memberId ?? "--"}
+                                        </div>
+                                      </div>
+                                      <div className="usr-wrap">
+                                        <div className="wp-lf">City:</div>
+                                        <div className="wp-rg">
+                                          {item.city ?? "--"}
+                                        </div>
+                                      </div>
+                                      <div className="usr-wrap">
+                                        <div className="wp-lf">Zipcode:</div>
+                                        <div className="wp-rg">
+                                          {item.zipcode ?? "--"}
                                         </div>
                                       </div>
                                     </div>

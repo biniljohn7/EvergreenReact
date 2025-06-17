@@ -89,6 +89,7 @@ const Wrapper = styled.div`
   .gift-membership #selectedMembers .ech-mbr {
     width: calc(50% - 10px);
     margin: 0px 5px 10px;
+    flex-direction: column;
   }
   .gift-membership #selectedMembers .ech-mbr .avatar-sec {
     width: 40px;
@@ -113,10 +114,34 @@ const Wrapper = styled.div`
 
   .gift-membership #selectedMembers .ech-mbr .info-sec {
     position: relative;
+    margin-bottom: 10px;
   }
 
   .gift-membership #selectedMembers .ech-mbr .info-sec .person-info {
     margin-bottom: 0px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .usr-wrap {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .usr-wrap:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .usr-wrap .wp-lf {
+    color: #a9a9a9;
+    font-size: 0.85em;
+  }
+
+  .gift-membership #selectedMembers .ech-mbr .usr-wrap .wp-rg {
+    word-break: break-word;
+    flex: 1 1 0;
+    font-size: 0.9em;
   }
 
   .form-col.sugg {
@@ -223,10 +248,35 @@ const Wrapper = styled.div`
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.6);
     padding: 15px;
     border-radius: 5px;
+    flex-direction: column;
   }
 
   .ord-members .ech-mbr .info-sec {
     position: relative;
+    margin-bottom: 10px;
+  }
+
+  .ord-members .ech-mbr .usr-wrap {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  .ord-members .ech-mbr .usr-wrap:not(:last-child) {
+    margin-bottom: 5px;
+  }
+
+  .ord-members .ech-mbr .usr-wrap .wp-lf {
+    color: #a9a9a9;
+    font-size: 0.85em;
+  }
+
+  .ord-members .ech-mbr .usr-wrap .wp-rg {
+    word-break: break-word;
+    flex: 1 1 0;
+    font-size: 0.9em;
   }
 
   .ech-mbr .info-sec .person-info {
@@ -379,6 +429,12 @@ const Wrapper = styled.div`
 
   .rcv-sts {
     color: #925da1;
+  }
+
+  .addr-label {
+    margin-bottom: 15px;
+    padding-top: 10px;
+    font-size: 1.2em;
   }
 
   @media only screen and (max-width: 1260px) {

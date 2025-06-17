@@ -111,6 +111,7 @@ function SelectMember(props) {
       city: event.target.getAttribute("data-city"),
       zipcode: event.target.getAttribute("data-zipcode"),
       memberId: event.target.getAttribute("data-memberid"),
+      membership: event.target.getAttribute("data-membership"),
     };
     props.addContent(personDetails);
   };
@@ -308,6 +309,7 @@ function SelectMember(props) {
                                   data-city={mbr.city}
                                   data-zipcode={mbr.zipcode}
                                   data-memberid={mbr.memberId}
+                                  data-membership={mbr.membership}
                                 >
                                   Add
                                 </span>
@@ -382,6 +384,31 @@ function SelectMember(props) {
                   />
                   <Error field="email" />
                 </div>
+                <div className="mb-15 member">
+                  <Select
+                    label="Section"
+                    name="section"
+                    placeholder="Choose Section"
+                    id="section"
+                    options={sectionList}
+                    onChange={storeData}
+                    value={formValues.section}
+                  />
+                  <Error field="section" />
+                </div>
+                <div className="mb-15 member">
+                  <Select
+                    label="Affiliates"
+                    name="affilation"
+                    placeholder="Choose Affiliate"
+                    id="affilation"
+                    options={affiliationList}
+                    onChange={storeData}
+                    value={formValues.affilation}
+                  />
+                  <Error field="affilation" />
+                </div>
+                <div className="addr-label">Shipping Address</div>
                 <div className="mb-15">
                   <Input
                     id="address"
@@ -432,30 +459,7 @@ function SelectMember(props) {
                   />
                   <Error field="phone" />
                 </div>
-                <div className="mb-15 member">
-                  <Select
-                    label="Section"
-                    name="section"
-                    placeholder="Choose Section"
-                    id="section"
-                    options={sectionList}
-                    onChange={storeData}
-                    value={formValues.section}
-                  />
-                  <Error field="section" />
-                </div>
-                <div className="mb-15 member">
-                  <Select
-                    label="Affiliates"
-                    name="affilation"
-                    placeholder="Choose Affiliate"
-                    id="affilation"
-                    options={affiliationList}
-                    onChange={storeData}
-                    value={formValues.affilation}
-                  />
-                  <Error field="affilation" />
-                </div>
+
                 <div className="text-center">
                   <button
                     className="btn btn-rounded button plr-50 ptb-10 mt-20"
