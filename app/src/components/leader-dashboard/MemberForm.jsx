@@ -17,16 +17,18 @@ function MemberForm(props) {
   const [formValues, setFormValues] = useState({
     id: props.data.id ?? "",
     firstName: props.data.firstName,
-    lastName: props.data.firstName,
+    lastName: props.data.lastName,
     email: props.data.email,
     address: props.data.address,
     city: props.data.city,
     zipcode: props.data.zipcode,
     phone: props.data.phone,
-    section: props.data.section,
-    affiliation: props.data.affiliation,
-    sectionId: props.data.sectionId,
-    affiliationId: props.data.affiliationId,
+    section: props.data.sectionId ?? "",
+    affiliation: props.data.affiliationId ?? "",
+    // section: props.data.section,
+    // affiliation: props.data.affiliation,
+    // sectionId: props.data.sectionId,
+    // affiliationId: props.data.affiliationId,
   });
 
   let Spn = Spinner();
@@ -118,7 +120,8 @@ function MemberForm(props) {
             Spn.Hide();
             props.addContent(true);
           } else {
-            // sErrs["email"] = "Email is already Registered!";
+            Tst.Error(res.message);
+            sErrs["email"] = res.message;
           }
         })
         .catch((err) => {
@@ -207,7 +210,7 @@ function MemberForm(props) {
                   id="section"
                   options={sectionList}
                   onChange={storeData}
-                  value={formValues.sectionId}
+                  value={formValues.section}
                 />
                 <Error field="section" />
               </div>
@@ -219,7 +222,7 @@ function MemberForm(props) {
                   id="affiliation"
                   options={affiliationList}
                   onChange={storeData}
-                  value={formValues.affiliationId}
+                  value={formValues.affiliation}
                 />
                 <Error field="affiliation" />
               </div>
