@@ -1537,6 +1537,11 @@ a:focus {
   text-align: center;
   border-top: dashed 3px #d9c6dd;
   padding-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .gift-wrapper .gift-content .btn-container button,
