@@ -375,8 +375,8 @@ function Membership(props) {
 
   return (
     <Wrapper>
-      {Spn.Obj}
       {Tst.Obj}
+      {Spn.Obj}
       <div className="red pt-20 bread-nav">
         <div className="container">
           <Breadcrumb>

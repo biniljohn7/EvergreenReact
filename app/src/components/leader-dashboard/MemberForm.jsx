@@ -132,6 +132,7 @@ function MemberForm(props) {
 
   return (
     <div>
+      {Tst.Obj}
       {Spn.Obj}
       <Modal
         isOpen={props.isOpen}
