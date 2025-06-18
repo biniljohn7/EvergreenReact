@@ -1,48 +1,17 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { viewDashboard } from '../../api/LeadershipAPI';
 
 const Dashboard = ({ userRoles }) => {
   const [loading, setLoading] = useState(true);
   const [metrics, setMetrics] = useState([]);
-
-
-//   const metrics = [
-//     {
-//       title: "Team Performance",
-//       value: "87%",
-//       description: "Monthly target achievement",
-//     },
-//     {
-//       title: "Active Projects",
-//       value: "12",
-//       description: "Ongoing strategic initiatives",
-//     },
-//     {
-//       title: "Engagement Score",
-//       value: "75%",
-//       description: "Team sentiment rating",
-//     },
-//     { title: "Retention Rate", value: "92%", description: "Past 12 months" },
-//   ];
-
-  const leaderboard = [
-    { name: "Alice Johnson", score: "95%" },
-    { name: "Mark Thompson", score: "91%" },
-    { name: "Sophia Lee", score: "89%" },
-  ];
-
-  const activities = [
-    "Townhall scheduled for June 15",
-    "New KPIs released",
-    "Quarterly reviews underway",
-    "Team expansion plan approved",
-  ];
+  const [leadershipTitles, setLeadershipTitles] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await viewDashboard();
         setMetrics(res?.data?.metrics || []);
+        setLeadershipTitles(res?.data?.learshipTitles || []);
       } catch (err) {
         if (err.response?.status === 401) {
           console.log('Session Expired! Please login again.');
@@ -73,29 +42,18 @@ const Dashboard = ({ userRoles }) => {
         </div>
       )}
 
-          <div className="dashboard-sections">
-            <div className="section">
-              <h3>Team Leaderboard</h3>
-              <ul className="list">
-                {leaderboard.map((person, index) => (
-                  <li key={index} className="list-item">
-                    {person.name} — <strong>{person.score}</strong>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="section">
-              <h3>Recent Activity</h3>
-              <ul className="list">
-                {activities.map((activity, index) => (
-                  <li key={index} className="list-item">
-                    {activity}
-                  </li>
-                ))}
-              </ul>
-            </div> 
-          </div>
+      {leadershipTitles.length > 0 && (
+        <div className="leadership-section mt-6">
+          <h4>My Leadership Circle</h4>
+          <ul className="list-disc pl-6">
+            {leadershipTitles.map((item, idx) => (
+              <li key={idx}>
+                <h3>{item.title}</h3> – {item.circle?.name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </>
   );
 };

@@ -1,81 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "./common.style";
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
 import UserPic from "../../assets/images/user_1x.png";
 import "./LeadershipTeam.css";
+import { viewLeaders } from "../../api/memberAPI";
 
 const LeadershipTeam = (props) => {
   let Tst = Toast();
   let Spn = Spinner();
+
+  const [loading, setLoading] = useState(true);
+  const [teamData, setTeamData] = useState([]);
   document.title = "Leadership Team - " + window.seoTagLine;
 
-  const teamData = [
-    {
-      role: "State Leader",
-      members: [
-        {
-          name: "Dr. Anita Roberts",
-          title: "State Chairperson",
-          memberId: "SL001",
-          address: "123 Unity Blvd, Washington, DC",
-          messageLink: "mailto:anita.roberts@example.com",
-          profileImage: UserPic,
-        },
-        {
-          name: "James Carter",
-          title: "Deputy State Leader",
-          memberId: "SL002",
-          address: "456 Harmony Rd, Richmond, VA",
-          messageLink: "mailto:james.carter@example.com",
-          profileImage: UserPic,
-        },
-      ],
-    },
-    {
-      role: "Section Leader",
-      members: [
-        {
-          name: "Maria Gonzalez",
-          title: "North Section Lead",
-          memberId: "SEC101",
-          address: "789 North St, Chicago, IL",
-          messageLink: "mailto:maria.gonzalez@example.com",
-          profileImage: UserPic,
-        },
-        {
-          name: "John Lee",
-          title: "South Section Lead",
-          memberId: "SEC102",
-          address: "321 South Ave, Dallas, TX",
-          messageLink: "mailto:john.lee@example.com",
-          profileImage: UserPic,
-        },
-      ],
-    },
-    {
-      role: "Section President",
-      members: [
-        {
-          name: "Tanya Brooks",
-          title: "President - Atlanta Section",
-          memberId: "PRES301",
-          address: "100 Peach St, Atlanta, GA",
-          messageLink: "mailto:tanya.brooks@example.com",
-          profileImage: UserPic,
-        },
-        {
-          name: "Samuel Wright",
-          title: "President - Miami Section",
-          memberId: "PRES302",
-          address: "200 Ocean Dr, Miami, FL",
-          messageLink: "mailto:samuel.wright@example.com",
-          profileImage: UserPic,
-        },
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await viewLeaders();
+        setTeamData(res?.data?.teamData || []);
+      } catch (err) {
+        if (err.response?.status === 401) {
+          console.log("Session Expired! Please login again.");
+        } else {
+          console.log("Something went wrong.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    fetchData();
+  }, []);
+  if (loading) return null;
   return (
     <>
       {Tst.Obj}
@@ -90,7 +47,7 @@ const LeadershipTeam = (props) => {
                 {group.members.map((member, idx) => (
                   <div key={idx} className="leader-card">
                     <img
-                      src={member.profileImage}
+                      src={member.profileImage ? member.profileImage : UserPic}
                       alt={member.name}
                       className="leader-image"
                     />

@@ -168,7 +168,7 @@ const Setting = (props) => {
 			<Wrapper>
 				{showBanner && (
         <div className="text-center p-3 expiry-alert">
-			Your Membership plan has expired. <Link to="/mmbrshppaymnt">Renew Now</Link>
+			Your Membership plan has expired. <Link to="/dues">Renew Now</Link>
         </div>
       )}
 				{window.innerWidth > 800 ? (

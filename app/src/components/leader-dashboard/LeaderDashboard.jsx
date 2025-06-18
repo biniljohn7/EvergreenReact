@@ -90,7 +90,6 @@ const LeadershipDashboard = (props) => {
       </div>
 
       <div className="dashboard-main">
-        <h2>{selectedMenu}</h2>
         {renderContent()}
       </div>
     </div>
