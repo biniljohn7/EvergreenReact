@@ -52,15 +52,12 @@ export const getMembers = (body) => {
 };
 
 export const renewal = (body) => {
-    // return axios
-    //   .post(BASE_URL + "/leader/?method=elect-officers", body)
-    //   .then((response) => {
-    //     return response.data;
-    //   });
     setHeaders();
-    return axios.get(`${BASE_URL}/leader/?method=dues`).then((response) => {
-        return response.data;
-    });
+    return axios
+        .post(`${BASE_URL}/leader/?method=roster-renewal`, body)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const dashboardNewMember = (body) => {

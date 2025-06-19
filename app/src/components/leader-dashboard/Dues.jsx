@@ -1,86 +1,105 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
 import Pix from "../../helper/Pix";
-import Checkbox from "../../UI/checkbox/checkbox";
 import { getDues, renewal } from "../../api/LeadershipAPI";
 
 const Dues = () => {
   const toast = Toast();
   let Spn = Spinner();
 
-  const [dues, setDues] = useState([]);
+  const [members, setMembers] = useState([]);
   const [renew, setRenew] = useState({});
   const [totalAmount, setTotalAmount] = useState(0);
 
-  const addDues = (membership, amount, isRenew) => {
+  const addDues = (dueId, amount, isRenew) => {
     setRenew((prev) => {
+      const updated = { ...prev };
       if (!isRenew) {
-        const updated = { ...prev };
-        delete updated[membership];
+        delete updated[dueId];
         return updated;
       } else {
         return {
-          ...prev,
-          [membership]: [amount, true],
+          ...updated,
+          [dueId]: [parseFloat(amount), true],
         };
       }
     });
   };
 
   const makePayment = () => {
-    const membershipIds = Object.entries(renew).map(([id]) => parseInt(id));
+    const dueIds = Object.entries(renew).map(([id]) => id);
 
     const renewData = {
-      ids: membershipIds,
+      ids: dueIds,
     };
 
+
+    Spn.Show();
     renewal(renewData)
       .then((res) => {
-        if (res.status == "ok") {
-          toast.Success("Membership renewal was successful.");
-
-          setDues((prev) =>
-            prev.filter((due) => !membershipIds.includes(due.membershipId))
-          );
-          setRenew({});
-          setTotalAmount(0);
+        if (res.status === "ok") {
+        if (res.data && res.data.paymentUrl) {
+            window.location.href = res.data.paymentUrl;
+        } else {
+            toast.Error("Something went wrong!");
+        }
+        //   toast.Success("Membership renewal was successful.");
+        //   setMembers((prev) =>
+        //     prev.map((member) => ({
+        //       ...member,
+        //       dues: member.dues.filter((due) => !dueIds.includes(due.id)),
+        //     }))
+        //   );
+        //   setRenew({});
+        //   setTotalAmount(0);
         }
       })
-      .catch((err) => {
+      .catch(() => {
         toast.Error("Something went wrong!");
       });
   };
 
+  const transformData = (data) => {
+    return Object.values(data.list).map((member) => ({
+      name: `${member.firstName} ${member.lastName}`,
+      memberId: member.memberId,
+      city: member.city || "--",
+      zipcode: member.zipcode || "--",
+      dues: member.dues.map((due) => ({
+        ...due,
+        amount: parseFloat(due.amount),
+      })),
+    }));
+  };
+
   const showDues = (e) => {
+    e.preventDefault();
     Spn.Show();
     getDues(document.getElementById("srchKey").value)
       .then((res) => {
-        if (res.status == "ok") {
-          setDues(res.data.dues);
+        if (res.status === "ok") {
+          setMembers(transformData(res.data));
         }
       })
-      .catch((err) => {
-        toast.Error("Failed to retrive Dues list. Please try again later!");
+      .catch(() => {
+        toast.Error("Failed to retrieve Dues list. Please try again later!");
       })
       .finally(() => {
         Spn.Hide();
       });
-
-    e.preventDefault();
-    return false;
   };
 
   useEffect(() => {
     Spn.Show();
     getDues("")
       .then((res) => {
-        if (res.status == "ok") {
-          setDues(res.data.dues);
+        if (res.status === "ok") {
+          setMembers(transformData(res.data));
         }
       })
-      .catch((err) => {
-        toast.Error("Failed to retrive Dues list. Please try again later!");
+      .catch(() => {
+        toast.Error("Failed to retrieve Dues list. Please try again later!");
       })
       .finally(() => {
         Spn.Hide();
@@ -90,6 +109,7 @@ const Dues = () => {
   return (
     <>
       {toast?.Obj}
+      {Spn.Obj}
       <div className="due-serch">
         <form onSubmit={(e) => showDues(e)}>
           <input type="text" name="key" className="key-inp" id="srchKey" />
@@ -102,69 +122,77 @@ const Dues = () => {
           </button>
         </form>
       </div>
-      {dues && dues.length > 0 ? (
+
+      {members && members.length > 0 ? (
         <>
           <div className="dues-wrap">
-            {dues.map((due, index) => {
-              return (
-                <div className="dues-list" key={index}>
-                  <label>
-                    <div className="list-top">
-                      <div className="top-lf">
-                        <input
-                          type="checkbox"
-                          checked={renew[due.membershipId]?.[1] || false}
-                          onChange={() => {
-                            const [amount, status] = renew[
-                              due.membershipId
-                            ] || [due.amount, false];
-                            addDues(due.membershipId, amount, !status);
+            {members.map((member, index) => (
+              <div className="dues-list" key={index}>
+                <label>
+                  <div className="list-top">
+                    <div className="top-rg">
+                      <div className="mb-name">{member.name}</div>
+                      <div className="mb-date">
+                        <div className="dt-lbl">Member ID:</div>
+                        <div className="dt-vl">{member.memberId}</div>
+                      </div>
+                    </div>
+                  </div>
 
-                            if (!renew[due.membershipId]?.[1]) {
-                              setTotalAmount(
-                                (prev) => prev + parseInt(due.amount)
-                              );
-                            } else {
-                              setTotalAmount(
-                                (prev) => prev - parseInt(due.amount)
-                              );
-                            }
-                          }}
-                        />
+                  <div className="list-btm">
+                    <div className="btm-left">
+                      <div className="left-itm">
+                        <div className="itm-lf">City:</div>
+                        <div className="itm-rg">{member.city}</div>
                       </div>
-                      <div className="top-rg">
-                        <div className="mb-name">{due.planName || "--"}</div>
-                        <div className="mb-date">
-                          <div className="dt-lbl">Final payment</div>
-                          <div className="dt-vl">{due.lastPaid || "N/A"}</div>
-                        </div>
+                      <div className="left-itm">
+                        <div className="itm-lf">Zipcode:</div>
+                        <div className="itm-rg">{member.zipcode}</div>
                       </div>
                     </div>
-                    <div className="list-btm">
-                      <div className="btm-left">
-                        <div className="left-itm">{due.name || "Unknown"}</div>
-                        <div className="left-itm">
-                          <div className="itm-lf">Member ID:</div>
-                          <div className="itm-rg">{due.memberId || "--"}</div>
+                  </div>
+                </label>
+
+                {member.dues.length > 0 ? (
+                  member.dues.map((due, dIndex) => (
+                    <div className="dues-list" key={dIndex}>
+                      <label>
+                        <div className="list-top">
+                          <div className="top-lf">
+                            <input
+                              type="checkbox"
+                              checked={renew[due.id]?.[1] || false}
+                              onChange={() => {
+                                const isActive = renew[due.id]?.[1] || false;
+                                addDues(due.id, due.amount, !isActive);
+
+                                setTotalAmount((prev) =>
+                                  !isActive
+                                    ? prev + parseFloat(due.amount)
+                                    : prev - parseFloat(due.amount)
+                                );
+                              }}
+                            />
+                          </div>
+                          <div className="top-rg">
+                            <div className="mb-name">{due.title}</div>
+                          </div>
                         </div>
-                        <div className="left-itm">
-                          <div className="itm-lf">City:</div>
-                          <div className="itm-rg">{due.city || "--"}</div>
+                        <div className="list-btm">
+                          <div className="btm-right">
+                            {Pix.dollar(due.amount || 0, 1)}
+                          </div>
                         </div>
-                        <div className="left-itm">
-                          <div className="itm-lf">Zipcode:</div>
-                          <div className="itm-rg">{due.zipcode || "--"}</div>
-                        </div>
-                      </div>
-                      <div className="btm-right">
-                        {Pix.dollar(due.amount || 0, 1)}
-                      </div>
+                      </label>
                     </div>
-                  </label>
-                </div>
-              );
-            })}
+                  ))
+                ) : (
+                  <div className="no-dues">No dues for this member.</div>
+                )}
+              </div>
+            ))}
           </div>
+
           {Object.keys(renew).length !== 0 && (
             <div className="dues-btn">
               <span className="btn button" onClick={makePayment}>
@@ -180,7 +208,7 @@ const Dues = () => {
           )}
         </>
       ) : (
-        <div className="no-dues">No dues found.</div>
+        <div className="no-dues">No members found.</div>
       )}
     </>
   );
