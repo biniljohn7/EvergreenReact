@@ -430,7 +430,7 @@ const Resource = (props) => {
                                 ? new Date(
                                     resourceInfo.validThru
                                   ).toDateString()
-                                : "--"}
+                                : "Lifelong"}
                             </span>
                           </div>
                         </div>
