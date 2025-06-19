@@ -10,42 +10,37 @@ import { connect } from "react-redux";
 const { login } = AuthActions;
 
 const Transaction = (props) => {
-  const { s } = useParams();
+  const { txnid, status } = useParams();
   const [loading, setLoading] = useState(true);
   const [shwStatus, setShwStatus] = useState("pending");
 
   useEffect(() => {
     const verifyTxn = async (payload) => {
-      memberTxn(payload)
-        .then((res) => {
-          if (res.success === 1) {
-            setShwStatus(res.data.payStatus);
-            if(res.data.loginData){
-                props.login(res.data.loginData);
-            }
-            setLoading(false);
-          } else {
-            ToastsStore.error(res.message);
-            setLoading(false);
+      try {
+        const res = await memberTxn(payload);
+        if (res.success === 1) {
+          setShwStatus(res.data.payStatus);
+          if (res.data.loginData) {
+            props.login(res.data.loginData);
           }
-        })
-        .catch((err) => {
-          console.error(err);
-          ToastsStore.error("Something went wrong!");
-          setLoading(false);
-        });
+        } else {
+          ToastsStore.error(res.message);
+        }
+      } catch (err) {
+        console.error(err);
+        ToastsStore.error("Something went wrong!");
+      } finally {
+        setLoading(false);
+      }
     };
 
-    if (s) {
-      const [token, status] = s.split("=");
-      if (token && status) {
-        verifyTxn({
-          token: token,
-          status: status,
-        });
-      }
+    if (txnid && status) {
+      verifyTxn({
+        token: txnid,
+        status: status,
+      });
     }
-  }, [s]);
+  }, [txnid, status]);
 
   document.title = "Payment - " + window.seoTagLine;
 

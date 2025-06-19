@@ -184,7 +184,7 @@ function Routes() {
 
       <Route
         exact
-        path="/txn/:s"
+        path="/txn/:txnid/:status"
         render={(props) => (
           <PageContainer>
             <Transaction {...props} />
