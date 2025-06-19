@@ -55,10 +55,9 @@ const GiftMembership = (props) => {
               gift.id === id ? { ...gift, accepted: "Y" } : gift
             )
           );
-          if(res.data.loginData){
-              props.login(res.data.loginData);
+          if (res.data.loginData) {
+            props.login(res.data.loginData);
           }
-
         } else {
           console.log(res.message);
           Tst.Error(res.message);
@@ -171,6 +170,7 @@ const GiftMembership = (props) => {
                                   validity: data.validity,
                                   // plan: data.status,
                                   gifted: data.gifter,
+                                  instalment: data.instalment,
                                 })
                               }
                             >

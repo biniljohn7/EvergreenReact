@@ -20,7 +20,9 @@ const GiftAcceptModal = (props) => {
             <p>
               The <strong>{props.data.new}</strong> gifted to you by{" "}
               <strong>{props.data.gifted}</strong> with a validity of{" "}
-              <strong>{props.data.validity}</strong> is added to your account.
+              <strong>{props.data.validity}</strong> is added to your account.{" "}
+              {props.data.instalment &&
+                "This is a generous gift in progress. It's being paid in installments and will remain active as long as the payments are completed."}
             </p>
             {/* <p>
               You can apply the membership now or after expiring the current
