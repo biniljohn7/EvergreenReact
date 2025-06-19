@@ -11,7 +11,7 @@ const Profile = (props) => {
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
   console.log(profile);
 
-  const {userRoles} = store.getState().auth;
+  const { userRoles } = store.getState().auth;
   const roleLabels = PROFILE_OPTIONS.memberRole
     .filter((option) => userRoles.includes(option.value))
     .map((option) => option.label);
@@ -133,10 +133,10 @@ const Profile = (props) => {
               </div>
             </div>
 
-            {profile.profile.leadershipRole && (
-              <div className="col-6 pt-2">
-                <div className="form-group">
-                  <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
+            <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
+                {profile.profile.leadershipRole && (
                   <ul>
                     {roleLabels.map((label, index) => (
                       <React.Fragment key={index}>
@@ -144,16 +144,23 @@ const Profile = (props) => {
                       </React.Fragment>
                     ))}
                   </ul>
-                  {""}
-                  {console.log(profile.profile)}
-                </div>
+                )}
+                {""}
               </div>
-            )}
+            </div>
             <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">
+                  Collegiate Section&nbsp;:&nbsp;
+                </label>
+                {profile.profile.collegiateSection.name ?? "-"}
+              </div>
+            </div>
+            {/* <div className="col-6 pt-2">
               <div className="form-group">
                 <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
               </div>
-            </div>
+            </div> */}
 
             <div className="col-6 pt-2">
               <div className="form-group">

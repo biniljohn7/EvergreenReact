@@ -34,25 +34,24 @@ const Dues = () => {
       ids: dueIds,
     };
 
-
     Spn.Show();
     renewal(renewData)
       .then((res) => {
         if (res.status === "ok") {
-        if (res.data && res.data.paymentUrl) {
+          if (res.data && res.data.paymentUrl) {
             window.location.href = res.data.paymentUrl;
-        } else {
+          } else {
             toast.Error("Something went wrong!");
-        }
-        //   toast.Success("Membership renewal was successful.");
-        //   setMembers((prev) =>
-        //     prev.map((member) => ({
-        //       ...member,
-        //       dues: member.dues.filter((due) => !dueIds.includes(due.id)),
-        //     }))
-        //   );
-        //   setRenew({});
-        //   setTotalAmount(0);
+          }
+          //   toast.Success("Membership renewal was successful.");
+          //   setMembers((prev) =>
+          //     prev.map((member) => ({
+          //       ...member,
+          //       dues: member.dues.filter((due) => !dueIds.includes(due.id)),
+          //     }))
+          //   );
+          //   setRenew({});
+          //   setTotalAmount(0);
         }
       })
       .catch(() => {
@@ -123,6 +122,7 @@ const Dues = () => {
         </form>
       </div>
 
+      {console.log(members)}
       {members && members.length > 0 ? (
         <>
           <div className="dues-wrap">
@@ -133,7 +133,7 @@ const Dues = () => {
                     <div className="top-rg">
                       <div className="mb-name">{member.name}</div>
                       <div className="mb-date">
-                        <div className="dt-lbl">Member ID:</div>
+                        <div className="dt-lbl">Member ID</div>
                         <div className="dt-vl">{member.memberId}</div>
                       </div>
                     </div>
@@ -155,7 +155,7 @@ const Dues = () => {
 
                 {member.dues.length > 0 ? (
                   member.dues.map((due, dIndex) => (
-                    <div className="dues-list" key={dIndex}>
+                    <div className="dues-list mbship" key={dIndex}>
                       <label>
                         <div className="list-top">
                           <div className="top-lf">
