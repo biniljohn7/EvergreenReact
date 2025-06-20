@@ -260,6 +260,7 @@ const Officers = () => {
             setMbrOpen(!isMbrOpen);
           }}
           addContent={handleAddContent}
+          formType="elect-officer"
         />
       )}
     </>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Wrapper from "./dues.style";
 import { getAllMembers, duesNewMember } from "../../api/duesAPI";
+import { getSubordinates } from "../../api/LeadershipAPI";
 import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
@@ -49,15 +50,27 @@ function SelectMember(props) {
       .catch((err) => {
         "Failed to retrive Affiliation list. Please try again later!";
       });
-    getAllMembers(pgn, "")
-      .then((res) => {
-        if (res.success === 1) {
-          setMbrData(res.data);
-        } else {
-        }
-        Spn.Hide();
-      })
-      .catch((err) => {});
+    if (props.formType === "elect-officer") {
+      getSubordinates(pgn, "")
+        .then((res) => {
+          if (res.success === 1) {
+            setMbrData(res.data);
+          } else {
+          }
+          Spn.Hide();
+        })
+        .catch((err) => {});
+    } else {
+      getAllMembers(pgn, "")
+        .then((res) => {
+          if (res.success === 1) {
+            setMbrData(res.data);
+          } else {
+          }
+          Spn.Hide();
+        })
+        .catch((err) => {});
+    }
   }, []);
 
   const storeData = (e) => {
@@ -69,28 +82,53 @@ function SelectMember(props) {
 
   const showMembers = (e, flg = false) => {
     Spn.Show();
-    getAllMembers(pgn, document.getElementById("srchKey").value)
-      .then((res) => {
-        if (res.success === 1) {
-          if (flg == true) {
-            setMbrData((prevData) => ({
-              ...prevData,
-              list: [...prevData.list, ...res.data.list],
-              currentPageNo: res.data.currentPageNo,
-              totalPages: res.data.totalPages,
-            }));
+    if (props.formType === "elect-officer") {
+      getSubordinates(pgn, document.getElementById("srchKey").value)
+        .then((res) => {
+          if (res.success === 1) {
+            if (flg == true) {
+              setMbrData((prevData) => ({
+                ...prevData,
+                list: [...prevData.list, ...res.data.list],
+                currentPageNo: res.data.currentPageNo,
+                totalPages: res.data.totalPages,
+              }));
+            } else {
+              setMbrData(res.data);
+            }
           } else {
-            setMbrData(res.data);
           }
-        } else {
-        }
-      })
-      .catch((err) => {
-        //
-      })
-      .finally(() => {
-        Spn.Hide();
-      });
+        })
+        .catch((err) => {
+          //
+        })
+        .finally(() => {
+          Spn.Hide();
+        });
+    } else {
+      getAllMembers(pgn, document.getElementById("srchKey").value)
+        .then((res) => {
+          if (res.success === 1) {
+            if (flg == true) {
+              setMbrData((prevData) => ({
+                ...prevData,
+                list: [...prevData.list, ...res.data.list],
+                currentPageNo: res.data.currentPageNo,
+                totalPages: res.data.totalPages,
+              }));
+            } else {
+              setMbrData(res.data);
+            }
+          } else {
+          }
+        })
+        .catch((err) => {
+          //
+        })
+        .finally(() => {
+          Spn.Hide();
+        });
+    }
 
     e.preventDefault();
     return false;
