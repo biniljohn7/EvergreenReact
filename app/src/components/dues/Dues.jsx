@@ -16,10 +16,13 @@ import Discover from "../../assets/images/discover.png";
 import Mastercard from "../../assets/images/mastercard.png";
 import Visa from "../../assets/images/visa.png";
 
+import AuthActions from '../../redux/auth/actions'
 import GiftMembership from './GiftMembership';
 import ExpiredMembership from './ExpiredMembership';
 import { store } from "../../redux/store";
+import { connect } from 'react-redux'
 
+const { logout } = AuthActions
 const Dues = (props) => {
     const {membershipStatus} = store.getState().auth;
     const [data, setData] = useState(null);
@@ -67,6 +70,22 @@ const Dues = (props) => {
             .catch((err) => {
                 console.error(err);
                 ToastsStore.error("Something went wrong!");
+                if (err.response) {
+                    if (err.response.status === 401) {
+                        props.logout()
+                        ToastsStore.error('Session Expire! Please login again.')
+                        setTimeout(() => props.history.replace('/signin'), 800)
+                    } else {
+                        setLoading(false)
+                        ToastsStore.error('Something went wrong!')
+                    }
+                } else if (err.request) {
+                    setLoading(false)
+                    ToastsStore.error('Unable to connect to server!')
+                } else {
+                    setLoading(false)
+                    ToastsStore.error('Something went wrong!')
+                }
             })
             .finally(() => {
                 setLoading(false);
@@ -235,4 +254,4 @@ const Dues = (props) => {
     );
 };
 
-export default Dues;
+export default connect(null, { logout })(Dues)
