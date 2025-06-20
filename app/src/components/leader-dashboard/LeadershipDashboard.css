@@ -363,6 +363,10 @@
   padding-top: 40px;
 }
 
+.no-dues.memb {
+  text-align: center;
+}
+
 .member-wrap {
   position: relative;
   display: flex;

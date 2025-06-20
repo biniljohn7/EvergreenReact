@@ -219,7 +219,7 @@ const Members = () => {
             ""
           )
         ) : (
-          <div className="no-dues">No members found</div>
+          <div className="no-dues memb">No members found</div>
         )}
       </div>
       {members.totalPages > members.currentPageNo ? (
