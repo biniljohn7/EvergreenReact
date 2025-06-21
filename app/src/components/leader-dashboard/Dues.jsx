@@ -134,7 +134,7 @@ const Dues = () => {
                       <div className="mb-name">{member.name}</div>
                       <div className="mb-date">
                         <div className="dt-lbl">Member ID</div>
-                        <div className="dt-vl">{member.memberId}</div>
+                        <div className="dt-vl">{member.memberId ?? "--"}</div>
                       </div>
                     </div>
                   </div>
@@ -143,11 +143,11 @@ const Dues = () => {
                     <div className="btm-left">
                       <div className="left-itm">
                         <div className="itm-lf">City:</div>
-                        <div className="itm-rg">{member.city}</div>
+                        <div className="itm-rg">{member.city ?? "--"}</div>
                       </div>
                       <div className="left-itm">
                         <div className="itm-lf">Zipcode:</div>
-                        <div className="itm-rg">{member.zipcode}</div>
+                        <div className="itm-rg">{member.zipcode ?? "--"}</div>
                       </div>
                     </div>
                   </div>
