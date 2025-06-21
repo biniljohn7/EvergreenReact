@@ -55,9 +55,9 @@ const LeadershipTeam = (props) => {
                       <div className="leader-name">{member.name}</div>
                       <div className="leader-title">{member.title}</div>
                       <div className="leader-details">
-                        <strong>Member ID:</strong> {member.memberId}
+                        <strong>Member ID:</strong> {member.memberId ?? "--"}
                         <br />
-                        <strong>Address:</strong> {member.address}
+                        <strong>Address:</strong> {member.address ?? "--"}
                         {/* <br />
                         <a
                           href={member.messageLink}
