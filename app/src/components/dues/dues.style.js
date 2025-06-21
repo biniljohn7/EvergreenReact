@@ -126,11 +126,11 @@ const Wrapper = styled.div`
     position: relative;
     align-items: flex-start;
     flex-wrap: wrap;
-    flex-direction: column;
+    gap: 5px;
   }
 
   .gift-membership #selectedMembers .ech-mbr .usr-wrap:not(:last-child) {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
 
   .gift-membership #selectedMembers .ech-mbr .usr-wrap .wp-lf {
@@ -140,7 +140,6 @@ const Wrapper = styled.div`
 
   .gift-membership #selectedMembers .ech-mbr .usr-wrap .wp-rg {
     word-break: break-word;
-    flex: 1 1 0;
     font-size: 0.9em;
   }
 
@@ -240,7 +239,7 @@ const Wrapper = styled.div`
   }
 
   .ord-members .ech-mbr {
-    width: calc(20% - 10px);
+    width: calc(25% - 10px);
     margin: 0px 5px 10px;
     display: flex;
     flex-wrap: wrap;
@@ -261,11 +260,11 @@ const Wrapper = styled.div`
     position: relative;
     align-items: flex-start;
     flex-wrap: wrap;
-    flex-direction: column;
+    gap: 5px;
   }
 
   .ord-members .ech-mbr .usr-wrap:not(:last-child) {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
 
   .ord-members .ech-mbr .usr-wrap .wp-lf {
@@ -275,7 +274,6 @@ const Wrapper = styled.div`
 
   .ord-members .ech-mbr .usr-wrap .wp-rg {
     word-break: break-word;
-    flex: 1 1 0;
     font-size: 0.9em;
   }
 
@@ -439,7 +437,7 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 1260px) {
     .ord-members .ech-mbr {
-      width: calc(25% - 10px);
+      width: calc(33.33% - 10px);
     }
   }
 
@@ -463,7 +461,7 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 768px) {
     .ord-members .ech-mbr {
-      width: calc(33.33% - 10px);
+      width: calc(50% - 10px);
     }
 
     .order-summery .order-box {
@@ -473,7 +471,7 @@ const Wrapper = styled.div`
 
   @media only screen and (max-width: 609px) {
     .ord-members .ech-mbr {
-      width: calc(50% - 10px);
+      width: calc(100% - 10px);
     }
   }
 
@@ -504,10 +502,6 @@ const Wrapper = styled.div`
     .gift-membership #selectedMembers .ech-mbr {
       margin: 0px 5px 10px;
       width: auto;
-    }
-
-    .ord-members .ech-mbr {
-      width: calc(100% - 10px);
     }
 
     .order-summery .order-box .order-itm .ordr-sub {
