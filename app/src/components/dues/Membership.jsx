@@ -169,12 +169,12 @@ function Membership(props) {
     if (isGift && content.length < 1) {
       sErrs["memberGift"] = "At least one member is required!";
     }
-    if (!membData.section) {
-      sErrs["section"] = "This field is required";
+    if (!(membData.section || membData.affiliate)) {
+      sErrs["section"] = "Please select at least one: Section, Affiliation";
     }
-    if (!membData.affiliate) {
-      sErrs["affiliation"] = "This field is required";
-    }
+    // if (!membData.affiliate) {
+    //   sErrs["affiliation"] = "This field is required";
+    // }
 
     setErrorList(sErrs);
     if (Object.keys(sErrs).length < 1) {
@@ -716,12 +716,11 @@ function Membership(props) {
                             getOptionLabel={(op) => op.membershipPlanName}
                             getOptionValue={(op) => op}
                             value={
-                              Array.isArray(dropdown) && membData.membershipPlan
+                                Array.isArray(dropdown) && membData.membershipPlan
                                 ? dropdown.find(
                                     (op) =>
-                                      op.membershipPlanId ===
-                                      Number(membData.membershipPlan)
-                                  ) || null
+                                    Number(op.membershipPlanId) === Number(membData.membershipPlan)
+                                ) || null
                                 : null
                             }
                           />
