@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { viewDashboard } from '../../api/LeadershipAPI';
+import React, { useState, useEffect } from "react";
+import { viewDashboard } from "../../api/LeadershipAPI";
 
 const Dashboard = ({ userRoles }) => {
   const [loading, setLoading] = useState(true);
@@ -14,9 +14,9 @@ const Dashboard = ({ userRoles }) => {
         setLeadershipTitles(res?.data?.learshipTitles || []);
       } catch (err) {
         if (err.response?.status === 401) {
-          console.log('Session Expired! Please login again.');
+          console.log("Session Expired! Please login again.");
         } else {
-          console.log('Something went wrong.');
+          console.log("Something went wrong.");
         }
       } finally {
         setLoading(false);
@@ -30,6 +30,7 @@ const Dashboard = ({ userRoles }) => {
 
   return (
     <>
+      <h4>My Leadership Circle</h4>
       {metrics.length > 0 && (
         <div className="kpi-grid">
           {metrics.map((metric, index) => (
@@ -44,7 +45,6 @@ const Dashboard = ({ userRoles }) => {
 
       {leadershipTitles.length > 0 && (
         <div className="leadership-section mt-6">
-          <h4>My Leadership Circle</h4>
           <ul className="list-disc pl-6">
             {leadershipTitles.map((item, idx) => (
               <li key={idx}>

@@ -68,10 +68,12 @@
   border-radius: 8px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
 
 .kpi-card h4 {
   margin-bottom: 10px;
+  font-size: 1.2em;
 }
 
 .kpi-value {
