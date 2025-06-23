@@ -199,6 +199,7 @@ const GiftMembership = (props) => {
                   </div>
                 );
               })}
+              {giftData.length==0 && <div className="no-results">No Gifts Received</div>}
           </div>
           {/* <div className="gift-container">
                     <div className="gift-wrapper">
@@ -338,6 +339,8 @@ const GiftMembership = (props) => {
                   </div>
                 );
               })}
+              
+              {giftedData.length==0 && <div className="no-results">Not Yet Given</div>}
             {/* <div className="no-content">No memberships gifted!</div> */}
           </div>
         </div>

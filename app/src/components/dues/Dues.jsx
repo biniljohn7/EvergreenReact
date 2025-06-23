@@ -226,14 +226,19 @@ const Dues = (props) => {
                                             historyData
                                         ) {
                                             return historyData.map(function (el, index) {
-                                                return <div className="mb15" key={index}>
-                                                    <div className="bold-600 text-12">
-                                                        {el.chargesTitle}
+                                                return <div className="mb15 hist-item" key={index}>
+                                                    <div className="info">
+                                                        <div className="bold-600 text-12">
+                                                            {el.chargesTitle}
+                                                        </div>
+                                                        <div>
+                                                            {new Date(el.paidAt).toLocaleDateString("en-US")}
+                                                        </div>
+                                                        {Pix.dollar(el.totalAmount, 1)}
                                                     </div>
-                                                    <div>
-                                                        {new Date(el.paidAt).toLocaleDateString("en-US")}
+                                                    <div className={'status-btn '+el.status}>
+                                                        {el.status}
                                                     </div>
-                                                    {Pix.dollar(el.totalAmount, 1)}
                                                 </div>;
                                             });
                                         } else {
