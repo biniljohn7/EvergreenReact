@@ -1,36 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { compose } from 'redux'
-import SignUpWrapper from './signup.style'
-import Button from '../../UI/button/button'
-import Input from '../../UI/input/input'
-import { withRouter } from 'react-router-dom'
-import { Modal } from 'reactstrap'
+import React, { useState, useEffect } from "react";
+import { compose } from "redux";
+import SignUpWrapper from "./signup.style";
+import Button from "../../UI/button/button";
+import Input from "../../UI/input/input";
+import { withRouter } from "react-router-dom";
+import { Modal } from "reactstrap";
 import {
   SITE_NAME,
   SITE_SHORT_DESC,
   WEBSITE_URL,
-  REGISTER_TYPE
-} from '../../helper/constant'
-import Logo from '../../assets/images/logo.png'
-import enhancer from './enhancer'
-import { Link } from 'react-router-dom'
-import FB from '../../assets/images/fb_icon_1x.png'
-import Google from '../../assets/images/google_icon_1x.png'
-import { signUp as createAccount, logInViaSMedia } from '../../api/commonAPI'
+  REGISTER_TYPE,
+} from "../../helper/constant";
+import Logo from "../../assets/images/logo.png";
+import enhancer from "./enhancer";
+import { Link } from "react-router-dom";
+import FB from "../../assets/images/fb_icon_1x.png";
+import Google from "../../assets/images/google_icon_1x.png";
+import { signUp as createAccount, logInViaSMedia } from "../../api/commonAPI";
 
-import Toast from '../../UI/Toast/Toast';
-import Spinner from '../../UI/Spinner/Spinner';
-
-
+import Toast from "../../UI/Toast/Toast";
+import Spinner from "../../UI/Spinner/Spinner";
 
 const loadFacebookSDK = () => {
   (function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) { return; }
-    js = d.createElement(s); js.id = id;
+    var js,
+      fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {
+      return;
+    }
+    js = d.createElement(s);
+    js.id = id;
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
+  })(document, "script", "facebook-jssdk");
 };
 
 const initializeFacebookSDK = (appId) => {
@@ -39,15 +41,15 @@ const initializeFacebookSDK = (appId) => {
       appId: appId,
       cookie: true,
       xfbml: true,
-      version: 'v11.0'
+      version: "v11.0",
     });
     window.FB.AppEvents.logPageView();
   };
 };
 
 const loadGoogleSDK = () => {
-  const script = document.createElement('script');
-  script.src = 'https://apis.google.com/js/platform.js';
+  const script = document.createElement("script");
+  script.src = "https://apis.google.com/js/platform.js";
   script.async = true;
   script.defer = true;
   // script.onload = () => {
@@ -61,7 +63,7 @@ const loadGoogleSDK = () => {
 };
 
 const SignUp = (props) => {
-  const [passwordType, setPasswordType] = useState('password')
+  const [passwordType, setPasswordType] = useState("password");
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -74,63 +76,73 @@ const SignUp = (props) => {
     touched,
     submitCount,
     isValid,
-  } = props
+  } = props;
 
   const Error = (props) => {
-    const field1 = props.field
+    const field1 = props.field;
     if ((errors[field1] && touched[field1]) || submitCount > 0) {
       return (
-        <span className={props.class ? props.class : 'error-msg'}>
+        <span className={props.class ? props.class : "error-msg"}>
           {errors[field1]}
         </span>
-      )
+      );
     } else {
-      return <span />
+      return <span />;
     }
-  }
+  };
 
-  document.title = 'Sign Up - ' + window.seoTagLine;
+  document.title = "Sign Up - " + window.seoTagLine;
 
   useEffect(() => {
     loadFacebookSDK();
-    initializeFacebookSDK('');
+    initializeFacebookSDK("");
     loadGoogleSDK();
   }, []);
 
   const handleGoogleLogin = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signIn().then(googleUser => {
-      const profile = googleUser.getBasicProfile();
-      const userData = {
-        email: profile.getEmail(),
-        firstName: profile.getGivenName(),
-        lastName: profile.getFamilyName(),
-        imageUrl: profile.getImageUrl(),
-        googleId: profile.getId(),
-      };
-      handleSMediaSignIn(userData);
-    }).catch(error => {
-      console.error('Google login error', error);
-    });
+    auth2
+      .signIn()
+      .then((googleUser) => {
+        const profile = googleUser.getBasicProfile();
+        const userData = {
+          email: profile.getEmail(),
+          firstName: profile.getGivenName(),
+          lastName: profile.getFamilyName(),
+          imageUrl: profile.getImageUrl(),
+          googleId: profile.getId(),
+        };
+        handleSMediaSignIn(userData);
+      })
+      .catch((error) => {
+        console.error("Google login error", error);
+      });
   };
 
   const handleFacebookLogin = () => {
-    window.FB.login((response) => {
-      if (response.authResponse) {
-        window.FB.api('/me', { fields: 'first_name,last_name,email,picture' }, (response) => {
-          const userData = {
-            email: response.email,
-            firstName: response.first_name,
-            lastName: response.last_name,
-            imageUrl: response.picture.data.url,
-            facebookId: response.id,
-          };
-          handleSMediaSignIn(userData);
-        });
-      } else {
-        console.log('User cancelled login or did not fully authorize.');
-      }
-    }, { scope: 'public_profile,email' });
+    window.FB.login(
+      (response) => {
+        if (response.authResponse) {
+          window.FB.api(
+            "/me",
+            { fields: "first_name,last_name,email,picture" },
+            (response) => {
+              const userData = {
+                email: response.email,
+                firstName: response.first_name,
+                lastName: response.last_name,
+                imageUrl: response.picture.data.url,
+                facebookId: response.id,
+              };
+              handleSMediaSignIn(userData);
+            }
+          );
+        } else {
+          console.log("User cancelled login or did not fully authorize.");
+        }
+      },
+      { scope: "public_profile,email" }
+    );
   };
 
   const Login = () => {
@@ -161,24 +173,28 @@ const SignUp = (props) => {
           <Button
             className="border-radius-41 bg-white mt-20"
             name="LOGIN"
-            clicked={() => props.history.push('/signin')}
+            clicked={() => props.history.push("/signin")}
           />
         </div>
       </>
-    )
-  }
+    );
+  };
 
   const handleSMediaSignIn = (userData) => {
     Spn.Show();
     const body = {
-      method: 'login-via-smedia',
+      method: "login-via-smedia",
       email: userData.email,
       firstName: userData.firstName,
       lastName: userData.lastName,
       imageUrl: userData.imageUrl,
       facebookId: userData.facebookId || null,
       googleId: userData.googleId || null,
-      registerType: userData.googleId ? REGISTER_TYPE.google : (userData.facebookId ? REGISTER_TYPE.facebook : REGISTER_TYPE.normal),
+      registerType: userData.googleId
+        ? REGISTER_TYPE.google
+        : userData.facebookId
+        ? REGISTER_TYPE.facebook
+        : REGISTER_TYPE.normal,
       deviceType: "web",
     };
 
@@ -223,7 +239,7 @@ const SignUp = (props) => {
       Spn.Show();
 
       const body = {
-        method: 'signup',
+        method: "signup",
         firstName: values.firstName,
         lastName: values.lastName,
         memberCode: values.memberId,
@@ -232,148 +248,146 @@ const SignUp = (props) => {
         facebookId: null,
         googleId: null,
         registerType: REGISTER_TYPE.normal,
-      }
+      };
 
       createAccount(body)
         .then((res) => {
           if (res.success === 1) {
-            props.history.push('/account-created')
+            props.history.push("/account-created");
           } else {
-            Tst.Error(res.message)
+            Tst.Error(res.message);
           }
         })
         .catch((err) => {
-          Tst.Error('Something went wrong!')
+          Tst.Error("Something went wrong!");
         })
         .finally(() => {
           Spn.Hide();
         });
     }
-  }
+  };
 
   return (
-    <SignUpWrapper>
-      <div className="sgp-container">
-        <div className="ttl-1">
-          DON'T HAVE AN ACCOUNT?
-        </div>
-        <div className="ttl-2">
-          CREATE AN ACCOUNT
-        </div>
+    <>
+      {Tst.Obj}
+      {Spn.Obj}
+      <SignUpWrapper>
+        <div className="sgp-container">
+          <div className="ttl-1">DON'T HAVE AN ACCOUNT?</div>
+          <div className="ttl-2">CREATE AN ACCOUNT</div>
 
-        <div className="form-area">
-          <div className="form-col">
-            <div className="fm-row">
-              <Input
-                label="FIRST NAME"
-                type="text"
-                placeholder="FIRST NAME"
-                id="firstName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.firstName || ''}
-              />
-              <Error field="firstName" />
-            </div>
-            <div className="fm-row">
-              <Input
-                label="LAST NAME"
-                type="text"
-                placeholder="LAST NAME"
-                id="lastName"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lastName || ''}
-              />
-              <Error field="lastName" />
-            </div>
-            <div className="fm-row">
-              <Input
-                label="EMAIL"
-                type="text"
-                placeholder="EMAIL"
-                id="email"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.email || ''}
-              />
-              <Error field="email" />
-            </div>
-          </div>
-          <div className="form-col">
-            <div className="fm-row">
-              <Input
-                label="MEMBER ID"
-                type="text"
-                placeholder="MEMBER ID"
-                id="memberId"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.memberId || ''}
-              />
-              <Error field="memberId" />
-            </div>
-            <div className="fm-row">
-              <div className="position-relative">
+          <div className="form-area">
+            <div className="form-col">
+              <div className="fm-row">
                 <Input
-                  label="PASSWORD"
-                  type={passwordType}
-                  placeholder="PASSWORD"
-                  id="password"
+                  label="FIRST NAME"
+                  type="text"
+                  placeholder="FIRST NAME"
+                  id="firstName"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.password || ''}
+                  value={values.firstName || ""}
                 />
-                {passwordType === 'password' ? (
-                  <i
-                    className="fa fa-eye eye pwd cursor-pointer"
-                    onClick={() => {
-                      setPasswordType('text')
-                    }}
-                  ></i>
-                ) : (
-                  <i
-                    className="fa fa-eye-slash eye pwd cursor-pointer"
-                    onClick={() => {
-                      setPasswordType('password')
-                    }}
-                  ></i>
-                )}
+                <Error field="firstName" />
               </div>
-              <Error field="password" />
+              <div className="fm-row">
+                <Input
+                  label="LAST NAME"
+                  type="text"
+                  placeholder="LAST NAME"
+                  id="lastName"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.lastName || ""}
+                />
+                <Error field="lastName" />
+              </div>
+              <div className="fm-row">
+                <Input
+                  label="EMAIL"
+                  type="text"
+                  placeholder="EMAIL"
+                  id="email"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email || ""}
+                />
+                <Error field="email" />
+              </div>
             </div>
-            <div className="fm-row">
-              <Input
-                label="CONFIRM PASSWORD"
-                type="password"
-                placeholder="PASSWORD"
-                id="confirmPwd"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.confirmPwd || ''}
-              />
-              <Error field="confirmPwd" />
+            <div className="form-col">
+              <div className="fm-row">
+                <Input
+                  label="MEMBER ID"
+                  type="text"
+                  placeholder="MEMBER ID"
+                  id="memberId"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.memberId || ""}
+                />
+                <Error field="memberId" />
+              </div>
+              <div className="fm-row">
+                <div className="position-relative">
+                  <Input
+                    label="PASSWORD"
+                    type={passwordType}
+                    placeholder="PASSWORD"
+                    id="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password || ""}
+                  />
+                  {passwordType === "password" ? (
+                    <i
+                      className="fa fa-eye eye pwd cursor-pointer"
+                      onClick={() => {
+                        setPasswordType("text");
+                      }}
+                    ></i>
+                  ) : (
+                    <i
+                      className="fa fa-eye-slash eye pwd cursor-pointer"
+                      onClick={() => {
+                        setPasswordType("password");
+                      }}
+                    ></i>
+                  )}
+                </div>
+                <Error field="password" />
+              </div>
+              <div className="fm-row">
+                <Input
+                  label="CONFIRM PASSWORD"
+                  type="password"
+                  placeholder="PASSWORD"
+                  id="confirmPwd"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.confirmPwd || ""}
+                />
+                <Error field="confirmPwd" />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="sgp-agree">
-          BY CREATING AN ACCOUNT YOU AGREE TO OUR
-          {' '}
-          <Link to="/terms_of_service/">TERMS OF SERVICE</Link>
-          {' AND '}
-          <Link to="/privacy_policy/">PRIVACY POLICY</Link>
-        </div>
+          <div className="sgp-agree">
+            BY CREATING AN ACCOUNT YOU AGREE TO OUR{" "}
+            <Link to="/terms_of_service/">TERMS OF SERVICE</Link>
+            {" AND "}
+            <Link to="/privacy_policy/">PRIVACY POLICY</Link>
+          </div>
 
-        <div className='submit-area'>
-          <Button
-            className="button mt-20"
-            name="SIGN UP"
-            clicked={handleSignup}
-          />
-        </div>
+          <div className="submit-area">
+            <Button
+              className="button mt-20"
+              name="SIGN UP"
+              clicked={handleSignup}
+            />
+          </div>
 
-        {/* <div className="sgp-agree">
+          {/* <div className="sgp-agree">
           OR SIGNUP WITH
         </div>
         <div className="d-flex justify-content-center">
@@ -390,9 +404,10 @@ const SignUp = (props) => {
               </span>
             </span>
           </div> */}
-      </div>
-    </SignUpWrapper>
-  )
-}
+        </div>
+      </SignUpWrapper>
+    </>
+  );
+};
 
-export default compose(withRouter, enhancer)(SignUp)
+export default compose(withRouter, enhancer)(SignUp);
