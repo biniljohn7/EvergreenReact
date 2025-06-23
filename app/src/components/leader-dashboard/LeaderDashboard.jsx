@@ -12,7 +12,7 @@ const LeadershipDashboard = (props) => {
   const userRoles = useSelector((state) => state.auth.userRoles);
   const menuItems = [
     "Dashboard",
-    userRoles.includes("state-leader") ? "Sections" : null,
+    // userRoles.includes("state-leader") ? "Sections" : null,
     userRoles.includes("section-leader") ||
     userRoles.includes("section-president") ||
     userRoles.includes("collegiate-leaders") ||
@@ -30,8 +30,8 @@ const LeadershipDashboard = (props) => {
     switch (selectedMenu) {
       case "Dashboard":
         return <Dashboard userRoles={userRoles} />;
-      case "Sections":
-        return <Sections />;
+    //   case "Sections":
+    //     return <Sections />;
       case "Elected Officers":
         return <Officers />;
       case "Members":
