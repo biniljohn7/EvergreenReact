@@ -182,7 +182,7 @@ export const PROFILE_OPTIONS = {
     { label: "Middle Eastern or North African", value: 3502 },
     { label: "Native Hawaiian or Other Pacific Islander", value: 3503 },
     { label: "White", value: 3504 },
-    { label: "Other (please specify)", value: null },
+    // { label: "Other (please specify)", value: null },
   ],
   employmentStatus: [
     { label: "Employed full-time", value: 3506 },
