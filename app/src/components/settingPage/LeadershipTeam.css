@@ -1,48 +1,53 @@
 .leader-section {
-    padding: 30px 15px;
+  padding: 30px 15px;
 }
 
 .leader-role {
-    margin-bottom: 15px;
-    font-weight: bold;
-    color: #1a73e8;
-    /* Primary text */
+  margin-bottom: 15px;
+  font-weight: bold;
+  color: #1a73e8;
+  /* Primary text */
 }
 
 .leader-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background: #f9f9f9;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
 }
 
 .leader-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .leader-name {
-    font-size: 1.1rem;
-    font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .leader-title {
-    font-size: 0.95rem;
-    color: #555;
+  font-size: 0.95rem;
+  color: #555;
 }
 
 .leader-details {
-    font-size: 0.9rem;
-    margin-top: 4px;
+  font-size: 0.9rem;
+  margin-top: 4px;
 }
 
 .leader-details a {
-    color: #1a73e8;
-    text-decoration: underline;
+  color: #1a73e8;
+  text-decoration: underline;
+}
+
+.no-list {
+  width: 100%;
+  text-align: center;
 }

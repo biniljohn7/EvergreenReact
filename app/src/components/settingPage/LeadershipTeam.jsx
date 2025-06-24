@@ -40,25 +40,28 @@ const LeadershipTeam = (props) => {
       <Wrapper>
         <section className={props.isMobile ? "leader-section" : ""}>
           <h3 className="text-bold mb-20">Leadership Team</h3>
-          {teamData.map((group, index) => (
-            <div key={index} className="mb-30">
-              <h4 className="leader-role">{group.role}</h4>
-              <div>
-                {group.members.map((member, idx) => (
-                  <div key={idx} className="leader-card">
-                    <img
-                      src={member.profileImage ? member.profileImage : UserPic}
-                      alt={member.name}
-                      className="leader-image"
-                    />
-                    <div>
-                      <div className="leader-name">{member.name}</div>
-                      <div className="leader-title">{member.title}</div>
-                      <div className="leader-details">
-                        <strong>Member ID:</strong> {member.memberId ?? "--"}
-                        <br />
-                        <strong>Address:</strong> {member.address ?? "--"}
-                        {/* <br />
+          {teamData && teamData.length > 0 ? (
+            teamData.map((group, index) => (
+              <div key={index} className="mb-30">
+                <h4 className="leader-role">{group.role}</h4>
+                <div>
+                  {group.members.map((member, idx) => (
+                    <div key={idx} className="leader-card">
+                      <img
+                        src={
+                          member.profileImage ? member.profileImage : UserPic
+                        }
+                        alt={member.name}
+                        className="leader-image"
+                      />
+                      <div>
+                        <div className="leader-name">{member.name}</div>
+                        <div className="leader-title">{member.title}</div>
+                        <div className="leader-details">
+                          <strong>Member ID:</strong> {member.memberId ?? "--"}
+                          <br />
+                          <strong>Address:</strong> {member.address ?? "--"}
+                          {/* <br />
                         <a
                           href={member.messageLink}
                           target="_blank"
@@ -66,13 +69,16 @@ const LeadershipTeam = (props) => {
                         >
                           Send Message
                         </a> */}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className="no-list">No details found.</div>
+          )}
         </section>
       </Wrapper>
     </>
