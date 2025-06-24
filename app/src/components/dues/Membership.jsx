@@ -316,7 +316,7 @@ function Membership(props) {
     let membFor = "",
       users = membershipList[iKey].memberIds;
 
-    if (users.filter((m) => m.id !== lgMbr).length > 0) {
+    if (users.filter((m) => m.id != lgMbr).length > 0) {
       membFor = "gift";
 
       const exMemb = users.reduce((acc, curr) => {
