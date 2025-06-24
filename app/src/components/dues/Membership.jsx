@@ -443,6 +443,8 @@ function Membership(props) {
                                   {mbr.affiliateName || ""}
                                 </div>
                               </div>
+                              {console.log(mbr.memberIds, lgMbr)}
+
                               {mbr.memberIds.filter(
                                 (member) => member.id !== lgMbr
                               ).length > 0 && (
@@ -716,11 +718,12 @@ function Membership(props) {
                             getOptionLabel={(op) => op.membershipPlanName}
                             getOptionValue={(op) => op}
                             value={
-                                Array.isArray(dropdown) && membData.membershipPlan
+                              Array.isArray(dropdown) && membData.membershipPlan
                                 ? dropdown.find(
                                     (op) =>
-                                    Number(op.membershipPlanId) === Number(membData.membershipPlan)
-                                ) || null
+                                      Number(op.membershipPlanId) ===
+                                      Number(membData.membershipPlan)
+                                  ) || null
                                 : null
                             }
                           />
