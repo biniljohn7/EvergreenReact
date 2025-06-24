@@ -436,12 +436,16 @@ function Membership(props) {
                             </div>
                             <div className="ordr-sub">
                               <div className="sec-aff">
-                                <div className="ord-sa sec">
-                                  {mbr.sectionName || ""}
-                                </div>
-                                <div className="ord-sa aff">
-                                  {mbr.affiliateName || ""}
-                                </div>
+                                {mbr.sectionName && (
+                                  <div className="ord-sa sec">
+                                    {mbr.sectionName || ""}
+                                  </div>
+                                )}
+                                {mbr.affiliateName && (
+                                  <div className="ord-sa aff">
+                                    {mbr.affiliateName || ""}
+                                  </div>
+                                )}
                               </div>
                               {mbr.memberIds.filter(
                                 (member) => member.id != lgMbr
