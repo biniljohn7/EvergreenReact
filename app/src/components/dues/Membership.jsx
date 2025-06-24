@@ -443,16 +443,14 @@ function Membership(props) {
                                   {mbr.affiliateName || ""}
                                 </div>
                               </div>
-                              {console.log(mbr.memberIds, lgMbr)}
-
                               {mbr.memberIds.filter(
-                                (member) => member.id !== lgMbr
+                                (member) => member.id != lgMbr
                               ).length > 0 && (
                                 <>
                                   <div className="ord-gift">Gift to</div>
                                   <div className="ord-members">
                                     {mbr.memberIds
-                                      .filter((member) => member.id !== lgMbr)
+                                      .filter((member) => member.id != lgMbr)
                                       .map((member, index) => (
                                         <div className="ech-mbr" key={index}>
                                           <div className="info-sec">
