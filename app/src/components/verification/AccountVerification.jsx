@@ -33,8 +33,8 @@ const AccountVerification = () => {
 
   return (
     <div>
-      <div class="verification-box">
-        <div class="img-box">
+      <div className="verification-box">
+        <div className="img-box">
           <img src={verificationSts ? successImg : failedImg} alt='img' />
         </div>
         <h1>Account Verification</h1>
@@ -42,7 +42,7 @@ const AccountVerification = () => {
 
         {
           verificationSts ?
-            <div class="text-box">
+            <div className="text-box">
               <p>
                 <a href={WEBSITE_URL + 'signin'} className='login-lnk'>
                   Login to your account

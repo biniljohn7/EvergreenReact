@@ -3,13 +3,20 @@ import LabelWithValue from "../../UI/labelWithValue/LabelWithValue";
 import Wrapper from "./common.style";
 import UpdateProfile from "./EditProfile";
 import { store } from "../../redux/store";
+import { PROFILE_OPTIONS } from "../../helper/constant";
 
 const Profile = (props) => {
   const isProfileCreated = store.getState().auth.isProfileCreated;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
+  console.log(profile);
 
-  document.title = 'Profile - ' + window.seoTagLine;
+  const { userRoles } = store.getState().auth;
+  const roleLabels = PROFILE_OPTIONS.memberRole
+    .filter((option) => userRoles.includes(option.value))
+    .map((option) => option.label);
+
+  document.title = "Profile - " + window.seoTagLine;
 
   return (
     <Wrapper>
@@ -119,10 +126,41 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Affiliate Organization&nbsp;:&nbsp;</label>
-                {profile.profile.affilateOrgzn ?? "-"}
+                <label className="fs-18 medium-text">
+                  Affiliate Organization&nbsp;:&nbsp;
+                </label>
+                {profile.profile.affilateOrgzn.name ?? "-"}
               </div>
             </div>
+
+            <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">Role&nbsp;:&nbsp;</label>
+                {profile.profile.leadershipRole && (
+                  <ul>
+                    {roleLabels.map((label, index) => (
+                      <React.Fragment key={index}>
+                        <li>{label}</li>
+                      </React.Fragment>
+                    ))}
+                  </ul>
+                )}
+                {""}
+              </div>
+            </div>
+            <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">
+                  Collegiate Section&nbsp;:&nbsp;
+                </label>
+                {profile.profile.collegiateSection.name ?? "-"}
+              </div>
+            </div>
+            {/* <div className="col-6 pt-2">
+              <div className="form-group">
+                <label className="fs-18 medium-text">&nbsp;&nbsp;</label>
+              </div>
+            </div> */}
 
             <div className="col-6 pt-2">
               <div className="form-group">
@@ -137,7 +175,9 @@ const Profile = (props) => {
 
             <div className="col-6 pt-2">
               <div className="form-group">
-                <label className="fs-18 medium-text">Country&nbsp;:&nbsp;</label>
+                <label className="fs-18 medium-text">
+                  Country&nbsp;:&nbsp;
+                </label>
                 {(profile.profile.nation && profile.profile.nation.name) ?? "-"}
               </div>
             </div>
@@ -180,10 +220,10 @@ const Profile = (props) => {
                 <label className="fs-18 medium-text">
                   Current Section&nbsp;:&nbsp;
                 </label>
-                {(profile.profile.currentChapter &&
-                  profile.profile.currentChapter.name !='') ?
-                  profile.profile.currentChapter.name
-                  :"National Member"}
+                {profile.profile.currentChapter &&
+                profile.profile.currentChapter.name != ""
+                  ? profile.profile.currentChapter.name
+                  : "National Member"}
               </div>
             </div>
           </div>

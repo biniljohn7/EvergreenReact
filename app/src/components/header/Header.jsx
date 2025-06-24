@@ -21,6 +21,7 @@ import AuthActions from "../../redux/auth/actions";
 import { connect } from "react-redux";
 import Wrapper from "../newPage/newpage.style";
 import Banner from "../common/NewBanner";
+import Dashboard from './../leader-dashboard/Dashboard';
 
 const { logout, login } = AuthActions;
 
@@ -40,6 +41,7 @@ const Header = (props) => {
   //const { logout, login } = AuthActions;
   const location = useLocation();
   const profileImage = useSelector((state) => state.auth.profileImage);
+  const { userRoles } = store.getState().auth;
   let Spn = Spinner();
   let Tst = Toast();
   return (
@@ -191,7 +193,7 @@ const Header = (props) => {
                     })}
                     <li className="inbox-menu">
                       <Link to="/inbox">
-                        <span class="material-symbols-outlined">mail</span>
+                        <span className="material-symbols-outlined">mail</span>
                       </Link>
                     </li>
                     {/* {console.log(logout())} */}
@@ -206,8 +208,15 @@ const Header = (props) => {
                         &nbsp; PROFILE
                       </span>
                       <ul>
+                        {
+                            Array.isArray(userRoles) && userRoles.length > 0 && (
+                                <li>
+                                    <Link to="/leader-dashboard">Leadership Panel</Link>
+                                </li>
+                            )
+                        }
                         <li>
-                          <Link to="/account">Settings</Link>
+                            <Link to="/account">My Profile</Link>
                         </li>
                         <li>
                           <a

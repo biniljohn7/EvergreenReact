@@ -10,11 +10,11 @@ function Support(props) {
         <section className="border-bottom home-footer">
             <SupportWp>
                 <div className="container">
-                    <div class="fl-box">
-                        <div class="form-box">
+                    <div className="fl-box">
+                        <div className="form-box">
                             <ContactUs isFooter={1} />
                         </div>
-                        <div class="map-box">
+                        <div className="map-box">
                             <div className="sub-text mt-30 loc-address">
                                 Farmington Hills, Michigan 48331
                             </div>

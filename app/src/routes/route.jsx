@@ -16,13 +16,14 @@ import ChangePassword from "../components/settingPage/ChangePassword";
 // import ProtectedRoutes from './ProtectedRoutes'
 // import ProtectedLayout from '../layout/ProtectedLayout'
 import ExtraRoutes from "./ExtraRoutes";
-import Setting from "../components/settingPage/Setting";
+// import Setting from "../components/settingPage/Setting";
 import AcceptTerms from "../components/merchant/AcceptTerms";
 import Payment from "../components/payment/Payment";
 import CancelPayment from "../components/payment/CancelPayment";
+// import Donate from "../components/donate/Donate";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
-import {store} from '../redux/store'
-
+import Transaction from "../components/txn/Transaction";
+import { store } from "../redux/store";
 
 function Routes() {
   return (
@@ -132,7 +133,7 @@ function Routes() {
         )}
       />
 
-      <Route
+      {/* <Route
         exact
         path="/account"
         render={(props) => (
@@ -140,7 +141,7 @@ function Routes() {
             <Setting {...props} />
           </PageContainer>
         )}
-      />
+      /> */}
 
       <Route
         exact
@@ -183,6 +184,16 @@ function Routes() {
 
       <Route
         exact
+        path="/txn/:txnid/:status"
+        render={(props) => (
+          <PageContainer>
+            <Transaction {...props} />
+          </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
         path="/verification/:t"
         render={(props) => (
           <PageContainer>
@@ -190,6 +201,16 @@ function Routes() {
           </PageContainer>
         )}
       />
+
+      {/* <Route
+        exact
+        path="/donate"
+        render={(props) => (
+          <PageContainer>
+            <Donate {...props} fromRoute={true} />
+          </PageContainer>
+        )}
+      /> */}
 
       <Route path="/" render={(props) => <ExtraRoutes />} />
     </Switch>

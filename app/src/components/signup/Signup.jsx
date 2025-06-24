@@ -3,6 +3,7 @@ import { compose } from "redux";
 import SignUpWrapper from "./signup.style";
 import Button from "../../UI/button/button";
 import Input from "../../UI/input/input";
+import Select from "../../UI/select/select";
 import { withRouter } from "react-router-dom";
 import { Modal } from "reactstrap";
 import {
@@ -16,7 +17,13 @@ import enhancer from "./enhancer";
 import { Link } from "react-router-dom";
 import FB from "../../assets/images/fb_icon_1x.png";
 import Google from "../../assets/images/google_icon_1x.png";
-import { signUp as createAccount, logInViaSMedia } from "../../api/commonAPI";
+import {
+  signUp as createAccount,
+  logInViaSMedia,
+  getSection,
+  getAffiliation,
+  getCollegiateDropdown,
+} from "../../api/commonAPI";
 
 import Toast from "../../UI/Toast/Toast";
 import Spinner from "../../UI/Spinner/Spinner";
@@ -64,6 +71,9 @@ const loadGoogleSDK = () => {
 
 const SignUp = (props) => {
   const [passwordType, setPasswordType] = useState("password");
+  const [sectionList, setSectionList] = useState([]);
+  const [affiliationList, setAffiliationList] = useState([]);
+  const [collegiateSectionList, setCollegiateSectionList] = useState([]);
 
   const Tst = Toast();
   const Spn = Spinner();
@@ -97,6 +107,31 @@ const SignUp = (props) => {
     loadFacebookSDK();
     initializeFacebookSDK("");
     loadGoogleSDK();
+    getSection()
+      .then((res) => {
+        setSectionList([...res.data]);
+      })
+      .catch((err) => {
+        Tst.Error("Failed to retrive Section list. Please try again later!");
+      });
+    getAffiliation(0)
+      .then((res) => {
+        setAffiliationList([...res.data]);
+      })
+      .catch((err) => {
+        Tst.Error(
+          "Failed to retrive Affiliation list. Please try again later!"
+        );
+      });
+      getCollegiateDropdown(0)
+      .then((res) => {
+        setCollegiateSectionList([...res.data]);
+      })
+      .catch((err) => {
+        Tst.Error(
+          "Failed to retrive collegiate list. Please try again later!"
+        );
+      });
   }, []);
 
   const handleGoogleLogin = () => {
@@ -213,6 +248,8 @@ const SignUp = (props) => {
             isProfileCreated: res.data.profileCreated,
             isNotificationOn: res.data.notification || false,
             currentChapter: res.data.currentChapter,
+            userRoles: res.data.roles,
+            membershipStatus: res.data.membershipStatus,
           };
           props.login(userData);
           Tst.Success(res.message);
@@ -235,21 +272,32 @@ const SignUp = (props) => {
   };
 
   const handleSignup = (e) => {
+    console.log(isValid);
     if (isValid) {
+      if (!values.section && !values.affiliation && !values.collegiateSection) {
+        console.log(
+          "Please select at least one: Section, Affiliation, or Collegiate Section."
+        );
+        Tst.Error(
+          "Please select at least one: Section, Affiliation, or Collegiate Section."
+        );
+        return;
+      }
       Spn.Show();
 
       const body = {
         method: "signup",
         firstName: values.firstName,
         lastName: values.lastName,
-        memberCode: values.memberId,
         email: values.email,
         password: values.password,
+        section: values.section,
+        affiliation: values.affiliation,
+        collegiate: values.collegiateSection,
         facebookId: null,
         googleId: null,
         registerType: REGISTER_TYPE.normal,
       };
-
       createAccount(body)
         .then((res) => {
           if (res.success === 1) {
@@ -314,19 +362,40 @@ const SignUp = (props) => {
                 />
                 <Error field="email" />
               </div>
+              <div className="fm-row">
+                <Select
+                  label="SECTION"
+                  placeholder="CHOOSE SECTION"
+                  id="section"
+                  options={sectionList}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.section || ""}
+                />
+              </div>
             </div>
             <div className="form-col">
               <div className="fm-row">
-                <Input
-                  label="MEMBER ID"
-                  type="text"
-                  placeholder="MEMBER ID"
-                  id="memberId"
+                <Select
+                  label="AFFILIATION"
+                  placeholder="CHOOSE AFFILIATION"
+                  id="affiliation"
+                  options={affiliationList}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values.memberId || ""}
+                  value={values.affiliation || ""}
                 />
-                <Error field="memberId" />
+              </div>
+              <div className="fm-row">
+                <Select
+                  label="COLLEGIATE SECTION"
+                  placeholder="CHOOSE COLLEGIATE SECTION"
+                  id="collegiateSection"
+                  options={collegiateSectionList}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.collegiateSection || ""}
+                />
               </div>
               <div className="fm-row">
                 <div className="position-relative">
@@ -354,8 +423,12 @@ const SignUp = (props) => {
                       }}
                     ></i>
                   )}
+                  <Error field="password" />
+                  <div className="pws-rule">
+                    Must Contain 8 Characters, One Uppercase, One Lowercase, One
+                    Number and one special case Character
+                  </div>
                 </div>
-                <Error field="password" />
               </div>
               <div className="fm-row">
                 <Input

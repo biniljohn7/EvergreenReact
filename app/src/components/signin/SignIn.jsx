@@ -222,6 +222,8 @@ const SignIn = (props) => {
                         isProfileCreated: res.data.profileCreated,
                         isNotificationOn: res.data.notification || false,
                         currentChapter: res.data.currentChapter,
+                        userRoles: res.data.roles,
+                        membershipStatus:res.data.membershipStatus
                     };
                     props.login(userData);
                     Tst.Success(res.message);
@@ -309,6 +311,8 @@ const SignIn = (props) => {
                             isProfileCreated: res.data.profileCreated,
                             isNotificationOn: res.data.notification || false,
                             currentChapter: res.data.currentChapter,
+                            userRoles: res.data.roles,
+                            membershipStatus:res.data.membershipStatus
                         };
                         props.login(userData);
                         Tst.Success(res.message);
@@ -445,10 +449,10 @@ const SignIn = (props) => {
                                 </div>
 
                                 <div className="sgp-area">
-                                    <div class="sgp-ttl">
+                                    <div className="sgp-ttl">
                                         Don't have an account?
                                     </div>
-                                    <div class="sgp-btn-bx">
+                                    <div className="sgp-btn-bx">
                                         <Link to="signup">Signup Now</Link>
                                     </div>
                                 </div>

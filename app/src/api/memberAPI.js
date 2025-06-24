@@ -42,24 +42,26 @@ export const updateProfile = (body) => {
 
 export const getContactUsQue = () => {
     setHeaders();
-    return axios.get(`${BASE_URL}/member/?method=enquiry-ques`).then((response) => {
-        return response.data;
-    });
+    return axios
+        .get(`${BASE_URL}/member/?method=enquiry-ques`)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const contactUs = (body) => {
     setHeaders();
-    return axios.post(`${BASE_URL}/member/?method=enquiry`, body).then((response) => {
-        return response.data;
-    });
+    return axios
+        .post(`${BASE_URL}/member/?method=enquiry`, body)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const getDropdown = () => {
     setHeaders();
     return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-all-dropdown`
-        )
+        .get(`${BASE_URL}/member/?method=profile-get-all-dropdown`)
         .then((response) => {
             return response.data;
         });
@@ -68,9 +70,7 @@ export const getDropdown = () => {
 export const getNation = () => {
     setHeaders();
     return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-nation`
-        )
+        .get(`${BASE_URL}/member/?method=profile-get-nation`)
         .then((response) => {
             return response.data;
         });
@@ -79,9 +79,7 @@ export const getNation = () => {
 export const getRegion = (nationId) => {
     setHeaders();
     return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-region&nationId=${nationId}`
-        )
+        .get(`${BASE_URL}/member/?method=profile-get-region&nationId=${nationId}`)
         .then((response) => {
             return response.data;
         });
@@ -101,9 +99,7 @@ export const getStateFromRegion = (regionId) => {
 export const getState = (countryId) => {
     setHeaders();
     return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-state&countryId=${countryId}`
-        )
+        .get(`${BASE_URL}/member/?method=profile-get-state&countryId=${countryId}`)
         .then((response) => {
             return response.data;
         });
@@ -112,9 +108,7 @@ export const getState = (countryId) => {
 export const getChapter = (stateId) => {
     setHeaders();
     return axios
-        .get(
-            `${BASE_URL}/member/?method=profile-get-chapter&stateId=${stateId}`
-        )
+        .get(`${BASE_URL}/member/?method=profile-get-chapter&stateId=${stateId}`)
         .then((response) => {
             return response.data;
         });
@@ -122,19 +116,20 @@ export const getChapter = (stateId) => {
 
 export const uploadImage = (body) => {
     setHeaders();
-    return axios.post(
-        BASE_URL + '/member/?method=avatar-upload',
-        body
-    ).then((response) => {
-        return response.data;
-    });
+    return axios
+        .post(BASE_URL + "/member/?method=avatar-upload", body)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const getReferralDetails = () => {
     setHeaders();
-    return axios.post(`${BASE_URL}/member/?method=referral-info`).then((response) => {
-        return response.data;
-    });
+    return axios
+        .post(`${BASE_URL}/member/?method=referral-info`)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const getRecommendationLetter = (memberId) => {
@@ -147,4 +142,32 @@ export const getRecommendationLetter = (memberId) => {
         .then((response) => {
             return response.data;
         });
+};
+///
+export const membershipExp = () => {
+    setHeaders();
+    return axios
+        .get(
+            `${BASE_URL}/member/?method=member-exp`
+        )
+        .then((response) => {
+            return response.data;
+        });
+};
+export const memberTxn = (token) => {
+    setHeaders();
+    return axios
+        .post(
+            `${BASE_URL}/member/?method=txn-status`,
+            token
+        )
+        .then((response) => {
+            return response.data;
+        });
+};
+export const viewLeaders = () => {
+    setHeaders();
+    return axios.get(`${BASE_URL}/member/?method=my-leaders`).then((response) => {
+        return response.data;
+    });
 };

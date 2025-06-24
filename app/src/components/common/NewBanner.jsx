@@ -39,7 +39,7 @@ export default function NewBanner() {
             <div className="container cnt-wrap">
                 <div className="cnt-sec">
 
-                <div className="b-logo"><img height="60px" src={whiteLogo} alt='logo' /></div>
+                {/* <div className="b-logo"><img height="60px" src={whiteLogo} alt='logo' /></div> */}
                     <div className="welcom">Welcome,</div>
                     <div className="mbr-nam">
                         {decodeHTML(store.getState().auth.firstName)} {decodeHTML(store.getState().auth.lastName)}!

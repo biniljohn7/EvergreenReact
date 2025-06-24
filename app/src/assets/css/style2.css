@@ -1,0 +1,233 @@
+.modal-backdrop {
+    opacity: 0.6 !important;
+}
+
+.mbrshp-sec {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.mbrshp-sec .mbrs-col {
+    width: calc(60% - 20px);
+}
+
+.mbrshp-sec .amt-prvw-col {
+    width: calc(40% - 20px);
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry {
+    border: 1px solid #dedede;
+    padding: 20px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .sec-head {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 15px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .list-sec {
+    margin-bottom: 20px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .ttl-amt-sec {
+    border-top: 1px solid #ededed;
+    padding-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-weight: 600;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .ech-mbr-amt{
+    margin-bottom: 20px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .lst-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;    
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .subttl-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;   
+    font-size: 14px;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .subttl-row .sub-ttl-amt {
+    width: 150px;
+    border-top: 1px solid #ededed;
+    text-align: right;
+}
+
+.mbrshp-sec .amt-prvw-col .order-smry .donation-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;   
+    font-size: 12px;
+    margin: 0px 0px 4px 15px;
+}
+
+
+
+.gift-membership #selectedMembers {
+    margin-bottom: 30px;
+}
+
+.gift-membership #selectedMembers .ech-mbr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    margin-bottom: 30px;
+    box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.gift-membership #selectedMembers .ech-mbr .info-sec {
+    width: calc(100% - 40px);
+}
+
+.gift-membership #selectedMembers .ech-mbr .info-sec .person-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.gift-membership #selectedMembers .ech-mbr .action {
+    width: 25px;
+    cursor: pointer;
+}
+
+.gift-membership #selectedMembers .ech-mbr .avatar-sec {
+    width: 60px;
+    height: 60px;
+    background-color: #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.gift-membership #selectedMembers .ech-mbr .avatar-sec .no-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.gift-membership #selectedMembers .ech-mbr .avatar-sec .no-img .icn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333;
+    font-size: 30px;
+}
+
+.gift-membership #selectedMembers .ech-mbr .mbr-nam,
+.gift-membership #selectedMembers .ech-mbr .action {
+    margin-left: 15px;
+}
+
+.gift-membership .add-btn-sec .btn {
+    padding: 10px 20px;
+}
+
+.gift-membership .add-btn-sec .btn .icn {
+    vertical-align: -5px;
+    margin-right: 7px;
+    font-size: 20px;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-row+.form-row {
+    margin-top: 15px;
+}
+
+.form-row .form-col {
+    width: calc(50% - 10px);
+}
+
+.form-row .form-col+.form-col {
+    margin-left: 20px;
+}
+
+/*  choose member popup  */
+.mbr-srch .each-mbr {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.mbr-srch .each-mbr .avatar-sec {
+    width: 50px;
+    height: 50px;
+    background-color: #ccc;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.mbr-srch .each-mbr .avatar-sec .no-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.mbr-srch .each-mbr .avatar-sec .no-img .icn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #333;
+    font-size: 30px;
+}
+
+.mbr-srch .each-mbr .nam-sec {
+    margin-left: 10px;
+    width: calc(100% - 145px);
+}
+
+.mbr-srch .each-mbr .actn {
+    margin-left: 10px;
+    width: 65px;
+}
+
+.mbr-srch .each-mbr .actn .add-btn {
+    padding: 5px 15px;
+    min-width: unset;
+}
+
+.mbr-srch .srch-bar {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.mbr-srch .srch-bar .key-inp {
+    padding-right: 35px;
+}
+
+.mbr-srch .srch-bar .srch-btn {
+    position: absolute;
+    border: none;
+    padding: 0px;
+    background: transparent;
+    top: 6px;
+    right: 7px;
+}
+
+.mbr-srch .show-more {
+    text-align: center;
+}
+
+.mbr-srch .show-more .btn {
+    padding: 5px 10px;
+}
