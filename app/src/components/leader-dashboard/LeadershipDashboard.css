@@ -52,7 +52,7 @@
   flex: 1;
   padding: 30px;
   background-color: #f9fafb;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .kpi-grid {
