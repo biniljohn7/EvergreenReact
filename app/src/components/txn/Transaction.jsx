@@ -76,13 +76,11 @@ const Transaction = (props) => {
 
         {shwStatus === "pending" && (
           <div>
-            <h2>Payment Pending</h2>
+            <h2>Payment Processing</h2>
             <p>
-              We've received your request, but the payment hasn’t been confirmed
-              yet.
+              Your payment is being processed. This typically takes a short while. 
               <br />
-              Please allow a little time, or contact support if it takes too
-              long.
+              If you don’t see an update soon, please reach out to our support team.
             </p>
           </div>
         )}
