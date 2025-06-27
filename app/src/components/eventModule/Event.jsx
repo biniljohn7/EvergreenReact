@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { TabContent, TabPane/*, Nav, NavItem, NavLink*/ } from "reactstrap";
+import { TabContent, TabPane /*, Nav, NavItem, NavLink*/ } from "reactstrap";
 import Wrapper from "./event.style.js";
 import { listEvent, getDropdown } from "../../api/eventAPI";
 import { ToastsStore } from "react-toasts";
@@ -9,7 +9,7 @@ import Select from "react-select";
 import { Spinner } from "reactstrap";
 // import ClampLines from "react-clamp-lines";
 
-import EventBoxImg from '../../assets/images/event-box.jpg'
+import EventBoxImg from "../../assets/images/event-box.jpg";
 
 const COL_NO = window.innerWidth < 768 ? 2 : window.innerWidth <= 1024 ? 3 : 4;
 const COL_WIDTH =
@@ -21,8 +21,8 @@ const IMAGE_SIZE =
   window.innerWidth < 768
     ? "100px"
     : window.innerWidth <= 1440
-      ? "150px"
-      : "200px";
+    ? "150px"
+    : "200px";
 
 const Event = (props) => {
   const [dropdown, setDropdown] = useState(null);
@@ -48,7 +48,7 @@ const Event = (props) => {
     });
   }, []);
 
-  document.title = 'Events - ' + window.seoTagLine;
+  document.title = "Events - " + window.seoTagLine;
 
   //   useEffect(() => {
   //     getList({
@@ -98,83 +98,73 @@ const Event = (props) => {
       <div className="text-center custom-spinner mtp-20">
         <Spinner color="danger" />
       </div>
-    ) :
-      event.length > 0 ? (
-        <React.Fragment>
-          {/* <div className="grid-container mt-20"> */}
-          {event.map((ev) => {
-            return (
-              <>
-                <div
-                  className="event-item"
-                  key={ev.eventId}
-                >
-                  {
-                    ev.image ?
-                      <div className="ev-img-box">
-                        <img
-                          src={ev.image}
-                          alt={ev.name.substr(0, 10) + "..."}
-                          className="image-size"
-                        />
-                      </div> :
-                      null
-                  }
-                  <div className="ev-content">
-                    <div className="e-date">
-                      {ev.date ? ev.date : ""}
-                    </div >
-                    <h2>
-                      {ev.name}
-                    </h2>
-                    <p>
-                      {ev.address || ""}
-                    </p>
-                    <div className="button-box">
-                      <span onClick={(e) =>
+    ) : event.length > 0 ? (
+      <React.Fragment>
+        {/* <div className="grid-container mt-20"> */}
+        {event.map((ev) => {
+          return (
+            <>
+              <div className="event-item" key={ev.eventId}>
+                {ev.image ? (
+                  <div className="ev-img-box">
+                    <img
+                      src={ev.image}
+                      alt={ev.name.substr(0, 10) + "..."}
+                      className="image-size"
+                    />
+                  </div>
+                ) : null}
+                <div className="ev-content">
+                  <div className="e-date">{ev.date ? ev.date : ""}</div>
+                  <h2>{ev.name}</h2>
+                  <p>{ev.address || ""}</p>
+                  <div className="button-box">
+                    <span
+                      onClick={(e) =>
                         props.history.push(
                           `/events/${ev.name.replaceAll("/", " ")}`,
                           {
                             eventId: ev.eventId,
                           }
                         )
-                      }>READ MORE</span>
-                    </div>
+                      }
+                    >
+                      READ MORE
+                    </span>
                   </div>
-                </div >
-              </>
-            );
-          })
-          }
-          {/* </div> */}
+                </div>
+              </div>
+            </>
+          );
+        })}
+        {/* </div> */}
 
-          <div className="pagination">
-            <Pagination
-              activePage={currentPage}
-              length={totalPage * LIMIT}
-              count={LIMIT}
-              handler={(pageNumber) => {
-                setPage(pageNumber);
-                getList({
-                  location: activeTab === "all" && option ? option.type : null,
-                  locationIds: option ? [option.id] : [],
-                  pageId: pageNumber,
-                  type: activeTab === "all" ? "AllEvents" : activeTab,
-                });
-              }}
-            />
-          </div>
-        </React.Fragment >
-      ) : (
-        <div className="border ptb-50 plr-20 text-center text-bold mt-50">
-          No Record Found!
+        <div className="pagination">
+          <Pagination
+            activePage={currentPage}
+            length={totalPage * LIMIT}
+            count={LIMIT}
+            handler={(pageNumber) => {
+              setPage(pageNumber);
+              getList({
+                location: activeTab === "all" && option ? option.type : null,
+                locationIds: option ? [option.id] : [],
+                pageId: pageNumber,
+                type: activeTab === "all" ? "AllEvents" : activeTab,
+              });
+            }}
+          />
         </div>
-      );
+      </React.Fragment>
+    ) : (
+      <div className="border ptb-50 plr-20 text-center text-bold mt-50">
+        No Record Found!
+      </div>
+    );
   };
 
   return (
     <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
-
       <div className="event-section">
         <div className="head-box ">
           <div className="container">
@@ -240,16 +230,17 @@ const Event = (props) => {
            */}
           <div className="event-box">
             <div className="container">
-              <div className="image-box">
+              {/* <div className="image-box">
                 <img src={EventBoxImg} alt="" />
-              </div>
+              </div> */}
               <div className="content-box">
                 <TabContent activeTab={activeTab}>
                   <TabPane tabId="all" className="mt-20">
                     <div className="position-relative height-40">
                       <div
                         className={
-                          "dropdown " + (window.innerWidth < 768 ? "wp-80" : "wp-25")
+                          "dropdown " +
+                          (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
                         <Select
@@ -286,7 +277,8 @@ const Event = (props) => {
                     <div className="position-relative height-40">
                       <div
                         className={
-                          "dropdown " + (window.innerWidth < 768 ? "wp-80" : "wp-25")
+                          "dropdown " +
+                          (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
                         <Select
@@ -323,7 +315,8 @@ const Event = (props) => {
                     <div className="position-relative height-40">
                       <div
                         className={
-                          "dropdown " + (window.innerWidth < 768 ? "wp-80" : "wp-25")
+                          "dropdown " +
+                          (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
                         <Select
@@ -360,7 +353,8 @@ const Event = (props) => {
                     <div className="position-relative height-40">
                       <div
                         className={
-                          "dropdown " + (window.innerWidth < 768 ? "wp-80" : "wp-25")
+                          "dropdown " +
+                          (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
                         <Select
@@ -397,7 +391,8 @@ const Event = (props) => {
                     <div className="position-relative height-40">
                       <div
                         className={
-                          "dropdown " + (window.innerWidth < 768 ? "wp-80" : "wp-25")
+                          "dropdown " +
+                          (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
                         <Select
