@@ -9,8 +9,8 @@ import CareerDetail from "../components/career/CareerDetail";
 // import Referral from "../components/referral/Referral";
 import Resource from "../components/resource/Resource";
 import Store from "../components/store/Store";
-import Event from "../components/eventModule/Event";
-import EventDetail from "../components/eventModule/EventDetail";
+// import Event from "../components/eventModule/Event";
+// import EventDetail from "../components/eventModule/EventDetail";
 import Advocacy from "../components/advocacy/Advocacy";
 import AdvocacyDetail from "../components/advocacy/AdvocacyDetail";
 import Dues from "../components/dues/Dues";
@@ -69,18 +69,18 @@ const protectedRoutes = [
         path: "/store",
         component: Store,
     },
-    {
-        path: "/events",
-        component: Event,
-    },
-    {
-        path: "/events/:eventId",
-        component: EventDetail,
-    },
-    {
-        path: "/events/:name",
-        component: EventDetail,
-    },
+    // {
+    //     path: "/events",
+    //     component: Event,
+    // },
+    // {
+    //     path: "/events/:eventId",
+    //     component: EventDetail,
+    // },
+    // {
+    //     path: "/events/:name",
+    //     component: EventDetail,
+    // },
     {
         path: "/advocacy",
         component: Advocacy,

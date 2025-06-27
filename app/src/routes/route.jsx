@@ -24,6 +24,8 @@ import CancelPayment from "../components/payment/CancelPayment";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
 import Transaction from "../components/txn/Transaction";
 import { store } from "../redux/store";
+import Event from "../components/eventModule/Event";
+// import EventDetail from "../components/eventModule/EventDetail";
 
 function Routes() {
   return (
@@ -52,7 +54,7 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             {store.getState().auth.isLogin &&
-            store.getState().auth.accessToken ? (
+              store.getState().auth.accessToken ? (
               <LandingPage {...props} />
             ) : (
               <SignUp {...props} />
@@ -129,6 +131,16 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             <ChangePassword {...props} />
+          </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
+        path="/events"
+        render={(props) => (
+          <PageContainer>
+            <Event {...props} />
           </PageContainer>
         )}
       />
