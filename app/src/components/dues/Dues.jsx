@@ -201,8 +201,7 @@ const Dues = (props) => {
                         props.history.push("/dues/membership");
                       }}
                     >
-                      {membershipStatus == "active" ? "GIFT" : "CHOOSE"}{" "}
-                      MEMBERSHIP
+                        {membershipStatus == "active" ? "Pay Membership Fee" : "CHOOSE MEMBERSHIP"}{" "}
                     </button>
                   </div>
 

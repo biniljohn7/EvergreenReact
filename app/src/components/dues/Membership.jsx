@@ -422,7 +422,7 @@ function Membership(props) {
               <div className="order-summery">
                 {membershipList && membershipList.length > 0 && (
                   <>
-                    <h4>Order Summery</h4>
+                    <h4>Order Summary</h4>
                     <div className="order-box">
                       {membershipList.map((mbr, key) => {
                         ttlAmt += parseFloat(
@@ -681,7 +681,7 @@ function Membership(props) {
                       <div className="form-row">
                         <div className="form-col">
                           <label htmlFor="" className="fs-16">
-                            Membership Dues/Fees:
+                            Choose Membership
                           </label>
                           <Select
                             id="plan"
