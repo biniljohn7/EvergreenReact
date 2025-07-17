@@ -32,8 +32,8 @@ function Membership(props) {
   const [showForm, setShowForm] = useState(false);
   const [isEdited, setIsEdited] = useState(null);
   const [dropdown, setDropdown] = useState(null);
-  const [secSuggestions, setSecSuggestions] = useState([]);
-  const [affSuggestions, setAffSuggestions] = useState([]);
+  const [sectionsDropdown, setSectionsDropdown] = useState([]);
+  const [affiliatesDropdown, setAffiliatesDropdown] = useState([]);
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [isGift, setIsGift] = useState(false);
@@ -84,6 +84,37 @@ function Membership(props) {
         } else {
           ToastsStore.error("Something went wrong!");
         }
+      });
+    // Fetch sections for dropdown
+    duesSearchSections("")
+      .then((res) => {
+        if (res.success === 1) {
+          setSectionsDropdown(
+            res.data.map((section) => ({
+              value: section.sectionId,
+              label: section.sectionName,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        ToastsStore.error("Failed to load sections!");
+      });
+
+    duesSearchAffiliate("")
+      .then((res) => {
+        if (res.success === 1) {
+          setAffiliatesDropdown(
+            res.data.map((affiliate) => ({
+              value: affiliate.affiliateId,
+              label: affiliate.affiliateName,
+            }))
+          );
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        Spn.Hide();
       });
 
     setShowForm(true);
@@ -211,62 +242,6 @@ function Membership(props) {
         setIsEdited(null);
       } else {
         setMembershipList((prevList) => [...prevList, formattedMembers]);
-      }
-    }
-  };
-
-  const sectionSuggestion = (e, type) => {
-    const value = e.target.value;
-
-    if (type == "section") {
-      setMembData((prev) => ({ ...prev, sectionLabel: value }));
-
-      if (value) {
-        duesSearchSections(value)
-          .then((res) => {
-            if (res.success === 1) {
-              setSecSuggestions(res.data);
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            Spn.Hide();
-          });
-
-        Spn.Show();
-      } else {
-        setSecSuggestions([]);
-        setMembData({
-          ...membData,
-          section: "",
-          sectionLabel: "",
-        });
-      }
-    }
-
-    if (type == "affiliate") {
-      setMembData((prev) => ({ ...prev, affiliateLabel: value }));
-
-      if (value) {
-        duesSearchAffiliate(value)
-          .then((res) => {
-            if (res.success === 1) {
-              setAffSuggestions(res.data);
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            Spn.Hide();
-          });
-
-        Spn.Show();
-      } else {
-        setAffSuggestions([]);
-        setMembData({
-          ...membData,
-          affiliate: "",
-          affiliateLabel: "",
-        });
       }
     }
   };
@@ -594,88 +569,52 @@ function Membership(props) {
                     <div id="ownMembership">
                       <div className="form-row">
                         <div className="form-col sugg">
-                          <Input
+                          <label htmlFor="section" className="fs-16">
+                            Section
+                          </label>
+                          <Select
                             id="section"
                             name="section"
-                            label="Section"
-                            placeholder="Section"
-                            fontSize={"fs-16 text-dark"}
-                            contentFontSize="fs-14"
-                            type="text"
-                            autocomplete="off"
-                            value={membData.sectionLabel || ""}
-                            onChange={(e) => sectionSuggestion(e, "section")}
-                            onBlur={() => {
-                              setTimeout(() => setSecSuggestions([]), 1000);
+                            placeholder="Select Section"
+                            options={sectionsDropdown}
+                            value={
+                              sectionsDropdown.find(
+                                (option) => option.value === membData.section
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setMembData({
+                                ...membData,
+                                section: selectedOption.value,
+                                sectionLabel: selectedOption.label,
+                              });
                             }}
                           />
                           <Error field="section" />
-                          <div
-                            className="suggestion-box"
-                            style={{
-                              display:
-                                secSuggestions.length > 0 ? "block" : "none",
-                            }}
-                          >
-                            {secSuggestions.map((item) => (
-                              <div
-                                className="suggestions"
-                                key={item.sectionId}
-                                onClick={() => {
-                                  setMembData({
-                                    ...membData,
-                                    section: item.sectionId,
-                                    sectionLabel: item.sectionName,
-                                  });
-                                  setSecSuggestions([]);
-                                }}
-                              >
-                                {item.sectionName}
-                              </div>
-                            ))}
-                          </div>
                         </div>
                         <div className="form-col sugg">
-                          <Input
+                          <label htmlFor="affiliation" className="fs-16">
+                            Affiliation
+                          </label>
+                          <Select
                             id="affiliation"
                             name="affiliation"
-                            label="Affiliation"
-                            placeholder="Affiliation"
-                            fontSize={"fs-16 text-dark"}
-                            contentFontSize="fs-14"
-                            type="text"
-                            autocomplete="off"
-                            value={membData.affiliateLabel || ""}
-                            onChange={(e) => sectionSuggestion(e, "affiliate")}
-                            onBlur={() => {
-                              setTimeout(() => setAffSuggestions([]), 1000);
+                            placeholder="Select Affiliation"
+                            options={affiliatesDropdown}
+                            value={
+                              affiliatesDropdown.find(
+                                (option) => option.value === membData.affiliate
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setMembData({
+                                ...membData,
+                                affiliate: selectedOption.value,
+                                affiliateLabel: selectedOption.label,
+                              });
                             }}
                           />
                           <Error field="affiliation" />
-                          <div
-                            className="suggestion-box"
-                            style={{
-                              display:
-                                affSuggestions.length > 0 ? "block" : "none",
-                            }}
-                          >
-                            {affSuggestions.map((item) => (
-                              <div
-                                className="suggestions"
-                                key={item.affiliateId}
-                                onClick={() => {
-                                  setMembData({
-                                    ...membData,
-                                    affiliate: item.affiliateId,
-                                    affiliateLabel: item.affiliateName,
-                                  });
-                                  setAffSuggestions([]);
-                                }}
-                              >
-                                {item.affiliateName}
-                              </div>
-                            ))}
-                          </div>
                         </div>
                       </div>
                       <div className="form-row">
@@ -807,7 +746,22 @@ function Membership(props) {
                               <span
                                 className="btn button plr-20 ptb-10"
                                 onClick={(e) => {
-                                  setMbrOpen(true);
+                                  if (
+                                    !membData.section &&
+                                    !membData.affiliate
+                                  ) {
+                                    setErrorList((prev) => ({
+                                      ...prev,
+                                      section:
+                                        "Please select a Section or Affiliation before adding a gift recipient.",
+                                    }));
+                                  } else {
+                                    setErrorList((prev) => ({
+                                      ...prev,
+                                      section: null, // Clear the error if validation passes
+                                    }));
+                                    setMbrOpen(true);
+                                  }
                                 }}
                               >
                                 <span className="material-symbols-outlined icn">
@@ -928,6 +882,12 @@ function Membership(props) {
           }}
           addContent={handleAddContent}
           changeURL={props.history.push}
+          sectionsDropdown={sectionsDropdown}
+          affiliatesDropdown={affiliatesDropdown}
+          conditions={{
+            section: membData.section,
+            affiliate: membData.affiliate,
+          }}
         />
       )}
     </Wrapper>
