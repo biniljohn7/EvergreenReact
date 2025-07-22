@@ -68,7 +68,7 @@ function Membership(props) {
     }
     getMembershipPlans()
       .then((res) => {
-        setDropdown(res.data);
+        setDropdown(res.data.plans);
       })
       .catch((err) => {
         if (err.response) {
@@ -117,7 +117,6 @@ function Membership(props) {
         Spn.Hide();
       });
 
-    setShowForm(true);
     setContent([]);
     setMembData([]);
     setSubDrop({});
