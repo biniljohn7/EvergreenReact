@@ -862,6 +862,60 @@ a:focus {
     align-items: flex-start;
 }
 
+.due-box .due-item .due-content .hist-item .info.gift {
+    flex: 1 1 0;
+}
+
+.due-box .due-item .due-content .hist-item .inf-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    position: relative;
+}
+
+.due-box .due-item .due-content .hist-item .info.gift .paid-by {
+    font-size: .75em;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm .inf-rg {
+    display: none;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm .inf-rg.gift {
+    display: flex;
+    font-size: .85em;
+    align-items: flex-start;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm .inf-rg.gift .gf-lf {
+    width: 50px;
+    height: 50px;
+    background-color: #e3e3e3;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    flex-shrink: 0;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm .inf-rg.gift .gf-lf img {
+    border-radius: 8px;
+    width: 50px;
+    height: 50px;
+}
+
+.due-box .due-item .due-content .hist-item .inf-btm .inf-rg.gift .gf-rg {
+    flex: 1 1 0;
+}
+
 .status-btn {
     border: 1px solid #666;
     display: inline-block;
@@ -877,6 +931,10 @@ a:focus {
     background-color: #5cab02;
     color: #fff;
     border-color: #5cab02;
+}
+
+.status-btn.success.gift {
+    display: none;
 }
 
 .status-btn.cancelled {

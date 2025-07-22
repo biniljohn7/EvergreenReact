@@ -16,6 +16,8 @@ import Discover from "../../assets/images/discover.png";
 import Mastercard from "../../assets/images/mastercard.png";
 import Visa from "../../assets/images/visa.png";
 
+import paidBy from "../../assets/images/new-hero.png";
+
 import AuthActions from "../../redux/auth/actions";
 import GiftMembership from "./GiftMembership";
 import ExpiredMembership from "./ExpiredMembership";
@@ -242,19 +244,58 @@ const Dues = (props) => {
                           return historyData.map(function (el, index) {
                             return (
                               <div className="mb15 hist-item" key={index}>
-                                <div className="info">
-                                  <div className="bold-600 text-12">
-                                    {el.chargesTitle}
+                                <div className={`info ${el.benefitTo ? 'gift' : ''}`}>
+                                  <div className="bold-600 text-12 mb5 inf-top">
+                                    <span>
+                                        {el.chargesTitle} 
+                                    </span>
+                                    {el.benefitTo 
+                                    ? <span className="paid-by">
+                                        (Paid by {el.benefitTo.firstName + ' ' + el.benefitTo.lastName})
+                                    </span> 
+                                    : ''}
                                   </div>
-                                  <div>
-                                    {new Date(el.paidAt).toLocaleDateString(
-                                      "en-US"
-                                    )}
+                                  <div className="inf-btm">
+                                    <div className={`inf-rg ${el.benefitTo ? 'gift' : ''}`}>
+                                        {el.status === 'success' && el.benefitTo && (
+                                            <>
+                                            <div className="gf-lf">
+                                                {el.benefitTo.avatar ? (
+                                                    <img src={paidBy} alt=""/>
+                                                ) : (
+                                                  <div className="no-img">
+                                                    <span className="material-symbols-outlined icn">
+                                                      person
+                                                    </span>
+                                                  </div>
+                                                )}
+                                            </div>
+                                            <div className="gf-rg">
+                                                <div className="bold">
+                                                    {el.benefitTo.firstName} {el.benefitTo.lastName}
+                                                </div>
+                                                <div>
+                                                    {el.benefitTo.memberId}
+                                                </div>
+                                                <div>
+                                                    {el.benefitTo.city}, {el.benefitTo.zipcode}
+                                                </div>
+                                            </div>
+                                            </>
+                                        )}
+                                    </div>
+                                    <div className="inf-lf">
+                                        <div>
+                                            {new Date(el.paidAt).toLocaleDateString(
+                                            "en-US"
+                                            )}
+                                        </div>
+                                        {Pix.dollar(el.totalAmount, 1)}
+                                    </div>
                                   </div>
-                                  {Pix.dollar(el.totalAmount, 1)}
                                 </div>
-                                <div className={"status-btn " + el.status}>
-                                  {el.status}
+                                <div className={`status-btn ${el.status} ${el.benefitTo ? 'gift' : ''}`}>
+                                    {el.status}
                                 </div>
                               </div>
                             );
