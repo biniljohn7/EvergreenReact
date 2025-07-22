@@ -171,6 +171,11 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #ececec;
   }
 
+  .ch-btn-sec {
+    display: flex;
+    gap: 10px;
+  }
+
   .order-summery {
     position: relative;
     padding-top: 30px;

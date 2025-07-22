@@ -24,6 +24,7 @@ import "../../assets/css/style2.css";
 import { store } from "../../redux/store";
 import { MEMBERSHIP_FOR } from "../../helper/constant";
 import SelectMember from "./SelectMember";
+import OtherPurchasableList from "./OtherPurchasableList";
 
 const { logout } = AuthActions;
 
@@ -32,10 +33,12 @@ function Membership(props) {
   const [showForm, setShowForm] = useState(false);
   const [isEdited, setIsEdited] = useState(null);
   const [dropdown, setDropdown] = useState(null);
+  const [othPurLists, setOthPurLists] = useState(null);
   const [sectionsDropdown, setSectionsDropdown] = useState([]);
   const [affiliatesDropdown, setAffiliatesDropdown] = useState([]);
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
+  const [openOthPurList, setOpenOthPurList] = useState(false);
   const [isGift, setIsGift] = useState(false);
   const [unique, setUnique] = useState([]);
   const [content, setContent] = useState([]);
@@ -69,6 +72,7 @@ function Membership(props) {
     getMembershipPlans()
       .then((res) => {
         setDropdown(res.data.plans);
+        setOthPurLists(res.data.others);
       })
       .catch((err) => {
         if (err.response) {
@@ -378,7 +382,7 @@ function Membership(props) {
         <div className="ptb-50">
           {!showForm && (
             <>
-              <div className="text-left">
+              <div className="text-left ch-btn-sec">
                 <button
                   className="btn btn-rounded button plr-20 ptb-10"
                   type="button"
@@ -391,6 +395,15 @@ function Membership(props) {
                   }}
                 >
                   ADD MEMBERSHIP
+                </button>
+                <button
+                  className="btn btn-rounded button plr-20 ptb-10"
+                  type="button"
+                  onClick={()=>{
+                    setOpenOthPurList(true);
+                  }}
+                >
+                  OTHER PURCHASABLE ITEMS
                 </button>
               </div>
               <div className="order-summery">
@@ -887,6 +900,16 @@ function Membership(props) {
             section: membData.section,
             affiliate: membData.affiliate,
           }}
+        />
+      )}
+      {openOthPurList && (
+        <OtherPurchasableList
+            isOpen={openOthPurList}
+            toggle={()=> {
+                setOpenOthPurList(!openOthPurList)
+            }}
+            changeURL={props.history.push}
+            othPurLists={othPurLists}
         />
       )}
     </Wrapper>
