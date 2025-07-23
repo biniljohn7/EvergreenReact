@@ -163,68 +163,11 @@ export const cancelSubscription = (id) => {
 };
 
 export const viewPaymentHistory = (id) => {
-    // return axios
-    //     .get(`${BASE_URL}/member/?method=dues-history`)
-    //     .then((response) => {
-    //         return response.data;
-    //     });
-    return Promise.resolve({
-        success: 1,
-        data: [
-        {
-            chargesTitle: 'Membership Payment - Own membership',
-            paidAt: '2025-06-24',
-            totalAmount: 25.00,
-            status: 'success',
-        },
-        {
-            chargesTitle: 'Membership Payment - Own membership',
-            paidAt: '2025-06-24',
-            totalAmount: 1500.00,
-            status: 'pending',
-        },
-        {
-            chargesTitle: 'Membership Payment - Own membership',
-            paidAt: '2025-06-24',
-            totalAmount: 1000.00,
-            status: 'pending',
-        },
-        {
-            chargesTitle: 'Membership Payment - Own membership',
-            paidAt: '2025-06-19',
-            totalAmount: 25.00,
-            status: 'success',
-            benefitTo: {
-                firstName: 'Charlie',
-                lastName: 'Davis',
-                avatar: 'new-hero.png',
-                memberId: 'M005',
-                city: 'Phoenix',
-                zipcode: '85001',
-            },
-        },
-        {
-            chargesTitle: 'Renewal',
-            paidAt: '2025-06-19',
-            totalAmount: 25.00,
-            status: 'pending',
-        },
-        {
-            chargesTitle: 'Renewal',
-            paidAt: '2025-06-19',
-            totalAmount: 25.00,
-            status: 'success',
-            benefitTo: {
-                firstName: 'Peter',
-                lastName: 'Wade',
-                avatar: '',
-                memberId: 'HG78F',
-                city: 'Moscow',
-                zipcode: '85001',
-            },
-        },
-        ],
-    });
+    return axios
+        .get(`${BASE_URL}/member/?method=dues-history`)
+        .then((response) => {
+            return response.data;
+        });
 };
 
 export const getDropdown = (body) => {
