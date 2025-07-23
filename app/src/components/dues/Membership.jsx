@@ -56,10 +56,16 @@ function Membership(props) {
     affiliateLabel: "",
   });
   const [membId, setMembId] = useState({});
+  const [othId, setOthId] = useState({});
   const [membershipList, setMembershipList] = useState([]);
+  const [otherPurchasableItems, setOtherPurchasableItems] = useState([]);
+  const [mntlyDonation, setMntlyDonation] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [updtAmnt, setUpdtAmnt] = useState(0);
 
   const lgMbr = store.getState().auth.memberId;
   let mbrExist = false;
+  let othExist = false;
   let ttlAmt = 0;
 
   let Spn = Spinner();
@@ -246,11 +252,17 @@ function Membership(props) {
       } else {
         setMembershipList((prevList) => [...prevList, formattedMembers]);
       }
+        setTotalAmount(
+            prevAmount => prevAmount + parseFloat((membData.membershipPlanCharge * formattedMembers.memberIds.length) / membData.installment || 0)
+        );
     }
   };
 
   const makePayment = () => {
-    if (membershipList.length > 0) {
+    if (
+        membershipList.length > 0 ||
+        otherPurchasableItems.length > 0
+    ) {
       Spn.Show();
 
       const membershipData = {
@@ -261,8 +273,9 @@ function Membership(props) {
           sectionId: item.sectionId,
           affiliateId: item.affiliateId,
         })),
-      };
-
+        others: otherPurchasableItems.map((oth) => oth.id),
+        donation: mntlyDonation,
+      };      
       addMembership(membershipData)
         .then((res) => {
           if (res.success === 1) {
@@ -284,10 +297,11 @@ function Membership(props) {
     }
   };
 
-  const removeMembship = (e, key) => {
+  const removeMembship = (e, key, amount) => {
     setMembershipList((prevList) =>
       prevList.filter((_, index) => index !== key)
     );
+    setTotalAmount(prevAmount => prevAmount - parseFloat(amount || 0));
   };
 
   const editMembship = (iKey) => {
@@ -335,6 +349,9 @@ function Membership(props) {
     setMembData(modData);
     setShowForm(true);
     setIsEdited(iKey);
+    setUpdtAmnt((prev) => prev + parseFloat(
+        (membershipList[iKey].membershipPlanCharge * users.length) /  membershipList[iKey].installment
+    ));
 
     getInstallments(membershipList[iKey].membershipPlan)
       .then((res) => {
@@ -351,6 +368,46 @@ function Membership(props) {
       });
   };
 
+  const addOth = (id, title, amount) => {
+    setOthId((prev) => {
+        if(prev[id]) {
+            othExist = true;
+            return prev;
+        }
+
+        return {
+            ...prev,
+            [id] : [title, amount]
+        }
+    });
+  }
+
+  const handlePurchasableItem = (item) => {
+    addOth(
+        item.id,
+        item.title,
+        item.amount
+    );
+    if(!othExist) {
+        setOtherPurchasableItems([...otherPurchasableItems, item]);
+        setTotalAmount(prevAmount => prevAmount + parseFloat(item.amount || 0));
+    } else {
+        Tst.Error("Item already added!");
+    }
+    setOpenOthPurList(false);
+  }
+  
+  
+  const removeOther = (id, amount) => {
+    setOthId((prev) => {
+        const otherids = {...prev};
+        delete otherids[id];
+        return otherids;
+    });
+
+    setOtherPurchasableItems((prev) => prev.filter((itm) => itm.id !== id));
+    setTotalAmount(prevAmount => prevAmount - parseFloat(amount || 0));
+  }
   return (
     <Wrapper>
       {Tst.Obj}
@@ -364,9 +421,12 @@ function Membership(props) {
               </Link>
             </BreadcrumbItem>
             <BreadcrumbItem
-              className="text-white brdcrb-cursor"
-              onClick={() => setShowForm(false)}
-              active={!showForm}
+                className="text-white brdcrb-cursor"
+                onClick={() => {
+                    setShowForm(false);
+                    setUpdtAmnt(0);
+                }}
+                active={!showForm}
             >
               Memberships
             </BreadcrumbItem>
@@ -407,7 +467,8 @@ function Membership(props) {
                 </button>
               </div>
               <div className="order-summery">
-                {membershipList && membershipList.length > 0 && (
+                {(membershipList && membershipList.length > 0 ||
+                otherPurchasableItems && otherPurchasableItems.length > 0) && (
                   <>
                     <h4>Order Summary</h4>
                     <div className="order-box">
@@ -518,7 +579,14 @@ function Membership(props) {
                                           "Are you sure to remove this membership?"
                                         )
                                       ) {
-                                        removeMembship(e, key);
+                                        removeMembship(
+                                            e, 
+                                            key,
+                                            parseFloat(
+                                                (mbr.membershipPlanCharge * mbr.memberIds.length) / mbr.installment 
+                                                || 0
+                                            )
+                                        );
                                       }
                                     }}
                                   >
@@ -551,11 +619,54 @@ function Membership(props) {
                           </div>
                         );
                       })}
+                      {otherPurchasableItems.map((oth, key) => {
+                        ttlAmt += parseFloat(oth.amount || 0);
+                        return(
+                            <div className="order-itm" key={key}>
+                                <div className="ordr-membship">
+                                    {oth.title || ""}
+                                </div>
+                                <div className="ordr-sub">
+                                    <div className="ord-amnt-sec">
+                                        <div className="sec-lf">
+                                            <span
+                                                className="act-btn dlt"
+                                                onClick={(e) => {
+                                                if (
+                                                    window.confirm(
+                                                    "Are you sure to remove this item?"
+                                                    )
+                                                ) {
+                                                    removeOther(oth.id, oth.amount);
+                                                }
+                                                }}
+                                            >
+                                                REMOVE
+                                            </span>
+                                        </div>
+                                        <div className="sec-rg">
+                                            <div className="amnt-sec">
+                                                <div className="sec-label">
+                                                Total Charge
+                                                </div>
+                                                <div className="sec-value amnt">
+                                                {Pix.dollar(
+                                                    oth.amount,
+                                                    1
+                                                )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                      })}
                     </div>
                     <div className="order-ttl-charge">
                       <div className="ttl-left">
                         <span className="lf-lbl">Total Amount</span>
-                        <span className="lf-amnt">{Pix.dollar(ttlAmt, 1)}</span>
+                        <span className="lf-amnt">{Pix.dollar(totalAmount, 1)}</span>
                       </div>
                       <div className="ttl-right">
                         <button
@@ -565,6 +676,21 @@ function Membership(props) {
                           Make Payment
                         </button>
                       </div>
+                    </div>
+                    <div className="ordr-chk-box">
+                        <label className="chk-label">
+                            <input 
+                                type="checkbox" 
+                                name="mntlyDonation" 
+                                checked={mntlyDonation} 
+                                onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setMntlyDonation(checked);
+                                    setTotalAmount(prev => prev + (checked ? 3 : -3));
+                                }}
+                            />
+                            I want to add $3.00 to my monthly donation to help offset processing fees, so 100% of my contribution can benefit the organization
+                        </label>
                     </div>
                   </>
                 )}
@@ -871,9 +997,15 @@ function Membership(props) {
 
                       <div className="text-left mt-20">
                         <button
-                          className="btn btn-success"
-                          type="button"
-                          onClick={(e) => handleMembershipForm(e)}
+                            className="btn btn-success"
+                            type="button"
+                            onClick={(e) => {
+                                handleMembershipForm(e);
+                                if(isEdited !== null && isEdited >= 0) {
+                                    setTotalAmount(prevAmount => prevAmount - parseFloat(updtAmnt || 0));
+                                    setUpdtAmnt(0);
+                                }
+                            }}
                         >
                           Save
                         </button>
@@ -908,6 +1040,7 @@ function Membership(props) {
             toggle={()=> {
                 setOpenOthPurList(!openOthPurList)
             }}
+            purchasableItem={handlePurchasableItem}
             changeURL={props.history.push}
             othPurLists={othPurLists}
         />

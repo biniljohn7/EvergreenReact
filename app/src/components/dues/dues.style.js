@@ -404,11 +404,13 @@ const Wrapper = styled.div`
 
   .order-summery .order-ttl-charge {
     display: flex;
-    margin-top: 30px;
+    // margin-top: 30px;
     justify-content: space-between;
     align-items: flex-end;
     max-width: 445px;
-    margin-left: auto;
+    // margin-left: auto;
+    // margin-bottom: 15px;
+    margin: 30px 0px 15px auto;
   }
 
   .order-summery .order-ttl-charge .ttl-left {
@@ -426,6 +428,12 @@ const Wrapper = styled.div`
     font-weight: 600;
   }
 
+  .order-summery .ordr-chk-box .chk-label {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    }
+
   .brdcrb-cursor {
     cursor: pointer;
   }
@@ -439,6 +447,37 @@ const Wrapper = styled.div`
     padding-top: 10px;
     font-size: 1.2em;
   }
+
+  .puritm-popup .containers {
+    padding-top: 20px;
+  }
+
+  .puritm-popup .each-itm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+    .puritm-popup .each-itm:last-child {
+        margin-bottom: 0;
+    }
+
+    .puritm-popup .each-itm .itm-name {
+        font-weight: 500;
+    }
+    
+    .puritm-popup .each-itm .itm-btn {
+        width: 65px;
+    }
+
+    .puritm-popup .each-itm .itm-btn .sel-btn {
+        padding: 5px 15px;
+        min-width: unset;
+    }
 
   @media only screen and (max-width: 1260px) {
     .ord-members .ech-mbr {
