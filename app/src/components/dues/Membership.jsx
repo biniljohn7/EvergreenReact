@@ -664,20 +664,6 @@ function Membership(props) {
                         );
                       })}
                     </div>
-                    <div className="order-ttl-charge">
-                      <div className="ttl-left">
-                        <span className="lf-lbl">Total Amount</span>
-                        <span className="lf-amnt">{Pix.dollar(totalAmount, 1)}</span>
-                      </div>
-                      <div className="ttl-right">
-                        <button
-                          className="btn button"
-                          onClick={(e) => makePayment(e)}
-                        >
-                          Make Payment
-                        </button>
-                      </div>
-                    </div>
                     <div className="ordr-chk-box">
                         <label className="chk-label">
                             <input 
@@ -692,6 +678,20 @@ function Membership(props) {
                             />
                             I want to add $3.00 donation to help offset processing fees, so 100% of my contribution can benefit the organization
                         </label>
+                    </div>
+                    <div className="order-ttl-charge">
+                      <div className="ttl-left">
+                        <span className="lf-lbl">Total Amount</span>
+                        <span className="lf-amnt">{Pix.dollar(totalAmount, 1)}</span>
+                      </div>
+                      <div className="ttl-right">
+                        <button
+                          className="btn button"
+                          onClick={(e) => makePayment(e)}
+                        >
+                          Make Payment
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
