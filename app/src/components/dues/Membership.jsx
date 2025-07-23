@@ -442,6 +442,7 @@ function Membership(props) {
         <div className="ptb-50">
           {!showForm && (
             <>
+                <b>Choose Items to Include in Your Order</b><br/><br/>
               <div className="text-left ch-btn-sec">
                 <button
                   className="btn btn-rounded button plr-20 ptb-10"
@@ -463,7 +464,7 @@ function Membership(props) {
                     setOpenOthPurList(true);
                   }}
                 >
-                  OTHER PURCHASABLE ITEMS
+                  OTHER ITEMS
                 </button>
               </div>
               <div className="order-summery">
@@ -689,7 +690,7 @@ function Membership(props) {
                                     setTotalAmount(prev => prev + (checked ? 3 : -3));
                                 }}
                             />
-                            I want to add $3.00 to my monthly donation to help offset processing fees, so 100% of my contribution can benefit the organization
+                            I want to add $3.00 donation to help offset processing fees, so 100% of my contribution can benefit the organization
                         </label>
                     </div>
                   </>
