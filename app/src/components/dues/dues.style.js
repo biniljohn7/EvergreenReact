@@ -207,6 +207,20 @@ const Wrapper = styled.div`
     margin-bottom: 10px;
   }
 
+    .order-summery .order-box .order-itm .ordr-membship .imp-note {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: .7em;
+        color: #9a9a9a;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .order-summery .order-box .order-itm .ordr-membship .imp-note .icn {
+        font-size: 1.2em;
+    }
+
   .order-summery .order-box .order-itm .ordr-sub {
     margin-left: 15px;
   }

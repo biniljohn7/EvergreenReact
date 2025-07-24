@@ -625,7 +625,13 @@ function Membership(props) {
                         return(
                             <div className="order-itm" key={key}>
                                 <div className="ordr-membship">
-                                    {oth.title || ""}
+                                    {oth.title || ""} <br />
+                                    <span className="imp-note">
+                                        <span class="material-symbols-outlined icn">
+                                            label_important
+                                        </span>
+                                        Buy it for yourself.
+                                    </span>
                                 </div>
                                 <div className="ordr-sub">
                                     <div className="ord-amnt-sec">
