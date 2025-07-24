@@ -185,6 +185,7 @@ const Wrapper = styled.div`
     border: 1px solid #e7e7e7;
     padding: 40px;
     border-radius: 8px;
+    margin-bottom: 12px;
   }
 
   .order-summery .order-box .order-itm {
