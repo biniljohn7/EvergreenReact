@@ -24,6 +24,7 @@ import "../../assets/css/style2.css";
 import { store } from "../../redux/store";
 import { MEMBERSHIP_FOR } from "../../helper/constant";
 import SelectMember from "./SelectMember";
+import OtherPurchasableList from "./OtherPurchasableList";
 
 const { logout } = AuthActions;
 
@@ -32,10 +33,12 @@ function Membership(props) {
   const [showForm, setShowForm] = useState(false);
   const [isEdited, setIsEdited] = useState(null);
   const [dropdown, setDropdown] = useState(null);
-  const [secSuggestions, setSecSuggestions] = useState([]);
-  const [affSuggestions, setAffSuggestions] = useState([]);
+  const [othPurLists, setOthPurLists] = useState(null);
+  const [sectionsDropdown, setSectionsDropdown] = useState([]);
+  const [affiliatesDropdown, setAffiliatesDropdown] = useState([]);
   const [subDropItems, setSubDrop] = useState({});
   const [isMbrOpen, setMbrOpen] = useState(false);
+  const [openOthPurList, setOpenOthPurList] = useState(false);
   const [isGift, setIsGift] = useState(false);
   const [unique, setUnique] = useState([]);
   const [content, setContent] = useState([]);
@@ -53,10 +56,16 @@ function Membership(props) {
     affiliateLabel: "",
   });
   const [membId, setMembId] = useState({});
+  const [othId, setOthId] = useState({});
   const [membershipList, setMembershipList] = useState([]);
+  const [otherPurchasableItems, setOtherPurchasableItems] = useState([]);
+  const [mntlyDonation, setMntlyDonation] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [updtAmnt, setUpdtAmnt] = useState(0);
 
   const lgMbr = store.getState().auth.memberId;
   let mbrExist = false;
+  let othExist = false;
   let ttlAmt = 0;
 
   let Spn = Spinner();
@@ -68,7 +77,8 @@ function Membership(props) {
     }
     getMembershipPlans()
       .then((res) => {
-        setDropdown(res.data);
+        setDropdown(res.data.plans);
+        setOthPurLists(res.data.others);
       })
       .catch((err) => {
         if (err.response) {
@@ -85,8 +95,38 @@ function Membership(props) {
           ToastsStore.error("Something went wrong!");
         }
       });
+    // Fetch sections for dropdown
+    duesSearchSections("")
+      .then((res) => {
+        if (res.success === 1) {
+          setSectionsDropdown(
+            res.data.map((section) => ({
+              value: section.sectionId,
+              label: section.sectionName,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        ToastsStore.error("Failed to load sections!");
+      });
 
-    setShowForm(true);
+    duesSearchAffiliate("")
+      .then((res) => {
+        if (res.success === 1) {
+          setAffiliatesDropdown(
+            res.data.map((affiliate) => ({
+              value: affiliate.affiliateId,
+              label: affiliate.affiliateName,
+            }))
+          );
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        Spn.Hide();
+      });
+
     setContent([]);
     setMembData([]);
     setSubDrop({});
@@ -212,67 +252,17 @@ function Membership(props) {
       } else {
         setMembershipList((prevList) => [...prevList, formattedMembers]);
       }
-    }
-  };
-
-  const sectionSuggestion = (e, type) => {
-    const value = e.target.value;
-
-    if (type == "section") {
-      setMembData((prev) => ({ ...prev, sectionLabel: value }));
-
-      if (value) {
-        duesSearchSections(value)
-          .then((res) => {
-            if (res.success === 1) {
-              setSecSuggestions(res.data);
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            Spn.Hide();
-          });
-
-        Spn.Show();
-      } else {
-        setSecSuggestions([]);
-        setMembData({
-          ...membData,
-          section: "",
-          sectionLabel: "",
-        });
-      }
-    }
-
-    if (type == "affiliate") {
-      setMembData((prev) => ({ ...prev, affiliateLabel: value }));
-
-      if (value) {
-        duesSearchAffiliate(value)
-          .then((res) => {
-            if (res.success === 1) {
-              setAffSuggestions(res.data);
-            }
-          })
-          .catch(() => {})
-          .finally(() => {
-            Spn.Hide();
-          });
-
-        Spn.Show();
-      } else {
-        setAffSuggestions([]);
-        setMembData({
-          ...membData,
-          affiliate: "",
-          affiliateLabel: "",
-        });
-      }
+        setTotalAmount(
+            prevAmount => prevAmount + parseFloat((membData.membershipPlanCharge * formattedMembers.memberIds.length) / membData.installment || 0)
+        );
     }
   };
 
   const makePayment = () => {
-    if (membershipList.length > 0) {
+    if (
+        membershipList.length > 0 ||
+        otherPurchasableItems.length > 0
+    ) {
       Spn.Show();
 
       const membershipData = {
@@ -283,8 +273,9 @@ function Membership(props) {
           sectionId: item.sectionId,
           affiliateId: item.affiliateId,
         })),
-      };
-
+        others: otherPurchasableItems.map((oth) => oth.id),
+        donation: mntlyDonation,
+      };      
       addMembership(membershipData)
         .then((res) => {
           if (res.success === 1) {
@@ -306,10 +297,11 @@ function Membership(props) {
     }
   };
 
-  const removeMembship = (e, key) => {
+  const removeMembship = (e, key, amount) => {
     setMembershipList((prevList) =>
       prevList.filter((_, index) => index !== key)
     );
+    setTotalAmount(prevAmount => prevAmount - parseFloat(amount || 0));
   };
 
   const editMembship = (iKey) => {
@@ -357,6 +349,9 @@ function Membership(props) {
     setMembData(modData);
     setShowForm(true);
     setIsEdited(iKey);
+    setUpdtAmnt((prev) => prev + parseFloat(
+        (membershipList[iKey].membershipPlanCharge * users.length) /  membershipList[iKey].installment
+    ));
 
     getInstallments(membershipList[iKey].membershipPlan)
       .then((res) => {
@@ -373,6 +368,46 @@ function Membership(props) {
       });
   };
 
+  const addOth = (id, title, amount) => {
+    setOthId((prev) => {
+        if(prev[id]) {
+            othExist = true;
+            return prev;
+        }
+
+        return {
+            ...prev,
+            [id] : [title, amount]
+        }
+    });
+  }
+
+  const handlePurchasableItem = (item) => {
+    addOth(
+        item.id,
+        item.title,
+        item.amount
+    );
+    if(!othExist) {
+        setOtherPurchasableItems([...otherPurchasableItems, item]);
+        setTotalAmount(prevAmount => prevAmount + parseFloat(item.amount || 0));
+    } else {
+        Tst.Error("Item already added!");
+    }
+    setOpenOthPurList(false);
+  }
+  
+  
+  const removeOther = (id, amount) => {
+    setOthId((prev) => {
+        const otherids = {...prev};
+        delete otherids[id];
+        return otherids;
+    });
+
+    setOtherPurchasableItems((prev) => prev.filter((itm) => itm.id !== id));
+    setTotalAmount(prevAmount => prevAmount - parseFloat(amount || 0));
+  }
   return (
     <Wrapper>
       {Tst.Obj}
@@ -386,9 +421,12 @@ function Membership(props) {
               </Link>
             </BreadcrumbItem>
             <BreadcrumbItem
-              className="text-white brdcrb-cursor"
-              onClick={() => setShowForm(false)}
-              active={!showForm}
+                className="text-white brdcrb-cursor"
+                onClick={() => {
+                    setShowForm(false);
+                    setUpdtAmnt(0);
+                }}
+                active={!showForm}
             >
               Memberships
             </BreadcrumbItem>
@@ -404,7 +442,8 @@ function Membership(props) {
         <div className="ptb-50">
           {!showForm && (
             <>
-              <div className="text-left">
+                <b>Choose Items to Include in Your Order</b><br/><br/>
+              <div className="text-left ch-btn-sec">
                 <button
                   className="btn btn-rounded button plr-20 ptb-10"
                   type="button"
@@ -418,9 +457,19 @@ function Membership(props) {
                 >
                   ADD MEMBERSHIP
                 </button>
+                <button
+                  className="btn btn-rounded button plr-20 ptb-10"
+                  type="button"
+                  onClick={()=>{
+                    setOpenOthPurList(true);
+                  }}
+                >
+                  OTHER ITEMS
+                </button>
               </div>
               <div className="order-summery">
-                {membershipList && membershipList.length > 0 && (
+                {(membershipList && membershipList.length > 0 ||
+                otherPurchasableItems && otherPurchasableItems.length > 0) && (
                   <>
                     <h4>Order Summary</h4>
                     <div className="order-box">
@@ -531,7 +580,14 @@ function Membership(props) {
                                           "Are you sure to remove this membership?"
                                         )
                                       ) {
-                                        removeMembship(e, key);
+                                        removeMembship(
+                                            e, 
+                                            key,
+                                            parseFloat(
+                                                (mbr.membershipPlanCharge * mbr.memberIds.length) / mbr.installment 
+                                                || 0
+                                            )
+                                        );
                                       }
                                     }}
                                   >
@@ -564,11 +620,75 @@ function Membership(props) {
                           </div>
                         );
                       })}
+                      {otherPurchasableItems.map((oth, key) => {
+                        ttlAmt += parseFloat(oth.amount || 0);
+                        return(
+                            <div className="order-itm" key={key}>
+                                <div className="ordr-membship">
+                                    {oth.title || ""} <br />
+                                    <span className="imp-note">
+                                        <span class="material-symbols-outlined icn">
+                                            label_important
+                                        </span>
+                                        Buy it for yourself.
+                                    </span>
+                                </div>
+                                <div className="ordr-sub">
+                                    <div className="ord-amnt-sec">
+                                        <div className="sec-lf">
+                                            <span
+                                                className="act-btn dlt"
+                                                onClick={(e) => {
+                                                if (
+                                                    window.confirm(
+                                                    "Are you sure to remove this item?"
+                                                    )
+                                                ) {
+                                                    removeOther(oth.id, oth.amount);
+                                                }
+                                                }}
+                                            >
+                                                REMOVE
+                                            </span>
+                                        </div>
+                                        <div className="sec-rg">
+                                            <div className="amnt-sec">
+                                                <div className="sec-label">
+                                                Total Charge
+                                                </div>
+                                                <div className="sec-value amnt">
+                                                {Pix.dollar(
+                                                    oth.amount,
+                                                    1
+                                                )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                      })}
+                    </div>
+                    <div className="ordr-chk-box">
+                        <label className="chk-label">
+                            <input 
+                                type="checkbox" 
+                                name="mntlyDonation" 
+                                checked={mntlyDonation} 
+                                onChange={(e) => {
+                                    const checked = e.target.checked;
+                                    setMntlyDonation(checked);
+                                    setTotalAmount(prev => prev + (checked ? 3 : -3));
+                                }}
+                            />
+                            I want to add $3.00 donation to help offset processing fees, so 100% of my contribution can benefit the organization
+                        </label>
                     </div>
                     <div className="order-ttl-charge">
                       <div className="ttl-left">
                         <span className="lf-lbl">Total Amount</span>
-                        <span className="lf-amnt">{Pix.dollar(ttlAmt, 1)}</span>
+                        <span className="lf-amnt">{Pix.dollar(totalAmount, 1)}</span>
                       </div>
                       <div className="ttl-right">
                         <button
@@ -594,88 +714,52 @@ function Membership(props) {
                     <div id="ownMembership">
                       <div className="form-row">
                         <div className="form-col sugg">
-                          <Input
+                          <label htmlFor="section" className="fs-16">
+                            Section
+                          </label>
+                          <Select
                             id="section"
                             name="section"
-                            label="Section"
-                            placeholder="Section"
-                            fontSize={"fs-16 text-dark"}
-                            contentFontSize="fs-14"
-                            type="text"
-                            autocomplete="off"
-                            value={membData.sectionLabel || ""}
-                            onChange={(e) => sectionSuggestion(e, "section")}
-                            onBlur={() => {
-                              setTimeout(() => setSecSuggestions([]), 1000);
+                            placeholder="Select Section"
+                            options={sectionsDropdown}
+                            value={
+                              sectionsDropdown.find(
+                                (option) => option.value === membData.section
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setMembData({
+                                ...membData,
+                                section: selectedOption.value,
+                                sectionLabel: selectedOption.label,
+                              });
                             }}
                           />
                           <Error field="section" />
-                          <div
-                            className="suggestion-box"
-                            style={{
-                              display:
-                                secSuggestions.length > 0 ? "block" : "none",
-                            }}
-                          >
-                            {secSuggestions.map((item) => (
-                              <div
-                                className="suggestions"
-                                key={item.sectionId}
-                                onClick={() => {
-                                  setMembData({
-                                    ...membData,
-                                    section: item.sectionId,
-                                    sectionLabel: item.sectionName,
-                                  });
-                                  setSecSuggestions([]);
-                                }}
-                              >
-                                {item.sectionName}
-                              </div>
-                            ))}
-                          </div>
                         </div>
                         <div className="form-col sugg">
-                          <Input
+                          <label htmlFor="affiliation" className="fs-16">
+                            Affiliation
+                          </label>
+                          <Select
                             id="affiliation"
                             name="affiliation"
-                            label="Affiliation"
-                            placeholder="Affiliation"
-                            fontSize={"fs-16 text-dark"}
-                            contentFontSize="fs-14"
-                            type="text"
-                            autocomplete="off"
-                            value={membData.affiliateLabel || ""}
-                            onChange={(e) => sectionSuggestion(e, "affiliate")}
-                            onBlur={() => {
-                              setTimeout(() => setAffSuggestions([]), 1000);
+                            placeholder="Select Affiliation"
+                            options={affiliatesDropdown}
+                            value={
+                              affiliatesDropdown.find(
+                                (option) => option.value === membData.affiliate
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              setMembData({
+                                ...membData,
+                                affiliate: selectedOption.value,
+                                affiliateLabel: selectedOption.label,
+                              });
                             }}
                           />
                           <Error field="affiliation" />
-                          <div
-                            className="suggestion-box"
-                            style={{
-                              display:
-                                affSuggestions.length > 0 ? "block" : "none",
-                            }}
-                          >
-                            {affSuggestions.map((item) => (
-                              <div
-                                className="suggestions"
-                                key={item.affiliateId}
-                                onClick={() => {
-                                  setMembData({
-                                    ...membData,
-                                    affiliate: item.affiliateId,
-                                    affiliateLabel: item.affiliateName,
-                                  });
-                                  setAffSuggestions([]);
-                                }}
-                              >
-                                {item.affiliateName}
-                              </div>
-                            ))}
-                          </div>
                         </div>
                       </div>
                       <div className="form-row">
@@ -807,7 +891,22 @@ function Membership(props) {
                               <span
                                 className="btn button plr-20 ptb-10"
                                 onClick={(e) => {
-                                  setMbrOpen(true);
+                                  if (
+                                    !membData.section &&
+                                    !membData.affiliate
+                                  ) {
+                                    setErrorList((prev) => ({
+                                      ...prev,
+                                      section:
+                                        "Please select a Section or Affiliation before adding a gift recipient.",
+                                    }));
+                                  } else {
+                                    setErrorList((prev) => ({
+                                      ...prev,
+                                      section: null, // Clear the error if validation passes
+                                    }));
+                                    setMbrOpen(true);
+                                  }
                                 }}
                               >
                                 <span className="material-symbols-outlined icn">
@@ -905,9 +1004,15 @@ function Membership(props) {
 
                       <div className="text-left mt-20">
                         <button
-                          className="btn btn-success"
-                          type="button"
-                          onClick={(e) => handleMembershipForm(e)}
+                            className="btn btn-success"
+                            type="button"
+                            onClick={(e) => {
+                                handleMembershipForm(e);
+                                if(isEdited !== null && isEdited >= 0) {
+                                    setTotalAmount(prevAmount => prevAmount - parseFloat(updtAmnt || 0));
+                                    setUpdtAmnt(0);
+                                }
+                            }}
                         >
                           Save
                         </button>
@@ -928,6 +1033,23 @@ function Membership(props) {
           }}
           addContent={handleAddContent}
           changeURL={props.history.push}
+          sectionsDropdown={sectionsDropdown}
+          affiliatesDropdown={affiliatesDropdown}
+          conditions={{
+            section: membData.section,
+            affiliate: membData.affiliate,
+          }}
+        />
+      )}
+      {openOthPurList && (
+        <OtherPurchasableList
+            isOpen={openOthPurList}
+            toggle={()=> {
+                setOpenOthPurList(!openOthPurList)
+            }}
+            purchasableItem={handlePurchasableItem}
+            changeURL={props.history.push}
+            othPurLists={othPurLists}
         />
       )}
     </Wrapper>

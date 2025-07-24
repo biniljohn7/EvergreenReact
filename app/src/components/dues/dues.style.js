@@ -171,6 +171,11 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #ececec;
   }
 
+  .ch-btn-sec {
+    display: flex;
+    gap: 10px;
+  }
+
   .order-summery {
     position: relative;
     padding-top: 30px;
@@ -180,6 +185,7 @@ const Wrapper = styled.div`
     border: 1px solid #e7e7e7;
     padding: 40px;
     border-radius: 8px;
+    margin-bottom: 12px;
   }
 
   .order-summery .order-box .order-itm {
@@ -200,6 +206,20 @@ const Wrapper = styled.div`
     font-size: 1.3em;
     margin-bottom: 10px;
   }
+
+    .order-summery .order-box .order-itm .ordr-membship .imp-note {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: .7em;
+        color: #9a9a9a;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+    }
+
+    .order-summery .order-box .order-itm .ordr-membship .imp-note .icn {
+        font-size: 1.2em;
+    }
 
   .order-summery .order-box .order-itm .ordr-sub {
     margin-left: 15px;
@@ -399,11 +419,13 @@ const Wrapper = styled.div`
 
   .order-summery .order-ttl-charge {
     display: flex;
-    margin-top: 30px;
+    // margin-top: 30px;
     justify-content: space-between;
     align-items: flex-end;
     max-width: 445px;
-    margin-left: auto;
+    // margin-left: auto;
+    // margin-bottom: 15px;
+    margin: 30px 0px 15px auto;
   }
 
   .order-summery .order-ttl-charge .ttl-left {
@@ -421,6 +443,12 @@ const Wrapper = styled.div`
     font-weight: 600;
   }
 
+  .order-summery .ordr-chk-box .chk-label {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    }
+
   .brdcrb-cursor {
     cursor: pointer;
   }
@@ -434,6 +462,37 @@ const Wrapper = styled.div`
     padding-top: 10px;
     font-size: 1.2em;
   }
+
+  .puritm-popup .containers {
+    padding-top: 20px;
+  }
+
+  .puritm-popup .each-itm {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+    .puritm-popup .each-itm:last-child {
+        margin-bottom: 0;
+    }
+
+    .puritm-popup .each-itm .itm-name {
+        font-weight: 500;
+    }
+    
+    .puritm-popup .each-itm .itm-btn {
+        width: 65px;
+    }
+
+    .puritm-popup .each-itm .itm-btn .sel-btn {
+        padding: 5px 15px;
+        min-width: unset;
+    }
 
   @media only screen and (max-width: 1260px) {
     .ord-members .ech-mbr {

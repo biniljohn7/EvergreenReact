@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "reactstrap";
 import Wrapper from "./dues.style";
-import { getAllMembers, duesNewMember } from "../../api/duesAPI";
+import { getAllMembers, duesNewMember, getDropdown } from "../../api/duesAPI";
 import { getSubordinates } from "../../api/LeadershipAPI";
 import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
-import { getSection, getAffiliation } from "../../api/commonAPI";
 import Toast from "../../UI/Toast/Toast";
+import { PROFILE_OPTIONS } from "../../helper/constant";
 
 const WIDTH_CLASS = window.innerWidth >= 1024 ? "wp-80" : "wp-100";
 
 function SelectMember(props) {
   const [mbrData, setMbrData] = useState(null);
   const [popupView, setPopupView] = useState(false);
+  const [country, setCountryList] = useState([]);
+  const [states, setStateList] = useState([]);
+  const [filteredStates, setFilteredStates] = useState([]);
   const [selectedOption, setSelectedOption] = useState("exist");
   const [ErrorList, setErrorList] = useState({});
   const [sectionList, setSectionList] = useState([]);
@@ -34,21 +37,43 @@ function SelectMember(props) {
   const Tst = Toast();
   let pgn = 1;
 
+  const getQueryParams = () => {
+    const searchInput = document.getElementById("srchKey");
+    return {
+      pgn: pgn,
+      search: searchInput ? searchInput.value : "",
+      ...(props.conditions || {}),
+    };
+  };
+
   useEffect(() => {
     Spn.Show();
-    getSection()
+    const queryParams = getQueryParams();
+    if (props.sectionsDropdown) {
+      setSectionList(props.sectionsDropdown);
+    }
+    if (props.affiliatesDropdown) {
+      setAffiliationList(props.affiliatesDropdown);
+    }
+    getDropdown({
+      nations: "all",
+      states: "all",
+      sections: !props.sectionsDropdown ? "all" : false,
+      affiliations: !props.affiliatesDropdown ? "all" : false,
+    })
       .then((res) => {
-        setSectionList([...res.data]);
+        if (!props.sectionsDropdown) {
+          setSectionList(res.data.sections || []);
+        }
+        if (!props.affiliatesDropdown) {
+          setAffiliationList(res.data.affiliations || []);
+        }
+        setCountryList(res.data.nations || []);
+        setStateList(res.data.states || []);
+        setFilteredStates(res.data.states || []);
       })
       .catch((err) => {
-        Tst.Error("Failed to retrive Section list. Please try again later!");
-      });
-    getAffiliation()
-      .then((res) => {
-        setAffiliationList([...res.data]);
-      })
-      .catch((err) => {
-        "Failed to retrive Affiliation list. Please try again later!";
+        Tst.Error("Failed to retrieve dropdown data. Please try again later!");
       });
     if (props.formType === "elect-officer") {
       getSubordinates(pgn, "")
@@ -61,7 +86,7 @@ function SelectMember(props) {
         })
         .catch((err) => {});
     } else {
-      getAllMembers(pgn, "")
+      getAllMembers(queryParams)
         .then((res) => {
           if (res.success === 1) {
             setMbrData(res.data);
@@ -72,6 +97,10 @@ function SelectMember(props) {
         .catch((err) => {});
     }
   }, []);
+  useEffect(() => {
+    const relevant = states.filter((st) => st.nation === formValues.country);
+    setFilteredStates(relevant);
+  }, [formValues.country]);
 
   const storeData = (e) => {
     setFormValues({
@@ -79,9 +108,9 @@ function SelectMember(props) {
       [e.target.name]: e.target.value,
     });
   };
-
   const showMembers = (e, flg = false) => {
     Spn.Show();
+    const queryParams = getQueryParams();
     if (props.formType === "elect-officer") {
       getSubordinates(pgn, document.getElementById("srchKey").value)
         .then((res) => {
@@ -106,7 +135,7 @@ function SelectMember(props) {
           Spn.Hide();
         });
     } else {
-      getAllMembers(pgn, document.getElementById("srchKey").value)
+      getAllMembers(queryParams)
         .then((res) => {
           if (res.success === 1) {
             if (flg == true) {
@@ -177,6 +206,9 @@ function SelectMember(props) {
 
     let sErrs = {};
 
+    if (!el("prefix").value.trim()) {
+      sErrs["prefix"] = "This field is required";
+    }
     if (!el("firstName").value.trim()) {
       sErrs["firstName"] = "This field is required";
     }
@@ -185,6 +217,19 @@ function SelectMember(props) {
     }
     if (!el("email").value.trim()) {
       sErrs["email"] = "This field is required";
+    }
+    if (!el("country").value.trim()) {
+      sErrs["country"] = "This field is required";
+    }
+    if (!el("state").value.trim()) {
+      sErrs["state"] = "This field is required";
+    }
+    console.log(el("city").value.trim());
+    if (!el("city").value.trim()) {
+      sErrs["city"] = "This field is required";
+    }
+    if (!el("address").value.trim()) {
+      sErrs["address"] = "This field is required";
     }
     if (!el("zipcode").value.trim()) {
       sErrs["zipcode"] = "This field is required";
@@ -203,11 +248,14 @@ function SelectMember(props) {
 
       const data = {
         method: "dues-add-new-member",
+        prefix: formValues.prefix,
         firstName: formValues.firstName,
         lastName: formValues.lastName,
         email: formValues.email,
         address: formValues.address,
         city: formValues.city,
+        state: formValues.state,
+        country: formValues.country,
         zipcode: formValues.zipcode,
         phone: formValues.phone,
         section: formValues.section,
@@ -226,6 +274,9 @@ function SelectMember(props) {
               city: res.data.city,
               zipcode: res.data.zipcode,
               memberId: res.data.memberId,
+              country: res.data.country,
+              state: res.data.state,
+              prefix: res.data.prefix,
             };
             props.addContent(newMemberDetails);
           } else {
@@ -334,7 +385,15 @@ function SelectMember(props) {
                                   </div>
                                 )}
                               </div>
-                              <div className="nam-sec">{mbr.name}</div>
+                              <div className="nam-sec">
+                                <div className="name">{mbr.name}</div>
+                                <div className="memberId">{`ID : ${mbr.memberId}`}</div>
+                                <div className="address">
+                                  {`${[mbr.city, mbr.stateName]
+                                    .filter((v) => v)
+                                    .join(", ")}`}
+                                </div>
+                              </div>
                               <div className="actn">
                                 <span
                                   className="btn add-btn"
@@ -383,6 +442,19 @@ function SelectMember(props) {
             )}
             {popupView && (
               <form action="">
+                <div className="mb-15 prefix">
+                  <Select
+                    label="Prefix"
+                    name="prefix"
+                    placeholder="Choose prefix"
+                    fontSize={"fs-16 text-dark"}
+                    id="prefix"
+                    options={PROFILE_OPTIONS.prefix}
+                    onChange={storeData}
+                    value={formValues.prefix || ""}
+                  />
+                  <Error field="section" />
+                </div>
                 <div className="mb-15">
                   <Input
                     id="firstName"
@@ -428,6 +500,7 @@ function SelectMember(props) {
                     name="section"
                     placeholder="Choose Section"
                     id="section"
+                    fontSize={"fs-16 text-dark"}
                     options={sectionList}
                     onChange={storeData}
                     value={formValues.section}
@@ -440,6 +513,7 @@ function SelectMember(props) {
                     name="affilation"
                     placeholder="Choose Affiliate"
                     id="affilation"
+                    fontSize={"fs-16 text-dark"}
                     options={affiliationList}
                     onChange={storeData}
                     value={formValues.affilation}
@@ -447,6 +521,32 @@ function SelectMember(props) {
                   <Error field="affilation" />
                 </div>
                 <div className="addr-label">Shipping Address</div>
+                <div className="mb-15 country">
+                  <Select
+                    label="Country"
+                    name="country"
+                    placeholder="Choose country"
+                    id="country"
+                    fontSize={"fs-16 text-dark"}
+                    options={country || []}
+                    onChange={storeData}
+                    value={formValues.country || ""}
+                  />
+                  <Error field="country" />
+                </div>
+                <div className="mb-15 state">
+                  <Select
+                    label="State"
+                    name="state"
+                    placeholder="Choose state"
+                    id="state"
+                    fontSize={"fs-16 text-dark"}
+                    options={filteredStates || []}
+                    onChange={storeData}
+                    value={formValues.state || ""}
+                  />
+                  <Error field="state" />
+                </div>
                 <div className="mb-15">
                   <Input
                     id="address"
