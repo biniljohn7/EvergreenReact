@@ -235,8 +235,12 @@ const Dues = (props) => {
                   <div className="due-item">
                     <div className="due-head">PAYMENT HISTORY </div>
                     <div className="due-content">
-                      {(function () {
-                        if (historyData && Array.isArray(historyData)) {
+                      {(function () {                        
+                        if (
+                            historyData && 
+                            historyData.length > 0 &&
+                            Array.isArray(historyData)
+                        ) {
                           return historyData.map(function (el, index) {
                             return (
                               <div className="mb15 hist-item" key={index}>
