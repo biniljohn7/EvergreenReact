@@ -31,7 +31,7 @@ const Footer = (props) => {
             {/* <img src={Llogo} alt={SITE_NAME} /> */}
             <img src={Logo} alt={SITE_NAME} class="ft-logo" />
             <div className="f-nav">
-              <Link to="#">Contact Support</Link> |
+              <Link to="/contact_us">Contact Us</Link> |
               <Link to="#">Privacy Policy</Link> |
               <Link to="#">Terms & Conditions</Link>
             </div>
