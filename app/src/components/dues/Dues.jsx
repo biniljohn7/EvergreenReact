@@ -9,15 +9,11 @@ import {
 import Toast from "../../UI/Toast/Toast";
 import { /*  Modal, */ Spinner } from "reactstrap";
 import Pix from "../../helper/Pix";
-
 import Echeck from "../../assets/images/e_check.png";
 import Express from "../../assets/images/express.png";
 import Discover from "../../assets/images/discover.png";
 import Mastercard from "../../assets/images/mastercard.png";
 import Visa from "../../assets/images/visa.png";
-
-import paidBy from "../../assets/images/new-hero.png";
-
 import AuthActions from "../../redux/auth/actions";
 import GiftMembership from "./GiftMembership";
 import ExpiredMembership from "./ExpiredMembership";
@@ -261,7 +257,7 @@ const Dues = (props) => {
                                             <>
                                             <div className="gf-lf">
                                                 {el.benefitTo.avatar ? (
-                                                    <img src={paidBy} alt=""/>
+                                                    <img src={el.benefitTo.avatar} alt=""/>
                                                 ) : (
                                                   <div className="no-img">
                                                     <span className="material-symbols-outlined icn">
