@@ -307,13 +307,13 @@ const editProfile = withFormik({
       ? props.profile.visible.household || false
       : false,
     racialIdentitySwitch: props.profile.visible
-      ? props.profile.visible.racial || false
+      ? props.profile.visible.racialIdentity || false
       : false,
     employmentStatusSwitch: props.profile.visible
-      ? props.profile.visible.empStatus || false
+      ? props.profile.visible.employmentStatus || false
       : false,
     volunteerInterestSwitch: props.profile.visible
-      ? props.profile.visible.volunteer || false
+      ? props.profile.visible.volunteerInterest || false
       : false,
     salarySwitch: props.profile.visible
       ? props.profile.visible.salaryRange || false
