@@ -220,10 +220,10 @@ function Membership(props) {
     if (Object.keys(sErrs).length < 1) {
       const formattedMembers = {
         memberIds: Object.entries(membId).map(
-          ([id, [name, avatar, membership, zipcode, city, memberId]]) => ({
+          ([id, [name, avatarUrl, membership, zipcode, city, memberId]]) => ({
             id: parseInt(id),
             name,
-            avatar,
+            avatarUrl,
             membership,
             zipcode,
             city,
@@ -314,7 +314,7 @@ function Membership(props) {
       const exMemb = users.reduce((acc, curr) => {
         acc[curr.id] = [
           curr.name,
-          curr.avatar,
+          curr.avatarUrl,
           curr.membership,
           curr.zipcode,
           curr.city,
@@ -509,10 +509,10 @@ function Membership(props) {
                                           <div className="info-sec">
                                             <div className="person-info">
                                               <div className="avatar-sec">
-                                                {member.avatar ? (
+                                                {member.avatarUrl ? (
                                                   <div className="mbr-img">
                                                     <img
-                                                      src={member.avatar}
+                                                      src={member.avatarUrl}
                                                       alt=""
                                                     />
                                                   </div>
