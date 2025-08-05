@@ -555,10 +555,10 @@ const EditProfile = (props) => {
 
                 <form>
                   <div className="row mb-20 text-bold">
-                    <div className={LEFT_CLASS}>Personal Information</div>
+                    <div className={LEFT_CLASS}>Profile Details</div>
                     <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
                   </div>
-                  {/* <div className="mb-15">
+                  <div className="mb-15">
                     <Textarea
                       id="statusUpdate"
                       label="Status Update"
@@ -578,7 +578,7 @@ const EditProfile = (props) => {
                       defaultValue={formValues.statusUpdate || ""}
                     />
                     <Error field="statusUpdate" />
-                  </div> */}
+                  </div>
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Prefix</label>
@@ -632,19 +632,6 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <Input
-                      id="middleName"
-                      label="Middle Name"
-                      placeholder="Middle Name"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      contentFontSize="fs-14"
-                      className={WIDTH_CLASS}
-                      defaultValue={formValues.middleName || ""}
-                    />
-                    <Error field="firstName" />
-                  </div>
-                  <div className="mb-15">
-                    <Input
                       id="lastName"
                       label="Last Name"
                       placeholder="Last Name"
@@ -671,188 +658,6 @@ const EditProfile = (props) => {
                       value={formValues.suffix || ""}
                     />
                     <Error field="suffix" />
-                  </div>
-                  <div className="mb-15">
-                    <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">
-                        Date Of Birth
-                      </label>
-                      {isProfileCreated && (
-                        <Switch
-                          onChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.dobSwitch = checked;
-                            setFormValues(ndata);
-                          }}
-                          checked={formValues.dob}
-                          onColor="#EAEAEA"
-                          onHandleColor={HEADER_COLOR}
-                          handleDiameter={10}
-                          uncheckedIcon={false}
-                          checkedIcon={false}
-                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                          height={15}
-                          width={40}
-                          className="profile-switch"
-                        />
-                      )}
-                    </div>
-                    <input
-                      type="date"
-                      id="dob"
-                      className={
-                        WIDTH_CLASS + " date-picker text-dark pa-10 fs-14"
-                      }
-                      onChange={(e) => {
-                        let ndata = { ...formValues };
-                        ndata.dob = e.target.value;
-                        setFormValues(ndata);
-                      }}
-                      value={formValues.dob || ""}
-                      max={new Date().toISOString().split("T")[0]}
-                    />
-                    <Error field="dob" />
-                  </div>
-                  <div className="mb-15">
-                    <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">
-                        Racial Identity
-                      </label>
-                      {isProfileCreated && (
-                        <Switch
-                          onChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.racialIdentitySwitch = checked;
-                            setFormValues(ndata);
-                          }}
-                          checked={formValues.racialIdentitySwitch}
-                          onColor="#EAEAEA"
-                          onHandleColor={HEADER_COLOR}
-                          handleDiameter={10}
-                          uncheckedIcon={false}
-                          checkedIcon={false}
-                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                          height={15}
-                          width={40}
-                          className="profile-switch"
-                        />
-                      )}
-                    </div>
-                    <Select
-                      id="racialIdentity"
-                      placeholder="Select Racial Identity"
-                      options={PROFILE_OPTIONS.racialIdentity}
-                      styles={SELECT_CSS}
-                      onChange={(selectedOp) => {
-                        let ndata = { ...formValues };
-                        ndata.racialIdentity = selectedOp;
-                        setFormValues(ndata);
-                      }}
-                      value={formValues.racialIdentity || ""}
-                    />
-                    <Error field="racialIdentity" />
-                  </div>
-                  <div className="mb-15">
-                    <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">Household</label>
-                      {isProfileCreated && (
-                        <Switch
-                          onChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.householdSwitch = checked;
-                            setFormValues(ndata);
-                          }}
-                          checked={formValues.householdSwitch}
-                          onColor="#EAEAEA"
-                          onHandleColor={HEADER_COLOR}
-                          handleDiameter={10}
-                          uncheckedIcon={false}
-                          checkedIcon={false}
-                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                          height={15}
-                          width={40}
-                          className="profile-switch"
-                        />
-                      )}
-                    </div>
-                    <Select
-                      id="household"
-                      placeholder="Select Household"
-                      options={PROFILE_OPTIONS.houseHold}
-                      styles={SELECT_CSS}
-                      onChange={(selectedOp) => {
-                        let ndata = { ...formValues };
-                        ndata.household = selectedOp;
-                        setFormValues(ndata);
-                      }}
-                      value={formValues.household || ""}
-                    />
-                    <Error field="household" />
-                  </div>
-                  <div className="row mb-20 text-bold">
-                    <div className={LEFT_CLASS}>Contact Information</div>
-                    <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
-                  </div>
-                  <div className="mb-15 position-relative">
-                    <Input
-                      id="phoneNumber"
-                      label="Phone Number"
-                      placeholder="Phone Number"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      className={WIDTH_CLASS}
-                      contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.phoneNumberSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.phoneNumberSwitch || false}
-                      defaultValue={formValues.phoneNumber || ""}
-                    />
-                    <Error field="phoneNumber" />
-                  </div>
-                  <div className="mb-15">
-                    <Input
-                      label="Email"
-                      placeholder="Email"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      className={WIDTH_CLASS}
-                      contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.emailSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.emailSwitch || false}
-                      defaultValue={props.profile.profile.email || ""}
-                      disabled={true}
-                    />
-                  </div>
-                  <div className="mb-15">
-                    <Input
-                      label="Business Email Address"
-                      placeholder="Business Email Address"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      className={WIDTH_CLASS}
-                      contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.emailSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.emailSwitch || false}
-                      defaultValue={props.profile.profile.email || ""}
-                      disabled={true}
-                    />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -1033,7 +838,7 @@ const EditProfile = (props) => {
                     />
                     <Error field="zip" />
                   </div>
-                  {/* <div className="mb-15 position-relative">
+                  <div className="mb-15 position-relative">
                     <Input
                       id="phoneNumber"
                       label="Phone Number"
@@ -1052,9 +857,9 @@ const EditProfile = (props) => {
                       defaultValue={formValues.phoneNumber || ""}
                     />
                     <Error field="phoneNumber" />
-                  </div> */}
+                  </div>
 
-                  {/* <div className="mb-15">
+                  <div className="mb-15">
                     <Input
                       label="Email"
                       placeholder="Email"
@@ -1072,7 +877,7 @@ const EditProfile = (props) => {
                       defaultValue={props.profile.profile.email || ""}
                       disabled={true}
                     />
-                  </div> */}
+                  </div>
                   <div className="mb-15">
                     <Input
                       label="Member ID"
@@ -1475,7 +1280,7 @@ const EditProfile = (props) => {
                     />
                     <Error field="leadershipRole" />
                   </div>
-                  {/* <div className="mb-15">
+                  <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Household</label>
                       {isProfileCreated && (
@@ -1512,7 +1317,7 @@ const EditProfile = (props) => {
                       value={formValues.household || ""}
                     />
                     <Error field="household" />
-                  </div> */}
+                  </div>
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">
@@ -1969,7 +1774,7 @@ const EditProfile = (props) => {
                     />
                     <Error field="currentChapter" />
                   </div>
-                  {/* <div className="mb-15">
+                  <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">
                         Date Of Birth
@@ -2010,8 +1815,8 @@ const EditProfile = (props) => {
                       max={new Date().toISOString().split("T")[0]}
                     />
                     <Error field="dob" />
-                  </div> */}
-                  {/* <div className="mb-15">
+                  </div>
+                  <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">
                         Racial Identity
@@ -2050,7 +1855,7 @@ const EditProfile = (props) => {
                       value={formValues.racialIdentity || ""}
                     />
                     <Error field="racialIdentity" />
-                  </div> */}
+                  </div>
                   <div className="text-center">
                     <button
                       type="button"
