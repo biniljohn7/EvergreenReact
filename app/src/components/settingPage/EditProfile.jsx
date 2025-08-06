@@ -252,168 +252,87 @@ const EditProfile = (props) => {
 
   const handleForm = (e) => {
     function el(id) {
-      return document.getElementById(id);
-    }
-
-    function validateEducation(education) {
-      if (!education || !Array.isArray(education)) {
-        return "This field is required!";
-      }
-      if (education.length < 1) {
-        return "At least one education entry is required!";
-      }
-      for (let i = 0; i < education.length; i++) {
-        const entry = education[i];
-        if (typeof entry !== "object" || entry === null) {
-          return `Education entry ${i + 1} must be an object`;
-        }
-        if (
-          !entry.university ||
-          !entry.university.name ||
-          !entry.university.profileOptionsId
-        ) {
-          return `University field is required in education entry ${i + 1}`;
-        }
-        if (!entry.degree || !entry.degree.label || !entry.degree.value) {
-          return `Degree field is required in education entry ${i + 1}`;
-        }
-      }
-      return null;
+        return document.getElementById(id);
     }
 
     const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 
     let sErrs = {};
 
-    if (!formValues.prefix.value) {
-      sErrs["prefix"] = "This field is required";
-    }
     if (!el("firstName").value.trim()) {
-      sErrs["firstName"] = "This field is required";
+        sErrs["firstName"] = "This field is required";
     }
     if (!el("lastName").value.trim()) {
-      sErrs["lastName"] = "This field is required";
-    }
-    if (!formValues.country.profileOptionsId) {
-      sErrs["country"] = "This field is required";
-    }
-    if (!formValues.state.id) {
-      sErrs["state"] = "This field is required";
-    }
-    if (!el("city").value.trim()) {
-      sErrs["city"] = "This field is required";
-    }
-    if (!el("address").value.trim()) {
-      sErrs["address"] = "This field is required";
-    }
-    if (!el("zip").value.trim()) {
-      sErrs["zip"] = "This field is required";
-    } else if (!/(^\d{5}$)|(^\d{5}-\d{4}$)/.test(el("zip").value.trim())) {
-      sErrs["zip"] = "Not a valid zip code";
+        sErrs["lastName"] = "This field is required";
     }
     if (!el("phoneNumber").value) {
-      sErrs["phoneNumber"] = "Pnone number is required";
+        sErrs["phoneNumber"] = "Pnone number is required";
     } else if (!phoneRegex.test(el("phoneNumber").value.trim())) {
-      sErrs["phoneNumber"] = "Not a valid phone number";
+        sErrs["phoneNumber"] = "Not a valid phone number";
     }
-    if (!formValues.occupation.profileOptionsId) {
-      sErrs["occupation"] = "This field is required";
-    }
-    if (!formValues.employmentStatus.value) {
-      sErrs["employmentStatus"] = "This field is required";
-    }
-    if (!formValues.industry.profileOptionsId) {
-      sErrs["industry"] = "This field is required";
-    }
-    if (!el("leadershipRole").value.trim()) {
-      sErrs["leadershipRole"] = "This field is required";
-    }
-    if (!formValues.household.value) {
-      sErrs["household"] = "This field is required";
-    }
-    if (!formValues.volunteerInterest.value) {
-      sErrs["volunteerInterest"] = "This field is required";
-    }
-    if (!formValues.racialIdentity.value) {
-      sErrs["racialIdentity"] = "This field is required";
-    }
-    if (!formValues.salaryRange.value) {
-      sErrs["salaryRange"] = "This field is required";
-    }
-    if (!formValues.expertise.map((ex) => ex.value).length) {
-      sErrs["expertise"] = "This field is required";
-    }
-    if (!formValues.nation.nationId) {
-      sErrs["nation"] = "This field is required";
-    }
-    if (!formValues.region.regionId) {
-      sErrs["region"] = "This field is required";
-    }
-    if (!formValues.organizationalState.id) {
-      sErrs["organizationalState"] = "This field is required";
-    }
-    if (!formValues.chapterOfInitiation.chapterId) {
-      sErrs["chapterOfInitiation"] = "This field is required";
-    }
-    if (!el("yearOfIni").value.trim()) {
-      sErrs["yearOfIni"] = "This field is required";
-    }
-    if (!el("dob").value.trim()) {
-      sErrs["dob"] = "This field is required";
-    }
-    if (!formValues.currentChapter.chapterId) {
-      sErrs["currentChapter"] = "This field is required";
-    }
-
-    let res = validateEducation(formValues.education);
-    if (res) {
-      sErrs["education"] = res;
+    if (!el("regVotWrdDist").value.trim()) {
+        sErrs["regVotWrdDist"] = "This field is required";
     }
 
     setErrorList(sErrs);
 
     if (Object.keys(sErrs).length < 1) {
-      setLoader(true);
-      Spn.Show();
-      let body = {
-        statusUpdate: el("statusUpdate").value.trim(),
-        prefixId: formValues.prefix.value,
-        firstName: el("firstName").value.trim(),
-        lastName: el("lastName").value.trim(),
-        suffixId: formValues.suffix ? formValues.suffix.value : null,
-        countryId: formValues.country.profileOptionsId,
-        stateId: formValues.state.id,
-        organizationalStateId: formValues.organizationalState.id,
-        regionId: formValues.region.regionId,
-        nationId: formValues.nation.nationId,
-        cityId: el("city").value.trim(),
-        address: el("address").value.trim(),
-        address2: el("address2").value.trim(),
-        zipcode: el("zip").value.trim(),
-        phoneNumber: el("phoneNumber").value.trim(),
-        biography: el("biography").value.trim() || null,
-        occupationId: formValues.occupation.profileOptionsId,
-        employmentStatusId: formValues.employmentStatus.value,
-        industryId: formValues.industry.profileOptionsId,
-        educations: formValues.education.map((edu) => {
-          return {
-            degreeId: edu.degree.value,
-            universityId: edu.university.profileOptionsId,
-          };
-        }),
-        certificationId: formValues.certification
-          ? formValues.certification.map((cert) => cert.value)
-          : [],
-        chapterOfInitiation: formValues.chapterOfInitiation.chapterId,
-        currentChapter: formValues.currentChapter.chapterId,
-        leadershipRole: el("leadershipRole").value.trim(),
-        householdId: formValues.household.value,
-        volunteerInterestId: formValues.volunteerInterest.value,
-        racialIdentityId: formValues.racialIdentity.value,
-        salaryRangeId: formValues.salaryRange.value,
-        expertiseIds: formValues.expertise.map((ex) => ex.value),
-        // affilateOrgzn: el("affilateOrgzn").value.trim(),
-        affilateOrgzn: formValues.affilateOrgzn.profileOptionsId,
+        setLoader(true);
+        Spn.Show();
+        let body = {
+            prefixId:formValues.prefix ? formValues.prefix.value : null,
+            firstName: el("firstName").value.trim(),
+            firstName: el("middleName").value.trim() || null,
+            lastName: el("lastName").value.trim(),
+            suffixId: formValues.suffix ? formValues.suffix.value : null,
+            racialIdentityId: formValues.racialIdentity ? formValues.racialIdentity.value : null,
+            householdId: formValues.household ? formValues.household.value : null,
+            biography: el("biography").value.trim() || null,
+
+            phoneNumber: el("phoneNumber").value.trim(),
+            bEmail: el("bEmail").value.trim() || null,
+            address: el("address").value.trim() || null,
+            address2: el("address2").value.trim() || null,
+            cityId: el("city").value.trim() || null,
+            stateId: formValues.state ? formValues.state.id : null,
+            countryId: formValues.country ? formValues.country.profileOptionsId : null,
+            zipcode: el("zip").value.trim() || null,
+
+            employerName: el("employerName").value.trim() || null,
+            occupationId: formValues.occupation ? formValues.occupation.profileOptionsId : null,
+            employmentStatusId: formValues.employmentStatus ? formValues.employmentStatus.value : null,
+            volunteerInterestId: formValues.volunteerInterest ? formValues.volunteerInterest.value : null,
+            industryId: formValues.industry ? formValues.industry.profileOptionsId : null,
+            educations: formValues.education
+                ? formValues.education.map((edu) => {
+                    return {
+                        degreeId: edu?.degree?.value ?? null,
+                        universityId: edu?.university?.profileOptionsId ?? null,
+                    };
+                    })
+                : [],
+            certificationId: formValues.certification
+                ? formValues.certification.map((cert) => cert.value)
+                : [],
+            expertiseIds: formValues.expertise 
+                ? formValues.expertise.map((ex) => ex.value) 
+                : [],
+            salaryRangeId: formValues.salaryRange ? formValues.salaryRange.value : null,
+
+            affilateOrgzn: formValues.affilateOrgzn ? formValues.affilateOrgzn.profileOptionsId : null,
+            nationId: formValues.nation ? formValues.nation.nationId : null,
+            regionId: formValues.region ? formValues.region.regionId : null,
+            organizationalStateId: formValues.organizationalState ? formValues.organizationalState.id : null,
+            chapterOfInitiation: formValues.chapterOfInitiation ? formValues.chapterOfInitiation.chapterId : null,
+            currentChapter: formValues.currentChapter ? formValues.currentChapter.chapterId : null,
+            leadershipRole: el("leadershipRole").value.trim() || null,
+            registeredVoting: el("regVotWrdDist").value.trim(),
+
+            gpConsent: isMinorCheck,
+            gpFirstName: isMinorCheck ? el("gpFirstName").value.trim() : null,
+            gpLastName: isMinorCheck ? el("gpLastName").value.trim() : null,
+            gpPhone: isMinorCheck ? el("gpPhone").value.trim() : null,
+            gpEmail: isMinorCheck ? el("gpEmail").value.trim() : null,
       };
       const YOI = el("yearOfIni").value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
@@ -422,70 +341,82 @@ const EditProfile = (props) => {
       if (isProfileCreated) {
         const totalBody = {
           profileVisibility: {
+            prefix: formValues.prefixSwitch || false,
             firstName: props.profile.visible.firstName || true,
+            middleName: props.profile.visible.middleName || true,
             lastName: props.profile.visible.lastName || true,
             suffix: props.profile.visible.suffix || true,
+            dob: formValues.dobSwitch || false,
+            racialIdentity: formValues.racialIdentitySwitch || false,
+            household: formValues.householdSwitch || false,
+            memberCode: formValues.memberCodeSwitch || false,
+            biography: formValues.biographySwitch || false,
+
+            phoneNumber: formValues.phoneNumberSwitch || false,
+            email: formValues.emailSwitch || false,
+            businessEmailAddress: formValues.businessEmailSwitch || false,
+            address: formValues.addressSwitch || false,
+            address2: formValues.address2Switch || false,
+            city: formValues.citySwitch || false,
+            state: formValues.stateSwitch || false,
+            country: formValues.countrySwitch || false,
+            zipcode: formValues.zipSwitch || false,
+
+            employerName: formValues.employerNameSwitch || false,
+            occupation: formValues.occupationSwitch || false,
+            employmentStatus: formValues.employmentStatusSwitch || false,
+            volunteerInterest: formValues.volunteerInterestSwitch || false,
+            industry: formValues.industrySwitch || false,
+            educations: formValues.educationSwitch || false,
+            certification: formValues.certificationSwitch || false,
+            expertise: formValues.expertiseSwitch || false,
+            salaryRange: formValues.salarySwitch || false,
+
+            affilateOrgzn: formValues.affilateOrgznSwitch || false,
+            nation: formValues.nationSwitch || false,
+            region: formValues.regionSwitch || false,
+            organizationalState: formValues.organizationalStateSwich || false,
+            chapterOfInitiation: formValues.chapOfIniSwitch || false,
+            yearOfInitiation: formValues.yearOfIniSwitch || false,
+            currentChapter: formValues.currentChapSwitch || false,
+            leadershipRole: formValues.roleSwitch || false,
+            registeredVoting: formValues.regVotWrdDistSwitch || false,
+
+            gpFirstName: formValues.gpFirstNameSwitch || false,
+            gpLastName: formValues.gpLastNameSwitch || false,
+            gpPhone: formValues.gpPhoneSwitch || false,
+            gpEmail: formValues.gpEmailSwitch || false,
+
             profileImage: props.profile.visible.profileImage || true,
             memberId: store.getState().auth.memberId,
             profileVisibilityId: 0,
-            statusUpdate: formValues.statusUpdateSwitch || false,
-            prefix: formValues.prefixSwitch || false,
-            email: formValues.emailSwitch || false,
-            memberCode: formValues.memberCodeSwitch || false,
-            country: formValues.countrySwitch || false,
-            state: formValues.stateSwitch || false,
-            organizationalState: formValues.organizationalStateSwich || false,
-            city: formValues.citySwitch || false,
-            address: formValues.addressSwitch || false,
-            address2: formValues.address2Switch || false,
-            zipcode: formValues.zipSwitch || false,
-            biography: formValues.biographySwitch || false,
-            certification: formValues.certificationSwitch || false,
-            chapterOfInitiation: formValues.chapOfIniSwitch || false,
-            currentChapter: formValues.currentChapSwitch || false,
-            educations: formValues.educationSwitch || false,
-            expertise: formValues.expertiseSwitch || false,
-            household: formValues.householdSwitch || false,
-            volunteerInterest: formValues.volunteerInterestSwitch || false,
-            racialIdentity: formValues.racialIdentitySwitch || false,
-            industry: formValues.industrySwitch || false,
-            leadershipRole: formValues.roleSwitch || false,
-            occupation: formValues.occupationSwitch || false,
-            employmentStatus: formValues.employmentStatusSwitch || false,
-            //phoneCode: formValues.phoneNumberSwitch || false,
-            phoneNumber: formValues.phoneNumberSwitch || false,
-            salaryRange: formValues.salarySwitch || false,
-            yearOfInitiation: formValues.yearOfIniSwitch || false,
-            dob: formValues.dobSwitch || false,
-            nation: formValues.nationSwitch || false,
-            region: formValues.regionSwitch || false,
-            affilateOrgzn: formValues.affilateOrgznSwitch || false,
+            
           },
           ...body,
         };
 
         updateProfile(totalBody)
-          .then((res) => {
-            if (res.success === 1) {
-              props.login({
-                currentChapter: formValues.currentChapter.chapterId,
-                isLogin: true,
-              });
-              Tst.Success(res.message);
-              setLoader(false);
-              Spn.Hide();
-              props.updatePage();
-            } else {
-              Tst.Error(res.error);
-              setLoader(false);
-              Spn.Hide();
-            }
-          })
-          .catch((err) => {
-            Tst.Error("Something went wrong!");
-            setLoader(false);
-            Spn.Hide();
-          });
+            .then((res) => {
+                if (res.success === 1) {
+                    props.login({
+                        currentChapter: formValues.currentChapter.chapterId,
+                        isLogin: true,
+                    });
+                    Tst.Success(res.message);
+                    setLoader(false);
+                    Spn.Hide();
+                    props.updatePage();
+                } else {
+                    Tst.Error(res.error);
+                    setLoader(false);
+                    Spn.Hide();
+                }
+            })
+            .catch((err) => {
+                Tst.Error("Something went wrong!");
+                setLoader(false);
+                Spn.Hide();
+            });
       } else {
         createProfile(body)
           .then((res) => {
@@ -598,7 +529,6 @@ const EditProfile = (props) => {
                       }}
                       value={formValues.prefix || ""}
                     />
-                    <Error field="prefix" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -625,7 +555,6 @@ const EditProfile = (props) => {
                       className={WIDTH_CLASS}
                       defaultValue={formValues.middleName || ""}
                     />
-                    <Error field="middleName" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -654,7 +583,6 @@ const EditProfile = (props) => {
                       }}
                       value={formValues.suffix || ""}
                     />
-                    <Error field="suffix" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -696,7 +624,6 @@ const EditProfile = (props) => {
                       value={formValues.dob || ""}
                       max={new Date().toISOString().split("T")[0]}
                     />
-                    <Error field="dob" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -736,7 +663,6 @@ const EditProfile = (props) => {
                       }}
                       value={formValues.racialIdentity || ""}
                     />
-                    <Error field="racialIdentity" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -774,7 +700,25 @@ const EditProfile = (props) => {
                       }}
                       value={formValues.household || ""}
                     />
-                    <Error field="household" />
+                  </div>
+                  <div className="mb-15">
+                    <Input
+                      label="Member ID"
+                      placeholder="Member ID"
+                      type="text"
+                      fontSize={"fs-16 text-dark"}
+                      className={WIDTH_CLASS}
+                      contentFontSize="fs-14"
+                      switchPresent={isProfileCreated}
+                      switchChange={(checked) => {
+                        let ndata = { ...formValues };
+                        ndata.memberCodeSwitch = checked;
+                        setFormValues(ndata);
+                      }}
+                      checked={formValues.memberCodeSwitch || false}
+                      disabled={true}
+                      defaultValue={props.profile.profile.memberCode || ""}
+                    />
                   </div>
                   <div className="mb-15">
                     <Textarea
@@ -794,7 +738,6 @@ const EditProfile = (props) => {
                       maxLength={1000}
                       defaultValue={formValues.biography || ""}
                     />
-                    <Error field="biography" />
                   </div>
 
                   <div className="row mb-20 text-bold">
@@ -844,6 +787,7 @@ const EditProfile = (props) => {
                   {/* new */}
                   <div className="mb-15">
                     <Input
+                      id="bEmail"
                       label="Business Email Address"
                       placeholder="Business Email Address"
                       type="text"
@@ -878,7 +822,6 @@ const EditProfile = (props) => {
                       checked={formValues.addressSwitch || false}
                       defaultValue={formValues.address || ""}
                     />
-                    <Error field="address" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -898,7 +841,6 @@ const EditProfile = (props) => {
                       checked={formValues.address2Switch || false}
                       defaultValue={formValues.address2 || ""}
                     />
-                    <Error field="address2" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -918,7 +860,6 @@ const EditProfile = (props) => {
                       checked={formValues.citySwitch || false}
                       defaultValue={formValues.city || ""}
                     />
-                    <Error field="city" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -966,7 +907,6 @@ const EditProfile = (props) => {
                         </>
                       )}
                     />
-                    <Error field="state" />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
@@ -1016,7 +956,6 @@ const EditProfile = (props) => {
                       }}
                       value={formValues.country || ""}
                     />
-                    <Error field="country" />
                   </div>
                   <div className="mb-15 position-relative">
                     <Input
@@ -1036,7 +975,6 @@ const EditProfile = (props) => {
                       checked={formValues.zipSwitch || false}
                       defaultValue={formValues.zip || ""}
                     />
-                    <Error field="zip" />
                   </div>
 
                     <div className="row mb-20 text-bold">
@@ -1062,7 +1000,6 @@ const EditProfile = (props) => {
                             checked={formValues.employerNameSwitch || false}
                             defaultValue={formValues.employerName || ""}
                         />
-                        <Error field="employerName" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1102,7 +1039,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.occupation || ""}
                         />
-                        <Error field="occupation" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1142,7 +1078,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.employmentStatus || ""}
                         />
-                        <Error field="employmentStatus" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1182,7 +1117,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.volunteerInterest || ""}
                         />
-                        <Error field="volunteerInterest" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1222,7 +1156,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.industry || ""}
                         />
-                        <Error field="industry" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1361,7 +1294,6 @@ const EditProfile = (props) => {
                             </div>
                         )}
                         />
-                        <Error field="education" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1405,7 +1337,6 @@ const EditProfile = (props) => {
                         }}
                         className={WIDTH_CLASS}
                         />
-                        <Error field="certification" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1442,7 +1373,6 @@ const EditProfile = (props) => {
                         }}
                         className={WIDTH_CLASS}
                         />
-                        <Error field="expertise" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1482,7 +1412,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.salaryRange || ""}
                         />
-                        <Error field="salaryRange" />
                     </div>
 
                     <div className="row mb-20 text-bold">
@@ -1584,7 +1513,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.nation || ""}
                         />
-                        <Error field="nation" />
                     </div>
 
                     <div className="mb-15">
@@ -1644,7 +1572,6 @@ const EditProfile = (props) => {
                             </>
                         )}
                         />
-                        <Error field="region" />
                     </div>
 
                     <div className="mb-15">
@@ -1704,7 +1631,6 @@ const EditProfile = (props) => {
                             </>
                         )}
                         />
-                        <Error field="organizationalState" />
                     </div>
 
                     <div className="mb-15 position-relative">
@@ -1752,7 +1678,6 @@ const EditProfile = (props) => {
                             </>
                         )}
                         />
-                        <Error field="chapterOfInitiation" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1794,7 +1719,6 @@ const EditProfile = (props) => {
                         value={formValues.yearOfIni || ""}
                         max={new Date().toISOString().split("T")[0]}
                         />
-                        <Error field="yearOfIni" />
                     </div>
 
                     <div className="mb-15">
@@ -1844,7 +1768,6 @@ const EditProfile = (props) => {
                             </>
                         )}
                         />
-                        <Error field="currentChapter" />
                     </div>
                     <div className="mb-15">
                         <Input
@@ -1864,8 +1787,29 @@ const EditProfile = (props) => {
                         checked={formValues.roleSwitch || false}
                         defaultValue={formValues.leadershipRole || ""}
                         />
-                        <Error field="leadershipRole" />
                     </div>
+                    {/* new */}
+                    <div className="mb-15">
+                        <Input
+                        id="regVotWrdDist"
+                        label="Registered Voting Precinct / Ward / District"
+                        placeholder="Registered Voting Precinct / Ward / District"
+                        type="text"
+                        fontSize={"fs-16 text-dark"}
+                        className={WIDTH_CLASS}
+                        contentFontSize="fs-14"
+                        switchPresent={isProfileCreated}
+                        switchChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.regVotWrdDistSwitch = checked;
+                            setFormValues(ndata);
+                        }}
+                        checked={formValues.regVotWrdDistSwitch || false}
+                        defaultValue={formValues.regVotWrdDist || ""}
+                        />
+                        <Error field="regVotWrdDist" />
+                    </div>
+                    
 
                     <div className="row mb-20 text-bold">
                         <Checkbox
@@ -1903,7 +1847,6 @@ const EditProfile = (props) => {
                                     checked={formValues.gpFirstNameSwitch || false}
                                     defaultValue={formValues.gpFirstName || ""}
                                 />
-                                <Error field="gpFirstName" />
                             </div>
                             <div className="mb-15">
                                 <Input
@@ -1923,7 +1866,6 @@ const EditProfile = (props) => {
                                     checked={formValues.gpLastNameSwitch || false}
                                     defaultValue={formValues.gpLastName || ""}
                                 />
-                                <Error field="gpLastName" />
                             </div>
                             <div className="mb-15">
                                 <Input
@@ -1943,7 +1885,6 @@ const EditProfile = (props) => {
                                     checked={formValues.gpPhoneSwitch || false}
                                     defaultValue={formValues.gpPhone || ""}
                                 />
-                                <Error field="gpPhone" />
                             </div>
                             <div className="mb-15">
                                 <Input
@@ -1963,30 +1904,9 @@ const EditProfile = (props) => {
                                     checked={formValues.gpEmailSwitch || false}
                                     defaultValue={formValues.gpEmail || ""}
                                 />
-                                <Error field="gpEmail" />
                             </div>
                         </>
                     )}
-                        
-                  {/* <div className="mb-15">
-                    <Input
-                      label="Member ID"
-                      placeholder="Member ID"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      className={WIDTH_CLASS}
-                      contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.memberCodeSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.memberCodeSwitch || false}
-                      disabled={true}
-                      defaultValue={props.profile.profile.memberCode || ""}
-                    />
-                  </div>  */}
                   <div className="text-center">
                     <button
                       type="button"
