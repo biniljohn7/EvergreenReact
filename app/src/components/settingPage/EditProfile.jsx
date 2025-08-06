@@ -625,7 +625,7 @@ const EditProfile = (props) => {
                       className={WIDTH_CLASS}
                       defaultValue={formValues.middleName || ""}
                     />
-                    <Error field="firstName" />
+                    <Error field="middleName" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -775,6 +775,26 @@ const EditProfile = (props) => {
                       value={formValues.household || ""}
                     />
                     <Error field="household" />
+                  </div>
+                  <div className="mb-15">
+                    <Textarea
+                      id="biography"
+                      label="Biography"
+                      subtext="Max 1000 characters"
+                      placeholder="Biography"
+                      fontSize={"fs-16 text-dark"}
+                      contentFontSize={"fs-14 " + WIDTH_CLASS}
+                      switchPresent={isProfileCreated}
+                      switchChange={(checked) => {
+                        let ndata = { ...formValues };
+                        ndata.biographySwitch = checked;
+                        setFormValues(ndata);
+                      }}
+                      checked={formValues.biographySwitch}
+                      maxLength={1000}
+                      defaultValue={formValues.biography || ""}
+                    />
+                    <Error field="biography" />
                   </div>
 
                   <div className="row mb-20 text-bold">
@@ -1042,7 +1062,7 @@ const EditProfile = (props) => {
                             checked={formValues.employerNameSwitch || false}
                             defaultValue={formValues.employerName || ""}
                         />
-                        <Error field="city" />
+                        <Error field="employerName" />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
@@ -1858,18 +1878,18 @@ const EditProfile = (props) => {
                             }}
                         />
                     </div>
-
+                    {/* new */}
                     {isMinorCheck && (
                         <>
                             <div className="row mb-20 text-bold">
-                                <div className={LEFT_CLASS}>Parental Information</div>
+                                <div className={LEFT_CLASS}>Guardian / Parental information</div>
                                 <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
                             </div>
                             <div className="mb-15">
                                 <Input
-                                    id="city"
-                                    label="Guardian/Parent First Name"
-                                    placeholder="Guardian/Parent First Name"
+                                    id="gpFirstName"
+                                    label="First Name"
+                                    placeholder="First Name"
                                     type="text"
                                     fontSize={"fs-16 text-dark"}
                                     className={WIDTH_CLASS}
@@ -1877,13 +1897,73 @@ const EditProfile = (props) => {
                                     switchPresent={isProfileCreated}
                                     switchChange={(checked) => {
                                     let ndata = { ...formValues };
-                                    ndata.citySwitch = checked;
+                                    ndata.gpFirstNameSwitch = checked;
                                     setFormValues(ndata);
                                     }}
-                                    checked={formValues.citySwitch || false}
-                                    defaultValue={formValues.city || ""}
+                                    checked={formValues.gpFirstNameSwitch || false}
+                                    defaultValue={formValues.gpFirstName || ""}
                                 />
-                                <Error field="city" />
+                                <Error field="gpFirstName" />
+                            </div>
+                            <div className="mb-15">
+                                <Input
+                                    id="gpLastName"
+                                    label="Last Name"
+                                    placeholder="Last Name"
+                                    type="text"
+                                    fontSize={"fs-16 text-dark"}
+                                    className={WIDTH_CLASS}
+                                    contentFontSize="fs-14"
+                                    switchPresent={isProfileCreated}
+                                    switchChange={(checked) => {
+                                    let ndata = { ...formValues };
+                                    ndata.gpLastNameSwitch = checked;
+                                    setFormValues(ndata);
+                                    }}
+                                    checked={formValues.gpLastNameSwitch || false}
+                                    defaultValue={formValues.gpLastName || ""}
+                                />
+                                <Error field="gpLastName" />
+                            </div>
+                            <div className="mb-15">
+                                <Input
+                                    id="gpPhone"
+                                    label="Phone Number"
+                                    placeholder="Phone Number"
+                                    type="text"
+                                    fontSize={"fs-16 text-dark"}
+                                    className={WIDTH_CLASS}
+                                    contentFontSize="fs-14"
+                                    switchPresent={isProfileCreated}
+                                    switchChange={(checked) => {
+                                    let ndata = { ...formValues };
+                                    ndata.gpPhoneSwitch = checked;
+                                    setFormValues(ndata);
+                                    }}
+                                    checked={formValues.gpPhoneSwitch || false}
+                                    defaultValue={formValues.gpPhone || ""}
+                                />
+                                <Error field="gpPhone" />
+                            </div>
+                            <div className="mb-15">
+                                <Input
+                                    id="gpEmail"
+                                    label="Email"
+                                    placeholder="Email"
+                                    type="text"
+                                    fontSize={"fs-16 text-dark"}
+                                    className={WIDTH_CLASS}
+                                    contentFontSize="fs-14"
+                                    switchPresent={isProfileCreated}
+                                    switchChange={(checked) => {
+                                    let ndata = { ...formValues };
+                                    ndata.gpEmailSwitch = checked;
+                                    setFormValues(ndata);
+                                    }}
+                                    checked={formValues.gpEmailSwitch || false}
+                                    defaultValue={formValues.gpEmail || ""}
+                                />
+                                <Error field="gpEmail" />
                             </div>
                         </>
                     )}
@@ -1906,27 +1986,7 @@ const EditProfile = (props) => {
                       disabled={true}
                       defaultValue={props.profile.profile.memberCode || ""}
                     />
-                  </div> 
-                  <div className="mb-15">
-                    <Textarea
-                      id="biography"
-                      label="Biography"
-                      subtext="Max 1000 characters"
-                      placeholder="Biography"
-                      fontSize={"fs-16 text-dark"}
-                      contentFontSize={"fs-14 " + WIDTH_CLASS}
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.biographySwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.biographySwitch}
-                      maxLength={1000}
-                      defaultValue={formValues.biography || ""}
-                    />
-                    <Error field="biography" />
-                  </div> */}
+                  </div>  */}
                   <div className="text-center">
                     <button
                       type="button"
