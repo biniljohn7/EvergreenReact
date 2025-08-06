@@ -118,8 +118,8 @@ const EditProfile = (props) => {
           });
           ndata.certification = cert;
         }
-        if (props.profile.profile.affiliations) {
-          const affln = props.profile.profile.affiliations.map((aff) => {
+        if (props.profile.profile.affilateOrgzn) {
+          const affln = props.profile.profile.affilateOrgzn.map((aff) => {
             return {
               label: aff.name,
               value: aff.id,
@@ -1454,7 +1454,7 @@ const EditProfile = (props) => {
                                 value: el.profileOptionsId,
                                 };
                             })}
-                            // value={formValues.affilateOrgzn || []}
+                            value={formValues.affilateOrgzn.length > 0 ? formValues.affilateOrgzn : []}
                             onChange={(value) => {
                                 let ndata = { ...formValues };
                                 ndata.affilateOrgzn = value;
