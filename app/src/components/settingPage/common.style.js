@@ -190,6 +190,10 @@ const CommonWrapper = styled.div`
   .form-group {
     margin-bottom: 1rem;
   }
+
+  .org-sub-ttl {
+    color: #8d8d8d !important;
+  }
   
 `
 

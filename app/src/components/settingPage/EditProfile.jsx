@@ -100,6 +100,15 @@ const EditProfile = (props) => {
           });
           ndata.expertise = exp;
         }
+        if (props.profile.profile.volunteerInterests) {
+          const volInt = props.profile.profile.volunteerInterests.map((vl) => {
+            return {
+              label: vl.name,
+              value: vl.id,
+            };
+          });
+          ndata.volunteerInterest = volInt;
+        }
         if (props.profile.profile.certifications) {
           const cert = props.profile.profile.certifications.map((ex) => {
             return {
@@ -108,6 +117,15 @@ const EditProfile = (props) => {
             };
           });
           ndata.certification = cert;
+        }
+        if (props.profile.profile.affiliations) {
+          const affln = props.profile.profile.affiliations.map((aff) => {
+            return {
+              label: aff.name,
+              value: aff.id,
+            };
+          });
+          ndata.affilateOrgzn = affln;
         }
         if (props.profile.profile.educations) {
           const edu = props.profile.profile.educations.map((ex) => {
@@ -301,7 +319,10 @@ const EditProfile = (props) => {
             employerName: el("employerName").value.trim() || null,
             occupationId: formValues.occupation ? formValues.occupation.profileOptionsId : null,
             employmentStatusId: formValues.employmentStatus ? formValues.employmentStatus.value : null,
-            volunteerInterestId: formValues.volunteerInterest ? formValues.volunteerInterest.value : null,
+            // volunteerInterestId: formValues.volunteerInterest ? formValues.volunteerInterest.value : null,
+            volunteerInterestId: formValues.volunteerInterest 
+                ? formValues.volunteerInterest.map((vlInt) => vlInt.value) 
+                : [],
             industryId: formValues.industry ? formValues.industry.profileOptionsId : null,
             educations: formValues.education
                 ? formValues.education.map((edu) => {
@@ -319,20 +340,22 @@ const EditProfile = (props) => {
                 : [],
             salaryRangeId: formValues.salaryRange ? formValues.salaryRange.value : null,
 
-            affilateOrgzn: formValues.affilateOrgzn ? formValues.affilateOrgzn.profileOptionsId : null,
+            // affilateOrgzn: formValues.affilateOrgzn ? formValues.affilateOrgzn.profileOptionsId : null,
+            affilateOrgznId: formValues.affilateOrgzn
+                ? formValues.affilateOrgzn.map((affln) => affln.value)
+                : [],
             nationId: formValues.nation ? formValues.nation.nationId : null,
             regionId: formValues.region ? formValues.region.regionId : null,
             organizationalStateId: formValues.organizationalState ? formValues.organizationalState.id : null,
             chapterOfInitiation: formValues.chapterOfInitiation ? formValues.chapterOfInitiation.chapterId : null,
             currentChapter: formValues.currentChapter ? formValues.currentChapter.chapterId : null,
-            leadershipRole: el("leadershipRole").value.trim() || null,
             registeredVoting: el("regVotWrdDist").value.trim(),
 
             gpConsent: isMinorCheck,
-            gpFirstName: isMinorCheck ? el("gpFirstName").value.trim() : null,
-            gpLastName: isMinorCheck ? el("gpLastName").value.trim() : null,
-            gpPhone: isMinorCheck ? el("gpPhone").value.trim() : null,
-            gpEmail: isMinorCheck ? el("gpEmail").value.trim() : null,
+            gpFirstName: isMinorCheck ? (el("gpFirstName").value.trim() || null) : null,
+            gpLastName: isMinorCheck ? (el("gpLastName").value.trim() || null) : null,
+            gpPhone: isMinorCheck ? (el("gpPhone").value.trim() || null) : null,
+            gpEmail: isMinorCheck ? (el("gpEmail").value.trim() || null) : null,
       };
       const YOI = el("yearOfIni").value.trim().split("-");
       body.yearOfInitiation = YOI[2] + "/" + YOI[1] + "/" + YOI[0];
@@ -349,7 +372,6 @@ const EditProfile = (props) => {
             dob: formValues.dobSwitch || false,
             racialIdentity: formValues.racialIdentitySwitch || false,
             household: formValues.householdSwitch || false,
-            memberCode: formValues.memberCodeSwitch || false,
             biography: formValues.biographySwitch || false,
 
             phoneNumber: formValues.phoneNumberSwitch || false,
@@ -379,7 +401,6 @@ const EditProfile = (props) => {
             chapterOfInitiation: formValues.chapOfIniSwitch || false,
             yearOfInitiation: formValues.yearOfIniSwitch || false,
             currentChapter: formValues.currentChapSwitch || false,
-            leadershipRole: formValues.roleSwitch || false,
             registeredVoting: formValues.regVotWrdDistSwitch || false,
 
             gpFirstName: formValues.gpFirstNameSwitch || false,
@@ -699,25 +720,6 @@ const EditProfile = (props) => {
                         setFormValues(ndata);
                       }}
                       value={formValues.household || ""}
-                    />
-                  </div>
-                  <div className="mb-15">
-                    <Input
-                      label="Member ID"
-                      placeholder="Member ID"
-                      type="text"
-                      fontSize={"fs-16 text-dark"}
-                      className={WIDTH_CLASS}
-                      contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.memberCodeSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.memberCodeSwitch || false}
-                      disabled={true}
-                      defaultValue={props.profile.profile.memberCode || ""}
                     />
                   </div>
                   <div className="mb-15">
@@ -1105,17 +1107,16 @@ const EditProfile = (props) => {
                             />
                         )}
                         </div>
-                        <Select
-                        id="volunteerInterest"
-                        placeholder="Select"
-                        options={PROFILE_OPTIONS.volunteerInterest}
-                        styles={SELECT_CSS}
-                        onChange={(selectedOp) => {
-                            let ndata = { ...formValues };
-                            ndata.volunteerInterest = selectedOp;
-                            setFormValues(ndata);
-                        }}
-                        value={formValues.volunteerInterest || ""}
+                        <MultiSelect
+                            id="volunteerInterest"
+                            options={PROFILE_OPTIONS.volunteerInterest}
+                            // value={formValues.volunteerInterest || []}
+                            onChange={(value) => {
+                                let ndata = { ...formValues };
+                                ndata.volunteerInterest = value;
+                                setFormValues(ndata);
+                            }}
+                            className={WIDTH_CLASS}
                         />
                     </div>
                     <div className="mb-15">
@@ -1445,24 +1446,27 @@ const EditProfile = (props) => {
                             />
                         )}
                         </div>
-                        <Select
-                        id="affilateOrgzn"
-                        placeholder="Select Affiliation"
-                        options={dropdown.affiliation || []}
-                        styles={SELECT_CSS}
-                        getOptionLabel={(op) => op.name}
-                        getOptionValue={(op) => op.profileOptionsId}
-                        onChange={(selectedOp) => {
-                            let ndata = { ...formValues };
-                            ndata.affilateOrgzn = selectedOp;
-                            setFormValues(ndata);
-                        }}
-                        value={formValues.affilateOrgzn || ""}
+                        <MultiSelect
+                            id="affilateOrgzn"
+                            options={dropdown.affiliation.map((el) => {
+                                return {
+                                label: el.name,
+                                value: el.profileOptionsId,
+                                };
+                            })}
+                            // value={formValues.affilateOrgzn || []}
+                            onChange={(value) => {
+                                let ndata = { ...formValues };
+                                ndata.affilateOrgzn = value;
+                                setFormValues(ndata);
+                            }}
+                            className={WIDTH_CLASS}
                         />
                     </div>
-                    <div className="mb-15">
+                    <div className="mb-5">
                         <div className="position-relative">
-                        <label className="fs-16 mb-5 text-dark">Country</label>
+                        <label className="fs-16 mb-5 text-dark">Organizational Section</label><br />
+                        <label className="fs-13 mb-5 text-dark org-sub-ttl">Country</label>
                         {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
@@ -1515,9 +1519,9 @@ const EditProfile = (props) => {
                         />
                     </div>
 
-                    <div className="mb-15">
+                    <div className="mb-5">
                         <div className="position-relative">
-                        <label className="fs-16 mb-5 text-dark">Region</label>
+                        <label className="fs-13 mb-5 text-dark org-sub-ttl">Region</label>
                         {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
@@ -1574,10 +1578,10 @@ const EditProfile = (props) => {
                         />
                     </div>
 
-                    <div className="mb-15">
+                    <div className="mb-5">
                         <div className="position-relative">
-                        <label className="fs-16 mb-5 text-dark">
-                            Organizational State
+                        <label className="fs-13 mb-5 text-dark org-sub-ttl">
+                            State
                         </label>
                         {isProfileCreated && (
                             <Switch
@@ -1602,7 +1606,7 @@ const EditProfile = (props) => {
                         </div>
                         <Select
                         id="organizationalState"
-                        placeholder="Select Organizational State"
+                        placeholder="Select State"
                         options={organizationalStateList}
                         styles={SELECT_CSS}
                         getOptionLabel={(op) => op.name}
@@ -1632,7 +1636,54 @@ const EditProfile = (props) => {
                         )}
                         />
                     </div>
-
+                    <div className="mb-15">
+                        <div className="position-relative">
+                        <label className="fs-13 mb-5 text-dark org-sub-ttl">
+                            Section
+                        </label>
+                        {isProfileCreated && (
+                            <Switch
+                            onChange={(checked) => {
+                                let ndata = { ...formValues };
+                                ndata.currentChapSwitch = checked;
+                                setFormValues(ndata);
+                            }}
+                            checked={formValues.currentChapSwitch}
+                            onColor="#EAEAEA"
+                            onHandleColor={HEADER_COLOR}
+                            handleDiameter={10}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                            height={15}
+                            width={40}
+                            className="profile-switch"
+                            />
+                        )}
+                        </div>
+                        <Select
+                        id="currentChapter"
+                        placeholder="Select Section"
+                        options={chapterList}
+                        styles={SELECT_CSS}
+                        getOptionLabel={(op) => op.chapterName}
+                        getOptionValue={(op) => op.chapterId}
+                        onChange={(selectedOp) => {
+                            let ndata = { ...formValues };
+                            ndata.currentChapter = selectedOp;
+                            setFormValues(ndata);
+                        }}
+                        value={formValues.currentChapter || ""}
+                        noOptionsMessage={() => (
+                            <>
+                            {!formValues.organizationalStateSwich
+                                ? "Select Organizational State first"
+                                : "No Section Found"}
+                            </>
+                        )}
+                        />
+                    </div>
                     <div className="mb-15 position-relative">
                         <label className="fs-16 mb-5 text-dark">
                         Section of Initiation
@@ -1718,74 +1769,6 @@ const EditProfile = (props) => {
                         }}
                         value={formValues.yearOfIni || ""}
                         max={new Date().toISOString().split("T")[0]}
-                        />
-                    </div>
-
-                    <div className="mb-15">
-                        <div className="position-relative">
-                        <label className="fs-16 mb-5 text-dark">
-                            Current Section
-                        </label>
-                        {isProfileCreated && (
-                            <Switch
-                            onChange={(checked) => {
-                                let ndata = { ...formValues };
-                                ndata.currentChapSwitch = checked;
-                                setFormValues(ndata);
-                            }}
-                            checked={formValues.currentChapSwitch}
-                            onColor="#EAEAEA"
-                            onHandleColor={HEADER_COLOR}
-                            handleDiameter={10}
-                            uncheckedIcon={false}
-                            checkedIcon={false}
-                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                            height={15}
-                            width={40}
-                            className="profile-switch"
-                            />
-                        )}
-                        </div>
-                        <Select
-                        id="currentChapter"
-                        placeholder="Select Current Section"
-                        options={chapterList}
-                        styles={SELECT_CSS}
-                        getOptionLabel={(op) => op.chapterName}
-                        getOptionValue={(op) => op.chapterId}
-                        onChange={(selectedOp) => {
-                            let ndata = { ...formValues };
-                            ndata.currentChapter = selectedOp;
-                            setFormValues(ndata);
-                        }}
-                        value={formValues.currentChapter || ""}
-                        noOptionsMessage={() => (
-                            <>
-                            {!formValues.organizationalStateSwich
-                                ? "Select Organizational State first"
-                                : "No Section Found"}
-                            </>
-                        )}
-                        />
-                    </div>
-                    <div className="mb-15">
-                        <Input
-                        id="leadershipRole"
-                        label="Leadership Role"
-                        placeholder="Leadership Role"
-                        type="text"
-                        fontSize={"fs-16 text-dark"}
-                        className={WIDTH_CLASS}
-                        contentFontSize="fs-14"
-                        switchPresent={isProfileCreated}
-                        switchChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.roleSwitch = checked;
-                            setFormValues(ndata);
-                        }}
-                        checked={formValues.roleSwitch || false}
-                        defaultValue={formValues.leadershipRole || ""}
                         />
                     </div>
                     {/* new */}
