@@ -126,6 +126,7 @@ const editProfile = withFormik({
         }
       : "",
     firstName: props.profile.profile.firstName || "",
+    middleName: props.profile.profile.middleName || "",
     lastName: props.profile.profile.lastName || "",
     country: props.profile.profile.country
       ? {
@@ -221,12 +222,6 @@ const editProfile = withFormik({
           value: props.profile.profile.employmentStatus.id,
         }
       : "",
-    volunteerInterest: props.profile.profile.volunteerInterest
-      ? {
-          label: props.profile.profile.volunteerInterest.name,
-          value: props.profile.profile.volunteerInterest.id,
-        }
-      : "",
     salaryRange: props.profile.profile.salaryRange
       ? {
           label: props.profile.profile.salaryRange.name,
@@ -236,6 +231,37 @@ const editProfile = withFormik({
     education: [{ university: "", degree: "" }],
     certification: "",
     expertise: "",
+    businessEmail: props.profile.profile.businessEmail || "",
+    employerName: props.profile.profile.employerName || "",
+    regVotWrdDist: props.profile.profile.regVotWrdDist || "",
+    gpFirstName: props.profile.profile.gpFirstName || "",
+    gpLastName: props.profile.profile.gpLastName || "",
+    gpPhone: props.profile.profile.gpPhone || "",
+    gpEmail: props.profile.profile.gpEmail || "",
+    volunteerInterest: "",
+    affilateOrgznSwitch: "",
+
+    businessEmailSwitch: props.profile.visible
+      ? props.profile.visible.businessEmail || false
+      : false,
+    employerNameSwitch: props.profile.visible
+      ? props.profile.visible.employerName || false
+      : false,
+    regVotWrdDistSwitch: props.profile.visible
+      ? props.profile.visible.regVotWrdDist || false
+      : false,
+    gpFirstNameSwitch: props.profile.visible
+      ? props.profile.visible.gpFirstName || false
+      : false,
+    gpLastNameSwitch: props.profile.visible
+      ? props.profile.visible.gpLastName || false
+      : false,
+    gpPhoneSwitch: props.profile.visible
+      ? props.profile.visible.gpPhone || false
+      : false,
+    gpEmailSwitch: props.profile.visible
+      ? props.profile.visible.gpEmail || false
+      : false,
 
     emailSwitch: props.profile.visible
       ? props.profile.visible.email || false

@@ -100,8 +100,8 @@ const EditProfile = (props) => {
           });
           ndata.expertise = exp;
         }
-        if (props.profile.profile.volunteerInterests) {
-          const volInt = props.profile.profile.volunteerInterests.map((vl) => {
+        if (props.profile.profile.volunteers) {
+          const volInt = props.profile.profile.volunteers.map((vl) => {
             return {
               label: vl.name,
               value: vl.id,
@@ -226,6 +226,7 @@ const EditProfile = (props) => {
       .catch((err) => {
         Tst.Error("Failed to retrive Section list. Please try again later!");
       });
+    setIsMinorCheck(props.profile.profile.gpConsent == 'Y');
   }, []);
 
   const Error = ({ field }) => {
@@ -274,6 +275,7 @@ const EditProfile = (props) => {
     }
 
     const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     let sErrs = {};
 
@@ -291,6 +293,18 @@ const EditProfile = (props) => {
     if (!el("regVotWrdDist").value.trim()) {
         sErrs["regVotWrdDist"] = "This field is required";
     }
+    const gpPhoneValue = el("gpPhone").value.trim();
+    if (gpPhoneValue && !phoneRegex.test(gpPhoneValue)) {
+        sErrs["gpPhone"] = "Not a valid phone number";
+    }
+    const gpEmailValue = el("gpEmail").value.trim();
+    if (gpEmailValue && !emailRegex.test(gpEmailValue)) {
+        sErrs["gpEmail"] = "Not a valid email address";
+    }
+    const bEmailValue = el("bEmail").value.trim();
+    if (bEmailValue && !emailRegex.test(bEmailValue)) {
+        sErrs["bEmail"] = "Not a valid email address";
+    }
 
     setErrorList(sErrs);
 
@@ -300,7 +314,7 @@ const EditProfile = (props) => {
         let body = {
             prefixId:formValues.prefix ? formValues.prefix.value : null,
             firstName: el("firstName").value.trim(),
-            firstName: el("middleName").value.trim() || null,
+            middleName: el("middleName").value.trim() || null,
             lastName: el("lastName").value.trim(),
             suffixId: formValues.suffix ? formValues.suffix.value : null,
             racialIdentityId: formValues.racialIdentity ? formValues.racialIdentity.value : null,
@@ -319,7 +333,6 @@ const EditProfile = (props) => {
             employerName: el("employerName").value.trim() || null,
             occupationId: formValues.occupation ? formValues.occupation.profileOptionsId : null,
             employmentStatusId: formValues.employmentStatus ? formValues.employmentStatus.value : null,
-            // volunteerInterestId: formValues.volunteerInterest ? formValues.volunteerInterest.value : null,
             volunteerInterestId: formValues.volunteerInterest 
                 ? formValues.volunteerInterest.map((vlInt) => vlInt.value) 
                 : [],
@@ -340,7 +353,6 @@ const EditProfile = (props) => {
                 : [],
             salaryRangeId: formValues.salaryRange ? formValues.salaryRange.value : null,
 
-            // affilateOrgzn: formValues.affilateOrgzn ? formValues.affilateOrgzn.profileOptionsId : null,
             affilateOrgznId: formValues.affilateOrgzn
                 ? formValues.affilateOrgzn.map((affln) => affln.value)
                 : [],
@@ -428,7 +440,7 @@ const EditProfile = (props) => {
                     Spn.Hide();
                     props.updatePage();
                 } else {
-                    Tst.Error(res.error);
+                    Tst.Error(res.message || res.error);
                     setLoader(false);
                     Spn.Hide();
                 }
@@ -564,7 +576,6 @@ const EditProfile = (props) => {
                     />
                     <Error field="firstName" />
                   </div>
-                  {/* new */}
                   <div className="mb-15">
                     <Input
                       id="middleName"
@@ -786,7 +797,6 @@ const EditProfile = (props) => {
                       disabled={true}
                     />
                   </div>
-                  {/* new */}
                   <div className="mb-15">
                     <Input
                       id="bEmail"
@@ -803,8 +813,9 @@ const EditProfile = (props) => {
                         setFormValues(ndata);
                       }}
                       checked={formValues.businessEmailSwitch || false}
-                      defaultValue={props.profile.profile.businessEmail || ""}
+                      defaultValue={formValues.businessEmail || ""}
                     />
+                    <Error field="bEmail" />
                   </div>
                   <div className="mb-15">
                     <Input
@@ -983,7 +994,6 @@ const EditProfile = (props) => {
                         <div className={LEFT_CLASS}>Professional Information</div>
                         <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
                     </div>
-                    {/* new */}
                     <div className="mb-15">
                         <Input
                             id="employerName"
@@ -1110,7 +1120,7 @@ const EditProfile = (props) => {
                         <MultiSelect
                             id="volunteerInterest"
                             options={PROFILE_OPTIONS.volunteerInterest}
-                            // value={formValues.volunteerInterest || []}
+                            value={formValues.volunteerInterest.length > 0 ? formValues.volunteerInterest : []}
                             onChange={(value) => {
                                 let ndata = { ...formValues };
                                 ndata.volunteerInterest = value;
@@ -1771,7 +1781,6 @@ const EditProfile = (props) => {
                         max={new Date().toISOString().split("T")[0]}
                         />
                     </div>
-                    {/* new */}
                     <div className="mb-15">
                         <Input
                         id="regVotWrdDist"
@@ -1805,7 +1814,6 @@ const EditProfile = (props) => {
                             }}
                         />
                     </div>
-                    {/* new */}
                     {isMinorCheck && (
                         <>
                             <div className="row mb-20 text-bold">
@@ -1868,6 +1876,7 @@ const EditProfile = (props) => {
                                     checked={formValues.gpPhoneSwitch || false}
                                     defaultValue={formValues.gpPhone || ""}
                                 />
+                                <Error field="gpPhone" />
                             </div>
                             <div className="mb-15">
                                 <Input
@@ -1887,6 +1896,7 @@ const EditProfile = (props) => {
                                     checked={formValues.gpEmailSwitch || false}
                                     defaultValue={formValues.gpEmail || ""}
                                 />
+                                <Error field="gpEmail" />
                             </div>
                         </>
                     )}
