@@ -17,6 +17,7 @@ const checkbox = (props) => {
           checked={props.checked}
           // style={{ height: "24px" }}
           onChange={props.onChange}
+          disabled={props.isDisabled}
         />
         <label
           htmlFor={id}

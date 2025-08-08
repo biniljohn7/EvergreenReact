@@ -1814,6 +1814,7 @@ const EditProfile = (props) => {
                             onChange={(e) => {
                                 setIsMinorCheck(!isMinorCheck);                                
                             }}
+                            isDisabled={false}
                         />
                     </div>
                     {isMinorCheck && (
