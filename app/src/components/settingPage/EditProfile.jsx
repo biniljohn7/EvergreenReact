@@ -293,17 +293,19 @@ const EditProfile = (props) => {
     if (!el("regVotWrdDist").value.trim()) {
         sErrs["regVotWrdDist"] = "This field is required";
     }
-    const gpPhoneValue = el("gpPhone").value.trim();
-    if (gpPhoneValue && !phoneRegex.test(gpPhoneValue)) {
-        sErrs["gpPhone"] = "Not a valid phone number";
-    }
-    const gpEmailValue = el("gpEmail").value.trim();
-    if (gpEmailValue && !emailRegex.test(gpEmailValue)) {
-        sErrs["gpEmail"] = "Not a valid email address";
-    }
     const bEmailValue = el("bEmail").value.trim();
     if (bEmailValue && !emailRegex.test(bEmailValue)) {
         sErrs["bEmail"] = "Not a valid email address";
+    }
+    if(isMinorCheck) {
+        const gpPhoneValue = el("gpPhone").value.trim();
+        if (gpPhoneValue && !phoneRegex.test(gpPhoneValue)) {
+            sErrs["gpPhone"] = "Not a valid phone number";
+        }
+        const gpEmailValue = el("gpEmail").value.trim();
+        if (gpEmailValue && !emailRegex.test(gpEmailValue)) {
+            sErrs["gpEmail"] = "Not a valid email address";
+        }
     }
 
     setErrorList(sErrs);
@@ -628,7 +630,7 @@ const EditProfile = (props) => {
                             ndata.dobSwitch = checked;
                             setFormValues(ndata);
                           }}
-                          checked={formValues.dob}
+                          checked={formValues.dobSwitch}
                           onColor="#EAEAEA"
                           onHandleColor={HEADER_COLOR}
                           handleDiameter={10}
@@ -876,53 +878,6 @@ const EditProfile = (props) => {
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
-                      <label className="fs-16 mb-5 text-dark">State</label>
-                      {isProfileCreated && (
-                        <Switch
-                          onChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.stateSwitch = checked;
-                            setFormValues(ndata);
-                          }}
-                          checked={formValues.stateSwitch}
-                          onColor="#EAEAEA"
-                          onHandleColor={HEADER_COLOR}
-                          handleDiameter={10}
-                          uncheckedIcon={false}
-                          checkedIcon={false}
-                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                          height={15}
-                          width={40}
-                          className="profile-switch"
-                        />
-                      )}
-                    </div>
-                    <Select
-                      id="state"
-                      placeholder="Select State"
-                      options={stateList}
-                      styles={SELECT_CSS}
-                      getOptionLabel={(op) => op.name}
-                      getOptionValue={(op) => op.id}
-                      onChange={(selectedOp) => {
-                        let ndata = { ...formValues };
-                        ndata.state = selectedOp;
-                        ndata.city = "";
-                        setFormValues(ndata);
-                      }}
-                      value={formValues.state || ""}
-                      noOptionsMessage={() => (
-                        <>
-                          {!formValues.country
-                            ? "Select Country first"
-                            : "No States Found"}
-                        </>
-                      )}
-                    />
-                  </div>
-                  <div className="mb-15">
-                    <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Country</label>
                       {isProfileCreated && (
                         <Switch
@@ -968,6 +923,53 @@ const EditProfile = (props) => {
                           });
                       }}
                       value={formValues.country || ""}
+                    />
+                  </div>
+                  <div className="mb-15">
+                    <div className="position-relative">
+                      <label className="fs-16 mb-5 text-dark">State</label>
+                      {isProfileCreated && (
+                        <Switch
+                          onChange={(checked) => {
+                            let ndata = { ...formValues };
+                            ndata.stateSwitch = checked;
+                            setFormValues(ndata);
+                          }}
+                          checked={formValues.stateSwitch}
+                          onColor="#EAEAEA"
+                          onHandleColor={HEADER_COLOR}
+                          handleDiameter={10}
+                          uncheckedIcon={false}
+                          checkedIcon={false}
+                          boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                          activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                          height={15}
+                          width={40}
+                          className="profile-switch"
+                        />
+                      )}
+                    </div>
+                    <Select
+                      id="state"
+                      placeholder="Select State"
+                      options={stateList}
+                      styles={SELECT_CSS}
+                      getOptionLabel={(op) => op.name}
+                      getOptionValue={(op) => op.id}
+                      onChange={(selectedOp) => {
+                        let ndata = { ...formValues };
+                        ndata.state = selectedOp;
+                        ndata.city = "";
+                        setFormValues(ndata);
+                      }}
+                      value={formValues.state || ""}
+                      noOptionsMessage={() => (
+                        <>
+                          {!formValues.country
+                            ? "Select Country first"
+                            : "No States Found"}
+                        </>
+                      )}
                     />
                   </div>
                   <div className="mb-15 position-relative">
