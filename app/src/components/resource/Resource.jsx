@@ -183,11 +183,11 @@ const Resource = (props) => {
       {Tst.Obj}
       <Wrapper padding={PADDING} top={TOP} member={MEMBER} col={COL}>
         <div className="benefits-section inner-benefits">
-          <div className="head-box">
+          {/* <div className="head-box">
             <div className="container">
               <h2>Resource Details:</h2>
             </div>
-          </div>
+          </div> */}
 
           {resourceInfo ? (
             window.innerWidth <= 768 ? (
@@ -196,7 +196,7 @@ const Resource = (props) => {
                   "row mlr-0" + (window.innerWidth === 768 ? " wp-60" : "")
                 }
               >
-                <div className={"col-12 plr-0"}>
+                {/* <div className={"col-12 plr-0"}>
                   <div
                     className="fs-16 card ash radius padding position-relative"
                     id="membership_card1"
@@ -267,7 +267,7 @@ const Resource = (props) => {
                   Recommendation Letter
                 </div>
 
-                <div className="mb30"></div>
+                <div className="mb30"></div> */}
                 <div className="head-box">
                   <div className="container">
                     <h2>Documents:</h2>
@@ -399,7 +399,7 @@ const Resource = (props) => {
                   </div>
                 </div> */}
 
-                <div className="benefit-wrap">
+                {/* <div className="benefit-wrap">
                   <div className="benefit-item container">
                     <div className="benefit-card" id="membership_card">
                       <div className="card-top">
@@ -471,7 +471,7 @@ const Resource = (props) => {
                       </span>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="head-box">
                   <div className="container">
