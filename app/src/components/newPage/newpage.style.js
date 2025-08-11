@@ -324,21 +324,21 @@ const Warpper = styled.div`
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
+    gap: 10px;
   }
 
   .what-do .three-cl-row .col-3 {
     background-image: url(${Bg});
-    width: 30%;
+    width: calc(25% - 10px);
     text-align: center;
     border: 1px solid #5B2166;
     border-radius: 25px;
     padding: 30px;   
     @media (max-width: 767px) {
-      width: calc(50% - 30px);
-      margin: 15px;
+      width: calc(50% - 10px);
     } 
     @media (max-width: 500px) {
-      width: calc(100% - 30px);
+      width: calc(100% - 10px);
     }
   }
 
@@ -350,11 +350,14 @@ const Warpper = styled.div`
     font-size: 30px;
     text-transform: uppercase;
     font-weight: 700;
+    @media (max-width: 1360px) {
+      font-size: 27px;
+    }
     @media (max-width: 1260px) {
-      font-size: 25px;
+      font-size: 20px;
     }
     @media (max-width: 991px) {
-      font-size: 21px;
+      font-size: 16px;
     }
     @media (max-width: 767px) {
       font-size: 25px;

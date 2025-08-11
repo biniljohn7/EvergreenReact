@@ -764,7 +764,7 @@ const Profile = (props) => {
                             profile.profile.role.length > 0 ? (
                                 <div className="col-12 pt-2">
                                     <div className="form-group">
-                                        <h3 className="text-bold">Leadership & Roles</h3>
+                                        <h3 className="text-bold">Elected/Appointed Officer Position</h3>
                                     </div>
                                 </div>
                             ) : ''

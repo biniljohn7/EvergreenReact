@@ -336,7 +336,7 @@ const Resource = (props) => {
                   </div>
                   <div className="mb40">
                     <a href={toolkitUrl} download={toolkitFile} className="">
-                      NCNW Strategy Toolkit
+                      8 State/All State Advocacy Kit
                     </a>
                   </div>
                 </div>
@@ -542,7 +542,7 @@ const Resource = (props) => {
                   </div>
                   <div className="mb40">
                     <a href={toolkitUrl} download={toolkitFile} className="">
-                      NCNW Strategy Toolkit
+                      8 State/All State Advocacy Kit
                     </a>
                   </div>
                 </div>
