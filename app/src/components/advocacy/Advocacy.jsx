@@ -99,7 +99,7 @@ const Advocacy = (props) => {
                   (ev) => {
                     function click() {
                       props.history.push(
-                        `/advocacy/${activeTab}/${ev.title.replaceAll('/', ' ')}`,
+                        `${/\/(advocacy)$/i.test(props.history.location.pathname) ? '/advocacy/' : '/programs/'}${activeTab}/${ev.title.replaceAll('/', ' ')}`,
                         {
                           advocacyId: ev.advocacyId,
                           advocacyType: activeTab,
@@ -170,7 +170,11 @@ const Advocacy = (props) => {
       <div className="advo-section inner-advo">
         <div className="head-box">
           <div className="container">
-            <h2>advocacy</h2>
+            <h2>
+                {
+                    /\/(advocacy)$/i.test(props.history.location.pathname) ? 'advocacy' : 'programs'
+                }
+            </h2>
             <div className="head-tab">
               <ul>
                 {

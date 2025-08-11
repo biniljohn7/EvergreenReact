@@ -72,6 +72,10 @@ export const LOGIN_HEADER = [
     path: "/advocacy",
   },
   {
+    label: "Programs",
+    path: "/programs",
+  },
+  {
     label: "Events",
     path: "/events",
   },

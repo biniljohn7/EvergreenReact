@@ -86,7 +86,15 @@ const protectedRoutes = [
         component: Advocacy,
     },
     {
+        path: "/programs",
+        component: Advocacy,
+    },
+    {
         path: "/advocacy/:advocacyType/:advocacyId",
+        component: AdvocacyDetail,
+    },
+    {
+        path: "/programs/:advocacyType/:advocacyId",
         component: AdvocacyDetail,
     },
     {

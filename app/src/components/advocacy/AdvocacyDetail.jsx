@@ -66,14 +66,19 @@ const AdvocacyDetails = (props) => {
           <div className="red pt-20 bread-nav">
             <Breadcrumb className="site-spacing">
               <BreadcrumbItem>
-                <Link to="/advocacy" className="text-white">
-                  Advocacy
+                <Link 
+                    to={(/\/advocacy(\/|$)/i.test(props.history.location.pathname) ? '/advocacy' : '/programs')}
+                    className="text-white"
+                >
+                  {
+                    /\/advocacy(\/|$)/i.test(props.history.location.pathname) ? 'Advocacy' : 'Programs'
+                  }
                 </Link>
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <Link
                   to={{
-                    pathname: '/advocacy',
+                    pathname : (/\/advocacy(\/|$)/i.test(props.history.location.pathname) ? '/advocacy' : '/programs'),
                     state: {
                       advocacyType: props.location.state.advocacyType,
                     },
