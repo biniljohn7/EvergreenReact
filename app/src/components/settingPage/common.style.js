@@ -194,6 +194,88 @@ const CommonWrapper = styled.div`
   .org-sub-ttl {
     color: #8d8d8d !important;
   }
+
+  .mb-wrap {
+    padding-top: 20px;
+  }
+
+  .mb-item {
+    position: relative;
+    max-width: 580px;
+  }
+
+  .mb-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mb-card .mb-details {
+    margin-bottom: 20px;
+    padding-left: 40px;
+    color: #000;
+  }
+
+  .mb-card .mb-details .dtl-top {
+    margin-bottom: 30px;
+  }
+
+  .mb-card .mb-details .dtl-top .dtl-itms span:first-child {
+    padding-right: 8px;
+  }
+
+  .mb-card .mb-details .dtl-btm {
+    text-align: center;
+  }
+
+  .mb-dwnld {
+    max-width: 580px;
+    display: flex;
+    padding-top: 25px;
+    justify-content: space-around;
+    gap: 10px;
+  }
+
+  .mb-dwnld .dwnld-box {
+    padding: 10px 22px;
+    background-color: #5b2166;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .mb-dwnld .dwnld-btn {
+    font-size: 0.9em;
+    color: #fff;
+  }
+
+  @media only screen and (max-width: 1024px) {
+      .row.prf-row {
+        flex-direction: column;
+      }
+
+      .row.prf-row .col-6 {
+        width: 100%;
+      }
+  }
+
+   @media only screen and (max-width: 509px) {
+    .mb-card .mb-details {
+      padding-left: 12px;
+      font-size: 0.9em;
+    }
+
+    .mb-dwnld {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mb-dwnld .dwnld-box {
+        padding: 10px 15px;
+    }
+  }
   
 `
 
