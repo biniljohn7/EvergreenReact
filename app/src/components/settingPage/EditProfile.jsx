@@ -525,13 +525,13 @@ const EditProfile = (props) => {
 
                   <div className="row mb-20 text-bold">
                     <div className={LEFT_CLASS}>Personal Information</div>
-                    <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
+                    {/* <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div> */}
                   </div>
 
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Prefix</label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -550,7 +550,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <Select
                       id="prefix"
@@ -623,7 +623,7 @@ const EditProfile = (props) => {
                       <label className="fs-16 mb-5 text-dark">
                         Date Of Birth
                       </label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -642,7 +642,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <input
                       type="date"
@@ -664,7 +664,7 @@ const EditProfile = (props) => {
                       <label className="fs-16 mb-5 text-dark">
                         Racial Identity
                       </label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -683,7 +683,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <Select
                       id="racialIdentity"
@@ -701,7 +701,7 @@ const EditProfile = (props) => {
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Household</label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -720,7 +720,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <Select
                       id="household"
@@ -743,13 +743,13 @@ const EditProfile = (props) => {
                       placeholder="Biography"
                       fontSize={"fs-16 text-dark"}
                       contentFontSize={"fs-14 " + WIDTH_CLASS}
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.biographySwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.biographySwitch}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.biographySwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.biographySwitch}
                       maxLength={1000}
                       defaultValue={formValues.biography || ""}
                     />
@@ -757,7 +757,7 @@ const EditProfile = (props) => {
 
                   <div className="row mb-20 text-bold">
                     <div className={LEFT_CLASS}>Contact Information</div>
-                    <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
+                    {/* <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div> */}
                   </div>
 
                   <div className="mb-15 position-relative">
@@ -769,13 +769,13 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.phoneNumberSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.phoneNumberSwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.phoneNumberSwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.phoneNumberSwitch || false}
                       defaultValue={formValues.phoneNumber || ""}
                     />
                     <Error field="phoneNumber" />
@@ -788,13 +788,13 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.emailSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.emailSwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.emailSwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.emailSwitch || false}
                       defaultValue={props.profile.profile.email || ""}
                       disabled={true}
                     />
@@ -808,13 +808,13 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.businessEmailSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.businessEmailSwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.businessEmailSwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.businessEmailSwitch || false}
                       defaultValue={formValues.businessEmail || ""}
                     />
                     <Error field="bEmail" />
@@ -828,13 +828,13 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.addressSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.addressSwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.addressSwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.addressSwitch || false}
                       defaultValue={formValues.address || ""}
                     />
                   </div>
@@ -847,13 +847,13 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.address2Switch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.address2Switch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.address2Switch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.address2Switch || false}
                       defaultValue={formValues.address2 || ""}
                     />
                   </div>
@@ -866,20 +866,20 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.citySwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.citySwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.citySwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.citySwitch || false}
                       defaultValue={formValues.city || ""}
                     />
                   </div>
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">Country</label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -898,7 +898,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <Select
                       id="country"
@@ -928,7 +928,7 @@ const EditProfile = (props) => {
                   <div className="mb-15">
                     <div className="position-relative">
                       <label className="fs-16 mb-5 text-dark">State</label>
-                      {isProfileCreated && (
+                      {/* {isProfileCreated && (
                         <Switch
                           onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -947,7 +947,7 @@ const EditProfile = (props) => {
                           width={40}
                           className="profile-switch"
                         />
-                      )}
+                      )} */}
                     </div>
                     <Select
                       id="state"
@@ -981,20 +981,20 @@ const EditProfile = (props) => {
                       fontSize={"fs-16 text-dark"}
                       className={WIDTH_CLASS}
                       contentFontSize="fs-14"
-                      switchPresent={isProfileCreated}
-                      switchChange={(checked) => {
-                        let ndata = { ...formValues };
-                        ndata.zipSwitch = checked;
-                        setFormValues(ndata);
-                      }}
-                      checked={formValues.zipSwitch || false}
+                    //   switchPresent={isProfileCreated}
+                    //   switchChange={(checked) => {
+                    //     let ndata = { ...formValues };
+                    //     ndata.zipSwitch = checked;
+                    //     setFormValues(ndata);
+                    //   }}
+                    //   checked={formValues.zipSwitch || false}
                       defaultValue={formValues.zip || ""}
                     />
                   </div>
 
                     <div className="row mb-20 text-bold">
                         <div className={LEFT_CLASS}>Professional Information</div>
-                        <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
+                        {/* <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div> */}
                     </div>
                     <div className="mb-15">
                         <Input
@@ -1005,20 +1005,20 @@ const EditProfile = (props) => {
                             fontSize={"fs-16 text-dark"}
                             className={WIDTH_CLASS}
                             contentFontSize="fs-14"
-                            switchPresent={isProfileCreated}
-                            switchChange={(checked) => {
-                                let ndata = { ...formValues };
-                                ndata.employerNameSwitch = checked;
-                                setFormValues(ndata);
-                            }}
-                            checked={formValues.employerNameSwitch || false}
+                            // switchPresent={isProfileCreated}
+                            // switchChange={(checked) => {
+                            //     let ndata = { ...formValues };
+                            //     ndata.employerNameSwitch = checked;
+                            //     setFormValues(ndata);
+                            // }}
+                            // checked={formValues.employerNameSwitch || false}
                             defaultValue={formValues.employerName || ""}
                         />
                     </div>
                     <div className="mb-15">
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">Occupation</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1037,7 +1037,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="occupation"
@@ -1059,7 +1059,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Employment Status
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1078,7 +1078,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="employmentStatus"
@@ -1098,7 +1098,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Volunteer/My Interest
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1117,7 +1117,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <MultiSelect
                             id="volunteerInterest"
@@ -1134,7 +1134,7 @@ const EditProfile = (props) => {
                     <div className="mb-15">
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">Industry</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1153,7 +1153,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="industry"
@@ -1173,7 +1173,7 @@ const EditProfile = (props) => {
                     <div className="mb-15">
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">Education</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1192,7 +1192,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <FieldArray
                         name="education"
@@ -1313,7 +1313,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Certification
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1332,7 +1332,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <MultiSelect
                         id="certification"
@@ -1354,7 +1354,7 @@ const EditProfile = (props) => {
                     <div className="mb-15">
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">Expertise</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1373,7 +1373,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <MultiSelect
                         id="expertise"
@@ -1392,7 +1392,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Salary Range
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1411,7 +1411,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="salaryRange"
@@ -1429,7 +1429,7 @@ const EditProfile = (props) => {
 
                     <div className="row mb-20 text-bold">
                         <div className={LEFT_CLASS}>Organizational Information</div>
-                        <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
+                        {/* <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div> */}
                     </div>
 
                     <div className="mb-15">
@@ -1437,7 +1437,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Affiliate Organization
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1456,7 +1456,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <MultiSelect
                             id="affilateOrgzn"
@@ -1479,7 +1479,7 @@ const EditProfile = (props) => {
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">Organizational Section</label><br />
                         <label className="fs-13 mb-5 text-dark org-sub-ttl">Country</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1498,7 +1498,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="nation"
@@ -1534,7 +1534,7 @@ const EditProfile = (props) => {
                     <div className="mb-5">
                         <div className="position-relative">
                         <label className="fs-13 mb-5 text-dark org-sub-ttl">Region</label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1553,7 +1553,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="region"
@@ -1595,7 +1595,7 @@ const EditProfile = (props) => {
                         <label className="fs-13 mb-5 text-dark org-sub-ttl">
                             State
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1614,7 +1614,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="organizationalState"
@@ -1653,7 +1653,7 @@ const EditProfile = (props) => {
                         <label className="fs-13 mb-5 text-dark org-sub-ttl">
                             Section
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1672,7 +1672,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <Select
                         id="currentChapter"
@@ -1700,7 +1700,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                         Section of Initiation
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                         <Switch
                             onChange={(checked) => {
                             let ndata = { ...formValues };
@@ -1719,7 +1719,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                         />
-                        )}
+                        )} */}
                         <Select
                         id="chapterOfInitiation"
                         placeholder="Select Section of Initiation"
@@ -1747,7 +1747,7 @@ const EditProfile = (props) => {
                         <label className="fs-16 mb-5 text-dark">
                             Year of Initiation
                         </label>
-                        {isProfileCreated && (
+                        {/* {isProfileCreated && (
                             <Switch
                             onChange={(checked) => {
                                 let ndata = { ...formValues };
@@ -1766,7 +1766,7 @@ const EditProfile = (props) => {
                             width={40}
                             className="profile-switch"
                             />
-                        )}
+                        )} */}
                         </div>
                         <input
                         type="date"
@@ -1792,13 +1792,13 @@ const EditProfile = (props) => {
                         fontSize={"fs-16 text-dark"}
                         className={WIDTH_CLASS}
                         contentFontSize="fs-14"
-                        switchPresent={isProfileCreated}
-                        switchChange={(checked) => {
-                            let ndata = { ...formValues };
-                            ndata.regVotWrdDistSwitch = checked;
-                            setFormValues(ndata);
-                        }}
-                        checked={formValues.regVotWrdDistSwitch || false}
+                        // switchPresent={isProfileCreated}
+                        // switchChange={(checked) => {
+                        //     let ndata = { ...formValues };
+                        //     ndata.regVotWrdDistSwitch = checked;
+                        //     setFormValues(ndata);
+                        // }}
+                        // checked={formValues.regVotWrdDistSwitch || false}
                         defaultValue={formValues.regVotWrdDist || ""}
                         />
                         <Error field="regVotWrdDist" />
@@ -1821,7 +1821,7 @@ const EditProfile = (props) => {
                         <>
                             <div className="row mb-20 text-bold">
                                 <div className={LEFT_CLASS}>Guardian / Parental information</div>
-                                <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div>
+                                {/* <div className={RIGHT_CLASS + " text-right"}>Hide/Show</div> */}
                             </div>
                             <div className="mb-15">
                                 <Input
@@ -1832,13 +1832,13 @@ const EditProfile = (props) => {
                                     fontSize={"fs-16 text-dark"}
                                     className={WIDTH_CLASS}
                                     contentFontSize="fs-14"
-                                    switchPresent={isProfileCreated}
-                                    switchChange={(checked) => {
-                                    let ndata = { ...formValues };
-                                    ndata.gpFirstNameSwitch = checked;
-                                    setFormValues(ndata);
-                                    }}
-                                    checked={formValues.gpFirstNameSwitch || false}
+                                    // switchPresent={isProfileCreated}
+                                    // switchChange={(checked) => {
+                                    // let ndata = { ...formValues };
+                                    // ndata.gpFirstNameSwitch = checked;
+                                    // setFormValues(ndata);
+                                    // }}
+                                    // checked={formValues.gpFirstNameSwitch || false}
                                     defaultValue={formValues.gpFirstName || ""}
                                 />
                             </div>
@@ -1851,13 +1851,13 @@ const EditProfile = (props) => {
                                     fontSize={"fs-16 text-dark"}
                                     className={WIDTH_CLASS}
                                     contentFontSize="fs-14"
-                                    switchPresent={isProfileCreated}
-                                    switchChange={(checked) => {
-                                    let ndata = { ...formValues };
-                                    ndata.gpLastNameSwitch = checked;
-                                    setFormValues(ndata);
-                                    }}
-                                    checked={formValues.gpLastNameSwitch || false}
+                                    // switchPresent={isProfileCreated}
+                                    // switchChange={(checked) => {
+                                    // let ndata = { ...formValues };
+                                    // ndata.gpLastNameSwitch = checked;
+                                    // setFormValues(ndata);
+                                    // }}
+                                    // checked={formValues.gpLastNameSwitch || false}
                                     defaultValue={formValues.gpLastName || ""}
                                 />
                             </div>
@@ -1870,13 +1870,13 @@ const EditProfile = (props) => {
                                     fontSize={"fs-16 text-dark"}
                                     className={WIDTH_CLASS}
                                     contentFontSize="fs-14"
-                                    switchPresent={isProfileCreated}
-                                    switchChange={(checked) => {
-                                    let ndata = { ...formValues };
-                                    ndata.gpPhoneSwitch = checked;
-                                    setFormValues(ndata);
-                                    }}
-                                    checked={formValues.gpPhoneSwitch || false}
+                                    // switchPresent={isProfileCreated}
+                                    // switchChange={(checked) => {
+                                    // let ndata = { ...formValues };
+                                    // ndata.gpPhoneSwitch = checked;
+                                    // setFormValues(ndata);
+                                    // }}
+                                    // checked={formValues.gpPhoneSwitch || false}
                                     defaultValue={formValues.gpPhone || ""}
                                 />
                                 <Error field="gpPhone" />
@@ -1890,13 +1890,13 @@ const EditProfile = (props) => {
                                     fontSize={"fs-16 text-dark"}
                                     className={WIDTH_CLASS}
                                     contentFontSize="fs-14"
-                                    switchPresent={isProfileCreated}
-                                    switchChange={(checked) => {
-                                    let ndata = { ...formValues };
-                                    ndata.gpEmailSwitch = checked;
-                                    setFormValues(ndata);
-                                    }}
-                                    checked={formValues.gpEmailSwitch || false}
+                                    // switchPresent={isProfileCreated}
+                                    // switchChange={(checked) => {
+                                    // let ndata = { ...formValues };
+                                    // ndata.gpEmailSwitch = checked;
+                                    // setFormValues(ndata);
+                                    // }}
+                                    // checked={formValues.gpEmailSwitch || false}
                                     defaultValue={formValues.gpEmail || ""}
                                 />
                                 <Error field="gpEmail" />
