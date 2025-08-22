@@ -114,3 +114,14 @@ export const getCollegiateDropdown = () => {
         });
 };
 
+export const webSrh = (token) => {
+    setHeaders();
+    return axios
+        .post(
+            `${BASE_URL}/public/?method=web-srh`,
+            token
+        )
+        .then((response) => {
+            return response.data;
+        });
+};
