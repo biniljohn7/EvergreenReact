@@ -300,7 +300,8 @@ a:focus {
     cursor: pointer;
 }
 
-.top-header .nav-box ul li a {
+.top-header .nav-box ul li a,
+.top-header .nav-box ul li .a-search {
     display: block;
     color: #fff;
     font-size: 16px;
@@ -311,7 +312,8 @@ a:focus {
     text-decoration: none !important;
 }
 
-.top-header .nav-box ul li a::before {
+.top-header .nav-box ul li a::before,
+.top-header .nav-box ul li .a-search::before {
     content: "";
     width: 0%;
     position: absolute;
@@ -323,30 +325,36 @@ a:focus {
     transition: all linear 0.2s;
 }
 
-.top-header .nav-box ul li a.hv-icon {
+.top-header .nav-box ul li a.hv-icon,
+.top-header .nav-box ul li .a-search.hv-icon {
     padding-left: 51px;
 }
 
-.top-header .nav-box ul li a.hv-icon .icon {
+.top-header .nav-box ul li a.hv-icon .icon,
+.top-header .nav-box ul li .a-search.hv-icon .icon {
     position: absolute;
     top: 8px;
     left: 7px;
 }
 
-.top-header .nav-box ul li.inbox-menu a {
+.top-header .nav-box ul li.inbox-menu a,
+.top-header .nav-box ul li.inbox-menu .a-search {
     padding-top: 17px;
 }
 
-.top-header .nav-box ul li.inbox-menu a::before {
+.top-header .nav-box ul li.inbox-menu a::before,
+.top-header .nav-box ul li.inbox-menu .a-search::before {
     background: transparent;
 }
 
 .top-header .nav-box ul li:hover>a::before,
-.top-header .nav-box ul li a.active::before {
+.top-header .nav-box ul li a.active::before,
+.top-header .nav-box ul li .a-search.active::before {
     width: 100%;
 }
 
-.top-header .nav-box ul li a.btn {
+.top-header .nav-box ul li a.btn,
+.top-header .nav-box ul li .a-search.btn {
     background: #fff;
     color: #5b2166;
     letter-spacing: normal;
@@ -1258,9 +1266,29 @@ a:focus {
 }
 
 .mobile-menu ul li.my-acc {
-    padding-left: 12px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobile-menu ul li.my-acc .search-icn {
+    color: #fff;
+}
+
+.mobile-menu ul li.my-acc .search-icn .icn {
+    padding: 5px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    font-size: 1.3em;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.mobile-menu ul li.my-acc .search-icn .icn:hover {
+    border-color: #000;
+    color: #000;
 }
 
 .mobile-menu ul li a {
@@ -1791,7 +1819,8 @@ a:focus {
         gap: 5px;
     }
 
-    .top-header .nav-box ul li a {
+    .top-header .nav-box ul li a,
+    .top-header .nav-box ul li .a-search {
         font-size: 15px;
         padding: 10px 12px;
     }
@@ -1856,7 +1885,8 @@ a:focus {
         justify-content: center;
     }
 
-    .top-header .nav-box ul li a {
+    .top-header .nav-box ul li a,
+    .top-header .nav-box ul li .a-search {
         font-size: 12px;
         letter-spacing: 1px;
         padding: 6px 12px;

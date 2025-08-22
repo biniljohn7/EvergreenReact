@@ -22,6 +22,7 @@ import { connect } from "react-redux";
 import Wrapper from "../newPage/newpage.style";
 import Banner from "../common/NewBanner";
 import Dashboard from './../leader-dashboard/Dashboard';
+import SearchBar from "./SearchBar";
 
 const { logout, login } = AuthActions;
 
@@ -42,6 +43,7 @@ const Header = (props) => {
   const location = useLocation();
   const profileImage = useSelector((state) => state.auth.profileImage);
   const { userRoles } = store.getState().auth;
+  const [isSearchOpen, setSearchOpen] = useState(false);
   let Spn = Spinner();
   let Tst = Toast();
   return (
@@ -93,6 +95,14 @@ const Header = (props) => {
                   className="profile-image-size cursor-pointer"
                   onClick={(e) => props.history.push("/account")}
                 />
+                <span 
+                    className="search-icn" 
+                    onClick={(e) => {
+                        setSearchOpen(true);
+                    }}
+                >
+                    <span class="material-symbols-outlined icn">search</span>
+                </span>
               </li>
             </ul>
           ) : (
@@ -195,6 +205,16 @@ const Header = (props) => {
                       <Link to="/inbox">
                         <span className="material-symbols-outlined">mail</span>
                       </Link>
+                    </li>
+                    <li className="inbox-menu">
+                        <span 
+                            className="a-search" 
+                            onClick={(e) => {
+                                setSearchOpen(true);
+                            }}
+                        >
+                            <span class="material-symbols-outlined">search</span>
+                        </span>
                     </li>
                     {/* {console.log(logout())} */}
                     <li className="my-acc">
@@ -322,6 +342,13 @@ const Header = (props) => {
             </div>
           </div>
         </div>
+        <SearchBar
+            isOpen={isSearchOpen}
+            toggle={() => {
+                setSearchOpen(!isSearchOpen);
+            }}
+            changeURL={props.history.push}
+        />
       </HeaderWrapper>
       {store.getState().auth.isLogin && store.getState().auth.accessToken && (
         <Wrapper col={COL_NO} width={COL_WIDTH} size={IMAGE_SIZE}>
