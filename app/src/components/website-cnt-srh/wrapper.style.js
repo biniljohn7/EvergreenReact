@@ -91,6 +91,7 @@ const CommonWrapper = styled.div`
         text-decoration: underline;
         text-decoration-color: transparent;
         transition: text-decoration-color 0.3s ease-in-out;
+        word-break: break-all;
     }
 
     .srh-section .srh-items .srh-itm .itm-hed:hover .itm-link {
@@ -100,6 +101,7 @@ const CommonWrapper = styled.div`
     .srh-section .srh-items .srh-itm .itm-ttl {
         font-size: 1.2em;
         font-weight: 500;
+        word-break: break-word;
     }
 
     .srh-section .srh-items .srh-itm .itm-ttl span {
@@ -111,6 +113,10 @@ const CommonWrapper = styled.div`
 
     .srh-section .srh-items .srh-itm .itm-ttl span:hover {
         text-decoration-color: #5b2166;
+    }
+
+    .srh-section .srh-items .srh-itm .itm-cnt {
+        word-break: break-word;
     }
 `
 
