@@ -315,7 +315,7 @@ const WebChat = (props) => {
                           : chat.lastMessage.toString().substr(0, 20)}
                       </div>
                     </div>
-                    <div className="bin">
+                    {chat.type=='group'?'':(<div className="bin">
                       <i
                         className="material-symbols-outlined"
                         aria-hidden="true"
@@ -324,7 +324,7 @@ const WebChat = (props) => {
                           setOpen(!open);
                         }}
                       >delete</i>
-                    </div>
+                    </div>)}
                   </div>
                 );
               })}

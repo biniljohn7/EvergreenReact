@@ -184,7 +184,7 @@ const Inbox = (props) => {
                   >
                     <Input
                       type="text"
-                      placeholder="Search by name or Section name"
+                      placeholder="Search by name, email or ID"
                       id="directory_search"
                       contentFontSize={"fs-14"}
                       className={"search "}
