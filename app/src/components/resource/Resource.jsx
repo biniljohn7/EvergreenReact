@@ -4,9 +4,10 @@ import html2canvas from "html2canvas";
 import Wrapper from "./wrapper.style";
 import { store } from "../../redux/store";
 import { RECOMMENDATION_LETTER } from "../../helper/constant";
-import { getResourceInfo } from "../../api/resourceApi";
+import { getResourceInfo, getVideos } from "../../api/resourceApi";
 import Spinner from "../../UI/Spinner/Spinner";
 import Toast from "../../UI/Toast/Toast";
+import { ToastsStore } from "react-toasts";
 
 import Download from "../../assets/images/download.png";
 import BenefitTop from "../../assets/images/Benefit-top.png";
@@ -75,6 +76,8 @@ const COL =
 const Resource = (props) => {
   const [resourceInfo, setResourceInfo] = useState(null);
   const accessTkn = store.getState().auth.accessToken;
+  const [videos, setVideos] = useState(false);
+  const [vwVideo, setVwVideo] = useState(false);
 
   let Spn = Spinner();
   let Tst = Toast();
@@ -96,9 +99,22 @@ const Resource = (props) => {
     },
     [Spn, Tst]
   );
-
+  
   useEffect(() => {
+    Spn.Show();
+
     fetchData();
+
+    getVideos()
+        .then((res) => {
+            if(res.success === 1) {
+                setVideos(res.data);
+            }
+            Spn.Hide();
+        })
+        .catch((err) => {
+            ToastsStore.error("Failed to load videos!");
+        })
   }, []);
 
   // const [isActive, setActive] = useState(false)
@@ -545,6 +561,60 @@ const Resource = (props) => {
                       8 State/All State Advocacy Kit
                     </a>
                   </div>
+                </div>
+
+                <div className="head-box">
+                  <div className="container">
+                    <h2>Videos:</h2>
+                  </div>
+                </div>
+
+                <div className="container">
+                    {Spn.Obj}
+                    {videos !== false && videos.length > 0 ? (
+                        <div className="vd-wrap">
+                            {videos.map((vd, key) => {
+                                return(
+                                    <div 
+                                        className="vd-list" 
+                                        key={key}
+                                        data-id={vd.thumb}
+                                    >
+                                        <div 
+                                            className="vd-thumb"
+                                            onClick={function(e) {
+                                                setVwVideo(vd.thumb);
+                                            }}
+                                        >
+                                            {
+                                                vd.thumb 
+                                                    ? <img src={'https://img.youtube.com/vi/' + vd.thumb + '/hqdefault.jpg'} alt="" /> 
+                                                    : `<div className="no-img">
+                                                        <span class="material-symbols-outlined icn">
+                                                            slow_motion_video
+                                                        </span>
+                                                    </div>`
+                                            }
+                                            
+                                            <span class="material-symbols-outlined ply-icn">
+                                                play_circle
+                                            </span>
+                                        </div>
+                                        <div className="vd-title">
+                                            {vd.title}
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    ) 
+                    : 
+                        (
+                            <div className="mb40">
+                                No Videos Found
+                            </div>
+                        )
+                    }
                 </div>
               </>
             )

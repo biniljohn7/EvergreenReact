@@ -9,3 +9,12 @@ const getResourceInfo = () => {
   });
 };
 export { getResourceInfo };
+
+export const getVideos = () => {
+    setHeaders();
+    return axios
+        .get(`${BASE_URL}/member/?method=get-videos-list`)
+        .then((response) => {
+            return response.data;
+        });
+};

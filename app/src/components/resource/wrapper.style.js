@@ -140,6 +140,72 @@ const CommonWrapper = styled.div`
     color: #fff;
   }
 
+    .vd-wrap {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: none;
+        margin: 0px -15px;
+    }
+
+    .vd-wrap .vd-list {
+        margin: 0 16px 40px;
+        width: calc(25% - 32px);
+        background-color: #f5f5f5;
+        border-radius: 22px;
+        border: 1px solid #d9ebec;
+        transition: border-color .3s, box-shadow .3s;
+    }
+
+    .vd-wrap .vd-list .vd-thumb {
+        margin-bottom: 10px;
+        text-align: center;
+        display: block;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .vd-wrap .vd-list .vd-thumb img {
+        width: 100%;
+        border-radius: 22px;
+    }
+
+    .vd-wrap .vd-list .vd-thumb .no-img {
+        background-color: #EBE9E9;
+        border-radius: 15px;
+        padding-top: 100%;
+        position: relative;
+        display: block;
+    }
+
+    .vd-wrap .vd-list .vd-thumb .no-img .icn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3em;
+        color: #C9C9C9;
+    }
+
+    .vd-wrap .vd-list .vd-thumb .ply-icn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #dadada;
+        font-size: 4em;
+        opacity: 0;
+        transition: all .5s ease;
+    }
+
+    .vd-wrap .vd-list .vd-thumb:hover .ply-icn {
+        opacity: 1;
+    }
+
+    .vd-wrap .vd-list .vd-title {
+        padding: 0px 10px 20px 12px;
+    }
+
   @media only screen and (max-width: 509px) {
     .benefit-card .card-details {
       padding-left: 12px;
