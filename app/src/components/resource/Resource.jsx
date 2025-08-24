@@ -199,6 +199,12 @@ const Resource = (props) => {
       {Tst.Obj}
       <Wrapper padding={PADDING} top={TOP} member={MEMBER} col={COL}>
         <div className="benefits-section inner-benefits">
+{/* <div className="head-box">
+            <div className="container">
+              <h2>Resource Details:</h2>
+            </div>
+          </div> */}
+
           {/* <div className="head-box">
             <div className="container">
               <h2>Resource Details:</h2>
@@ -212,6 +218,78 @@ const Resource = (props) => {
                   "row mlr-0" + (window.innerWidth === 768 ? " wp-60" : "")
                 }
               >
+{/* <div className={"col-12 plr-0"}>
+                  <div
+                    className="fs-16 card ash radius padding position-relative"
+                    id="membership_card1"
+                  >
+                    <div className="text-bold bg-light rounded-pill plr-20 ptb-4 pill">
+                      {resourceInfo.status}
+                    </div>
+
+                    <div className="mt-25">
+                      <label className="text-white">Membership Number:</label>
+                      <div className="fs-18 text-bold">
+                        {resourceInfo.membershipNumber
+                          ? resourceInfo.membershipNumber
+                          : "-"}
+                      </div>
+                    </div>
+                    <div className="row mt-30">
+                      <div className="col-6">
+                        <label className="text-white">Name:</label>
+                        <div>
+                          {" "}
+                          {resourceInfo.fullName ? resourceInfo.fullName : "-"}
+                        </div>
+                      </div>
+                      <span className="col-6 text-right">
+                        <label className="text-white">Valid Thru:</label>
+                        <div>
+                          {resourceInfo.validThru
+                            ? new Date(resourceInfo.validThru).toDateString()
+                            : "-"}
+                        </div>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className={
+                    "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
+                    (window.innerWidth === 768 ? " col-5" : " col-12")
+                  }
+                >
+                  <img
+                    src={Download}
+                    alt="download"
+                    className="download cursor-pointer"
+                    onClick={() => getMembershipCard(true)}
+                  />
+                  Membership Card
+                </div>
+                {window.innerWidth === 768 && <div className="col-2"></div>}
+                <div
+                  className={
+                    "ash radius position-relative text-bold ptb-50 mt-20 text-center" +
+                    (window.innerWidth === 768 ? " col-5" : " col-12")
+                  }
+                >
+                  <a
+                    href={RECOMMENDATION_LETTER + "&token=" + (accessTkn || "")}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <img
+                      src={Download}
+                      alt="download"
+                      className="download cursor-pointer"
+                    />
+                  </a>
+                  Recommendation Letter
+                </div>
+
+                <div className="mb30"></div> */}
                 {/* <div className={"col-12 plr-0"}>
                   <div
                     className="fs-16 card ash radius padding position-relative"
@@ -359,6 +437,136 @@ const Resource = (props) => {
               </div>
             ) : (
               <>
+{/* <div className="benefit-box">
+                  <div className="container">
+                    <div className="benefit-item" id="membership_card">
+                      <div className="per">
+                        Membership Number:
+                        <br />
+                        {resourceInfo.membershipNumber
+                          ? resourceInfo.membershipNumber
+                          : "-"}
+                      </div>
+                      <div className="title">
+                        <strong>Name: </strong>
+                        {resourceInfo.fullName ? resourceInfo.fullName : "-"}
+                      </div>
+                      <div className="title mb-12">
+                        <strong>Valid Thru: </strong>
+                        {resourceInfo.validThru
+                          ? new Date(resourceInfo.validThru).toDateString()
+                          : "-"}
+                      </div>
+                      <div className="button-box white">
+                        <span>{resourceInfo.status}</span>
+                      </div>
+                    </div>
+                    <div className="benefit-item">
+                      <div className="per">
+                        Membership Card <br /> &nbsp;
+                      </div>
+                      <div className="button-box white">
+                        <span onClick={() => getMembershipCard(false)}>
+                          Download
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="benefit-item">
+                      <div className="per">
+                        Recommendation Letter <br /> &nbsp;
+                      </div>
+                      <div className="button-box white">
+                        <a
+                          href={
+                            RECOMMENDATION_LETTER +
+                            "&token=" +
+                            (accessTkn || "")
+                          }
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          Download
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div> */}
+
+                {/* <div className="benefit-wrap">
+                  <div className="benefit-item container">
+                    <div className="benefit-card" id="membership_card">
+                      <div className="card-top">
+                        <img src={BenefitTop} className="card-top-img" />
+                      </div>
+                      <div className="card-details">
+                        <div className="dtl-top">
+                          <div className="dtl-itms">
+                            <span>Name:</span>
+                            <span>
+                              {resourceInfo.fullName
+                                ? resourceInfo.fullName
+                                : "-"}
+                            </span>
+                          </div>
+                          <div className="dtl-itms">
+                            <span>Membership:</span>
+                            <span>
+                              {resourceInfo.membershipName
+                                ? resourceInfo.membershipName
+                                : "-"}
+                            </span>
+                          </div>
+                          <div className="dtl-itms">
+                            <span>Expiration Date:</span>
+                            <span>
+                              {resourceInfo.validThru
+                                ? new Date(
+                                    resourceInfo.validThru
+                                  ).toDateString()
+                                : "Lifelong"}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="dtl-btm">
+                          Rev. Shavon L. Arline-Bradley, NCNW President & CEO
+                        </div>
+                      </div>
+                      <div className="card-btm">
+                        <img src={BenefitBottom} className="card-btm-img" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="benefit-dwnld container">
+                    <div className="dwnld-box">
+                      <span
+                        className="dwnld-btn"
+                        onClick={() => getMembershipCard(false)}
+                      >
+                        Membership Card
+                      </span>
+                      <span className="material-symbols-outlined">
+                        download
+                      </span>
+                    </div>
+                    <div className="dwnld-box">
+                      <a
+                        className="dwnld-btn"
+                        href={
+                          RECOMMENDATION_LETTER + "&token=" + (accessTkn || "")
+                        }
+                        target="_blank"
+                        rel="noreferrer noopener"
+                      >
+                        Recommendation Letter
+                      </a>
+                      <span className="material-symbols-outlined">
+                        download
+                      </span>
+                    </div>
+                  </div>
+                </div> */}
+
                 {/* <div className="benefit-box">
                   <div className="container">
                     <div className="benefit-item" id="membership_card">
@@ -570,51 +778,76 @@ const Resource = (props) => {
                 </div>
 
                 <div className="container">
-                    {Spn.Obj}
-                    {videos !== false && videos.length > 0 ? (
-                        <div className="vd-wrap">
-                            {videos.map((vd, key) => {
-                                return(
-                                    <div 
-                                        className="vd-list" 
-                                        key={key}
-                                        data-id={vd.thumb}
-                                    >
-                                        <div 
-                                            className="vd-thumb"
-                                            onClick={function(e) {
-                                                setVwVideo(vd.thumb);
-                                            }}
-                                        >
-                                            {
-                                                vd.thumb 
-                                                    ? <img src={'https://img.youtube.com/vi/' + vd.thumb + '/hqdefault.jpg'} alt="" /> 
-                                                    : `<div className="no-img">
-                                                        <span class="material-symbols-outlined icn">
-                                                            slow_motion_video
-                                                        </span>
-                                                    </div>`
-                                            }
-                                            
-                                            <span class="material-symbols-outlined ply-icn">
-                                                play_circle
-                                            </span>
-                                        </div>
-                                        <div className="vd-title">
-                                            {vd.title}
-                                        </div>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    ) 
-                    : 
-                        (
-                            <div className="mb40">
-                                No Videos Found
+                  {Spn.Obj}
+                  {videos !== false && videos.length > 0 ? (
+                    <div className="vd-wrap">
+                      {videos.map((vd, key) => {
+                        return (
+                          <div
+                            className="vd-list"
+                            key={key}
+                            data-id={vd.thumb}
+                          >
+                            <div
+                              className="vd-thumb"
+                              onClick={function(e) {
+                                setVwVideo(vd.thumb);
+                              }}
+                            >
+                              {vd.thumb ? (
+                                <img
+                                  src={
+                                    "https://img.youtube.com/vi/" +
+                                    vd.thumb +
+                                    "/hqdefault.jpg"
+                                  }
+                                  alt=""
+                                />
+                              ) : (
+                                <div className="no-img">
+                                  <span className="material-symbols-outlined icn">
+                                    slow_motion_video
+                                  </span>
+                                </div>
+                              )}
+
+                              <span className="material-symbols-outlined ply-icn">
+                                play_circle
+                              </span>
                             </div>
-                        )
-                    }
+                            <div className="vd-title">{vd.title}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="mb40">No Videos Found</div>
+                  )}
+
+                  {/* Video Player Modal */}
+                  {vwVideo && (
+                    <div className="video-modal">
+                      <div className="video-container">
+                        <iframe
+                          width="560"
+                          height="315"
+                          src={`https://www.youtube.com/embed/${vwVideo}`}
+                          title="YouTube video player"
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                        <button
+                          className="close-btn"
+                          onClick={() => setVwVideo(false)} // Close the video player
+                        >
+                            <span className="material-symbols-outlined empty-icn">
+                            close
+                            </span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </>
             )
