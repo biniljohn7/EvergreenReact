@@ -23,6 +23,7 @@ import CancelPayment from "../components/payment/CancelPayment";
 // import Donate from "../components/donate/Donate";
 import AccountVerification from "../components/verification/AccountVerification"; // Import the component
 import Transaction from "../components/txn/Transaction";
+import Search from "../components/website-cnt-srh/Search";
 import { store } from "../redux/store";
 
 function Routes() {
@@ -188,6 +189,16 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             <Transaction {...props} />
+          </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
+        path="/search/:key"
+        render={(props) => (
+          <PageContainer>
+            <Search {...props} />
           </PageContainer>
         )}
       />
