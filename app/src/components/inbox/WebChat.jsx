@@ -13,7 +13,7 @@ import {
   imgSendApi,
   recentChatsApi,
   chatDeleteApi,
-  msgDeleteApi
+  msgDeleteApi,
 } from "../../api/inboxAPI";
 import {
   Dropdown,
@@ -108,10 +108,10 @@ const WebChat = (props) => {
       setLoading(true);
       msgLoadApi({
         id: selectedUser.memberId,
-        pgn: 0
+        pgn: 0,
       })
         .then((res) => {
-          if (res.status === 'ok') {
+          if (res.status === "ok") {
             setLoading(false);
             setMessageArray(res.data.messages);
           } else {
@@ -125,24 +125,24 @@ const WebChat = (props) => {
   }, [selectedUser]);
 
   const showErr = (err) => {
-    console.error(err)
+    console.error(err);
     if (err.response) {
       if (err.response.status === 401) {
-        props.logout()
-        ToastsStore.error('Session Expire! Please login again.')
-        setTimeout(() => props.history.replace('/signin'), 800)
+        props.logout();
+        ToastsStore.error("Session Expire! Please login again.");
+        setTimeout(() => props.history.replace("/signin"), 800);
       } else {
-        setLoading(false)
-        ToastsStore.error('Something went wrong!')
+        setLoading(false);
+        ToastsStore.error("Something went wrong!");
       }
     } else if (err.request) {
-      setLoading(false)
-      ToastsStore.error('Unable to connect to server!')
+      setLoading(false);
+      ToastsStore.error("Unable to connect to server!");
     } else {
-      setLoading(false)
-      ToastsStore.error('Something went wrong!')
+      setLoading(false);
+      ToastsStore.error("Something went wrong!");
     }
-  }
+  };
 
   const getRecentChat = (body) => {
     setLoading(true);
@@ -161,9 +161,11 @@ const WebChat = (props) => {
     setLoader(true);
     chatDeleteApi(deleteChatId)
       .then((res) => {
-        if (res.status === 'ok') {
+        if (res.status === "ok") {
           setLoader(false);
-          setRecentChat(recentChatArray.filter(chat => chat.memberId !== deleteChatId));
+          setRecentChat(
+            recentChatArray.filter((chat) => chat.memberId !== deleteChatId)
+          );
           if (selectedUser.memberId === deleteChatId) {
             setSelectedUser(null);
           }
@@ -191,11 +193,15 @@ const WebChat = (props) => {
       setLoader(true);
       msgDeleteApi({
         partner: selectedUser.memberId,
-        id: deleteArray
+        id: deleteArray,
       })
         .then((res) => {
-          if (res.status === 'ok') {
-            setMessageArray(messageArray.filter(message => !deleteArray.includes(message.id)));
+          if (res.status === "ok") {
+            setMessageArray(
+              messageArray.filter(
+                (message) => !deleteArray.includes(message.id)
+              )
+            );
           } else {
             this.error({ message: res.message });
           }
@@ -216,10 +222,10 @@ const WebChat = (props) => {
     setLoader(true);
     txtSendApi({
       message: message,
-      recipient: selectedUser.memberId
+      recipient: selectedUser.memberId,
     })
       .then((res) => {
-        if (res.status === 'ok') {
+        if (res.status === "ok") {
           msgArr = messageArray;
           msgArr.push(res.data);
           setMessageArray(msgArr);
@@ -235,19 +241,17 @@ const WebChat = (props) => {
   };
 
   const uploadImage = (e) => {
-    var
-      img,
-      msgArr;
+    var img, msgArr;
     if (e.target.files && e.target.files[0]) {
       img = e.target.files[0];
-      if ((/\.(jpe*g|png|gif)$/).test(img.name)) {
+      if (/\.(jpe*g|png|gif)$/.test(img.name)) {
         setLoader(true);
         const formData = new FormData();
         formData.append("recipient", selectedUser.memberId);
         formData.append("image", img);
         imgSendApi(formData)
           .then((res) => {
-            if (res.status === 'ok') {
+            if (res.status === "ok") {
               msgArr = messageArray;
               msgArr.push(res.data);
               setMessageArray(msgArr);
@@ -315,16 +319,22 @@ const WebChat = (props) => {
                           : chat.lastMessage.toString().substr(0, 20)}
                       </div>
                     </div>
-                    {chat.type=='group'?'':(<div className="bin">
-                      <i
-                        className="material-symbols-outlined"
-                        aria-hidden="true"
-                        onClick={(e) => {
-                          deleteChatId = chat.memberId;
-                          setOpen(!open);
-                        }}
-                      >delete</i>
-                    </div>)}
+                    {chat.type == "group" ? (
+                      ""
+                    ) : (
+                      <div className="bin">
+                        <i
+                          className="material-symbols-outlined"
+                          aria-hidden="true"
+                          onClick={(e) => {
+                            deleteChatId = chat.memberId;
+                            setOpen(!open);
+                          }}
+                        >
+                          delete
+                        </i>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -358,61 +368,73 @@ const WebChat = (props) => {
                 >
                   {selectedUser.fullName}
                 </label>
-                <div className="option d-flex align-items-baseline">
-                  <i
-                    className={
-                      "material-symbols-outlined mr-10" +
-                      (isDeleteOn ? " visible " : " invisible ")
-                    }
-                    aria-hidden="true"
-                    onClick={(e) => {
-                      setDelete(false);
-                      setArray([]);
-                      setDropdownOpen(false);
-                    }}
-                  >close_small</i>
-                  <i
-                    className={
-                      "material-symbols-outlined mr-10" +
-                      (isDeleteOn && deleteArray.length > 0
-                        ? " visible "
-                        : " invisible ")
-                    }
-                    aria-hidden="true"
-                    onClick={(e) => setDeleteMessage(!deleteMessage)}
-                  >delete</i>
-
-                  <div>
-                    <Dropdown
-                      isOpen={dropdownOpen}
-                      toggle={() => setDropdownOpen((prevState) => !prevState)}
+                {selectedUser.type == "group" ? (
+                  ""
+                ) : (
+                  <div className="option d-flex align-items-baseline">
+                    <i
+                      className={
+                        "material-symbols-outlined mr-10" +
+                        (isDeleteOn ? " visible " : " invisible ")
+                      }
+                      aria-hidden="true"
+                      onClick={(e) => {
+                        setDelete(false);
+                        setArray([]);
+                        setDropdownOpen(false);
+                      }}
                     >
-                      <DropdownToggle className="text-dark bg-white">
-                        <i
-                          className="material-symbols-outlined"
-                          aria-hidden="true"
-                          id="open_menu"
-                        >more_vert</i>
-                      </DropdownToggle>
-                      <DropdownMenu
-                        style={{
-                          right: -50,
-                        }}
+                      close_small
+                    </i>
+                    <i
+                      className={
+                        "material-symbols-outlined mr-10" +
+                        (isDeleteOn && deleteArray.length > 0
+                          ? " visible "
+                          : " invisible ")
+                      }
+                      aria-hidden="true"
+                      onClick={(e) => setDeleteMessage(!deleteMessage)}
+                    >
+                      delete
+                    </i>
+
+                    <div>
+                      <Dropdown
+                        isOpen={dropdownOpen}
+                        toggle={() =>
+                          setDropdownOpen((prevState) => !prevState)
+                        }
                       >
-                        <DropdownItem
-                          className="item"
-                          onClick={() => {
-                            if (!isDeleteOn) {
-                              setDelete(!isDeleteOn);
-                            }
+                        <DropdownToggle className="text-dark bg-white">
+                          <i
+                            className="material-symbols-outlined"
+                            aria-hidden="true"
+                            id="open_menu"
+                          >
+                            more_vert
+                          </i>
+                        </DropdownToggle>
+                        <DropdownMenu
+                          style={{
+                            right: -50,
                           }}
                         >
-                          Delete Messages
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </Dropdown>
+                          <DropdownItem
+                            className="item"
+                            onClick={() => {
+                              if (!isDeleteOn) {
+                                setDelete(!isDeleteOn);
+                              }
+                            }}
+                          >
+                            Delete Messages
+                          </DropdownItem>
+                        </DropdownMenu>
+                      </Dropdown>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Display message */}
@@ -492,56 +514,76 @@ const WebChat = (props) => {
                   {/* {sending && <div className="text-center">Sending...</div>} */}
                 </div>
               </div>
-              <div className="ptb-10 plrp-3 d-flex box border-top align-items-center">
-                <Input
-                  id="message_input"
-                  placeholder="Say something..."
-                  className="mlp-2 mrp-1 message_input"
-                  value={message}
-                  // type="textarea"
-                  onChange={(e) => setMessage(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter" && message && message.length > 0) {
-                      sendMessage();
-                    }
-                  }}
-                />
+              {selectedUser.type == "group" ? (
+                selectedUser.gpAdmin ? (
+                  <button
+                    className="btn"
+                    onClick={(e) => {
+                      setMessage("");
+                      setMessageArray([]);
+                      setArray([]);
+                      setDelete(false);
+                      setDropdownOpen(false);
+                      setSelectedUser(selectedUser.gpAdmin);
+                    }}
+                  >
+                    Message to group admin
+                  </button>
+                ) : (
+                  ""
+                )
+              ) : (
+                <div className="ptb-10 plrp-3 d-flex box border-top align-items-center">
+                  <Input
+                    id="message_input"
+                    placeholder="Say something..."
+                    className="mlp-2 mrp-1 message_input"
+                    value={message}
+                    // type="textarea"
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter" && message && message.length > 0) {
+                        sendMessage();
+                      }
+                    }}
+                  />
 
-                <div className="image-upload mrp-3">
-                  <label htmlFor="file-input">
-                    <img
-                      alt="send_image"
-                      height="20px"
-                      width="20px"
-                      src={Camera}
-                      className="cursor-pointer"
+                  <div className="image-upload mrp-3">
+                    <label htmlFor="file-input">
+                      <img
+                        alt="send_image"
+                        height="20px"
+                        width="20px"
+                        src={Camera}
+                        className="cursor-pointer"
+                      />
+                    </label>
+
+                    <input
+                      id="file-input"
+                      type="file"
+                      accept="image/*"
+                      multiple={false}
+                      onChange={uploadImage}
                     />
-                  </label>
+                  </div>
 
                   <input
-                    id="file-input"
-                    type="file"
-                    accept="image/*"
-                    multiple={false}
-                    onChange={uploadImage}
-                  />
+                    type="image"
+                    src={Send}
+                    alt="send"
+                    width="20px"
+                    height="20px"
+                    id="send_message"
+                    onClick={(e) => {
+                      if (message && message.length > 0) {
+                        sendMessage();
+                      }
+                    }}
+                    disabled={loader || !(message && message.length > 0)}
+                  ></input>
                 </div>
-
-                <input
-                  type="image"
-                  src={Send}
-                  alt="send"
-                  width="20px"
-                  height="20px"
-                  id="send_message"
-                  onClick={(e) => {
-                    if (message && message.length > 0) {
-                      sendMessage();
-                    }
-                  }}
-                  disabled={loader || !(message && message.length > 0)}
-                ></input>
-              </div>
+              )}
             </div>
             {deleteMessage && (
               <div>
