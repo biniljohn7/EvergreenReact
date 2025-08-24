@@ -390,13 +390,19 @@ const MobileChat = (props) => {
                                 {msg.text && msg.text.trim() ? (
                                   <div className="">{msg.text}</div>
                                 ) : (
-                                  <img
-                                    src={msg.msgImg}
-                                    height="75px"
-                                    width="100px"
-                                    className="object-fit-contain"
-                                    alt="sent_image"
-                                  />
+                                  <a
+                                    href={msg.msgImg.image}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    <img
+                                      src={msg.msgImg.thumb}
+                                      height="75px"
+                                      width="100px"
+                                      className="object-fit-contain"
+                                      alt="sent_image"
+                                    />
+                                  </a>
                                 )}
                                 <div className="text-right fs-12 text-dark">
                                   {/* {moment(msg.timestamp.toDate()).format(
