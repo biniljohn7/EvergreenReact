@@ -792,10 +792,10 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.role && profile.profile.role.length > 0 ? (
-                <div className="col-12 pt-2">
+                <div className="col-12 pt-20">
                   <div className="form-group">
                     <h3 className="text-bold">
-                      Elected/Appointed Officer Position
+                      Leadership Role I Served
                     </h3>
                   </div>
                 </div>
@@ -807,9 +807,9 @@ const Profile = (props) => {
               {profile.profile.role && profile.profile.role.length > 0 ? (
                 <div className="col-12 pt-2">
                   <div className="form-group">
-                    <label className="fs-18 medium-text">
+                    {/* <label className="fs-18 medium-text">
                       Appointed NCNW Officer Positions&nbsp;:&nbsp;
-                    </label>
+                    </label> */}
                     <ul>
                       {profile.profile.role.map((rl, index) => (
                         <React.Fragment key={index}>
@@ -824,7 +824,7 @@ const Profile = (props) => {
                 ""
               )}
             </div>
-            <div className="row prf-row">
+            {/* <div className="row prf-row">
               <div className="col-12 pt-2">
                 <div className="form-group">
                   <h3 className="text-bold">Others</h3>
@@ -844,7 +844,6 @@ const Profile = (props) => {
                 </div>
               )}
 
-              {/* pending */}
               <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
@@ -855,7 +854,6 @@ const Profile = (props) => {
               </div>
             </div>
             <div className="row prf-row">
-              {/* pending */}
               <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
@@ -864,8 +862,6 @@ const Profile = (props) => {
                   {Pix.dollar(2700, 1)}
                 </div>
               </div>
-
-              {/* pending */}
               <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
@@ -876,7 +872,6 @@ const Profile = (props) => {
               </div>
             </div>
             <div className="row prf-row">
-              {/* pending */}
               <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
@@ -885,8 +880,6 @@ const Profile = (props) => {
                   {profile.profile.yearOfInitiation ?? "-"}
                 </div>
               </div>
-
-              {/* pending */}
               <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
@@ -895,8 +888,8 @@ const Profile = (props) => {
                   Sample Circle
                 </div>
               </div>
-            </div>
-          </>
+            </div>*/}
+          </> 
         ) : (
           <React.Fragment>
             <LabelWithValue
