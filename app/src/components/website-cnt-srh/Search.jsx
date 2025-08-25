@@ -70,7 +70,7 @@ const Search = (props) => {
                                     </div>
                                 </div>
                                 <div className="itm-ttl">
-                                    <span>
+                                    <span onClick={() => props.history.push('/' + cnt.url)}>
                                         {cnt.title}
                                     </span>
                                 </div>
