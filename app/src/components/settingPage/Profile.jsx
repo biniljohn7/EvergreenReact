@@ -662,7 +662,9 @@ const Profile = (props) => {
                     <label className="fs-18 medium-text">
                       Status&nbsp;:&nbsp;
                     </label>
+                    <span class={`sts ${profile.profile.mmbrshpStatus}`}>
                     {profile.profile.mmbrshpStatus ?? "-"}
+                    </span>
                   </div>
                 </div>
               ) : (

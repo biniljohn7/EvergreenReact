@@ -251,6 +251,14 @@ const CommonWrapper = styled.div`
     color: #fff;
   }
 
+    .row.prf-row .sts.Active {
+        color: #007809;
+    }
+
+    .row.prf-row .sts.Inactive {
+        color: #de0021;
+    }
+
   @media only screen and (max-width: 1024px) {
       .row.prf-row {
         flex-direction: column;
