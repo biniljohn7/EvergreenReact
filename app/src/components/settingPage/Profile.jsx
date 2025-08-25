@@ -28,15 +28,15 @@ const Profile = (props) => {
     container = document.getElementById("membershipCard");
 
     html2canvas(container).then(function (canvas) {
-        let link = document.createElement("a");
-        document.body.appendChild(link);
-        link.download = "Membership_card.png";
-        link.href = canvas.toDataURL("image/png");
-        link.target = "_blank";
-        link.click();
-        link.parentNode.removeChild(link);
+      let link = document.createElement("a");
+      document.body.appendChild(link);
+      link.download = "Membership_card.png";
+      link.href = canvas.toDataURL("image/png");
+      link.target = "_blank";
+      link.click();
+      link.parentNode.removeChild(link);
     });
-  }
+  };
 
   document.title = "Profile - " + window.seoTagLine;
 
@@ -663,7 +663,7 @@ const Profile = (props) => {
                       Status&nbsp;:&nbsp;
                     </label>
                     <span class={`sts ${profile.profile.mmbrshpStatus}`}>
-                    {profile.profile.mmbrshpStatus ?? "-"}
+                      {profile.profile.mmbrshpStatus ?? "-"}
                     </span>
                   </div>
                 </div>
@@ -796,9 +796,7 @@ const Profile = (props) => {
               {profile.profile.role && profile.profile.role.length > 0 ? (
                 <div className="col-12 pt-20">
                   <div className="form-group">
-                    <h3 className="text-bold">
-                      Leadership Role I Served
-                    </h3>
+                    <h3 className="text-bold">Leadership Role I Served</h3>
                   </div>
                 </div>
               ) : (
@@ -826,7 +824,7 @@ const Profile = (props) => {
                 ""
               )}
             </div>
-            {/* <div className="row prf-row">
+            <div className="row prf-row">
               <div className="col-12 pt-2">
                 <div className="form-group">
                   <h3 className="text-bold">Others</h3>
@@ -834,7 +832,7 @@ const Profile = (props) => {
               </div>
             </div>
             <div className="row prf-row">
-              {profile.profile.deceased=='Y' && (
+              {profile.profile.deceased == "Y" && (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <Checkbox
@@ -846,52 +844,84 @@ const Profile = (props) => {
                 </div>
               )}
 
-              <div className="col-6 pt-2">
+              {/* <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
                     Total Sum of Legacy Payment&nbsp;:&nbsp;
                   </label>
                   {Pix.dollar(2700, 1)}
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="row prf-row">
               <div className="col-6 pt-2">
                 <div className="form-group">
-                  <label className="fs-18 medium-text">
-                    Total Sum of Legacy Life Payment&nbsp;:&nbsp;
-                  </label>
-                  {Pix.dollar(2700, 1)}
+                  <label className="fs-18 medium-text">Legacy Membership</label>
+                  {profile.profile.legacyTracker ? (
+                    <>
+                      <div className="pt-2">
+                        <span className="font-medium">Payment Status:</span>{" "}
+                        {profile.profile.legacyTracker.payStatus}
+                      </div>
+                      <div className="pt-2">
+                        <span className="font-medium">Paid:</span> $
+                        {profile.profile.legacyTracker.paid}
+                      </div>
+                      <div className="pt-2">
+                        <span className="font-medium">Pin Status:</span>{" "}
+                        {profile.profile.legacyTracker.pinStatus ??
+                          "Not Eligible"}
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-gray-500">Not enrolled</p>
+                  )}
                 </div>
               </div>
-              <div className="col-6 pt-2">
+              {/* <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
                     Pin Shipping Indicator&nbsp;:&nbsp;
                   </label>
                   Shipped
                 </div>
-              </div>
+              </div> */}
             </div>
             <div className="row prf-row">
               <div className="col-6 pt-2">
                 <div className="form-group">
-                  <label className="fs-18 medium-text">
-                    Pin Shipping Date&nbsp;:&nbsp;
-                  </label>
-                  {profile.profile.yearOfInitiation ?? "-"}
+                  <label className="fs-18 medium-text">Life Membership</label>
+                  {profile.profile.lifeTracker ? (
+                    <>
+                      <div className="pt-2">
+                        <span className="font-medium">Payment Status:</span>{" "}
+                        {profile.profile.lifeTracker.payStatus}
+                      </div>
+                      <div className="pt-2">
+                        <span className="font-medium">Paid:</span> $
+                        {profile.profile.lifeTracker.paid}
+                      </div>
+                      <div className="pt-2">
+                        <span className="font-medium">Pin Status:</span>{" "}
+                        {profile.profile.lifeTracker.pinStatus ??
+                          "Not Eligible"}
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-gray-500">Not enrolled</p>
+                  )}
                 </div>
               </div>
-              <div className="col-6 pt-2">
+              {/* <div className="col-6 pt-2">
                 <div className="form-group">
                   <label className="fs-18 medium-text">
                     President Circle&nbsp;:&nbsp;
                   </label>
                   Sample Circle
                 </div>
-              </div>
-            </div>*/}
-          </> 
+              </div> */}
+            </div>
+          </>
         ) : (
           <React.Fragment>
             <LabelWithValue
