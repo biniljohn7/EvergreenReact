@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ToastsStore } from "react-toasts";
 import { Spinner } from "reactstrap";
-import {webSrh} from "../../api/commonAPI";
+import { webSrh } from "../../api/commonAPI";
 import Wrapper from "./wrapper.style";
 import { Link } from "react-router-dom";
 import { WEBSITE_URL } from "../../helper/constant";
@@ -15,32 +15,32 @@ const Search = (props) => {
 
     useEffect(() => {
         const cntSrh = async (payload) => {
-        try {
-            const res = await webSrh(payload);
-            if (res.success === 1) {
-                setSrhCnt(res.data.suggestions || []);
-            } else {
-            ToastsStore.error(res.message);
+            try {
+                const res = await webSrh(payload);
+                if (res.success === 1) {
+                    setSrhCnt(res.data.suggestions || []);
+                } else {
+                    ToastsStore.error(res.message);
+                }
+            } catch (err) {
+                console.error(err);
+                ToastsStore.error("Something went wrong!");
+            } finally {
+                setLoading(false);
             }
-        } catch (err) {
-            console.error(err);
-            ToastsStore.error("Something went wrong!");
-        } finally {
-            setLoading(false);
-        }
         };
 
         if (key) {
-        cntSrh({key: key});
-        setSrhKey(key);
+            cntSrh({ key: key });
+            setSrhKey(key);
         }
     }, [key]);
 
     document.title = "Search - " + window.seoTagLine;
-    
+
     return loading ? (
         <div className="custom-spinner">
-        <Spinner color="danger" />
+            <Spinner color="danger" />
         </div>
     ) : (
         <Wrapper>
@@ -57,15 +57,24 @@ const Search = (props) => {
                         Search result for "{key}"
                     </div>
                     <div className="srh-items">
-                        {srhCnt.map((cnt, key) => (
-                            <div class="srh-itm">
-                                <div className="itm-hed" onClick={() => props.history.push('/' + cnt.url)}>
+                        {srhCnt.map((cnt, key) => {
+                            function click() {
+                                props.history.push(
+                                    `${'/advocacy/Issues/' + cnt.title.replaceAll('/', ' ')}`,
+                                    {
+                                        advocacyId: 3,
+                                        advocacyType: 'Issues',
+                                    },
+                                )
+                            }
+                            return <div class="srh-itm" >
+                                <div className="itm-hed" onClick={click}>
                                     <div className="itm-icn">
                                         <span class="material-symbols-outlined icn">
                                             link
                                         </span>
                                     </div>
-                                    <div className="itm-link" onClick={() => props.history.push('/' + cnt.url)}>
+                                    <div className="itm-link" onClick={click}>
                                         {WEBSITE_URL + cnt.url}
                                     </div>
                                 </div>
@@ -77,12 +86,12 @@ const Search = (props) => {
                                 <div className="itm-cnt">
                                     {cnt.description}
                                 </div>
-                            </div>
-                        ))}
+                            </div>;
+                        })}
                     </div>
                 </div>
             </div>
-        </Wrapper>
+        </Wrapper >
     );
 };
 
