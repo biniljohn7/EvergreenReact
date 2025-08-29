@@ -50,6 +50,20 @@ const CommonWrapper = styled.div`
     flex: 50%;
   }
 
+    .flex-item .admin-panel-link {
+        position: relative;
+        color: #2552ff;
+        cursor: pointer;
+        text-decoration: none;
+        text-decoration-color: transparent; /* start invisible */
+        transition: text-decoration-color .3s ease-in-out;
+    }
+
+    .flex-item .admin-panel-link:hover {
+        text-decoration: underline;
+        text-decoration-color: #2552ff; /* animate in */
+    }
+
   .camera {
     top: 29px;
     right: 5px;

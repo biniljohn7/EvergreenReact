@@ -248,6 +248,17 @@ const Setting = (props) => {
 												profile.profile.lastName}
 										</div>
 										<div className="fs-16 ptb-3">Member ID : {(profile.profile.memberCode)}</div>
+                                        {profile.profile.adminPanel && (
+                                            <div className="fs-14 ptb-3">
+                                                <a 
+                                                    href={profile.profile.adminPanelLink} 
+                                                    className="admin-panel-link" 
+                                                    target="_blank"
+                                                >
+                                                    Sign in to Admin Panel
+                                                </a>
+                                            </div>
+                                        )}
 									</div>
 								</div>
 								<div className="mt-30 position-relative">

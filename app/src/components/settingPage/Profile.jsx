@@ -16,7 +16,7 @@ const Profile = (props) => {
   const accessTkn = store.getState().auth.accessToken;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
-  console.log(profile);
+//   console.log(profile);
 
   const { userRoles } = store.getState().auth;
   const roleLabels = PROFILE_OPTIONS.memberRole
