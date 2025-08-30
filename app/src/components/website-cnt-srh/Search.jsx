@@ -68,13 +68,13 @@ const Search = (props) => {
                                 )
                             }
                             return <div class="srh-itm" >
-                                <div className="itm-hed" onClick={click}>
+                                <div className="itm-hed" onClick={() => props.history.push('/' + cnt.url)}>
                                     <div className="itm-icn">
                                         <span class="material-symbols-outlined icn">
                                             link
                                         </span>
                                     </div>
-                                    <div className="itm-link" onClick={click}>
+                                    <div className="itm-link" onClick={() => props.history.push('/' + cnt.url)}>
                                         {WEBSITE_URL + cnt.url}
                                     </div>
                                 </div>
