@@ -1,5 +1,11 @@
+import Bg from '../../assets/images/new-page-resources.png'
+
 import styled from "styled-components";
 const Wrapper = styled.div`
+  .due-box .due-item.pay-btn .due-head {
+    background-image: url(${Bg});
+  }
+
   .flex-container {
     display: flex;
     flex-direction: column;

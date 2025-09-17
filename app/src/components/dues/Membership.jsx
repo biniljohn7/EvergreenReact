@@ -40,7 +40,7 @@ function Membership(props) {
   const [isMbrOpen, setMbrOpen] = useState(false);
   const [openOthPurList, setOpenOthPurList] = useState(false);
   const [isGift, setIsGift] = useState(false);
-  const [unique, setUnique] = useState([]);
+//   const [unique, setUnique] = useState([]);
   const [content, setContent] = useState([]);
   const [ErrorList, setErrorList] = useState({});
   const [membData, setMembData] = useState({
@@ -72,9 +72,9 @@ function Membership(props) {
   let Tst = Toast();
 
   useEffect(() => {
-    if (membershipStatus == "active") {
-      setUnique([memberId]);
-    }
+    // if (membershipStatus == "active") {
+    //   setUnique([memberId]);
+    // }
     getMembershipPlans()
       .then((res) => {
         setDropdown(res.data.plans);
@@ -464,7 +464,7 @@ function Membership(props) {
                     setOpenOthPurList(true);
                   }}
                 >
-                  OTHER ITEMS
+                  Sustaining Sponsorship
                 </button>
               </div>
               <div className="order-summery">
@@ -823,11 +823,12 @@ function Membership(props) {
                             id="membshipFor"
                             placeholder="Select the option"
                             options={
-                              unique.includes(lgMbr)
-                                ? MEMBERSHIP_FOR.filter(
-                                    (op) => op.value !== "myself"
-                                  )
-                                : MEMBERSHIP_FOR
+                            //   unique.includes(lgMbr)
+                            //     ? MEMBERSHIP_FOR.filter(
+                            //         (op) => op.value !== "myself"
+                            //       )
+                            //     : MEMBERSHIP_FOR
+                                MEMBERSHIP_FOR
                             }
                             value={
                               MEMBERSHIP_FOR.find(

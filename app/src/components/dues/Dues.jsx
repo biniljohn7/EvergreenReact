@@ -129,44 +129,54 @@ const Dues = (props) => {
             <div className="due-box">
               <div className="container">
                 <div className="due-left">
-                  <div className="due-item">
-                    <div className="due-head">MEMBERSHIP FEE DETAILS</div>
-                    <div className="due-content">
-                      {(function () {
-                        if (data) {
-                          return (
-                            <table cellPadding={7} style={{ width: "100%" }}>
-                              <tbody>
-                                {data.map((group, groupIndex) => {
-                                  const validItems =
-                                    group?.filter(
-                                      (item) => item && item.label
-                                    ) || [];
-
-                                  return validItems.map((item, itemIndex) => (
-                                    <tr
-                                      key={`${groupIndex}-${itemIndex}`}
-                                      style={
-                                        groupIndex > 0 && itemIndex === 0
-                                          ? { borderTop: "1px solid #ccc" }
-                                          : {}
-                                      }
-                                    >
-                                      <td className="bold-600">{item.label}</td>
-                                      <td className="text-right">
-                                        {item.amount}
-                                      </td>
-                                    </tr>
-                                  ));
-                                })}
-                              </tbody>
-                            </table>
-                          );
-                        }
-                      })()}
-                      <ExpiredMembership />
+                    <div className="due-item pay-btn">
+                        <div 
+                            className="due-head"
+                            onClick={() => {
+                                props.history.push("/dues/membership");
+                            }}
+                        >
+                            {membershipStatus == "active" ? "PAY MEMBERSHIP FEE" : "CHOOSE MEMBERSHIP"}{" "}
+                        </div>
                     </div>
-                  </div>
+                    <div className="due-item">
+                        <div className="due-head">MEMBERSHIP FEE DETAILS</div>
+                        <div className="due-content">
+                        {(function () {
+                            if (data) {
+                            return (
+                                <table cellPadding={7} style={{ width: "100%" }}>
+                                <tbody>
+                                    {data.map((group, groupIndex) => {
+                                    const validItems =
+                                        group?.filter(
+                                        (item) => item && item.label
+                                        ) || [];
+
+                                    return validItems.map((item, itemIndex) => (
+                                        <tr
+                                        key={`${groupIndex}-${itemIndex}`}
+                                        style={
+                                            groupIndex > 0 && itemIndex === 0
+                                            ? { borderTop: "1px solid #ccc" }
+                                            : {}
+                                        }
+                                        >
+                                        <td className="bold-600">{item.label}</td>
+                                        <td className="text-right">
+                                            {item.amount}
+                                        </td>
+                                        </tr>
+                                    ));
+                                    })}
+                                </tbody>
+                                </table>
+                            );
+                            }
+                        })()}
+                        <ExpiredMembership />
+                        </div>
+                    </div>
 
                   <div className="text-center">
                     <img src={Visa} alt="Visa" className="card-icon mr-3" />
@@ -192,7 +202,7 @@ const Dues = (props) => {
                     <img src={Echeck} alt="eCheck" className="card-icon" />
                   </div>
 
-                  <div className="input-btn">
+                  {/* <div className="input-btn">
                     <button
                       className="btn"
                       onClick={() => {
@@ -201,7 +211,7 @@ const Dues = (props) => {
                     >
                         {membershipStatus == "active" ? "Pay Membership Fee" : "CHOOSE MEMBERSHIP"}{" "}
                     </button>
-                  </div>
+                  </div> */}
 
                   {data && data.isRecurring ? (
                     <div className="text-center mt-15">

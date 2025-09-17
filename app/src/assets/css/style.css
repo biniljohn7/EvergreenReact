@@ -847,6 +847,11 @@ a:focus {
     padding-bottom: 30px;
 }
 
+.due-box .due-item.pay-btn {
+    border: none;
+    padding-bottom: 0px;
+}
+
 .due-box .due-item .due-head {
     font-size: 30px;
     color: #fff;
@@ -857,6 +862,11 @@ a:focus {
     line-height: 34px;
     margin-bottom: 15px;
     text-align: center;
+}
+
+.due-box .due-item.pay-btn .due-head {
+    margin-bottom: 0px;
+    cursor: pointer;
 }
 
 .due-box .due-item .due-content {
