@@ -116,12 +116,12 @@ const OtpVerification = (props) => {
                                 X
                             </div>
                             <h4 className="flex-container text-bold mt-30 mb-10 flex-item">
-                                Verify OTP
+                                One Time Password Code
                             </h4>
                             <div className="justify-content-center row mtb-20">
                                 <div className="mb-20 col-12 col-sm-12 col-md-9 col-lg-10 col-xl-10">
                                     <Input
-                                        label="OTP"
+                                        label="Please record the one-time password send to your email."
                                         type="text"
                                         placeholder="OTP"
                                         id="otp"

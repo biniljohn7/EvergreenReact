@@ -7,6 +7,7 @@ import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
 import Toast from "../../UI/Toast/Toast";
+import MultiSelect from "react-multi-select-component";
 import { PROFILE_OPTIONS } from "../../helper/constant";
 
 const WIDTH_CLASS = window.innerWidth >= 1024 ? "wp-80" : "wp-100";
@@ -30,7 +31,7 @@ function SelectMember(props) {
     zipcode: "",
     phone: "",
     section: "",
-    affilation: "",
+    affilation: [],
   });
 
   let Spn = Spinner();
@@ -98,7 +99,7 @@ function SelectMember(props) {
     }
   }, []);
   useEffect(() => {
-    const relevant = states.filter((st) => st.nation === formValues.country);
+    const relevant = states.filter((st) => st.nation == formValues.country);
     setFilteredStates(relevant);
   }, [formValues.country]);
 
@@ -224,7 +225,6 @@ function SelectMember(props) {
     if (!el("state").value.trim()) {
       sErrs["state"] = "This field is required";
     }
-    console.log(el("city").value.trim());
     if (!el("city").value.trim()) {
       sErrs["city"] = "This field is required";
     }
@@ -237,7 +237,7 @@ function SelectMember(props) {
     if (!formValues.section) {
       sErrs["section"] = "This field is required";
     }
-    if (!formValues.affilation) {
+    if (formValues.affilation.length < 1) {
       sErrs["affilation"] = "This field is required";
     }
 
@@ -259,7 +259,7 @@ function SelectMember(props) {
         zipcode: formValues.zipcode,
         phone: formValues.phone,
         section: formValues.section,
-        affilation: formValues.affilation,
+        affilation: formValues.affilation ? formValues.affilation.map((aff) => aff.value) : [],
       };
 
       duesNewMember(data)
@@ -508,17 +508,26 @@ function SelectMember(props) {
                   <Error field="section" />
                 </div>
                 <div className="mb-15 member">
-                  <Select
-                    label="Affiliates"
-                    name="affilation"
-                    placeholder="Choose Affiliate"
-                    id="affilation"
-                    fontSize={"fs-16 text-dark"}
-                    options={affiliationList}
-                    onChange={storeData}
-                    value={formValues.affilation}
-                  />
-                  <Error field="affilation" />
+                    <label className="fs-16 text-dark">
+                        Affiliates
+                    </label>
+                    <MultiSelect
+                        id="affilation"
+                        options={affiliationList.map((el) => {
+                            return {
+                                label: el.label,
+                                value: el.value,
+                            };
+                        })}
+                        value={formValues.affilation.length > 0 ? formValues.affilation : []}
+                        onChange={(value) => {
+                            setFormValues((prev) => ({
+                                ...prev,
+                                affilation: value,
+                            }));
+                        }}
+                    />
+                    <Error field="affilation" />
                 </div>
                 <div className="addr-label">Shipping Address</div>
                 <div className="mb-15 country">
@@ -558,6 +567,7 @@ function SelectMember(props) {
                     type="text"
                     onChange={storeData}
                   />
+                  <Error field="address" />
                 </div>
                 <div className="mb-15">
                   <Input
@@ -570,6 +580,7 @@ function SelectMember(props) {
                     type="text"
                     onChange={storeData}
                   />
+                  <Error field="city" />
                 </div>
                 <div className="mb-15">
                   <Input

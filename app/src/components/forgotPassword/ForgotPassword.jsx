@@ -140,7 +140,7 @@ const ForgotPassword = (props) => {
                             <div className="flex-container">
                                 <Button
                                     className="button mt-20"
-                                    name="GET OTP"
+                                    name="Send Verification Code"
                                     clicked={handleForgotPwd}
                                     disabled={isLoading}
                                 />

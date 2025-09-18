@@ -859,10 +859,10 @@ const Profile = (props) => {
                   <label className="fs-18 medium-text">Legacy Membership</label>
                   {profile.profile.legacyTracker ? (
                     <>
-                      <div className="pt-2">
+                      {/* <div className="pt-2">
                         <span className="font-medium">Payment Status:</span>{" "}
                         {profile.profile.legacyTracker.payStatus}
-                      </div>
+                      </div> */}
                       <div className="pt-2">
                         <span className="font-medium">Paid:</span> $
                         {profile.profile.legacyTracker.paid}

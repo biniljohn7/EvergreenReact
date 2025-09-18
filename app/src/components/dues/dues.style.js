@@ -2,6 +2,18 @@ import Bg from '../../assets/images/new-page-resources.png'
 
 import styled from "styled-components";
 const Wrapper = styled.div`
+  .go2139093995 {
+    --rmsc-main:#4285f4;
+    --rmsc-hover:#f1f3f5;
+    --rmsc-selected:#e2e6ea;
+    --rmsc-border:#ccc;
+    --rmsc-gray:#aaa;
+    --rmsc-bg:#fff;
+    --rmsc-p:10px;
+    --rmsc-radius:4px;
+    --rmsc-h:38px;
+    }
+    
   .due-box .due-item.pay-btn .due-head {
     background-image: url(${Bg});
   }
