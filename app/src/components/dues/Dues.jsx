@@ -245,77 +245,61 @@ const Dues = (props) => {
                   <div className="due-item">
                     <div className="due-head">PAYMENT HISTORY </div>
                     <div className="due-content">
-                      {(function () {                        
-                        if (
-                            historyData && 
-                            historyData.length > 0 &&
-                            Array.isArray(historyData)
-                        ) {
-                          return historyData.map(function (el, index) {
-                            return (
-                              <div className="mb15 hist-item" key={index}>
-                                <div className={`info ${el.benefitTo ? 'gift' : ''}`}>
-                                  <div className="bold-600 text-12 mb5 inf-top">
-                                    <span>
-                                        {el.chargesTitle} 
-                                    </span>
-                                    {el.benefitTo 
-                                    ? <span className="paid-by">
-                                        (Paid by {el.benefitTo.firstName + ' ' + el.benefitTo.lastName})
-                                    </span> 
-                                    : ''}
-                                  </div>
-                                  <div className="inf-btm">
-                                    <div className={`inf-rg ${el.benefitTo ? 'gift' : ''}`}>
+                      {(function () {
+                        if (historyData && Object.keys(historyData).length > 0) {
+                            return Object.values(historyData).map(function (el, index) {
+                                return (
+                                <div className="mb15 hist-item" key={index}>
+                                    <div className={`info ${el.benefitTo ? 'gift' : ''}`}>
+                                    <div className="bold-600 text-12 mb5 inf-top">
+                                        <span>{el.chargesTitle}</span>
+                                        {el.benefitTo ? (
+                                        <span className="paid-by">
+                                            (Paid by {el.benefitTo.firstName + ' ' + el.benefitTo.lastName})
+                                        </span>
+                                        ) : (
+                                        ''
+                                        )}
+                                    </div>
+                                    <div className="inf-btm">
+                                        <div className={`inf-rg ${el.benefitTo ? 'gift' : ''}`}>
                                         {el.status === 'success' && el.benefitTo && (
                                             <>
                                             <div className="gf-lf">
                                                 {el.benefitTo.avatar ? (
-                                                    <img src={el.benefitTo.avatar} alt=""/>
+                                                <img src={el.benefitTo.avatar} alt="" />
                                                 ) : (
-                                                  <div className="no-img">
-                                                    <span className="material-symbols-outlined icn">
-                                                      person
-                                                    </span>
-                                                  </div>
+                                                <div className="no-img">
+                                                    <span className="material-symbols-outlined icn">person</span>
+                                                </div>
                                                 )}
                                             </div>
                                             <div className="gf-rg">
                                                 <div className="bold">
-                                                    {el.benefitTo.firstName} {el.benefitTo.lastName}
+                                                {el.benefitTo.firstName} {el.benefitTo.lastName}
                                                 </div>
+                                                <div>{el.benefitTo.memberId}</div>
                                                 <div>
-                                                    {el.benefitTo.memberId}
-                                                </div>
-                                                <div>
-                                                    {el.benefitTo.city}, {el.benefitTo.zipcode}
+                                                {el.benefitTo.city}, {el.benefitTo.zipcode}
                                                 </div>
                                             </div>
                                             </>
                                         )}
-                                    </div>
-                                    <div className="inf-lf">
-                                        <div>
-                                            {new Date(el.paidAt).toLocaleDateString(
-                                            "en-US"
-                                            )}
                                         </div>
+                                        <div className="inf-lf">
+                                        <div>{new Date(el.paidAt).toLocaleDateString('en-US')}</div>
                                         {Pix.dollar(el.totalAmount, 1)}
+                                        </div>
                                     </div>
-                                  </div>
-                                </div>
-                                <div className={`status-btn ${el.status} ${el.benefitTo ? 'gift' : ''}`}>
+                                    </div>
+                                    <div className={`status-btn ${el.status} ${el.benefitTo ? 'gift' : ''}`}>
                                     {el.status}
+                                    </div>
                                 </div>
-                              </div>
-                            );
-                          });
+                                );
+                            });
                         } else {
-                          return (
-                            <div className="text-center">
-                              YOU HAVE NO MEMBERSHIP
-                            </div>
-                          );
+                            return <div className="text-center">YOU HAVE NO MEMBERSHIP</div>;
                         }
                       })()}
                     </div>

@@ -30,15 +30,15 @@ export default function WhatYouCanDo() {
 
                     <div className="col-3">
                         <Link to={'/account'} className={'lnk-three'}>
-                            <img src={Dots} alt='' />
-                            <div className="">Profile<br></br> Management</div>
+                            <img src={Man} alt='' />
+                            <div>Membership Profile<br></br> Management</div>
                         </Link>
                     </div>
 
                     <div className="col-3">
                         <Link to={'/dues'} className={'lnk-three'}>
-                            <img src={Man} alt='' />
-                            <div className="">Manage Your<br></br> Membership</div>
+                            <img src={Dots} alt='' />
+                            <div className="">Payment<br></br> Portal</div>
                         </Link>
                     </div>
                 </div>

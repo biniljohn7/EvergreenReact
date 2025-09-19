@@ -334,6 +334,10 @@ const Warpper = styled.div`
     border: 1px solid #5B2166;
     border-radius: 25px;
     padding: 30px;   
+    min-height: 270px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     @media (max-width: 767px) {
       width: calc(50% - 10px);
     } 

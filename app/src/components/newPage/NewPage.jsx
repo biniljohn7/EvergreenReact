@@ -112,7 +112,7 @@ const NewPage = (props) => {
                                         National
                                     </NavLink>
                                 </NavItem>
-                                <NavItem>
+                                {/* <NavItem>
                                     <NavLink
                                         className={
                                             classnames({ active: activeTab === "Regional" }) + " fs-18"
@@ -147,7 +147,7 @@ const NewPage = (props) => {
                                     >
                                         Section
                                     </NavLink>
-                                </NavItem>
+                                </NavItem> */}
                             </Nav>
                         </div>
                     </div>

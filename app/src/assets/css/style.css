@@ -1104,7 +1104,8 @@ a:focus {
     margin-left: 270px;
     background: #fff;
     padding-left: 50px;
-    width: 520px;
+    /* width: 520px; */
+    width: 210px;
 }
 
 .home-tab .nav-tabs .nav-link {

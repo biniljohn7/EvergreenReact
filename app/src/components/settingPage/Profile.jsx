@@ -543,6 +543,22 @@ const Profile = (props) => {
               )}
             </div>
             <div className="row prf-row">
+              {profile.profile.organizationalState.name &&
+              profile.visible.organizationalState ? (
+                <div className="col-6 pt-2">
+                  <div className="form-group">
+                    <label className="fs-18 medium-text">
+                      State Coalition&nbsp;:&nbsp;
+                    </label>
+                    {profile.profile.organizationalState &&
+                    profile.profile.organizationalState.name != ""
+                      ? profile.profile.organizationalState.name
+                      : "-"}
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}{" "}
               {profile.profile.currentChapter.name &&
               profile.visible.currentChapter ? (
                 <div className="col-6 pt-2">
@@ -558,13 +574,15 @@ const Profile = (props) => {
                 </div>
               ) : (
                 ""
-              )}{" "}
+              )}
+            </div>
+            <div className="row prf-row">
               {profile.profile.chapterOfInitiation.name &&
               profile.visible.chapterOfInitiation ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
-                      Section of Initiation&nbsp;:&nbsp;
+                      Section of Origin&nbsp;:&nbsp;
                     </label>
                     {(profile.profile.chapterOfInitiation &&
                       profile.profile.chapterOfInitiation.name) ??
@@ -573,9 +591,7 @@ const Profile = (props) => {
                 </div>
               ) : (
                 ""
-              )}
-            </div>
-            <div className="row prf-row">
+              )}{" "}
               {profile.profile.collegiateSection.name ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
@@ -583,19 +599,6 @@ const Profile = (props) => {
                       Collegiate Section&nbsp;:&nbsp;
                     </label>
                     {profile.profile.collegiateSection.name ?? "-"}
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}{" "}
-              {profile.profile.yearOfInitiation &&
-              profile.visible.yearOfInitiation ? (
-                <div className="col-6 pt-2">
-                  <div className="form-group">
-                    <label className="fs-18 medium-text">
-                      Date of Initiation&nbsp;:&nbsp;
-                    </label>
-                    {profile.profile.yearOfInitiation ?? "-"}
                   </div>
                 </div>
               ) : (
@@ -616,6 +619,19 @@ const Profile = (props) => {
                           return <li key={index}>{aff.name}</li>;
                         })}
                     </ul>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}{" "}
+              {profile.profile.yearOfInitiation &&
+              profile.visible.yearOfInitiation ? (
+                <div className="col-6 pt-2">
+                  <div className="form-group">
+                    <label className="fs-18 medium-text">
+                      First Section Join Date&nbsp;:&nbsp;
+                    </label>
+                    {profile.profile.yearOfInitiation ?? "-"}
                   </div>
                 </div>
               ) : (
@@ -796,7 +812,7 @@ const Profile = (props) => {
               {profile.profile.role && profile.profile.role.length > 0 ? (
                 <div className="col-12 pt-20">
                   <div className="form-group">
-                    <h3 className="text-bold">Leadership Role I Served</h3>
+                    <h3 className="text-bold">Elected/Appointed Officer Positions</h3>
                   </div>
                 </div>
               ) : (
