@@ -9,6 +9,8 @@ import fb from "../../assets/images/facebook.png";
 import lin from "../../assets/images/linkedin.png";
 import insta from "../../assets/images/instagram.png";
 import tw from "../../assets/images/twitter.png";
+import bsky from "../../assets/images/bluesky.png";
+import tk from "../../assets/images/tik-tok.png";
 
 import {
   SITE_NAME,
@@ -39,23 +41,27 @@ const Footer = (props) => {
 
           <div className="r-logo">
             <div className="f-social">
-              <Link to="#">
+              <a href="https://www.facebook.com/NCNW633/" target="_blank">
                 <img src={fb} alt="fb" />
-              </Link>
+              </a>
 
-              <Link to="#">
+              <a href="https://www.linkedin.com/company/ncnw/" target="_blank">
                 <img src={lin} alt="in" />
-              </Link>
+              </a>
 
-              <Link to="#">
-                <img src={tw} alt="fb" />
-              </Link>
+              <a href="https://bsky.app/profile/ncnwhq.bsky.social" target="_blank">
+                <img src={bsky} alt="bsky" />
+              </a>
 
-              <Link to="#">
+              <a href="https://www.instagram.com/ncnw_hq/" target="_blank">
                 <img src={insta} alt="in" />
-              </Link>
+              </a>
+
+              <a href="https://www.tiktok.com/@ncnwhq" target="_blank">
+                <img src={tk} alt="in" />
+              </a>
             </div>
-            <img src={Rlogo} alt={SITE_NAME} />
+            {/* <img src={Rlogo} alt={SITE_NAME} /> */}
           </div>
         </div>
       </div>

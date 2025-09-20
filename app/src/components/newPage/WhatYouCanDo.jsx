@@ -14,12 +14,12 @@ export default function WhatYouCanDo() {
                 <div className="do-head">here's what you can do:</div>
 
                 <div className="three-cl-row">
-                    <div className="col-3">
+                    {/* <div className="col-3">
                         <Link to={'/benefits'} className={'lnk-three'}>
                             <img src={Energy} alt='' />
                             <div className="">Explore<br></br> Benefits</div>
                         </Link>
-                    </div>
+                    </div> */}
 
                     <div className="col-3">
                         <Link to={'/home'} className={'lnk-three'}>
@@ -101,7 +101,7 @@ export default function WhatYouCanDo() {
                         </Link>
                     </div>
 
-                    <div className="ech-itm">
+                    {/* <div className="ech-itm">
                         <Link to={'/careers'} className={'lnk-itm'}>
                             <div className="content-part">
                                 <div className="txt-sec">
@@ -113,7 +113,7 @@ export default function WhatYouCanDo() {
                                 </div>
                             </div>
                         </Link>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -33,10 +33,10 @@ const protectedRoutes = [
         path: '/account',
         component: Setting,
     },
-    {
-        path: "/benefits",
-        component: BenefitCategory,
-    },
+    // {
+    //     path: "/benefits",
+    //     component: BenefitCategory,
+    // },
     {
         path: "/benefits/search/list",
         component: SearchBenefit,
@@ -49,10 +49,10 @@ const protectedRoutes = [
         path: "/benefits/:name/:categoryId/:benefitId",
         component: Benefit,
     },
-    {
-        path: "/careers",
-        component: Career,
-    },
+    // {
+    //     path: "/careers",
+    //     component: Career,
+    // },
     {
         path: "/careers/:title",
         component: CareerDetail,

@@ -94,7 +94,7 @@ const HeaderWrapper = styled.div`
             text-align:center;
         }
         .f-social {
-            width: calc(100% - 82px);
+            width: calc(100% - 0px);
             margin-right: 10px;
             img{
               margin:0 5px;

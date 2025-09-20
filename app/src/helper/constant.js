@@ -47,10 +47,10 @@ export const LOGIN_HEADER = [
     label: "Home",
     path: "/home",
   },
-  {
-    label: "Benefits",
-    path: "/benefits",
-  },
+//   {
+//     label: "Benefits",
+//     path: "/benefits",
+//   },
   {
     label: "Dues",
     path: "/dues",
@@ -79,10 +79,10 @@ export const LOGIN_HEADER = [
     label: "Events",
     path: "/events",
   },
-  {
-    label: "Careers",
-    path: "/careers",
-  },
+//   {
+//     label: "Careers",
+//     path: "/careers",
+//   },
   // {
   //     label: "Store",
   //     path: "/store",

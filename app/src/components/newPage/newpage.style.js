@@ -329,7 +329,7 @@ const Warpper = styled.div`
 
   .what-do .three-cl-row .col-3 {
     background-image: url(${Bg});
-    width: calc(25% - 10px);
+    width: calc(33.33% - 10px);
     text-align: center;
     border: 1px solid #5B2166;
     border-radius: 25px;

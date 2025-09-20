@@ -349,6 +349,31 @@ const Advocacy = (props) => {
           </TabPane>
         </TabContent>
       </div>
+      <div className="head-box mb40">
+        <div className="container">
+            <h2>Request / Reporting Tools:</h2>
+        </div>
+      </div>
+      <div className="container">
+        <div className="three-cl-row">
+            <div className="col-3">
+                <a href="https://ncnw.jotform.com/250765581912058" target="_blank" className='col-link'>
+                  <span class="material-symbols-outlined icn">
+                    gavel
+                  </span>
+                  <span>NCNW Advocacy<br></br > Action Form</span>
+                </a>
+            </div>
+            <div className="col-3">
+                <a href="https://ncnw.jotform.com/251534095760054" target="_blank" className='col-link'>
+                  <span class="material-symbols-outlined icn">
+                    balance
+                  </span>
+                  <span>Social Justice<br></br > Advocacy Action Report</span>
+                </a>
+            </div>
+        </div>
+      </div>
     </Wrapper>
   )
 }
