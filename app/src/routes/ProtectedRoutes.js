@@ -12,6 +12,7 @@ import Store from "../components/store/Store";
 import Event from "../components/eventModule/Event";
 import EventDetail from "../components/eventModule/EventDetail";
 import Advocacy from "../components/advocacy/Advocacy";
+import Programs from "../components/programs/Programs";
 import AdvocacyDetail from "../components/advocacy/AdvocacyDetail";
 import Dues from "../components/dues/Dues";
 import Membership from "../components/dues/Membership";
@@ -87,7 +88,7 @@ const protectedRoutes = [
     },
     {
         path: "/programs",
-        component: Advocacy,
+        component: Programs,
     },
     {
         path: "/advocacy/:advocacyType/:advocacyId",

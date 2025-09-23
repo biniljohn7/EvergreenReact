@@ -168,5 +168,12 @@ const Wrapper = styled.div`
     font-weight: 600;
   }
 
+  .ncnw-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+  }
+
 `
 export default Wrapper

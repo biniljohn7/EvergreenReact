@@ -273,6 +273,62 @@ export const EVENT_LOCATION = [
   },
 ];
 
+export const CATEGORIES_LINK = [
+    {
+        label: "RISE Project",
+        link: "https://ncnw.org/project/rise/",
+        categories: ["AllPrograms", "EconomicEmpowerment"]
+    },
+    {
+        label: "Good Health Wins",
+        link: "https://goodhealthwins.org/",
+        categories: ["AllPrograms", "HealthEquity"]
+    },
+    {
+        label: "GoodHealthWINs Communication Kit",
+        link: "https://drive.google.com/drive/folders/1k1MHhj7cBUN1bX7wXbHHDHlf12OBk0bL",
+        categories: ["AllPrograms", "HealthEquity"]
+    },
+    {
+        label: "Colgate Bright Smiles Bright Futures",
+        link: "https://ncnw.org/project/colgate-bright-smiles-bright-futures/",
+        categories: ["AllPrograms", "HealthEquity"]
+    },
+    {
+        label: "Monthly NCNW Sections & Chapters Reporting Form",
+        link : "https://app.smartsheet.com/b/form/ce4ecd252d1140cf9d12fe8898a29d7e",
+        categories: ["AllPrograms", "HealthEquity"]
+    },
+    {
+        label: "National Reporting Tool",
+        link: "https://app.smartsheet.com/b/form/9c341174029044778f05552dd52c772a",
+        categories: ["AllPrograms", "HealthEquity", "STEAM", "EconomicEmpowerment", "SocialJustice"]
+    }
+];
+
+export const PROGRAMS_CATEGORIES = [
+    {
+        label: "All",
+        value: "AllPrograms"
+    },
+    {
+        label: "Health Equity",
+        value: "HealthEquity"
+    },
+    {
+        label: "STEAM",
+        value: "STEAM"
+    },
+    {
+        label: "Economic Empowerment",
+        value: "EconomicEmpowerment"
+    },
+    {
+        label: "Social Justice",
+        value: "SocialJustice"
+    }
+];
+
 export const ADVOCACY_LOCATION = [
   {
     label: "All",

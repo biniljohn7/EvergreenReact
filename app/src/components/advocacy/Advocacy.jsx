@@ -139,6 +139,11 @@ const Advocacy = (props) => {
             </div>
           </div>
         </div>
+        <div className="ncnw-link button-box">
+            <a href="https://ncnw.org/advocacy-policy/" target='__blank'>
+                FIND MORE
+            </a>
+        </div>
 
         <div className="pagination">
           <Pagination
