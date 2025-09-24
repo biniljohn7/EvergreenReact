@@ -273,6 +273,73 @@ export const EVENT_LOCATION = [
   },
 ];
 
+export const NOTIFICATIONS_OPTIONS = [
+    {
+        label: 'NCNW Committees',
+        options: [
+            {
+                key: 'yaca-youth',
+                label: 'YACA/Youth '
+            }
+        ]
+    },
+    {
+        label: 'Programs',
+        options: [
+            {
+                key: 'bhcp',
+                label: 'BHCP'
+            },
+            {
+                key: 'girlcon',
+                label: 'GirlCon'
+            },
+            {
+                key: 'rise',
+                label: 'RISE'
+            },
+            {
+                key: 'ghwins',
+                label: 'GHWINs'
+            },
+            {
+                key: 'colgate',
+                label: 'Colgate'
+            }
+        ]
+    },
+    {
+        label: 'NCNW Departments',
+        options: [
+            {
+                key: 'advocacy-policy',
+                label: 'Advocacy & Policy'
+            },
+            {
+                key: 'programs',
+                label: 'Programs'
+            }
+        ]
+    },
+    {
+        label: 'Communication Preferences',
+        options: [
+            {
+                key: 'email',
+                label: 'Email'
+            },
+            {
+                key: 'text',
+                label: 'Text'
+            },
+            {
+                key: 'social-media',
+                label: 'Social Media'
+            }
+        ]
+    }
+];
+
 export const CATEGORIES_LINK = [
     {
         label: "RISE Project",

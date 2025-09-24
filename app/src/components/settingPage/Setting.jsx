@@ -26,6 +26,7 @@ import { logout as logoutAPI } from "../../api/commonAPI";
 import LeadershipTeam from './LeadershipTeam';
 import ChangePassword from "./ChangePassword";
 import PrivacyPolicy from "../staticPage/PrivacyPolicy";
+import Notification from "./Notification";
 import Terms from "../staticPage/Terms&Services";
 import ContactUs from "./ContactUs";
 import { HEADER_COLOR } from "../../helper/constant";
@@ -44,6 +45,7 @@ const CHILD_STATE = {
 	policy: "policy",
 	terms: "terms",
 	contactUs: "contact",
+    notification: "notification"
 };
 
 const SIDE_MENU = [
@@ -52,6 +54,12 @@ const SIDE_MENU = [
 		icon: UserIcon,
 		alt: "user",
 		state: CHILD_STATE.profile,
+	},
+    {
+		label: "Notification",
+		icon: NotificationIcon,
+		alt: "notification",
+		state: CHILD_STATE.notification,
 	},
 	{
 		label: "Leadership Team",
@@ -146,6 +154,8 @@ const Setting = (props) => {
 				return <PrivacyPolicy isMobile={isMobile} />;
 			case CHILD_STATE.contactUs:
 				return <ContactUs isMobile={isMobile} />;
+            case CHILD_STATE.notification:
+				return <Notification isMobile={isMobile} />;
 			default:
 				return <Profile data={profile} isMobile={isMobile} />;
 		}

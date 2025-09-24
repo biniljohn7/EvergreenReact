@@ -273,6 +273,18 @@ const CommonWrapper = styled.div`
         color: #de0021;
     }
 
+    .noti .noti-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .noti .noti-list .chk-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
   @media only screen and (max-width: 1024px) {
       .row.prf-row {
         flex-direction: column;

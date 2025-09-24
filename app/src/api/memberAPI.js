@@ -22,6 +22,24 @@ export const updateNotificationStatus = (status) => {
         });
 };
 
+export const setNotifications = (body) => {
+    setHeaders();
+    return axios
+        .post(`${BASE_URL}/member/?method=set-notifications`, body)
+        .then((response) => {
+            return response.data;
+        });
+};
+
+export const getNotifications = () => {
+    setHeaders();
+    return axios
+        .get(`${BASE_URL}/member/?method=get-notifications`)
+        .then((response) => {
+            return response.data;
+        });
+};
+
 export const createProfile = (body) => {
     setHeaders();
     return axios
