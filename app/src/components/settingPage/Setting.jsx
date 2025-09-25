@@ -272,7 +272,7 @@ const Setting = (props) => {
 									</div>
 								</div>
 								<div className="mt-30 position-relative">
-									<div className="d-flex content-padding">
+									{/* <div className="d-flex content-padding">
 										<img
 											height="23px"
 											width="23px"
@@ -312,7 +312,7 @@ const Setting = (props) => {
 											width={40}
 											className="react-switch"
 										/>
-									</div>
+									</div> */}
 
 									{SIDE_MENU.map((el, i) => {
 										return (
@@ -391,7 +391,7 @@ const Setting = (props) => {
 							</div>
 							<div className="navMenu">
 								<div className="mt-30 position-relative">
-									<div className="d-flex content-padding">
+									{/* <div className="d-flex content-padding">
 										<img
 											height="23px"
 											width="23px"
@@ -431,7 +431,7 @@ const Setting = (props) => {
 											width={40}
 											className="react-switch"
 										/>
-									</div>
+									</div> */}
 
 									{SIDE_MENU.map((el, i) => {
 										return (
