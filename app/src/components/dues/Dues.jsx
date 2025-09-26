@@ -261,6 +261,23 @@ const Dues = (props) => {
                                         ''
                                         )}
                                     </div>
+                                    {el.giftedDetails && Object.values(el.giftedDetails).length > 0 ? (
+                                        <div className="gifted-wrapper mb-10">
+                                            {Object.values(el.giftedDetails).map((gift, i) => (
+                                                <div key={i}>
+                                                    <span>{gift.membership}</span> -{" "}
+                                                    <span className="text-bold">
+                                                        {gift.giftTo}
+                                                    </span>
+                                                    <span>
+                                                        {" (" + new Date(gift.paidDate).toLocaleDateString("en-US") + ")"}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
                                     <div className="inf-btm">
                                         <div className={`inf-rg ${el.benefitTo ? 'gift' : ''}`}>
                                         {el.status === 'success' && el.benefitTo && (

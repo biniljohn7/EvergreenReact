@@ -518,6 +518,12 @@ const Wrapper = styled.div`
     }
   }
 
+  @media only screen and (max-width: 1260px) and (min-width: 991px) {
+    .hist-item .gifted-wrapper {
+        font-size: .9em;
+    }
+  }
+
   @media only screen and (max-width: 839px) {
     .form-row {
       flex-direction: column;
@@ -543,6 +549,10 @@ const Wrapper = styled.div`
 
     .order-summery .order-box {
       padding: 20px;
+    }
+
+    .hist-item .gifted-wrapper {
+        font-size: .9em;
     }
   }
 
