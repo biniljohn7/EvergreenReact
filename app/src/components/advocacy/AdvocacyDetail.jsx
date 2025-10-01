@@ -102,10 +102,10 @@ const AdvocacyDetails = (props) => {
             ) : (
               <React.Fragment>
                 <section className="mt-30">
-                  <label className="text-secondary">
+                  {/* <label className="text-secondary">
                     <span className="fa fa-circle mr-5"></span>
                     {advocacy.recipientName}
-                  </label>
+                  </label> */}
                   <span className="float-right red--text">&nbsp;
                     <i className="fa fa-clock-o mr-5" aria-hidden="true"></i>
                     {/* <ReactTimeAgo
@@ -144,14 +144,14 @@ const AdvocacyDetails = (props) => {
                       (window.innerWidth < 768 ? ' mt-20' : '')
                     }
                   >
-                    <Button
+                    {/* <Button
                       name="TAKE ACTION"
                       className="wp-100"
                       disabled={
                         props.location.state.advocacyType === 'Submitted'
                       }
                       clicked={() => setOpen(!isOpen)}
-                    />
+                    /> */}
                   </div>
                 </section>
               </React.Fragment>

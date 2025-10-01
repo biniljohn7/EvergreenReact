@@ -60,7 +60,7 @@ const Career = (props) => {
             <h2>careers</h2>
           </div>
         </div>
-        <div className="container">
+        {/* <div className="container">
           <div
             className={
               'position-relative float-right' +
@@ -89,10 +89,10 @@ const Career = (props) => {
               }}
             ></i>
           </div>
-        </div>
+        </div> */}
         <div className='benefit-box'>
           <div className="container">
-            {
+            {/* {
               isLoading ? (
                 <div className="custom-spinner mtp-20">
                   <Spinner color="danger" />
@@ -141,16 +141,19 @@ const Career = (props) => {
                   <div className="border ptb-50 plr-20 text-center text-bold mt-50">
                     No Record Found!
                   </div>
-                )}
+                )} */}
+                <div className="border ptb-50 plr-20 text-center text-bold mt-50 color-black">
+                    No job openings currently available.
+                </div>
           </div>
-          <div className="pagination">
+          {/* <div className="pagination">
             <Pagination
               activePage={currentPage}
               length={totalPage * LIMIT}
               count={LIMIT}
               handler={(pageNumber) => setPage(pageNumber)}
             />
-          </div>
+          </div> */}
         </div>
       </div>
 

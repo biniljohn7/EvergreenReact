@@ -243,7 +243,7 @@ const Event = (props) => {
                           (window.innerWidth < 768 ? "wp-80" : "wp-25")
                         }
                       >
-                        <Select
+                        {/* <Select
                           options={dropdown ? dropdown.all : []}
                           onChange={(op) => {
                             setOption(op);
@@ -268,7 +268,7 @@ const Event = (props) => {
                               marginLeft: "7px",
                             }),
                           }}
-                        />
+                        /> */}
                       </div>
                     </div>
                     <ListEvent />

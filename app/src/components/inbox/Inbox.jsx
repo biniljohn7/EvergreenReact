@@ -143,7 +143,7 @@ const Inbox = (props) => {
               Messages
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={
                 classnames({ active: activeTab === "Directory" }) + " fs-18"
@@ -154,7 +154,7 @@ const Inbox = (props) => {
             >
               Directory
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
 
         {isLoading ? (

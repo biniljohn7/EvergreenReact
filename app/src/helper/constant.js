@@ -47,10 +47,10 @@ export const LOGIN_HEADER = [
     label: "Home",
     path: "/home",
   },
-//   {
-//     label: "Benefits",
-//     path: "/benefits",
-//   },
+  //   {
+  //     label: "Benefits",
+  //     path: "/benefits",
+  //   },
   {
     label: "Dues",
     path: "/dues",
@@ -71,18 +71,18 @@ export const LOGIN_HEADER = [
     label: "Advocacy",
     path: "/advocacy",
   },
-  {
+  /* {
     label: "Programs",
     path: "/programs",
-  },
+  }, */
   {
     label: "Events",
     path: "/events",
   },
-//   {
-//     label: "Careers",
-//     path: "/careers",
-//   },
+  {
+    label: "Careers",
+    path: "/careers",
+  },
   // {
   //     label: "Store",
   //     path: "/store",
@@ -274,126 +274,126 @@ export const EVENT_LOCATION = [
 ];
 
 export const NOTIFICATIONS_OPTIONS = [
-    {
-        label: 'NCNW Committees',
-        options: [
-            {
-                key: 'yaca-youth',
-                label: 'YACA/Youth '
-            }
-        ]
-    },
-    {
-        label: 'Programs',
-        options: [
-            {
-                key: 'bhcp',
-                label: 'BHCP'
-            },
-            {
-                key: 'girlcon',
-                label: 'GirlCon'
-            },
-            {
-                key: 'rise',
-                label: 'RISE'
-            },
-            {
-                key: 'ghwins',
-                label: 'GHWINs'
-            },
-            {
-                key: 'colgate',
-                label: 'Colgate'
-            }
-        ]
-    },
-    {
-        label: 'NCNW Departments',
-        options: [
-            {
-                key: 'advocacy-policy',
-                label: 'Advocacy & Policy'
-            },
-            {
-                key: 'programs',
-                label: 'Programs'
-            }
-        ]
-    },
-    {
-        label: 'Communication Preferences',
-        options: [
-            {
-                key: 'email',
-                label: 'Email'
-            },
-            {
-                key: 'text',
-                label: 'Text'
-            },
-            {
-                key: 'social-media',
-                label: 'Social Media'
-            }
-        ]
-    }
+  {
+    label: 'NCNW Committees',
+    options: [
+      {
+        key: 'yaca-youth',
+        label: 'YACA/Youth '
+      }
+    ]
+  },
+  {
+    label: 'Programs',
+    options: [
+      {
+        key: 'bhcp',
+        label: 'BHCP'
+      },
+      {
+        key: 'girlcon',
+        label: 'GirlCon'
+      },
+      {
+        key: 'rise',
+        label: 'RISE'
+      },
+      {
+        key: 'ghwins',
+        label: 'GHWINs'
+      },
+      {
+        key: 'colgate',
+        label: 'Colgate'
+      }
+    ]
+  },
+  {
+    label: 'NCNW Departments',
+    options: [
+      {
+        key: 'advocacy-policy',
+        label: 'Advocacy & Policy'
+      },
+      {
+        key: 'programs',
+        label: 'Programs'
+      }
+    ]
+  },
+  {
+    label: 'Communication Preferences',
+    options: [
+      {
+        key: 'email',
+        label: 'Email'
+      },
+      {
+        key: 'text',
+        label: 'Text'
+      },
+      {
+        key: 'social-media',
+        label: 'Social Media'
+      }
+    ]
+  }
 ];
 
 export const CATEGORIES_LINK = [
-    {
-        label: "RISE Project",
-        link: "https://ncnw.org/project/rise/",
-        categories: ["AllPrograms", "EconomicEmpowerment"]
-    },
-    {
-        label: "Good Health Wins",
-        link: "https://goodhealthwins.org/",
-        categories: ["AllPrograms", "HealthEquity"]
-    },
-    {
-        label: "GoodHealthWINs Communication Kit",
-        link: "https://drive.google.com/drive/folders/1k1MHhj7cBUN1bX7wXbHHDHlf12OBk0bL",
-        categories: ["AllPrograms", "HealthEquity"]
-    },
-    {
-        label: "Colgate Bright Smiles Bright Futures",
-        link: "https://ncnw.org/project/colgate-bright-smiles-bright-futures/",
-        categories: ["AllPrograms", "HealthEquity"]
-    },
-    {
-        label: "Monthly NCNW Sections & Chapters Reporting Form",
-        link : "https://app.smartsheet.com/b/form/ce4ecd252d1140cf9d12fe8898a29d7e",
-        categories: ["AllPrograms", "HealthEquity"]
-    },
-    {
-        label: "National Reporting Tool",
-        link: "https://app.smartsheet.com/b/form/9c341174029044778f05552dd52c772a",
-        categories: ["AllPrograms", "HealthEquity", "STEAM", "EconomicEmpowerment", "SocialJustice"]
-    }
+  {
+    label: "RISE Project",
+    link: "https://ncnw.org/project/rise/",
+    categories: ["AllPrograms", "EconomicEmpowerment"]
+  },
+  {
+    label: "Good Health Wins",
+    link: "https://goodhealthwins.org/",
+    categories: ["AllPrograms", "HealthEquity"]
+  },
+  {
+    label: "GoodHealthWINs Communication Kit",
+    link: "https://drive.google.com/drive/folders/1k1MHhj7cBUN1bX7wXbHHDHlf12OBk0bL",
+    categories: ["AllPrograms", "HealthEquity"]
+  },
+  {
+    label: "Colgate Bright Smiles Bright Futures",
+    link: "https://ncnw.org/project/colgate-bright-smiles-bright-futures/",
+    categories: ["AllPrograms", "HealthEquity"]
+  },
+  {
+    label: "Monthly NCNW Sections & Chapters Reporting Form",
+    link: "https://app.smartsheet.com/b/form/ce4ecd252d1140cf9d12fe8898a29d7e",
+    categories: ["AllPrograms", "HealthEquity"]
+  },
+  {
+    label: "National Reporting Tool",
+    link: "https://app.smartsheet.com/b/form/9c341174029044778f05552dd52c772a",
+    categories: ["AllPrograms", "HealthEquity", "STEAM", "EconomicEmpowerment", "SocialJustice"]
+  }
 ];
 
 export const PROGRAMS_CATEGORIES = [
-    {
-        label: "All",
-        value: "AllPrograms"
-    },
-    {
-        label: "Health Equity",
-        value: "HealthEquity"
-    },
-    {
-        label: "STEAM",
-        value: "STEAM"
-    },
-    {
-        label: "Economic Empowerment",
-        value: "EconomicEmpowerment"
-    },
-    {
-        label: "Social Justice",
-        value: "SocialJustice"
-    }
+  {
+    label: "All",
+    value: "AllPrograms"
+  },
+  {
+    label: "Health Equity",
+    value: "HealthEquity"
+  },
+  {
+    label: "STEAM",
+    value: "STEAM"
+  },
+  {
+    label: "Economic Empowerment",
+    value: "EconomicEmpowerment"
+  },
+  {
+    label: "Social Justice",
+    value: "SocialJustice"
+  }
 ];
 
 export const ADVOCACY_LOCATION = [

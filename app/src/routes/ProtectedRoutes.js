@@ -50,10 +50,10 @@ const protectedRoutes = [
         path: "/benefits/:name/:categoryId/:benefitId",
         component: Benefit,
     },
-    // {
-    //     path: "/careers",
-    //     component: Career,
-    // },
+    {
+        path: "/careers",
+        component: Career,
+    },
     {
         path: "/careers/:title",
         component: CareerDetail,
@@ -86,10 +86,10 @@ const protectedRoutes = [
         path: "/advocacy",
         component: Advocacy,
     },
-    {
+    /* {
         path: "/programs",
         component: Programs,
-    },
+    }, */
     {
         path: "/advocacy/:advocacyType/:advocacyId",
         component: AdvocacyDetail,

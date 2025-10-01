@@ -73,7 +73,7 @@ const SIDE_MENU = [
 		alt: "password",
 		state: CHILD_STATE.changePwd,
 	},
-	{
+	/* {
 		label: "Privacy Policy",
 		alt: "privacy_policy",
 		icon: PolicyIcon,
@@ -84,7 +84,7 @@ const SIDE_MENU = [
 		icon: TermsIcon,
 		alt: "terms",
 		state: CHILD_STATE.terms,
-	},
+	}, */
 	{
 		label: "Contact Us",
 		icon: HelpIcon,

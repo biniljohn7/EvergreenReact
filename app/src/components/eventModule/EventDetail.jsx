@@ -108,7 +108,7 @@ const Event = (props) => {
                       setOpen(!isOpen);
                     }}
                   >
-                    <Button name="ADD TO CALENDAR" className="wp-100" />
+                    {/* <Button name="ADD TO CALENDAR" className="wp-100" /> */}
                     {/* {isOpen && (
                       <AddToCalendar
                         event={{

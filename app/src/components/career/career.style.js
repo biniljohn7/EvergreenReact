@@ -57,7 +57,10 @@ const Wrapper = styled.div`
       padding: 5px 10px 5px 10px;
     }
   }
-
+  .color-black{
+    color:#000;
+    width:100%;
+  }
   .box {
     // background-image: linear-gradient(#34bebf, #153bf6);
     width: 100%;

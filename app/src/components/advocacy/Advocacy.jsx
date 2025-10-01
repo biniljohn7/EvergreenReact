@@ -181,7 +181,7 @@ const Advocacy = (props) => {
                 }
             </h2>
             <div className="head-tab">
-              <ul>
+              {/* <ul>
                 {
                   (ADVOCACY_LOCATION || []).map(
                     function (e) {
@@ -211,7 +211,7 @@ const Advocacy = (props) => {
                     }
                   )
                 }
-              </ul>
+              </ul> */}
             </div>
           </div>
         </div>
@@ -229,7 +229,7 @@ const Advocacy = (props) => {
               Issues
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: activeTab === 'Submitted' })}
               onClick={() => {
@@ -238,7 +238,7 @@ const Advocacy = (props) => {
             >
               Submitted
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
 
         <TabContent activeTab={activeTab}>
