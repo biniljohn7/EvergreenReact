@@ -126,9 +126,9 @@ const Advocacy = (props) => {
                       <h2>
                         {ev.title}
                       </h2>
-                      <div className="mt-10 text-secondary">
+                      {/* <div className="mt-10 text-secondary">
                         {ev.recipientName}
-                      </div>
+                      </div> */}
                       <div className="button-box">
                         <span onClick={click}>READ MORE</span>
                       </div>
