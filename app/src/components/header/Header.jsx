@@ -229,11 +229,11 @@ const Header = (props) => {
                       </span>
                       <ul>
                         {
-                            Array.isArray(userRoles) && userRoles.length > 0 && (
-                                <li>
-                                    <Link to="/leader-dashboard">Leadership Panel</Link>
-                                </li>
-                            )
+                            // Array.isArray(userRoles) && userRoles.length > 0 && (
+                            //     <li>
+                            //         <Link to="/leader-dashboard">Leadership Panel</Link>
+                            //     </li>
+                            // )
                         }
                         <li>
                             <Link to="/account">My Profile</Link>
