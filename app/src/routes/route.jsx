@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 // import NotFound from '../views/NotFound'
 import LandingPage from "../components/landing/LandingPage";
 import ContactUs from "../components/footer/ContactUs";
+//import Privacy from "../components/footer/Privacy";
 import Contact from "../components/settingPage/ContactUs";
 import PageContainer from "../layout/PageContainer";
 import SignUp from "../components/signup/Signup";
