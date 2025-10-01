@@ -35,7 +35,7 @@ const Footer = (props) => {
             <div className="f-nav">
               <Link to="/contact_us">Contact Us</Link>&nbsp;|&nbsp;
               <Link to="/privacy_policy">Privacy Policy</Link>&nbsp;|&nbsp;
-              <Link to="#">Terms & Conditions</Link>
+              {/* <Link to="#">Terms & Conditions</Link> */}
             </div>
           </div>
 
