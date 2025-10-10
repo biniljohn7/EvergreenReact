@@ -107,26 +107,24 @@ const SignUp = (props) => {
     loadFacebookSDK();
     initializeFacebookSDK("");
     loadGoogleSDK();
+    const addNAOption = (data) => [
+        ...data,
+        { label: "N/A (Not Applicable)", value: "na" },
+    ];
     getSection()
-      .then((res) => {
-        setSectionList([...res.data]);
-      })
+      .then((res) => setSectionList(addNAOption(res.data)))
       .catch((err) => {
         Tst.Error("Failed to retrive Section list. Please try again later!");
       });
     getAffiliation(0)
-      .then((res) => {
-        setAffiliationList([...res.data]);
-      })
+      .then((res) => setAffiliationList(addNAOption(res.data)))
       .catch((err) => {
         Tst.Error(
           "Failed to retrive Affiliation list. Please try again later!"
         );
       });
       getCollegiateDropdown(0)
-      .then((res) => {
-        setCollegiateSectionList([...res.data]);
-      })
+      .then((res) => setCollegiateSectionList(addNAOption(res.data)))
       .catch((err) => {
         Tst.Error(
           "Failed to retrive collegiate list. Please try again later!"
