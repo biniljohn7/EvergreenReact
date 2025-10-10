@@ -15,6 +15,12 @@ const SigninWrapper = styled.div`
     font-size: 20px;
   }
 
+  .ttl-1-sub {
+    font-size: 16px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+  }
+
   .ttl-2 {
     text-align: center;
     color: #5b2166;
