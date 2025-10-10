@@ -348,8 +348,12 @@ const SignIn = (props) => {
                         <div className="container">
                             <div className="col-md-6 login-sec">
 
-                                <div className="top-head mb-40">
+                                <div className="top-head">
                                     login to access your account
+                                </div>
+
+                                <div className="top-head-sub">
+                                    If you’re an existing member and this is your first time logging in, you’ll need to claim your account. To do so, please click 'Forgot Password'.
                                 </div>
 
                                 <div className="form-sec mb-40">

@@ -58,6 +58,11 @@ const SigninWrapper = styled.form`
     line-height: 30px;
     font-weight: 400;
   }
+  .login-sec .top-head-sub {
+    font-size: 16px;
+    padding-top: 10px;
+    margin-bottom: 40px;
+  }
   .login-sec .form-sec {
     border: 1px solid #5B2166;
     border-radius: 50px;
