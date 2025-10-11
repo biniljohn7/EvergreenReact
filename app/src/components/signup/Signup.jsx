@@ -108,8 +108,8 @@ const SignUp = (props) => {
     initializeFacebookSDK("");
     loadGoogleSDK();
     const addNAOption = (data) => [
-        ...data,
-        { label: "N/A (Not Applicable)", value: "na" },
+      ...data,
+      { label: "N/A (Not Applicable)", value: "na" },
     ];
     getSection()
       .then((res) => setSectionList(addNAOption(res.data)))
@@ -123,12 +123,10 @@ const SignUp = (props) => {
           "Failed to retrive Affiliation list. Please try again later!"
         );
       });
-      getCollegiateDropdown(0)
+    getCollegiateDropdown(0)
       .then((res) => setCollegiateSectionList(addNAOption(res.data)))
       .catch((err) => {
-        Tst.Error(
-          "Failed to retrive collegiate list. Please try again later!"
-        );
+        Tst.Error("Failed to retrive collegiate list. Please try again later!");
       });
   }, []);
 
@@ -321,8 +319,17 @@ const SignUp = (props) => {
         <div className="sgp-container">
           <div className="ttl-1">DON'T HAVE AN ACCOUNT?</div>
           <div className="ttl-1-sub">
-            If you’re an existing member and this is your first time logging in, you’ll need to claim your account. To do so, please click 'Forgot Password'.
-            You’ll receive a one-time passcode (OTP) at the email address you have on file. Once you receive the OTP, return to the login page and sign in using that temporary password to claim your account.
+            <strong>
+              If you’re an existing member and this is your first time logging
+              in, you’ll need to claim your account.
+            </strong>
+            To do so, please click “
+            <strong>
+              <Link to="/signin/forgot">Forgot Password</Link>
+            </strong>
+            ”. You’ll receive a one-time passcode (OTP) at the email address you
+            have on file. Once you receive the OTP, return to the login page and
+            sign in using that temporary password to claim your account.
           </div>
           <div className="ttl-2">CREATE AN ACCOUNT</div>
 

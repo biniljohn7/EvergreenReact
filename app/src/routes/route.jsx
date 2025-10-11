@@ -73,7 +73,7 @@ function Routes() {
       />
       <Route
         exact
-        path="/signin"
+        path="/signin/:args?"
         render={(props) => (
           <PageContainer>
             <SignIn {...props} />

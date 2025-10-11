@@ -16,9 +16,10 @@ const SigninWrapper = styled.div`
   }
 
   .ttl-1-sub {
-    font-size: 16px;
+    font-size: 0.7em;
     padding-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
+    font-style: italic;
   }
 
   .ttl-2 {
