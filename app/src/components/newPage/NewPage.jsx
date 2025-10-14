@@ -66,7 +66,7 @@ const NewPage = (props) => {
             });
     }, [activeTab]);
 
-    document.title = 'Welcome to Evergreen';
+    document.title = 'Welcome to NCNW';
 
     const toggle = (tab) => {
         if (activeTab !== tab) setActiveTab(tab);

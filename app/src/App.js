@@ -25,9 +25,9 @@ import {
 // }
 
 
-const basename = process.env.REACT_APP_BASENAME || '/evergreen/';
+const basename = process.env.REACT_APP_BASENAME || '/ncnw.org';
 
-window.seoTagLine = 'Evergreen';
+window.seoTagLine = 'NCNW';
 
 function App() {
 

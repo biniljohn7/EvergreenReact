@@ -39,9 +39,9 @@ const LandingPage = (props) => {
                 />
               </div>
               <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <h4 className="text-bold mb-20">Welcome to Evergreen! </h4>
+                <h4 className="text-bold mb-20">Welcome to NCNW! </h4>
                 <p className="mb-20 para">
-                  This is the landing page to your organization’s Evergreen web
+                  This is the landing page to your organization’s NCNW web
                   portal. Login or signup to access your organization’s
                   resources, such as news, messaging, event calendars,
                   membership benefits, job postings, advocacy, and much more.
@@ -109,9 +109,9 @@ const LandingPage = (props) => {
           <section className="ash " id="home">
             <div className="container landing site-spacing ptb-50">
               <div className="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
-                <h2 className="text-bold mb-20">Welcome to Evergreen! </h2>
+                <h2 className="text-bold mb-20">Welcome to NCNW! </h2>
                 <p className="mb-20 para">
-                  This is the landing page to your organization’s Evergreen web
+                  This is the landing page to your organization’s NCNW web
                   portal. Login or signup to access your organization’s
                   resources, such as news, messaging, event calendars,
                   membership benefits, job postings, advocacy, and much more.
