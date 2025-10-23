@@ -444,7 +444,7 @@ export const MEMBERSHIP_FOR = [
     value: "myself",
   },
   {
-    label: "Gift to Other",
+    label: "Purchase/Gift to Other",
     value: "gift",
   },
 ];
