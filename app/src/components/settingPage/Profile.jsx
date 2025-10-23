@@ -16,7 +16,7 @@ const Profile = (props) => {
   const accessTkn = store.getState().auth.accessToken;
   const profile = props.data;
   const [editMode, setEditMode] = useState(isProfileCreated ? false : true);
-//   console.log(profile);
+  //   console.log(profile);
 
   const { userRoles } = store.getState().auth;
   const roleLabels = PROFILE_OPTIONS.memberRole
@@ -61,22 +61,20 @@ const Profile = (props) => {
                 <div className="form-group">
                   <label className="fs-18 medium-text">Name&nbsp;:&nbsp;</label>
                   {`
-                                        ${
-                                          profile.profile.prefix.name &&
-                                          profile.visible.prefix
-                                            ? profile.profile.prefix.name
-                                            : ""
-                                        }
+                                        ${profile.profile.prefix.name &&
+                      profile.visible.prefix
+                      ? profile.profile.prefix.name
+                      : ""
+                    }
                                         ${profile.profile.firstName || ""}
                                         ${profile.profile.middleName || ""} 
                                         ${profile.profile.lastName || ""}
-                                        ${
-                                          profile.profile.suffix.name
-                                            ? ", " +
-                                              (profile.profile.suffix.name ||
-                                                "")
-                                            : ""
-                                        }
+                                        ${profile.profile.suffix.name
+                      ? ", " +
+                      (profile.profile.suffix.name ||
+                        "")
+                      : ""
+                    }
                                     `.trim() || "-"}
                 </div>
               </div>
@@ -95,7 +93,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.racialIdentity.name &&
-              profile.visible.racialIdentity ? (
+                profile.visible.racialIdentity ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -247,7 +245,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.regVotWrdDist &&
-              profile.visible.regVotWrdDist ? (
+                profile.visible.regVotWrdDist ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -262,22 +260,22 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {(profile.profile.employerName && profile.visible.employerName) ||
-              (profile.profile.businessEmail &&
-                profile.visible.businessEmail) ||
-              (profile.profile.employmentStatus.name &&
-                profile.visible.employmentStatus) ||
-              (profile.profile.occupation.name && profile.visible.occupation) ||
-              (profile.profile.salaryRange.name &&
-                profile.visible.salaryRange) ||
-              (profile.profile.industry.name && profile.visible.industry) ||
-              (profile.profile.educations.length > 0 &&
-                profile.visible.educations) ||
-              (profile.profile.certifications.length > 0 &&
-                profile.visible.certification) ||
-              (profile.profile.expertises.length > 0 &&
-                profile.visible.expertise) ||
-              (profile.profile.volunteers.length > 0 &&
-                profile.visible.volunteerInterest) ? (
+                (profile.profile.businessEmail &&
+                  profile.visible.businessEmail) ||
+                (profile.profile.employmentStatus.name &&
+                  profile.visible.employmentStatus) ||
+                (profile.profile.occupation.name && profile.visible.occupation) ||
+                (profile.profile.salaryRange.name &&
+                  profile.visible.salaryRange) ||
+                (profile.profile.industry.name && profile.visible.industry) ||
+                (profile.profile.educations.length > 0 &&
+                  profile.visible.educations) ||
+                (profile.profile.certifications.length > 0 &&
+                  profile.visible.certification) ||
+                (profile.profile.expertises.length > 0 &&
+                  profile.visible.expertise) ||
+                (profile.profile.volunteers.length > 0 &&
+                  profile.visible.volunteerInterest) ? (
                 <div className="col-12 pt-2">
                   <div className="form-group">
                     <h3 className="text-bold">Professional Information</h3>
@@ -301,7 +299,7 @@ const Profile = (props) => {
                 ""
               )}{" "}
               {profile.profile.businessEmail &&
-              profile.visible.businessEmail ? (
+                profile.visible.businessEmail ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -316,7 +314,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.employmentStatus.name &&
-              profile.visible.employmentStatus ? (
+                profile.visible.employmentStatus ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -343,7 +341,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.salaryRange.name &&
-              profile.visible.salaryRange ? (
+                profile.visible.salaryRange ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -370,7 +368,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.educations.length > 0 &&
-              profile.visible.educations ? (
+                profile.visible.educations ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -399,7 +397,7 @@ const Profile = (props) => {
                 ""
               )}{" "}
               {profile.profile.certifications.length > 0 &&
-              profile.visible.certification ? (
+                profile.visible.certification ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -419,7 +417,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.expertises.length > 0 &&
-              profile.visible.expertise ? (
+                profile.visible.expertise ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -437,7 +435,7 @@ const Profile = (props) => {
                 ""
               )}{" "}
               {profile.profile.volunteers.length > 0 &&
-              profile.visible.volunteerInterest ? (
+                profile.visible.volunteerInterest ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -457,9 +455,9 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {(profile.profile.gpFirstName && profile.visible.gpFirstName) ||
-              (profile.profile.gpLastName && profile.visible.gpLastName) ||
-              (profile.profile.gpPhone && profile.visible.gpPhone) ||
-              (profile.profile.gpEmail && profile.visible.gpEmail) ? (
+                (profile.profile.gpLastName && profile.visible.gpLastName) ||
+                (profile.profile.gpPhone && profile.visible.gpPhone) ||
+                (profile.profile.gpEmail && profile.visible.gpEmail) ? (
                 <div className="col-12 pt-2">
                   <div className="form-group">
                     <h3 className="text-bold">
@@ -526,13 +524,13 @@ const Profile = (props) => {
             <div className="row prf-row">
               {(profile.profile.currentChapter.name &&
                 profile.visible.currentChapter) ||
-              (profile.profile.chapterOfInitiation.name &&
-                profile.visible.chapterOfInitiation) ||
-              (profile.profile.yearOfInitiation &&
-                profile.visible.yearOfInitiation) ||
-              profile.profile.collegiateSection.name ||
-              (profile.profile.affilateOrgzn.length > 0 &&
-                profile.visible.affilateOrgzn) ? (
+                (profile.profile.chapterOfInitiation.name &&
+                  profile.visible.chapterOfInitiation) ||
+                (profile.profile.yearOfInitiation &&
+                  profile.visible.yearOfInitiation) ||
+                profile.profile.collegiateSection.name ||
+                (profile.profile.affilateOrgzn.length > 0 &&
+                  profile.visible.affilateOrgzn) ? (
                 <div className="col-12 pt-2">
                   <div className="form-group">
                     <h3 className="text-bold">Organizational Information</h3>
@@ -544,14 +542,14 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.organizationalState.name &&
-              profile.visible.organizationalState ? (
+                profile.visible.organizationalState ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
                       State Coalition&nbsp;:&nbsp;
                     </label>
                     {profile.profile.organizationalState &&
-                    profile.profile.organizationalState.name != ""
+                      profile.profile.organizationalState.name != ""
                       ? profile.profile.organizationalState.name
                       : "-"}
                   </div>
@@ -560,14 +558,14 @@ const Profile = (props) => {
                 ""
               )}{" "}
               {profile.profile.currentChapter.name &&
-              profile.visible.currentChapter ? (
+                profile.visible.currentChapter ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
                       Current Section&nbsp;:&nbsp;
                     </label>
                     {profile.profile.currentChapter &&
-                    profile.profile.currentChapter.name != ""
+                      profile.profile.currentChapter.name != ""
                       ? profile.profile.currentChapter.name
                       : "National Member"}
                   </div>
@@ -578,7 +576,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.chapterOfInitiation.name &&
-              profile.visible.chapterOfInitiation ? (
+                profile.visible.chapterOfInitiation ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -607,7 +605,7 @@ const Profile = (props) => {
             </div>
             <div className="row prf-row">
               {profile.profile.affilateOrgzn.length > 0 &&
-              profile.visible.affilateOrgzn ? (
+                profile.visible.affilateOrgzn ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -625,7 +623,7 @@ const Profile = (props) => {
                 ""
               )}{" "}
               {profile.profile.yearOfInitiation &&
-              profile.visible.yearOfInitiation ? (
+                profile.visible.yearOfInitiation ? (
                 <div className="col-6 pt-2">
                   <div className="form-group">
                     <label className="fs-18 medium-text">
@@ -909,10 +907,10 @@ const Profile = (props) => {
                   <label className="fs-18 medium-text">Life Membership</label>
                   {profile.profile.lifeTracker ? (
                     <>
-                      <div className="pt-2">
+                      {/* <div className="pt-2">
                         <span className="font-medium">Payment Status:</span>{" "}
                         {profile.profile.lifeTracker.payStatus}
-                      </div>
+                      </div> */}
                       <div className="pt-2">
                         <span className="font-medium">Paid:</span> $
                         {profile.profile.lifeTracker.paid}
