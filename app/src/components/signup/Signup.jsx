@@ -4,6 +4,7 @@ import SignUpWrapper from "./signup.style";
 import Button from "../../UI/button/button";
 import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
+import MultiSelect from "react-multi-select-component";
 import { withRouter } from "react-router-dom";
 import { Modal } from "reactstrap";
 import {
@@ -385,16 +386,27 @@ const SignUp = (props) => {
             </div>
             <div className="form-col">
               <div className="fm-row">
-                <Select
-                  label="AFFILIATION"
-                  placeholder="CHOOSE AFFILIATION"
+                <label className="insidelabelmain mb-10">AFFILIATION</label>
+                <MultiSelect
                   id="affiliation"
-                  options={affiliationList}
-                  onChange={handleChange}
+                  options={affiliationList.map((el) => ({
+                    label: el.label,
+                    value: el.value,
+                  }))}
+                  onChange={(selected) => {
+                    handleChange({
+                      target: {
+                        name: "affiliation",
+                        value: selected,
+                      },
+                    });
+                  }}
                   onBlur={handleBlur}
-                  value={values.affiliation || ""}
+                  value={values.affiliation || []}
+                  className="inputmain pa-10 multiselect"
                 />
               </div>
+
               <div className="fm-row">
                 <Select
                   label="COLLEGIATE SECTION"

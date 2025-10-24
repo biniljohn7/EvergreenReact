@@ -77,6 +77,18 @@ const SigninWrapper = styled.div`
     font-size: 16px;
   }
 
+  .form-area .form-col .inputmain.multiselect {
+    border: 1px solid;
+    background-color: #fff;
+    z-index: 1;
+  }
+
+  .form-area .form-col .inputmain.multiselect .dropdown-content {
+    background-color: #fff;
+    z-index: 99999;
+    padding:0 10px
+  }
+
   .form-area .form-col .inputmain::placeholder {
     color: #5b2166;
   }
