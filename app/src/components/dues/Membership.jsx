@@ -899,24 +899,7 @@ function Membership(props) {
                                                         <>
                                                             <span
                                                                 className="btn button plr-20 ptb-10"
-                                                                onClick={(e) => {
-                                                                    if (
-                                                                        !membData.section &&
-                                                                        !membData.affiliate
-                                                                    ) {
-                                                                        setErrorList((prev) => ({
-                                                                            ...prev,
-                                                                            section:
-                                                                                "Please select a Section or Affiliation before adding a gift recipient.",
-                                                                        }));
-                                                                    } else {
-                                                                        setErrorList((prev) => ({
-                                                                            ...prev,
-                                                                            section: null, // Clear the error if validation passes
-                                                                        }));
-                                                                        setMbrOpen(true);
-                                                                    }
-                                                                }}
+                                                                onClick={(e) => {setMbrOpen(true);}}
                                                             >
                                                                 <span className="material-symbols-outlined icn">
                                                                     add_circle
