@@ -191,7 +191,7 @@ const ChatProfile = (props) => {
                     }
                   >
                     <LabelWithValue
-                      label="Year of Initiation"
+                      label="First Section Join Date"
                       value={data.profileData.yearOfInitiation}
                     />
                   </div>

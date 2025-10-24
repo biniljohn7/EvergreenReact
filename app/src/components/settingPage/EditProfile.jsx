@@ -1698,7 +1698,7 @@ const EditProfile = (props) => {
                     </div>
                     <div className="mb-15 position-relative">
                         <label className="fs-16 mb-5 text-dark">
-                        Section of Initiation
+                        Section of Origin
                         </label>
                         {/* {isProfileCreated && (
                         <Switch
@@ -1722,7 +1722,7 @@ const EditProfile = (props) => {
                         )} */}
                         <Select
                         id="chapterOfInitiation"
-                        placeholder="Select Section of Initiation"
+                        placeholder="Select Section of Origin"
                         options={chapterOfIntiationList}
                         styles={SELECT_CSS}
                         getOptionLabel={(op) => op.chapterName}
@@ -1745,7 +1745,7 @@ const EditProfile = (props) => {
                     <div className="mb-15">
                         <div className="position-relative">
                         <label className="fs-16 mb-5 text-dark">
-                            Year of Initiation
+                            First Section Join Date
                         </label>
                         {/* {isProfileCreated && (
                             <Switch
