@@ -6,21 +6,21 @@ import Input from "../../UI/input/input";
 import Select from "../../UI/select/select";
 import MultiSelect from "react-multi-select-component";
 import { withRouter } from "react-router-dom";
-import { Modal } from "reactstrap";
+// import { Modal } from "reactstrap";
 import {
-  SITE_NAME,
-  SITE_SHORT_DESC,
-  WEBSITE_URL,
+  // SITE_NAME,
+  // SITE_SHORT_DESC,
+  // WEBSITE_URL,
   REGISTER_TYPE,
 } from "../../helper/constant";
-import Logo from "../../assets/images/logo.png";
+// import Logo from "../../assets/images/logo.png";
 import enhancer from "./enhancer";
 import { Link } from "react-router-dom";
-import FB from "../../assets/images/fb_icon_1x.png";
-import Google from "../../assets/images/google_icon_1x.png";
+// import FB from "../../assets/images/fb_icon_1x.png";
+// import Google from "../../assets/images/google_icon_1x.png";
 import {
   signUp as createAccount,
-  logInViaSMedia,
+  // logInViaSMedia,
   getSection,
   getAffiliation,
   getCollegiateDropdown,
@@ -131,7 +131,7 @@ const SignUp = (props) => {
       });
   }, []);
 
-  const handleGoogleLogin = () => {
+  /* const handleGoogleLogin = () => {
     const auth2 = window.gapi.auth2.getAuthInstance();
     auth2
       .signIn()
@@ -149,9 +149,9 @@ const SignUp = (props) => {
       .catch((error) => {
         console.error("Google login error", error);
       });
-  };
+  }; */
 
-  const handleFacebookLogin = () => {
+  /* const handleFacebookLogin = () => {
     window.FB.login(
       (response) => {
         if (response.authResponse) {
@@ -175,9 +175,9 @@ const SignUp = (props) => {
       },
       { scope: "public_profile,email" }
     );
-  };
+  }; */
 
-  const Login = () => {
+  /* const Login = () => {
     return (
       <>
         {Tst.Obj}
@@ -210,9 +210,9 @@ const SignUp = (props) => {
         </div>
       </>
     );
-  };
+  }; */
 
-  const handleSMediaSignIn = (userData) => {
+  /* const handleSMediaSignIn = (userData) => {
     Spn.Show();
     const body = {
       method: "login-via-smedia",
@@ -266,7 +266,7 @@ const SignUp = (props) => {
       .finally(() => {
         Spn.Hide();
       });
-  };
+  }; */
 
   const handleSignup = (e) => {
     console.log(isValid);

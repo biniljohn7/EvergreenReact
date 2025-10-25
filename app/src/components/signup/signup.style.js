@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { HEADER_COLOR } from "../../helper/constant";
+// import { HEADER_COLOR } from "../../helper/constant";
 
 const SigninWrapper = styled.div`
   .sgp-container {

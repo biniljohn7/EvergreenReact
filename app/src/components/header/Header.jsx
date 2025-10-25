@@ -34,8 +34,8 @@ const IMAGE_SIZE =
   window.innerWidth < 768
     ? "100px"
     : window.innerWidth <= 1440
-    ? "150px"
-    : "200px";
+      ? "150px"
+      : "200px";
 
 const Header = (props) => {
   const [MobMenu, setMobMenu] = useState(0);
@@ -62,7 +62,7 @@ const Header = (props) => {
             <i className="fa fa-long-arrow-left"></i>
           </div>
           {store.getState().auth.isLogin &&
-          store.getState().auth.accessToken ? (
+            store.getState().auth.accessToken ? (
             <ul>
               {LOGIN_HEADER.map((ele, key) => {
                 return (
@@ -95,13 +95,13 @@ const Header = (props) => {
                   className="profile-image-size cursor-pointer"
                   onClick={(e) => props.history.push("/account")}
                 />
-                <span 
-                    className="search-icn" 
-                    onClick={(e) => {
-                        setSearchOpen(true);
-                    }}
+                <span
+                  className="search-icn"
+                  onClick={(e) => {
+                    setSearchOpen(true);
+                  }}
                 >
-                    <span class="material-symbols-outlined icn">search</span>
+                  <span className="material-symbols-outlined icn">search</span>
                 </span>
               </li>
             </ul>
@@ -172,7 +172,7 @@ const Header = (props) => {
             <div className="nav-box">
               <div className="desk-menu">
                 {store.getState().auth.isLogin &&
-                store.getState().auth.accessToken ? (
+                  store.getState().auth.accessToken ? (
                   <ul className="login-menu">
                     {LOGIN_HEADER.map((ele, key) => {
                       return (
@@ -182,8 +182,8 @@ const Header = (props) => {
                             (key === 0
                               ? ""
                               : window.innerWidth > 1100
-                              ? " "
-                              : " ")
+                                ? " "
+                                : " ")
                           }
                           key={key}
                         >
@@ -207,14 +207,14 @@ const Header = (props) => {
                       </Link>
                     </li>
                     <li className="inbox-menu">
-                        <span 
-                            className="a-search" 
-                            onClick={(e) => {
-                                setSearchOpen(true);
-                            }}
-                        >
-                            <span class="material-symbols-outlined">search</span>
-                        </span>
+                      <span
+                        className="a-search"
+                        onClick={(e) => {
+                          setSearchOpen(true);
+                        }}
+                      >
+                        <span className="material-symbols-outlined">search</span>
+                      </span>
                     </li>
                     {/* {console.log(logout())} */}
                     <li className="my-acc">
@@ -229,14 +229,14 @@ const Header = (props) => {
                       </span>
                       <ul>
                         {
-                            // Array.isArray(userRoles) && userRoles.length > 0 && (
-                            //     <li>
-                            //         <Link to="/leader-dashboard">Leadership Panel</Link>
-                            //     </li>
-                            // )
+                          // Array.isArray(userRoles) && userRoles.length > 0 && (
+                          //     <li>
+                          //         <Link to="/leader-dashboard">Leadership Panel</Link>
+                          //     </li>
+                          // )
                         }
                         <li>
-                            <Link to="/account">My Profile</Link>
+                          <Link to="/account">My Profile</Link>
                         </li>
                         <li>
                           <a
@@ -343,11 +343,11 @@ const Header = (props) => {
           </div>
         </div>
         <SearchBar
-            isOpen={isSearchOpen}
-            toggle={() => {
-                setSearchOpen(!isSearchOpen);
-            }}
-            changeURL={props.history.push}
+          isOpen={isSearchOpen}
+          toggle={() => {
+            setSearchOpen(!isSearchOpen);
+          }}
+          changeURL={props.history.push}
         />
       </HeaderWrapper>
       {store.getState().auth.isLogin && store.getState().auth.accessToken && (

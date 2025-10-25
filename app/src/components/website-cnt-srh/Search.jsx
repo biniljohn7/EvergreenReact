@@ -4,13 +4,13 @@ import { ToastsStore } from "react-toasts";
 import { Spinner } from "reactstrap";
 import { webSrh } from "../../api/commonAPI";
 import Wrapper from "./wrapper.style";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { WEBSITE_URL } from "../../helper/constant";
 
 const Search = (props) => {
     const { key } = useParams();
     const [loading, setLoading] = useState(true);
-    const [srhKey, setSrhKey] = useState('');
+    // const [srhKey, setSrhKey] = useState('');
     const [srhCnt, setSrhCnt] = useState([]);
 
     useEffect(() => {
@@ -32,7 +32,7 @@ const Search = (props) => {
 
         if (key) {
             cntSrh({ key: key });
-            setSrhKey(key);
+            // setSrhKey(key);
         }
     }, [key]);
 
@@ -53,12 +53,12 @@ const Search = (props) => {
                     </div>
                 </div>
                 <div className="srh-wrap container">
-                    <div class="srh-hed">
+                    <div className="srh-hed">
                         Search result for "{key}"
                     </div>
                     <div className="srh-items">
                         {srhCnt.map((cnt, key) => {
-                            function click() {
+                            /*function click() {
                                 props.history.push(
                                     `${'/advocacy/Issues/' + cnt.title.replaceAll('/', ' ')}`,
                                     {
@@ -66,11 +66,11 @@ const Search = (props) => {
                                         advocacyType: 'Issues',
                                     },
                                 )
-                            }
-                            return <div class="srh-itm" >
+                            }*/
+                            return <div className="srh-itm" >
                                 <div className="itm-hed" onClick={() => props.history.push('/' + cnt.url)}>
                                     <div className="itm-icn">
-                                        <span class="material-symbols-outlined icn">
+                                        <span className="material-symbols-outlined icn">
                                             link
                                         </span>
                                     </div>
