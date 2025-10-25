@@ -97,11 +97,11 @@ const SignIn = (props) => {
     loadGoogleSDK();
   }, []);
   useEffect(() => {
-      if(args=='forgot'){
-        props.resetForm();
-        toggleForgotPassword();
-      }
-    }, [args]);
+    if (args == 'forgot') {
+      props.resetForm();
+      toggleForgotPassword();
+    }
+  }, [args]);
 
   const toggleResetPassword = () => {
     setResetPassword(!resetPassword);
@@ -220,8 +220,8 @@ const SignIn = (props) => {
       registerType: userData.googleId
         ? REGISTER_TYPE.google
         : userData.facebookId
-        ? REGISTER_TYPE.facebook
-        : REGISTER_TYPE.normal,
+          ? REGISTER_TYPE.facebook
+          : REGISTER_TYPE.normal,
       deviceType: "web",
     };
 

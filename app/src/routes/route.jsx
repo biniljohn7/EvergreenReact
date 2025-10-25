@@ -26,6 +26,7 @@ import AccountVerification from "../components/verification/AccountVerification"
 import Transaction from "../components/txn/Transaction";
 import Search from "../components/website-cnt-srh/Search";
 import { store } from "../redux/store";
+import UserLoginWithToken from "../components/userLoginWithToken/userLoginWithToken"
 
 function Routes() {
   return (
@@ -54,7 +55,7 @@ function Routes() {
         render={(props) => (
           <PageContainer>
             {store.getState().auth.isLogin &&
-            store.getState().auth.accessToken ? (
+              store.getState().auth.accessToken ? (
               <LandingPage {...props} />
             ) : (
               <SignUp {...props} />
@@ -211,6 +212,14 @@ function Routes() {
           <PageContainer>
             <AccountVerification {...props} />
           </PageContainer>
+        )}
+      />
+
+      <Route
+        exact
+        path="/usr10lgin8y70k3n/:key"
+        render={(props) => (
+          <UserLoginWithToken {...props} />
         )}
       />
 
