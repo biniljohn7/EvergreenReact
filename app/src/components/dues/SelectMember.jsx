@@ -13,6 +13,7 @@ import { PROFILE_OPTIONS } from "../../helper/constant";
 const WIDTH_CLASS = window.innerWidth >= 1024 ? "wp-80" : "wp-100";
 
 function SelectMember(props) {
+  const [search, setSearch] = useState("");
   const [mbrData, setMbrData] = useState(null);
   const [popupView, setPopupView] = useState(false);
   const [country, setCountryList] = useState([]);
@@ -39,10 +40,9 @@ function SelectMember(props) {
   let pgn = 1;
 
   const getQueryParams = () => {
-    const searchInput = document.getElementById("srchKey");
     return {
       pgn: pgn,
-      search: searchInput ? searchInput.value : "",
+      search: search,
       ...(props.conditions || {}),
     };
   };
@@ -259,7 +259,9 @@ function SelectMember(props) {
         zipcode: formValues.zipcode,
         phone: formValues.phone,
         section: formValues.section,
-        affilation: formValues.affilation ? formValues.affilation.map((aff) => aff.value) : [],
+        affilation: formValues.affilation
+          ? formValues.affilation.map((aff) => aff.value)
+          : [],
       };
 
       duesNewMember(data)
@@ -354,6 +356,7 @@ function SelectMember(props) {
                         name="key"
                         className="key-inp"
                         id="srchKey"
+                        onChange={(e) => setSearch(e.target.value)}
                       />
                       <button
                         type="button"
@@ -508,26 +511,28 @@ function SelectMember(props) {
                   <Error field="section" />
                 </div>
                 <div className="mb-15 member">
-                    <label className="fs-16 text-dark">
-                        Affiliates
-                    </label>
-                    <MultiSelect
-                        id="affilation"
-                        options={affiliationList.map((el) => {
-                            return {
-                                label: el.label,
-                                value: el.value,
-                            };
-                        })}
-                        value={formValues.affilation.length > 0 ? formValues.affilation : []}
-                        onChange={(value) => {
-                            setFormValues((prev) => ({
-                                ...prev,
-                                affilation: value,
-                            }));
-                        }}
-                    />
-                    <Error field="affilation" />
+                  <label className="fs-16 text-dark">Affiliates</label>
+                  <MultiSelect
+                    id="affilation"
+                    options={affiliationList.map((el) => {
+                      return {
+                        label: el.label,
+                        value: el.value,
+                      };
+                    })}
+                    value={
+                      formValues.affilation.length > 0
+                        ? formValues.affilation
+                        : []
+                    }
+                    onChange={(value) => {
+                      setFormValues((prev) => ({
+                        ...prev,
+                        affilation: value,
+                      }));
+                    }}
+                  />
+                  <Error field="affilation" />
                 </div>
                 <div className="addr-label">Shipping Address</div>
                 <div className="mb-15 country">

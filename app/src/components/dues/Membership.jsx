@@ -209,9 +209,9 @@ function Membership(props) {
     if (isGift && content.length < 1) {
       sErrs["memberGift"] = "At least one member is required!";
     }
-    if (!(membData.section || membData.affiliate)) {
-      sErrs["section"] = "Please select at least one: Section, Affiliation";
-    }
+    // if (!(membData.section || membData.affiliate)) {
+    //   sErrs["section"] = "Please select at least one: Section, Affiliation";
+    // }
     // if (!membData.affiliate) {
     //   sErrs["affiliation"] = "This field is required";
     // }
